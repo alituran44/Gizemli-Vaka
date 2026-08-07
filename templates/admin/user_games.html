@@ -1,0 +1,293 @@
+{% extends "admin/base.html" %}
+
+{% block admin_content %}
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for cat, msg in messages %}
+      <div class="alert alert-{{ 'success' if cat == 'success' else 'warning' if cat == 'warning' else 'danger' if cat == 'danger' else 'info' }} alert-dismissible fade show rounded-3 mb-3" role="alert">
+        {{ msg }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <a href="{{ url_for('admin_users') }}" class="btn btn-sm btn-outline-secondary rounded-pill me-2">
+            <i class="fas fa-arrow-left me-1"></i> Kullanıcılar
+        </a>
+        <h2 class="fw-bold text-dark mb-0 d-inline-block ms-2">{{ user.username }} - Oyunları</h2>
+    </div>
+    <div class="badge bg-dark text-warning px-3 py-2 rounded-pill shadow-sm">
+        {{ user.email }}
+    </div>
+</div>
+
+<!-- BİREYSEL OYUNLAR -->
+<div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-4">
+    <div class="card-header py-3 d-flex justify-content-between align-items-center" style="background-color: #0C1430;">
+        <h5 class="mb-0 text-warning fw-bold"><i class="fas fa-user me-2"></i> Bireysel Oyunlar</h5>
+        <button type="button" class="btn btn-warning btn-sm fw-bold rounded-pill px-3"
+                data-bs-toggle="modal" data-bs-target="#addIndividualModal">
+            <i class="fas fa-plus me-1"></i> Oyun Ekle
+        </button>
+    </div>
+    <div class="card-body bg-white p-0">
+        {% if individual_games %}
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th class="ps-4">Vaka</th>
+                        <th>Satın Alma Tarihi</th>
+                        <th>Durum</th>
+                        <th class="text-end pe-4">İşlemler</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for purchase, case, progress in individual_games %}
+                    <tr>
+                        <td class="ps-4">
+                            <div class="fw-bold">{{ case.title }}</div>
+                            <small class="text-muted">ID: {{ case.id }}</small>
+                        </td>
+                        <td>{{ purchase.created_at.strftime('%d.%m.%Y %H:%M') if purchase.created_at else '-' }}</td>
+                        <td>
+                            {% if progress and progress.is_solved %}
+                            <span class="badge bg-success"><i class="fas fa-check me-1"></i> Tamamlandı</span>
+                            {% elif progress and progress.is_failed %}
+                            <span class="badge bg-danger"><i class="fas fa-times me-1"></i> Başarısız</span>
+                            <br><small class="text-muted">Deneme: {{ progress.attempts_used }}/2</small>
+                            {% if progress.last_attempt_time %}
+                            <br><span class="badge bg-secondary"><i class="fas fa-clock me-1"></i> Bekleme Süresi</span>
+                            {% endif %}
+                            {% elif progress %}
+                            <span class="badge bg-warning text-dark"><i class="fas fa-play me-1"></i> Devam Ediyor</span>
+                            <br><small class="text-muted">Deneme: {{ progress.attempts_used }}/2</small>
+                            {% else %}
+                            <span class="badge bg-secondary"><i class="fas fa-minus me-1"></i> Başlamadı</span>
+                            {% endif %}
+                        </td>
+                        <td class="text-end pe-4">
+                            <div class="btn-group-vertical btn-group-sm">
+                                <div class="mb-1">
+                                    <a href="{{ url_for('admin_toggle_individual_game', user_id=user.id, purchase_id=purchase.id) }}" class="btn btn-sm btn-outline-primary rounded-pill me-1" onclick="return confirm('Durumu değiştirmek istiyor musunuz?')">
+                                        <i class="fas fa-sync"></i> Durum Değiştir
+                                    </a>
+                                    <a href="{{ url_for('admin_revoke_individual_game', user_id=user.id, purchase_id=purchase.id) }}" class="btn btn-sm btn-outline-danger rounded-pill" onclick="return confirm('Erişimi iptal etmek istiyor musunuz?')">
+                                        <i class="fas fa-ban"></i> Erişimi İptal Et
+                                    </a>
+                                </div>
+                                <div>
+                                    <a href="{{ url_for('admin_reset_game', user_id=user.id, case_id=case.id) }}" class="btn btn-sm btn-outline-warning rounded-pill me-1" onclick="return confirm('Oyunu sıfırlamak istiyor musunuz? Tüm ilerleme silinecek.')">
+                                        <i class="fas fa-redo"></i> Oyunu Sıfırla
+                                    </a>
+                                    {% if progress and progress.is_failed %}
+                                    <a href="{{ url_for('admin_reset_cooldown', user_id=user.id, case_id=case.id) }}" class="btn btn-sm btn-outline-success rounded-pill" onclick="return confirm('Bekleme süresini sıfırlamak istiyor musunuz?')">
+                                        <i class="fas fa-clock"></i> Bekleme Süresi Sıfırla
+                                    </a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="text-center py-5 text-muted">
+            <i class="fas fa-inbox fa-3x mb-3"></i>
+            <p class="mb-2">Bireysel oyun bulunamadı.</p>
+            <button type="button" class="btn btn-warning btn-sm fw-bold rounded-pill px-3"
+                    data-bs-toggle="modal" data-bs-target="#addIndividualModal">
+                <i class="fas fa-plus me-1"></i> İlk Oyunu Ekle
+            </button>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- TAKIM OYUNLARI -->
+<div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+    <div class="card-header py-3 d-flex justify-content-between align-items-center" style="background-color: #0C1430;">
+        <h5 class="mb-0 text-warning fw-bold"><i class="fas fa-users me-2"></i> Takım Oyunları</h5>
+        <button type="button" class="btn btn-warning btn-sm fw-bold rounded-pill px-3"
+                data-bs-toggle="modal" data-bs-target="#addTeamModal">
+            <i class="fas fa-plus me-1"></i> Takım Oyunu Ekle
+        </button>
+    </div>
+    <div class="card-body bg-white p-0">
+        {% if team_games %}
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th class="ps-4">Vaka</th>
+                        <th>Takım</th>
+                        <th>Organizatör</th>
+                        <th>Durum</th>
+                        <th class="text-end pe-4">İşlemler</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for member, purchase, case in team_games %}
+                    <tr>
+                        <td class="ps-4">
+                            <div class="fw-bold">{{ case.title }}</div>
+                            <small class="text-muted">ID: {{ case.id }}</small>
+                        </td>
+                        <td>
+                            <span class="badge bg-primary bg-opacity-10 text-primary">{{ member.team_name or ('Takım ' ~ member.team_number) }}</span>
+                        </td>
+                        <td>{{ purchase.organizer_name }}</td>
+                        <td>
+                            {% if member.completed %}
+                            <span class="badge bg-success"><i class="fas fa-check me-1"></i> Tamamlandı</span>
+                            <div class="small text-muted">{{ member.completed_at.strftime('%d.%m.%Y') if member.completed_at else '' }}</div>
+                            {% else %}
+                            <span class="badge bg-warning text-dark"><i class="fas fa-play me-1"></i> Devam Ediyor</span>
+                            {% endif %}
+                        </td>
+                        <td class="text-end pe-4">
+                            <a href="{{ url_for('admin_toggle_team_game', user_id=user.id, member_id=member.id) }}" class="btn btn-sm btn-outline-primary rounded-pill me-1" onclick="return confirm('Durumu değiştirmek istiyor musunuz?')">
+                                <i class="fas fa-sync"></i> Durum Değiştir
+                            </a>
+                            <a href="{{ url_for('admin_revoke_team_game', user_id=user.id, member_id=member.id) }}" class="btn btn-sm btn-outline-danger rounded-pill" onclick="return confirm('Erişimi iptal etmek istiyor musunuz?')">
+                                <i class="fas fa-ban"></i> Erişimi İptal Et
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="text-center py-5 text-muted">
+            <i class="fas fa-inbox fa-3x mb-3"></i>
+            <p class="mb-2">Takım oyunu bulunamadı.</p>
+            <button type="button" class="btn btn-warning btn-sm fw-bold rounded-pill px-3"
+                    data-bs-toggle="modal" data-bs-target="#addTeamModal">
+                <i class="fas fa-plus me-1"></i> İlk Takım Oyununu Ekle
+            </button>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- BİREYSEL OYUN EKLEME MODAL -->
+<div class="modal fade" id="addIndividualModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+            <div class="modal-header border-0" style="background:linear-gradient(135deg,#0C1430,#1a2550);padding:22px 24px;">
+                <h5 class="modal-title fw-bold text-white">
+                    <i class="fas fa-user-plus me-2 text-warning"></i> Bireysel Oyun Ekle
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <form action="{{ url_for('admin_add_individual_game', user_id=user.id) }}" method="POST">
+                <div class="modal-body p-4">
+                    <div class="d-flex align-items-center gap-3 p-3 rounded-3 mb-4" style="background:#f8f9fa;border:1px solid #e9ecef;">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center fw-bold text-white"
+                             style="width:42px;height:42px;background:#0C1430;font-size:1.1rem;flex-shrink:0;">
+                            {{ user.username[0]|upper }}
+                        </div>
+                        <div>
+                            <div class="fw-bold text-dark">{{ user.username }}</div>
+                            <div class="text-muted small">{{ user.email }}</div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold text-dark">Vaka Seç <span class="text-danger">*</span></label>
+                        <select name="case_id" class="form-select" required>
+                            <option value="">— Vaka seçin —</option>
+                            {% for case in all_cases %}
+                            <option value="{{ case.id }}">
+                                {{ case.title }}
+                                {% if not case.is_active %} (Pasif){% endif %}
+                                — {{ case.price|int }} TL
+                            </option>
+                            {% endfor %}
+                        </select>
+                        <div class="form-text">Kullanıcıya ücretsiz erişim tanımlanacak (ödeme alınmaz).</div>
+                    </div>
+                </div>
+                <div class="modal-footer border-0 pt-0 px-4 pb-4">
+                    <button type="button" class="btn btn-light px-4 rounded-pill" data-bs-dismiss="modal">İptal</button>
+                    <button type="submit" class="btn btn-warning fw-bold px-4 rounded-pill">
+                        <i class="fas fa-plus me-1"></i> Oyunu Ekle
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- TAKIM OYUNU EKLEME MODAL -->
+<div class="modal fade" id="addTeamModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+            <div class="modal-header border-0" style="background:linear-gradient(135deg,#0C1430,#1a2550);padding:22px 24px;">
+                <h5 class="modal-title fw-bold text-white">
+                    <i class="fas fa-users me-2 text-warning"></i> Takım Oyunu Ekle
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <form action="{{ url_for('admin_add_team_game', user_id=user.id) }}" method="POST">
+                <div class="modal-body p-4">
+                    <div class="d-flex align-items-center gap-3 p-3 rounded-3 mb-4" style="background:#f8f9fa;border:1px solid #e9ecef;">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center fw-bold text-white"
+                             style="width:42px;height:42px;background:#0C1430;font-size:1.1rem;flex-shrink:0;">
+                            {{ user.username[0]|upper }}
+                        </div>
+                        <div>
+                            <div class="fw-bold text-dark">{{ user.username }}</div>
+                            <div class="text-muted small">{{ user.email }}</div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold text-dark">Vaka Seç <span class="text-danger">*</span></label>
+                        <select name="case_id" class="form-select" required>
+                            <option value="">— Vaka seçin —</option>
+                            {% for case in all_cases %}
+                            <option value="{{ case.id }}">
+                                {{ case.title }}
+                                {% if not case.is_active %} (Pasif){% endif %}
+                                — {{ case.price|int }} TL
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold text-dark">Organizatör Adı</label>
+                        <input type="text" name="organizer_name" class="form-control" value="{{ user.username }}" placeholder="Organizatör adı">
+                        <div class="form-text">Takım satın alımını organize eden kişinin adı.</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold text-dark">Takım Adı</label>
+                        <input type="text" name="team_name" class="form-control" value="1. Takım" placeholder="Takım adı">
+                    </div>
+
+                    <div class="alert alert-light border small mb-0">
+                        <i class="fas fa-info-circle text-primary me-1"></i>
+                        Bu kullanıcı e-postası (<strong>{{ user.email }}</strong>) takım üyesi olarak eklenecek. Kullanıcı oyunu oynayabilmek için takım erişim linki ile girebilecek.
+                    </div>
+                </div>
+                <div class="modal-footer border-0 pt-0 px-4 pb-4">
+                    <button type="button" class="btn btn-light px-4 rounded-pill" data-bs-dismiss="modal">İptal</button>
+                    <button type="submit" class="btn btn-warning fw-bold px-4 rounded-pill">
+                        <i class="fas fa-plus me-1"></i> Takım Oyununu Ekle
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

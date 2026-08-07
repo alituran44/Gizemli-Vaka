@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="py-5" style="background-color: #0C1430; min-height: 100vh;">
+    <div class="container py-4">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="bg-white rounded shadow p-5">
+                    <h1 class="fw-bold mb-4" style="color: #0C1430;">Kullanım Şartları ve Koşulları</h1>
+                    
+                    <p class="text-muted mb-4">Son güncelleme: Ocak 2026</p>
+                    
+                    <h4 class="fw-bold mt-4 mb-3" style="color: #0C1430;">1. Şartların Kabulü</h4>
+                    <p>Gizemli Vaka hizmetlerine erişerek ve kullanarak, bu Kullanım Şartları ve Koşulları'na bağlı olmayı kabul edersiniz.</p>
+                    
+                    <h4 class="fw-bold mt-4 mb-3" style="color: #0C1430;">2. Kullanıcı Hesabı</h4>
+                    <p>Hesap bilgilerinizin gizliliğini korumaktan siz sorumlusunuz. Hesabınızı başkalarıyla paylaşmamalısınız.</p>
+                    
+                    <h4 class="fw-bold mt-4 mb-3" style="color: #0C1430;">3. Fikri Mülkiyet</h4>
+                    <p>Dava dosyaları, hikayeler, görseller ve tasarımlar dahil tüm içerikler Gizemli Vaka'nın fikri mülkiyetidir. Yetkisiz çoğaltma veya dağıtım yasaktır.</p>
+
+                    <h4 class="fw-bold mt-4 mb-3" style="color: #0C1430;">4. Ödeme ve İadeler</h4>
+                    <p>Ödemeler güvenli bir şekilde işlenir. Dijital ürünler, yasa gerekliliğe göre hariç, erişildikten sonra iade edilemez.</p>
+                    
+                    <h4 class="fw-bold mt-4 mb-3" style="color: #0C1430;">5. Sorumluluk Sınırlaması</h4>
+                    <p>Gizemli Vaka, hizmetlerimizin kullanımından kaynaklanan herhangi bir dolaylı, arızi veya sonuç olarak ortaya çıkan zararlardan sorumlu tutulamaz.</p>
+                    
+                    <h4 class="fw-bold mt-4 mb-3" style="color: #0C1430;">6. Geçerli Hukuk</h4>
+                    <p>Bu şartlar Türkiye Cumhuriyeti hukukuna tabidir.</p>
+                    
+                    <div class="mt-5 pt-4 border-top">
+                        <a href="{{ url_for('register') }}" class="btn btn-warning fw-bold px-4 py-2">Kayıt Sayfasına Dön</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

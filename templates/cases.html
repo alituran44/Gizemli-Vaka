@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+{% block title %}Vakalar - Çözülmemiş Cinayet Dosyaları | Gizemli Vaka{% endblock %}
+{% block meta_description %}Gizemli Vaka'nın çözülmemiş cinayet dosyalarını keşfedin. Her vaka gerçekçi deliller, şüpheli ifadeleri ve sürpriz sonlarla dolu. Hemen soruşturmaya başlayın.{% endblock %}
+
+{% block breadcrumb_schema %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "Ana Sayfa", "item": "https://gizemlivaka.com"},
+    {"@type": "ListItem", "position": 2, "name": "Dava Dosyaları", "item": "https://gizemlivaka.com/cases"}
+  ]
+}
+</script>
+{% if cases %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "Çözülmemiş Cinayet Dava Dosyaları",
+  "description": "Gizemli Vaka'nın tüm online dedektiflik oyunları",
+  "url": "https://gizemlivaka.com/cases",
+  "numberOfItems": {{ cases|length }},
+  "itemListElement": [
+    {% for case in cases %}
+    {
+      "@type": "ListItem",
+      "position": {{ loop.index }},
+      "url": "https://gizemlivaka.com/case/{{ case.id }}",
+      "name": "{{ case.title }}"
+    }{% if not loop.last %},{% endif %}
+    {% endfor %}
+  ]
+}
+</script>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+
+<style>
+@media (max-width: 768px) {
+    .cases-hero { height: 250px !important; }
+    .cases-hero h1 { font-size: 1.5rem !important; }
+    .col-lg-3.col-md-6 { flex: 0 0 50%; max-width: 50%; }
+}
+@media (max-width: 576px) {
+    .col-lg-3.col-md-6 { flex: 0 0 100%; max-width: 100%; }
+}
+</style>
+
+<div class="cases-hero" style="background: linear-gradient(rgba(12, 20, 48, 0.85), rgba(12, 20, 48, 0.85)), url('{{ url_for('static', filename='girilmez.jpg') }}') center/cover; height: 400px; display: flex; align-items: center; justify-content: center; text-align: center;">
+    <div class="container">
+        <h1 class="text-white fw-bold mb-4" style="font-size: 3rem; text-shadow: 2px 2px 15px rgba(0,0,0,1);">
+            Gerçekçi Çözülmemiş Cinayet Dosyalarını Çözün
+        </h1>
+    </div>
+</div>
+
+<div class="py-5" style="background-color: #ffffff;">
+    <div class="container py-4">
+        <div class="row g-5 align-items-start mb-5 text-start">
+            <div class="col-lg-6">
+                <span class="badge bg-warning text-dark fw-bold mb-3 px-3 py-2" style="font-size: 0.8rem;">Anında Çevrimiçi Oynayın – Dünya Genelinde Erişilebilir</span>
+                <h2 class="fw-bold mb-4" style="font-size: 1.8rem; line-height: 1.4; color: #000b1c;">
+                    Delillerin İçine Girin. Gerçek Bir Dedektif Gibi Cinayet Davasını Çözün.
+                </h2>
+            </div>
+            <div class="col-lg-6">
+                <p style="line-height: 1.8; font-size: 1.05rem; color: #495057;">
+                    Gerçekçi çözülmemiş dava dosyalarını çevrimiçi olarak inceleyin. Simüle edilmiş polis sistemimiz üzerinden otopsi raporlarına, olay yeri fotoğraflarına, sorgu kayıtlarına, röportajlara ve zaman çizelgelerine erişin. Her ayrıntı önemlidir. Suçu çözebileceğinize güveniyor musunuz?
+                </p>
+            </div>
+        </div>
+
+        <div class="row g-4 justify-content-center">
+            {% for case in cases %}
+            <div class="col-lg-3 col-md-6">
+                <div class="card h-100 border-0 shadow-lg overflow-hidden" style="background-color: #16213e; border-radius: 12px; transition: 0.3s;">
+                    <a href="{{ url_for('case_detail', case_id=case.id) }}" class="text-decoration-none">
+                        <div style="height: 280px; overflow: hidden; position: relative;">
+                            <img loading="lazy" src="{{ url_for('static', filename='uploads/' + case.id + '/' + case.image) }}" class="w-100 h-100" style="object-fit: cover;" alt="{{ case.title }}">
+                            <span style="position: absolute; top: 10px; left: 10px; font-size: 0.7rem; font-weight: 700; padding: 4px 10px; border-radius: 6px;
+                                {% if case.game_type == 'both' %}
+                                    background: linear-gradient(135deg, #ffc107, #ff9800); color: #000;
+                                {% elif case.game_type == 'team' %}
+                                    background: linear-gradient(135deg, #00bcd4, #0097a7); color: #fff;
+                                {% else %}
+                                    background: linear-gradient(135deg, #8bc34a, #689f38); color: #fff;
+                                {% endif %}
+                            ">
+                                {% if case.game_type == 'both' %}
+                                    <i class="fas fa-user me-1"></i><i class="fas fa-users"></i> Bireysel & Takım
+                                {% elif case.game_type == 'team' %}
+                                    <i class="fas fa-users me-1"></i> Takım
+                                {% else %}
+                                    <i class="fas fa-user me-1"></i> Bireysel
+                                {% endif %}
+                            </span>
+                        </div>
+                        <div class="p-4 text-center">
+                            <h5 class="text-warning fw-bold mb-2">{{ case.title }}</h5>
+                            <p class="text-white-50 small mb-0" style="height: 45px; overflow: hidden;">{{ case.description[:85] }}...</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<div class="py-5" style="background-color: #f8f9fa; border-top: 1px solid #dee2e6; border-bottom: 1px solid #dee2e6;">
+    <div class="container py-5">
+        <div class="row g-5 align-items-center">
+            <div class="col-lg-6 text-start">
+                <span class="text-warning fw-bold text-uppercase" style="letter-spacing: 1px;">Çevrimiçi Oynayın</span>
+                <h2 class="fw-bold my-3" style="font-size: 2.5rem; color: #000b1c;">Nasıl Çalışır?</h2>
+                <p style="color: #495057; font-size: 1.1rem; line-height: 1.7;">
+                    Gerçekçi çözülmemiş dava dosyalarını çevrimiçi olarak inceleyin. Simüle edilmiş polis sistemimiz üzerinden otopsi raporlarına, olay yeri fotoğraflarına ve sorgu kayıtlarına erişin. <b>Her ayrıntı önemlidir.</b>
+                </p>
+            </div>
+            <div class="col-lg-6">
+                <ul class="list-unstyled text-start">
+                    <li class="p-4 mb-3 shadow-sm rounded-3 border-start border-warning border-5" style="background-color: #ffffff; color: #333;">
+                        <i class="fas fa-check-circle text-warning me-2"></i> Oynamak için bir cinayet gizemi vakası seçin; <b>abonelik gerekmez</b>.
+                    </li>
+                    <li class="p-4 mb-3 shadow-sm rounded-3 border-start border-warning border-5" style="background-color: #ffffff; color: #333;">
+                        <i class="fas fa-check-circle text-warning me-2"></i> Kurgusal polis veri tabanını kullanarak kanıtları detaylı biçimde analiz edin ve ipuçlarını bir araya getirin.
+                    </li>
+                    <li class="p-4 shadow-sm rounded-3 border-start border-warning border-5" style="background-color: #ffffff; color: #333;">
+                        <i class="fas fa-check-circle text-warning me-2"></i> Hazır olduğunuzda teorinizi sisteme gönderin ve davayı gerçekten çözüp çözemediğinizi görün.
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="py-5 text-white" style="background-color: #0c1430;">
+    <div class="container py-4">
+        <div class="row g-5 align-items-center">
+            <div class="col-lg-5 text-center">
+                <img loading="lazy" src="{{ url_for('static', filename='girilmez.jpg') }}" class="img-fluid rounded shadow-lg" alt="Crime Line" style="max-height: 300px; width: 100%; object-fit: cover; border: 2px solid rgba(255,215,0,0.3);">
+            </div>
+            <div class="col-lg-7 text-start">
+                <h2 class="fw-bold mb-4" style="font-size: 2.2rem;">Gelişmelerden haberdar olun.</h2>
+                <p class="text-white-50 mb-4">Bir sonraki çözülmemiş dava dosyaları oyununun ne zaman yayınlanacağını öğrenmek ister misiniz? E-bültenimize abone olun.</p>
+                <form action="{{ url_for('subscribe') }}" method="POST" class="d-flex gap-2">
+                    <input type="email" name="email" class="form-control form-control-lg bg-dark text-white border-secondary" placeholder="E-posta adresiniz" required>
+                    <button type="submit" class="btn btn-warning btn-lg fw-bold px-5" style="background-color: #FFD700; color: #000; border: none;">Abone Ol</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card:hover { transform: translateY(-10px); }
+    .border-warning { border-color: #FFD700 !important; }
+</style>
+
+{% endblock %}

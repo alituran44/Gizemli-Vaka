@@ -1,0 +1,273 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Abonelik Yönetimi{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2 class="text-warning mb-0"><i class="fas fa-envelope me-2"></i>Abonelik Yönetimi</h2>
+            <p class="text-muted">Newsletter aboneleri ve kayıtlı kullanıcılara email gönderin</p>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card bg-dark border-warning">
+                <div class="card-body text-center">
+                    <h3 class="text-warning mb-0">{{ subscribers|length }}</h3>
+                    <small class="text-muted">Newsletter Abonesi</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-dark border-info">
+                <div class="card-body text-center">
+                    <h3 class="text-info mb-0">{{ users|length }}</h3>
+                    <small class="text-muted">Kayıtlı Kullanıcı</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-dark border-success">
+                <div class="card-body text-center">
+                    <h3 class="text-success mb-0">{{ subscribers|selectattr('is_active')|list|length }}</h3>
+                    <small class="text-muted">Aktif Abone</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-dark border-secondary">
+                <div class="card-body text-center">
+                    <h3 class="text-white mb-0">{{ email_logs|length }}</h3>
+                    <small class="text-muted">Gönderilen Email</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card bg-dark border-info">
+                <div class="card-header" style="background:linear-gradient(135deg,#0C1430,#1a2550);border-bottom:2px solid #FFD700;">
+                    <h5 class="mb-0 text-warning"><i class="fas fa-bullhorn me-2"></i>Yeni Vaka Duyurusu Gönder</h5>
+                    <small class="text-muted">Seçtiğiniz vaka için hazır bülten şablonuyla tüm abonelere ve kayıtlı kullanıcılara email gönderin</small>
+                </div>
+                <div class="card-body">
+                    <form action="" id="announcementForm" method="POST">
+                        <div class="row align-items-end">
+                            <div class="col-md-6 mb-3 mb-md-0">
+                                <label class="form-label text-white fw-bold">Hangi Vaka İçin Duyuru Gönderilsin?</label>
+                                <select id="caseSelector" class="form-select bg-secondary text-white border-0" onchange="updateAnnouncementForm()">
+                                    <option value="">-- Vaka Seçin --</option>
+                                    {% for case in all_cases %}
+                                    <option value="{{ case.id }}" data-title="{{ case.title }}" data-price="{{ case.price|int }}" data-active="{{ case.is_active }}">
+                                        {{ case.title }} — {{ case.price|int }} TL {% if not case.is_active %}(Pasif){% endif %}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-3 mb-3 mb-md-0">
+                                <div class="p-3 rounded text-center" style="background:#111d3d;border:1px solid #2a3d6e;">
+                                    <div class="text-muted small">Toplam Alıcı</div>
+                                    <div class="text-warning fw-bold fs-4">{{ (subscribers|selectattr('is_active')|list|length) + (users|length) }}</div>
+                                    <div class="text-muted" style="font-size:11px;">abone + kullanıcı</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <button type="button" id="sendAnnouncementBtn" class="btn btn-warning w-100 fw-bold" disabled onclick="submitAnnouncement()">
+                                    <i class="fas fa-paper-plane me-2"></i>Duyuru Gönder
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-5">
+            <div class="card bg-dark border-warning mb-4">
+                <div class="card-header bg-warning text-dark">
+                    <h5 class="mb-0"><i class="fas fa-paper-plane me-2"></i>Özel Email Gönder</h5>
+                </div>
+                <div class="card-body">
+                    <form action="{{ url_for('admin_send_email') }}" method="POST">
+                        <div class="mb-3">
+                            <label class="form-label text-white">Alıcı Tipi</label>
+                            <select name="recipient_type" class="form-select bg-secondary text-white border-0" id="recipientType" onchange="toggleIndividualEmail()">
+                                <option value="all">Tüm Liste (Aboneler + Kullanıcılar)</option>
+                                <option value="subscribers">Sadece Newsletter Aboneleri</option>
+                                <option value="users">Sadece Kayıtlı Kullanıcılar</option>
+                                <option value="individual">Bireysel Email</option>
+                            </select>
+                        </div>
+                        <div class="mb-3" id="individualEmailDiv" style="display: none;">
+                            <label class="form-label text-white">Email Adresi</label>
+                            <input type="email" name="individual_email" class="form-control bg-secondary text-white border-0" placeholder="ornek@email.com">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label text-white">Konu</label>
+                            <input type="text" name="subject" class="form-control bg-secondary text-white border-0" placeholder="Email konusu" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label text-white">İçerik (HTML destekler)</label>
+                            <textarea name="content" class="form-control bg-secondary text-white border-0" rows="8" placeholder="Email içeriği..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-warning w-100">
+                            <i class="fas fa-paper-plane me-2"></i>Email Gönder
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="card bg-dark border-secondary">
+                <div class="card-header">
+                    <h5 class="mb-0 text-white"><i class="fas fa-history me-2"></i>Son Gönderilen Emailler</h5>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive" style="max-height: 300px; overflow-y: auto;">
+                        <table class="table table-dark table-hover mb-0">
+                            <thead class="sticky-top bg-dark">
+                                <tr>
+                                    <th>Konu</th>
+                                    <th>Alıcı</th>
+                                    <th>Tarih</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for log in email_logs %}
+                                <tr>
+                                    <td>{{ log.subject[:30] }}{% if log.subject|length > 30 %}...{% endif %}</td>
+                                    <td><span class="badge bg-info">{{ log.recipient_count }} kişi</span></td>
+                                    <td><small>{{ log.sent_at.strftime('%d.%m.%Y %H:%M') }}</small></td>
+                                </tr>
+                                {% else %}
+                                <tr><td colspan="3" class="text-center text-muted">Henüz email gönderilmedi</td></tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-7">
+            <ul class="nav nav-tabs" id="subscriberTabs" role="tablist">
+                <li class="nav-item">
+                    <button class="nav-link active bg-dark text-warning" id="subscribers-tab" data-bs-toggle="tab" data-bs-target="#subscribers-pane">
+                        <i class="fas fa-envelope me-1"></i>Aboneler ({{ subscribers|length }})
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link bg-dark text-info" id="users-tab" data-bs-toggle="tab" data-bs-target="#users-pane">
+                        <i class="fas fa-users me-1"></i>Kullanıcılar ({{ users|length }})
+                    </button>
+                </li>
+            </ul>
+
+            <div class="tab-content border border-top-0 border-secondary">
+                <div class="tab-pane fade show active p-3" id="subscribers-pane">
+                    <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+                        <table class="table table-dark table-hover">
+                            <thead class="sticky-top bg-dark">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Email</th>
+                                    <th>Kaynak</th>
+                                    <th>Durum</th>
+                                    <th>Tarih</th>
+                                    <th>İşlem</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for sub in subscribers %}
+                                <tr>
+                                    <td>{{ loop.index }}</td>
+                                    <td>{{ sub.email }}</td>
+                                    <td><span class="badge bg-secondary">{{ sub.source }}</span></td>
+                                    <td>
+                                        {% if sub.is_active %}
+                                        <span class="badge bg-success">Aktif</span>
+                                        {% else %}
+                                        <span class="badge bg-danger">Pasif</span>
+                                        {% endif %}
+                                    </td>
+                                    <td><small>{{ sub.created_at.strftime('%d.%m.%Y') }}</small></td>
+                                    <td>
+                                        <a href="{{ url_for('toggle_subscriber', id=sub.id) }}" class="btn btn-sm btn-outline-warning" title="Durum Değiştir">
+                                            <i class="fas fa-toggle-{% if sub.is_active %}on{% else %}off{% endif %}"></i>
+                                        </a>
+                                        <a href="{{ url_for('delete_subscriber', id=sub.id) }}" class="btn btn-sm btn-outline-danger" onclick="return confirm('Bu aboneyi silmek istediğinizden emin misiniz?')">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% else %}
+                                <tr><td colspan="6" class="text-center text-muted">Henüz abone yok</td></tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade p-3" id="users-pane">
+                    <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+                        <table class="table table-dark table-hover">
+                            <thead class="sticky-top bg-dark">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Kullanıcı Adı</th>
+                                    <th>Email</th>
+                                    <th>Ad Soyad</th>
+                                    <th>Puan</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for user in users %}
+                                <tr>
+                                    <td>{{ loop.index }}</td>
+                                    <td><strong>{{ user.username }}</strong></td>
+                                    <td>{{ user.email }}</td>
+                                    <td>{{ user.first_name or '-' }} {{ user.last_name or '' }}</td>
+                                    <td><span class="badge bg-warning text-dark">{{ user.score }}</span></td>
+                                </tr>
+                                {% else %}
+                                <tr><td colspan="5" class="text-center text-muted">Henüz kullanıcı yok</td></tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function toggleIndividualEmail() {
+    const type = document.getElementById('recipientType').value;
+    const div = document.getElementById('individualEmailDiv');
+    div.style.display = type === 'individual' ? 'block' : 'none';
+}
+
+function updateAnnouncementForm() {
+    const sel = document.getElementById('caseSelector');
+    const btn = document.getElementById('sendAnnouncementBtn');
+    const caseId = sel.value;
+    btn.disabled = !caseId;
+    if (caseId) {
+        document.getElementById('announcementForm').action = '/admin/send-case-announcement/' + caseId;
+    }
+}
+
+function submitAnnouncement() {
+    const sel = document.getElementById('caseSelector');
+    const title = sel.options[sel.selectedIndex].dataset.title;
+    if (confirm('"' + title + '" vakası için bülten emaili tüm abonelere ve kayıtlı kullanıcılara gönderilecek. Emin misiniz?')) {
+        document.getElementById('announcementForm').submit();
+    }
+}
+</script>
+{% endblock %}

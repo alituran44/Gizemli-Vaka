@@ -1,0 +1,134 @@
+{% extends "admin/base.html" %}
+{% block admin_content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="fas fa-percent me-2"></i>Indirim Kodlari</h2>
+    <button class="btn btn-warning fw-bold" data-bs-toggle="modal" data-bs-target="#addDiscountModal">
+        <i class="fas fa-plus me-1"></i> Yeni Kod Ekle
+    </button>
+</div>
+
+{% with msgs = get_flashed_messages() %}
+{% if msgs %}<div class="alert alert-success">{{ msgs[0] }}</div>{% endif %}
+{% endwith %}
+
+<div class="table-responsive">
+    <table class="table table-bordered table-hover bg-white">
+        <thead class="table-dark">
+            <tr>
+                <th>Kod</th>
+                <th>Indirim</th>
+                <th>Vaka</th>
+                <th>Kullanim</th>
+                <th>Son Kullanma</th>
+                <th>Durum</th>
+                <th>Islem</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for d in discounts %}
+            <tr>
+                <td class="fw-bold">{{ d.code }}</td>
+                <td>
+                    {% if d.discount_percent > 0 %}
+                    <span class="badge bg-success">%{{ d.discount_percent }}</span>
+                    {% endif %}
+                    {% if d.discount_amount > 0 %}
+                    <span class="badge bg-primary">{{ d.discount_amount }} TL</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if d.case %}
+                    <span class="badge bg-secondary">{{ d.case.title }}</span>
+                    {% else %}
+                    <span class="text-muted">Tum vakalar</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {{ d.usage_count }}{% if d.usage_limit > 0 %} / {{ d.usage_limit }}{% endif %}
+                </td>
+                <td>
+                    {% if d.expires_at %}
+                    {{ d.expires_at.strftime('%d.%m.%Y') }}
+                    {% else %}
+                    <span class="text-muted">Suresiz</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if d.is_active %}
+                    <span class="badge bg-success">Aktif</span>
+                    {% else %}
+                    <span class="badge bg-danger">Pasif</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{{ url_for('admin_toggle_discount', discount_id=d.id) }}" class="btn btn-sm {% if d.is_active %}btn-secondary{% else %}btn-success{% endif %}">
+                        <i class="fas fa-{% if d.is_active %}pause{% else %}play{% endif %}"></i>
+                    </a>
+                    <a href="{{ url_for('admin_delete_discount', discount_id=d.id) }}" class="btn btn-sm btn-danger" onclick="return confirm('Silmek istediginize emin misiniz?')">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+            {% if not discounts %}
+            <tr>
+                <td colspan="7" class="text-center text-muted py-4">Henuz indirim kodu yok</td>
+            </tr>
+            {% endif %}
+        </tbody>
+    </table>
+</div>
+
+<div class="modal fade" id="addDiscountModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-warning">
+                <h5 class="modal-title fw-bold"><i class="fas fa-plus me-2"></i>Yeni Indirim Kodu</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form action="{{ url_for('admin_add_discount') }}" method="POST">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Indirim Kodu*</label>
+                        <input type="text" name="code" class="form-control" placeholder="Ornek: YILBASI2025" required style="text-transform: uppercase;">
+                    </div>
+                    <div class="row g-3 mb-3">
+                        <div class="col-6">
+                            <label class="form-label fw-bold">Yuzde Indirim (%)</label>
+                            <input type="number" name="discount_percent" class="form-control" min="0" max="100" placeholder="Ornek: 20 = %20 indirim">
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label fw-bold">Sabit Indirim (TL)</label>
+                            <input type="number" name="discount_amount" class="form-control" min="0" step="0.01" placeholder="Ornek: 50 = 50 TL indirim">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Gecerli Vaka</label>
+                        <select name="case_id" class="form-select">
+                            <option value="">Tum Vakalarda Gecerli</option>
+                            {% for case in cases %}
+                            <option value="{{ case.id }}">{{ case.title }}</option>
+                            {% endfor %}
+                        </select>
+                        <small class="text-muted">Belirli bir vaka secerek sadece o vakada gecerli olmasini saglayabilirsiniz</small>
+                    </div>
+                    <div class="row g-3 mb-3">
+                        <div class="col-6">
+                            <label class="form-label fw-bold">Kullanim Limiti</label>
+                            <input type="number" name="usage_limit" class="form-control" min="0" placeholder="Bos = Sinirsiz kullanim">
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label fw-bold">Son Kullanma Tarihi</label>
+                            <input type="date" name="expires_at" class="form-control" title="Bos birakirsaniz suresiz gecerli olur">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Iptal</button>
+                    <button type="submit" class="btn btn-warning fw-bold">Ekle</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,276 @@
+{% extends "admin/base.html" %}
+
+{% block admin_content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold text-dark mb-0">
+        <i class="fas fa-store me-2 text-warning"></i>
+        {{ dealer.cafe_name }} - Bayi Detayı
+    </h2>
+    <a href="{{ url_for('admin_dealers') }}" class="btn btn-outline-secondary">
+        <i class="fas fa-arrow-left me-2"></i> Geri Dön
+    </a>
+</div>
+
+<div class="row">
+    <div class="col-lg-4 mb-4">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-dark text-white py-3">
+                <i class="fas fa-info-circle me-2"></i> Bayi Bilgileri
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <label class="small text-muted d-block">Durum</label>
+                    {% if dealer.status == 'pending' %}
+                    <span class="badge bg-warning text-dark fs-6">Bekliyor</span>
+                    {% elif dealer.status == 'approved' %}
+                    <span class="badge bg-success fs-6">Onaylı</span>
+                    {% else %}
+                    <span class="badge bg-danger fs-6">Reddedildi</span>
+                    {% endif %}
+                </div>
+                <div class="mb-3">
+                    <label class="small text-muted d-block">Kafe / Firma Adı</label>
+                    <strong>{{ dealer.cafe_name }}</strong>
+                </div>
+                <div class="mb-3">
+                    <label class="small text-muted d-block">Bayi Kodu</label>
+                    <span class="badge bg-secondary font-monospace">{{ dealer.dealer_code }}</span>
+                </div>
+                <div class="mb-3">
+                    <label class="small text-muted d-block">Yetkili</label>
+                    {{ dealer.contact_name or 'Belirtilmemiş' }}
+                </div>
+                <div class="mb-3">
+                    <label class="small text-muted d-block">Telefon</label>
+                    {{ dealer.phone or 'Belirtilmemiş' }}
+                </div>
+                <div class="mb-3">
+                    <label class="small text-muted d-block">E-posta</label>
+                    {{ dealer.email or 'Belirtilmemiş' }}
+                </div>
+                <div class="mb-3">
+                    <label class="small text-muted d-block">Şehir</label>
+                    {{ dealer.city or 'Belirtilmemiş' }}
+                </div>
+                <div class="mb-3">
+                    <label class="small text-muted d-block">Adres</label>
+                    <p class="mb-0">{{ dealer.address or 'Belirtilmemiş' }}</p>
+                </div>
+                <hr>
+                <h6 class="text-muted mb-3"><i class="fas fa-university me-2"></i>Ödeme Bilgileri</h6>
+                <div class="mb-2"><strong>IBAN:</strong> {{ dealer.iban or 'Belirtilmemiş' }}</div>
+                <div class="mb-2"><strong>Hesap Sahibi:</strong> {{ dealer.iban_name or 'Belirtilmemiş' }}</div>
+                <hr>
+                <div class="mb-2"><small class="text-muted">Başvuru Tarihi:</small> {{ dealer.created_at.strftime('%d.%m.%Y %H:%M') }}</div>
+                {% if dealer.approved_at %}
+                <div class="mb-2"><small class="text-muted">Onay Tarihi:</small> {{ dealer.approved_at.strftime('%d.%m.%Y %H:%M') }}</div>
+                {% endif %}
+            </div>
+            {% if dealer.status == 'pending' %}
+            <div class="card-footer bg-light">
+                <div class="d-flex gap-2">
+                    <a href="{{ url_for('admin_approve_dealer', dealer_id=dealer.id) }}" class="btn btn-success flex-fill">
+                        <i class="fas fa-check me-2"></i> Onayla
+                    </a>
+                    <a href="{{ url_for('admin_reject_dealer', dealer_id=dealer.id) }}" class="btn btn-danger flex-fill">
+                        <i class="fas fa-times me-2"></i> Reddet
+                    </a>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="card border-0 shadow-sm mt-4">
+            <div class="card-header bg-warning text-dark py-3">
+                <i class="fas fa-edit me-2"></i> Bayi Düzenle
+            </div>
+            <div class="card-body">
+                <form action="{{ url_for('admin_edit_dealer', dealer_id=dealer.id) }}" method="POST">
+                    <div class="mb-3">
+                        <label class="form-label small text-muted">Durum</label>
+                        <select class="form-select" name="status">
+                            <option value="pending" {% if dealer.status == 'pending' %}selected{% endif %}>Bekliyor</option>
+                            <option value="approved" {% if dealer.status == 'approved' %}selected{% endif %}>Onaylı</option>
+                            <option value="rejected" {% if dealer.status == 'rejected' %}selected{% endif %}>Reddedildi</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small text-muted">Komisyon Oranı (%)</label>
+                        <div class="input-group">
+                            <span class="input-group-text">%</span>
+                            <input type="number" class="form-control" name="commission_rate" value="{{ dealer.commission_rate }}" min="1" max="90">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small text-muted">Kafe / Firma Adı</label>
+                        <input type="text" class="form-control" name="cafe_name" value="{{ dealer.cafe_name }}">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small text-muted">Yetkili</label>
+                        <input type="text" class="form-control" name="contact_name" value="{{ dealer.contact_name or '' }}">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small text-muted">Telefon</label>
+                        <input type="text" class="form-control" name="phone" value="{{ dealer.phone or '' }}">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small text-muted">Şehir</label>
+                        <input type="text" class="form-control" name="city" value="{{ dealer.city or '' }}">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small text-muted">IBAN</label>
+                        <input type="text" class="form-control" name="iban" value="{{ dealer.iban or '' }}">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small text-muted">Hesap Sahibi</label>
+                        <input type="text" class="form-control" name="iban_name" value="{{ dealer.iban_name or '' }}">
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Kaydet</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="card border-0 shadow-sm mt-4">
+            <div class="card-header bg-success text-white py-3">
+                <i class="fas fa-money-bill-wave me-2"></i> Ödeme Yap
+            </div>
+            <div class="card-body">
+                {% if dealer.pending_earnings > 0 %}
+                <form action="{{ url_for('admin_dealer_pay', dealer_id=dealer.id) }}" method="POST" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label class="form-label small text-muted">Ödeme Tutarı (Maks: ₺{{ "%.2f"|format(dealer.pending_earnings) }})</label>
+                        <div class="input-group">
+                            <span class="input-group-text">₺</span>
+                            <input type="number" class="form-control" name="amount" step="0.01" min="0.01" max="{{ dealer.pending_earnings }}" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small text-muted">Dekont Dosyası</label>
+                        <input type="file" class="form-control" name="receipt" accept="image/*,.pdf">
+                    </div>
+                    <button type="submit" class="btn btn-success w-100">
+                        <i class="fas fa-check me-2"></i>Ödeme Yap
+                    </button>
+                </form>
+                {% else %}
+                <div class="text-center py-3">
+                    <i class="fas fa-check-circle fa-2x text-success mb-2"></i>
+                    <p class="text-muted mb-0">Bekleyen ödeme bulunmuyor</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-8 mb-4">
+        <div class="row mb-4">
+            <div class="col-md-4 mb-3">
+                <div class="card border-0 shadow-sm text-center py-4 bg-success text-white">
+                    <div class="card-body">
+                        <h3 class="fw-bold mb-0">₺{{ "%.2f"|format(dealer.total_earnings) }}</h3>
+                        <small>Toplam Kazanç</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="card border-0 shadow-sm text-center py-4 bg-warning text-dark">
+                    <div class="card-body">
+                        <h3 class="fw-bold mb-0">₺{{ "%.2f"|format(dealer.pending_earnings) }}</h3>
+                        <small>Bekleyen Kazanç</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="card border-0 shadow-sm text-center py-4 bg-info text-white">
+                    <div class="card-body">
+                        <h3 class="fw-bold mb-0">₺{{ "%.2f"|format(dealer.withdrawn_earnings) }}</h3>
+                        <small>Çekilen Kazanç</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-header bg-primary text-white py-3">
+                <i class="fas fa-qrcode me-2"></i> QR Kodları
+            </div>
+            <div class="card-body p-0">
+                {% if templates %}
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Ad</th>
+                                <th>Tip</th>
+                                <th>Tarama</th>
+                                <th>Token</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for tpl in templates %}
+                            <tr>
+                                <td>{{ tpl.name }}</td>
+                                <td>
+                                    {% if tpl.qr_type == 'table' %}
+                                    <span class="badge bg-info">Masa {{ tpl.table_number or '' }}</span>
+                                    {% else %}
+                                    <span class="badge bg-secondary">Genel</span>
+                                    {% endif %}
+                                </td>
+                                <td>{{ tpl.scan_count or 0 }}</td>
+                                <td><code class="bg-light px-2 py-1 rounded">{{ tpl.token }}</code></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="text-center py-4">
+                    <i class="fas fa-qrcode fa-2x text-muted mb-2"></i>
+                    <p class="text-muted mb-0">Henüz QR kodu oluşturulmamış</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-dark text-white py-3">
+                <i class="fas fa-chart-line me-2"></i> Satış Geçmişi
+            </div>
+            <div class="card-body p-0">
+                {% if sales %}
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Tarih</th>
+                                <th>Vaka</th>
+                                <th>QR</th>
+                                <th>Satış Tutarı</th>
+                                <th>Komisyon</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for sale in sales %}
+                            <tr>
+                                <td>{{ sale.created_at.strftime('%d.%m.%Y %H:%M') }}</td>
+                                <td>{{ sale.case.title if sale.case else 'Bilinmiyor' }}</td>
+                                <td>{{ sale.qr_template.name if sale.qr_template else '-' }}</td>
+                                <td>₺{{ "%.2f"|format(sale.sale_amount) }}</td>
+                                <td class="text-success fw-bold">₺{{ "%.2f"|format(sale.commission_amount) }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="text-center py-4">
+                    <i class="fas fa-chart-line fa-2x text-muted mb-2"></i>
+                    <p class="text-muted mb-0">Henüz satış kaydı yok</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

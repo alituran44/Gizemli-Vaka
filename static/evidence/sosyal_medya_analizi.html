@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Polis Kriminal - Sosyal Medya Analizi: Aras Yankı</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f0f2f5;
+            color: #1c1e21;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .container {
+            max-width: 800px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+        .header {
+            background-color: #3b5998;
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .header h2 { margin: 0; font-size: 18px; }
+        .header .badge { background-color: #da3633; padding: 5px 10px; border-radius: 4px; font-size: 12px; font-weight: bold; }
+
+        .profile-summary {
+            display: flex;
+            padding: 20px;
+            border-bottom: 1px solid #ddd;
+            align-items: center;
+        }
+        .profile-pic { width: 80px; height: 80px; background-color: #ccc; border-radius: 50%; margin-right: 20px; background-image: url('https://placehold.co/80x80/3b5998/ffffff?text=AY'); background-size: cover; border: 3px solid #3b5998; }
+        .profile-info h1 { margin: 0; font-size: 24px; }
+        .profile-info p { margin: 5px 0; color: #606770; }
+        .verified-icon { color: #3b5998; margin-left: 5px; }
+
+        .content-section { padding: 20px; background-color: #e9ebee; }
+        .post-card {
+            background-color: #fff;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        .post-header {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+        }
+        .post-avatar { width: 40px; height: 40px; border-radius: 50%; background-color: #ccc; margin-right: 10px; background-image: url('https://placehold.co/40x40/3b5998/ffffff?text=AY'); background-size: cover; }
+        .post-author { font-weight: bold; }
+        .post-time { color: #606770; font-size: 12px; display: block; }
+        .post-content { padding: 0 16px 16px; }
+        .post-image-placeholder {
+            width: 100%;
+            height: 300px;
+            background-color: #222;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            font-style: italic;
+            background-image: url('https://placehold.co/800x300/222/fff?text=POST+GÖRSELİ:+Stüdyoda+Mikrofon+Başı+(Son+Fotoğraf)'); background-size: cover;
+        }
+
+        .comments-section {
+            border-top: 1px solid #ddd;
+            background-color: #f6f7f9;
+            padding: 10px 16px;
+        }
+        .comment { display: flex; margin-bottom: 10px; }
+        .comment-avatar { width: 32px; height: 32px; border-radius: 50%; background-color: #ccc; margin-right: 10px; flex-shrink: 0; }
+        .comment-body { background-color: #fff; border-radius: 18px; padding: 8px 12px; border: 1px solid #ddd; flex-grow: 1; }
+        .comment-author { font-weight: bold; margin-right: 5px; color: #3b5998; }
+        .comment-time { font-size: 11px; color: #90949c; display: block; margin-top: 4px; margin-left: 12px; }
+        
+        .leyla-comment .comment-author { color: #d9534f; }
+        .selim-comment .comment-author { color: #d9534f; }
+
+        .note-box {
+            background-color: #fff3cd;
+            border: 1px solid #ffeeba;
+            padding: 10px;
+            margin: 20px;
+            border-radius: 4px;
+            font-size: 13px;
+            color: #856404;
+            display: flex;
+            align-items: flex-start;
+        }
+        .note-box span { font-size: 20px; margin-right: 10px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h2>EMNİYET MÜDÜRLÜĞÜ - DİJİTAL DELİL ANALİZİ</h2>
+        <span class="badge">DOSYA NO: 2026/003</span>
+    </div>
+
+    <div class="profile-summary">
+        <div class="profile-pic"></div>
+        <div class="profile-info">
+            <h1>Aras Yankı <span class="verified-icon">✓</span></h1>
+            <p>@arasyanki_official • Radyo Programcısı & Tarih Araştırmacısı</p>
+            <p>Çanakkale, Türkiye • yankifm.com</p>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <div class="note-box">
+            <span>⚠️</span>
+            <div>
+                <strong>Dedektif Notu:</strong> Maktulün olaydan saatler önce paylaştığı son gönderi ve bu gönderiye şüpheliler Leyla Yankı (eski eş) ve Selim Ersoy (antikacı) tarafından yapılan tehditkar yorumlar cinayet motivasyonu açısından kritik önem taşımaktadır.
+            </div>
+        </div>
+
+        <div class="post-card">
+            <div class="post-header">
+                <div class="post-avatar"></div>
+                <div>
+                    <span class="post-author">Aras Yankı <span class="verified-icon">✓</span></span>
+                    <span class="post-time">25 Ocak 2026 • 00:15 (Olaydan 1 saat önce) • Herkese Açık</span>
+                </div>
+            </div>
+            <div class="post-content">
+                <p>Bu gece Çanakkale'de yer yerinden oynayacak! Yıllardır saklanan, üzeri örtülen o büyük sırrı açıklama vakti geldi. Tehditleriniz beni durduramaz. Gerçekler satılık değildir.</p>
+                <p>Saat 01:00'de Yankı FM'de, "Tarihin Fısıltıları" programında buluşalım. Tarih bu gece yeniden yazılacak. #Çanakkale #HMSAethelgard #Gerçekler #YankıFM</p>
+            </div>
+            <div class="post-image-placeholder"></div>
+            
+            <div class="comments-section">
+                <div class="comment leyla-comment">
+                    <div class="comment-avatar" style="background-image: url('https://placehold.co/32x32/d9534f/ffffff?text=LY');"></div>
+                    <div>
+                        <div class="comment-body">
+                            <span class="comment-author">Leyla Yankı:</span>
+                            Hala geçmişin hayaletleriyle savaşıyorsun Aras! O defter sana sadece bela getirecek. Nafakamı ödemedin, şimdi de başımıza bu işleri açıyorsun. Avukatım seninle ilgilenecek, bu son uyarım!
+                        </div>
+                        <span class="comment-time">00:22 • Yanıtla</span>
+                    </div>
+                </div>
+
+                <div class="comment selim-comment">
+                    <div class="comment-avatar" style="background-image: url('https://placehold.co/32x32/d9534f/ffffff?text=SE');"></div>
+                    <div>
+                        <div class="comment-body">
+                            <span class="comment-author">Selim Ersoy Antik:</span>
+                            Sayın Yankı, o defterin mülkiyeti tartışmalıdır. Yayında yapacağınız herhangi bir asılsız iddia veya belgenin izinsiz gösterimi durumunda yasal haklarımızı en sert şekilde kullanacağımızı buradan kamuoyuna duyururuz. Ateşle oynuyorsunuz.
+                        </div>
+                        <span class="comment-time">00:35 • Yanıtla</span>
+                    </div>
+                </div>
+
+                 <div class="comment">
+                    <div class="comment-avatar" style="background-image: url('https://placehold.co/32x32/5cb85c/ffffff?text=D');"></div>
+                    <div>
+                        <div class="comment-body">
+                            <span class="comment-author">Çanakkale Aşığı 1915:</span>
+                            Heyecanla bekliyoruz Aras Hocam! Şehrin gerçek sesisiniz. Dualarımız sizinle.
+                        </div>
+                        <span class="comment-time">00:40 • Yanıtla</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+</div>
+
+</body>
+</html>

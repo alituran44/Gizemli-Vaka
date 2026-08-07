@@ -1,0 +1,376 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+@media (max-width: 768px) {
+    .col-lg-7, .col-lg-5 { flex: 0 0 100%; max-width: 100%; }
+    .sticky-top { position: static !important; }
+    .form-control-lg, .form-select-lg { font-size: 0.9rem !important; padding: 10px 12px !important; }
+}
+</style>
+<div class="bg-light min-vh-100 py-5">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-lg-7">
+                <form id="checkoutForm" method="POST" action="{{ url_for('process_checkout') }}">
+                    <div class="bg-white rounded shadow-sm p-4 mb-4">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h5 class="fw-bold mb-0 text-dark">İletişim Bilgileri</h5>
+                            {% if not session.get('user_id') %}
+                            <a href="{{ url_for('login') }}" class="text-primary small">Giriş Yap</a>
+                            {% endif %}
+                        </div>
+                        <div class="mb-3">
+                            <input type="email" name="email" class="form-control form-control-lg" placeholder="E-posta adresi" value="{{ user.email if user else '' }}" required>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded shadow-sm p-4 mb-4">
+                        <h5 class="fw-bold mb-4 text-dark">Fatura Adresi</h5>
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <label class="form-label small text-muted">Ülke/Bölge</label>
+                                <select name="country" class="form-select form-select-lg">
+                                    <option value="Turkiye" selected>Türkiye</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="text" name="first_name" class="form-control form-control-lg" placeholder="Adınız" value="{{ user.first_name if user and user.first_name else '' }}" required>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="text" name="last_name" class="form-control form-control-lg" placeholder="Soyadınız" value="{{ user.last_name if user and user.last_name else '' }}" required>
+                            </div>
+                            <div class="col-12">
+                                <input type="text" name="address" class="form-control form-control-lg" placeholder="Mahalle, cadde, sokak, bina no" required>
+                            </div>
+                            <div class="col-12">
+                                <a href="#" class="text-primary small" onclick="document.getElementById('address2').classList.toggle('d-none'); return false;">+ Daire, suit vb. ekleyin.</a>
+                                <input type="text" name="address2" id="address2" class="form-control form-control-lg mt-2 d-none" placeholder="Daire no, kat, blok">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small text-muted">İl</label>
+                                <select name="province" id="provinceSelect" class="form-select form-select-lg" onchange="loadDistricts(this.value)" required>
+                                    <option value="">İl seçiniz</option>
+                                    <option value="Adana">Adana</option>
+                                    <option value="Adiyaman">Adiyaman</option>
+                                    <option value="Afyonkarahisar">Afyonkarahisar</option>
+                                    <option value="Agri">Agri</option>
+                                    <option value="Aksaray">Aksaray</option>
+                                    <option value="Amasya">Amasya</option>
+                                    <option value="Ankara">Ankara</option>
+                                    <option value="Antalya">Antalya</option>
+                                    <option value="Ardahan">Ardahan</option>
+                                    <option value="Artvin">Artvin</option>
+                                    <option value="Aydin">Aydin</option>
+                                    <option value="Balikesir">Balikesir</option>
+                                    <option value="Bartin">Bartin</option>
+                                    <option value="Batman">Batman</option>
+                                    <option value="Bayburt">Bayburt</option>
+                                    <option value="Bilecik">Bilecik</option>
+                                    <option value="Bingol">Bingol</option>
+                                    <option value="Bitlis">Bitlis</option>
+                                    <option value="Bolu">Bolu</option>
+                                    <option value="Burdur">Burdur</option>
+                                    <option value="Bursa">Bursa</option>
+                                    <option value="Canakkale">Canakkale</option>
+                                    <option value="Cankiri">Cankiri</option>
+                                    <option value="Corum">Corum</option>
+                                    <option value="Denizli">Denizli</option>
+                                    <option value="Diyarbakir">Diyarbakir</option>
+                                    <option value="Duzce">Duzce</option>
+                                    <option value="Edirne">Edirne</option>
+                                    <option value="Elazig">Elazig</option>
+                                    <option value="Erzincan">Erzincan</option>
+                                    <option value="Erzurum">Erzurum</option>
+                                    <option value="Eskisehir">Eskisehir</option>
+                                    <option value="Gaziantep">Gaziantep</option>
+                                    <option value="Giresun">Giresun</option>
+                                    <option value="Gumushane">Gumushane</option>
+                                    <option value="Hakkari">Hakkari</option>
+                                    <option value="Hatay">Hatay</option>
+                                    <option value="Igdir">Igdir</option>
+                                    <option value="Isparta">Isparta</option>
+                                    <option value="Istanbul">Istanbul</option>
+                                    <option value="Izmir">Izmir</option>
+                                    <option value="Kahramanmaras">Kahramanmaras</option>
+                                    <option value="Karabuk">Karabuk</option>
+                                    <option value="Karaman">Karaman</option>
+                                    <option value="Kars">Kars</option>
+                                    <option value="Kastamonu">Kastamonu</option>
+                                    <option value="Kayseri">Kayseri</option>
+                                    <option value="Kilis">Kilis</option>
+                                    <option value="Kirikkale">Kirikkale</option>
+                                    <option value="Kirklareli">Kirklareli</option>
+                                    <option value="Kirsehir">Kirsehir</option>
+                                    <option value="Kocaeli">Kocaeli</option>
+                                    <option value="Konya">Konya</option>
+                                    <option value="Kutahya">Kutahya</option>
+                                    <option value="Malatya">Malatya</option>
+                                    <option value="Manisa">Manisa</option>
+                                    <option value="Mardin">Mardin</option>
+                                    <option value="Mersin">Mersin</option>
+                                    <option value="Mugla">Mugla</option>
+                                    <option value="Mus">Mus</option>
+                                    <option value="Nevsehir">Nevsehir</option>
+                                    <option value="Nigde">Nigde</option>
+                                    <option value="Ordu">Ordu</option>
+                                    <option value="Osmaniye">Osmaniye</option>
+                                    <option value="Rize">Rize</option>
+                                    <option value="Sakarya">Sakarya</option>
+                                    <option value="Samsun">Samsun</option>
+                                    <option value="Sanliurfa">Sanliurfa</option>
+                                    <option value="Siirt">Siirt</option>
+                                    <option value="Sinop">Sinop</option>
+                                    <option value="Sirnak">Sirnak</option>
+                                    <option value="Sivas">Sivas</option>
+                                    <option value="Tekirdag">Tekirdag</option>
+                                    <option value="Tokat">Tokat</option>
+                                    <option value="Trabzon">Trabzon</option>
+                                    <option value="Tunceli">Tunceli</option>
+                                    <option value="Usak">Usak</option>
+                                    <option value="Van">Van</option>
+                                    <option value="Yalova">Yalova</option>
+                                    <option value="Yozgat">Yozgat</option>
+                                    <option value="Zonguldak">Zonguldak</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small text-muted">İlçe</label>
+                                <select name="district" id="districtSelect" class="form-select form-select-lg" required>
+                                    <option value="">Önce il seçiniz</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="text" name="postal_code" class="form-control form-control-lg" placeholder="Posta Kodu (isteğe bağlı)">
+                            </div>
+                            <div class="col-md-6">
+                                <input type="tel" name="phone" class="form-control form-control-lg" placeholder="Telefon (örnek: 0532 123 4567)">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded shadow-sm p-4 mb-4">
+                        <h5 class="fw-bold mb-4 text-dark">Ödeme Yöntemi Seçin</h5>
+                        <p class="text-muted small mb-3">Kart bilgileriniz seçtiğiniz ödeme sağlayıcısının güvenli sayfasında girilecektir.</p>
+                        
+                        {% if not iyzico_enabled and not param_enabled and not havale_enabled %}
+                        <div class="alert alert-warning">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            Şu anda aktif bir ödeme yöntemi bulunmamaktadır. Lütfen daha sonra tekrar deneyiniz.
+                        </div>
+                        {% else %}
+                        <div class="d-grid gap-3">
+                            {% if iyzico_enabled %}
+                            <button type="submit" name="payment_provider" value="iyzico" class="btn btn-outline-danger btn-lg d-flex align-items-center justify-content-between px-4 py-3">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-credit-card fa-lg me-3"></i>
+                                    <div class="text-start">
+                                        <span class="fw-bold">iyzico ile Öde</span>
+                                        <br><small class="text-muted">Kredi/Banka Kartı ile güvenli ödeme</small>
+                                    </div>
+                                </div>
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                            {% endif %}
+                            {% if param_enabled %}
+                            <button type="submit" name="payment_provider" value="param" class="btn btn-lg d-flex align-items-center justify-content-between px-4 py-3" style="border: 2px solid #e64a19; color: #e64a19;">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-credit-card fa-lg me-3"></i>
+                                    <div class="text-start">
+                                        <span class="fw-bold">Kredi/Banka Kartı ile Öde</span>
+                                        <br><small class="text-muted">3D Güvenli Ödeme</small>
+                                    </div>
+                                </div>
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                            {% endif %}
+                            {% if havale_enabled %}
+                            <button type="submit" name="payment_provider" value="havale" class="btn btn-lg d-flex align-items-center justify-content-between px-4 py-3" style="border: 2px solid #388e3c; color: #388e3c;">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-university fa-lg me-3"></i>
+                                    <div class="text-start">
+                                        <span class="fw-bold">Banka Havalesi / EFT</span>
+                                        <br><small class="text-muted">Havale ile öde, onaylandığında erişim açılır</small>
+                                    </div>
+                                </div>
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="text-muted small mb-4">
+                        Satın alma işleminize devam ederek, <a href="{{ url_for('terms_conditions') }}" class="text-primary">Şartlar ve Koşullarımızı</a> ve <a href="{{ url_for('privacy_policy') }}" class="text-primary">Gizlilik Politikamızı</a> kabul etmiş olursunuz.
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center">
+                        <a href="{{ url_for('view_cart') }}" class="text-dark">
+                            <i class="fas fa-arrow-left me-2"></i>Sepete geri dön
+                        </a>
+                    </div>
+                </form>
+            </div>
+
+            <div class="col-lg-5">
+                <div class="bg-white rounded shadow-sm p-4 sticky-top" style="top: 100px;">
+                    <h5 class="fw-bold mb-4 text-dark">Sipariş Özeti</h5>
+                    
+                    {% for item in cart_items %}
+                    <div class="d-flex mb-3 pb-3 border-bottom">
+                        <div class="position-relative me-3">
+                            <img src="{{ url_for('static', filename='uploads/' + item.case.id + '/' + item.case.image) }}" class="rounded" style="width: 64px; height: 64px; object-fit: cover;" onerror="this.src='{{ url_for('static', filename='default.jpg') }}'" alt="{{ item.case.title }}">
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary" style="font-size: 10px;">1</span>
+                        </div>
+                        <div class="flex-grow-1">
+                            <h6 class="mb-1 fw-bold text-dark">{{ item.case.title }}</h6>
+                            {% if item.case.original_price and item.case.original_price > item.case.price %}
+                            <small class="text-decoration-line-through text-muted">{{ "%.2f"|format(item.case.original_price) }} TL</small>
+                            {% endif %}
+                            <small class="text-danger ms-1">{{ "%.2f"|format(item.case.price) }} TL</small>
+                            <p class="small text-muted mb-0 mt-1" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">{{ item.case.description[:100] if item.case.description else '' }}...</p>
+                        </div>
+                        <div class="text-end">
+                            <span class="fw-bold text-dark">{{ "%.2f"|format(item.case.price) }} TL</span>
+                        </div>
+                    </div>
+                    {% endfor %}
+
+                    <div class="mb-3">
+                        <div class="d-flex align-items-center cursor-pointer" onclick="document.getElementById('couponSection').classList.toggle('d-none')">
+                            <span class="text-dark">Kupon ekle</span>
+                            <i class="fas fa-chevron-down ms-auto"></i>
+                        </div>
+                        <div id="couponSection" class="d-none mt-2">
+                            <div class="input-group">
+                                <input type="text" name="coupon_code" class="form-control" placeholder="Kupon kodu">
+                                <button type="button" class="btn btn-outline-secondary">Uygula</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="border-top pt-3">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-muted">Ara toplam</span>
+                            <span class="text-dark">{{ "%.2f"|format(subtotal) }} TL</span>
+                        </div>
+                        {% if discount_amount and discount_amount > 0 %}
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-success">
+                                <i class="fas fa-tag me-1"></i>
+                                İndirim ({{ discount_code }})
+                            </span>
+                            <span class="text-success">-{{ "%.2f"|format(discount_amount) }} TL</span>
+                        </div>
+                        {% endif %}
+                        <div class="d-flex justify-content-between mt-3 pt-3 border-top">
+                            <span class="h5 fw-bold mb-0 text-dark">Toplam</span>
+                            <span class="h5 fw-bold mb-0 text-dark">{{ "%.2f"|format(total) }} TL</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+const districts = {
+    "Adana": ["Merkez", "Seyhan", "Yuregir", "Cukurova", "Saricam", "Karaisali", "Kozan", "Ceyhan", "Imamoglu", "Aladag", "Feke", "Saimbeyli", "Tufanbeyli", "Yumurtalik", "Pozanti"],
+    "Adiyaman": ["Merkez", "Besni", "Celikhan", "Gerger", "Golbasi", "Kahta", "Samsat", "Sincik", "Tut"],
+    "Afyonkarahisar": ["Merkez", "Bolvadin", "Cay", "Dazkiri", "Dinar", "Emirdag", "Evciler", "Hocalar", "Ihsaniye", "Iscehisar", "Kiziloren", "Sandikli", "Sinanpasa", "Sultandagi", "Suhut"],
+    "Agri": ["Merkez", "Diyadin", "Dogubayazit", "Eleskirt", "Hamur", "Patnos", "Taslicay", "Tutak"],
+    "Aksaray": ["Merkez", "Agacoren", "Eskil", "Gulagac", "Guzelyurt", "Ortakoy", "Sariyahsi", "Sultanhanı"],
+    "Amasya": ["Merkez", "Goynucek", "Gumushacikoy", "Hamamozu", "Merzifon", "Suluova", "Tasova"],
+    "Ankara": ["Merkez", "Altindag", "Cankaya", "Etimesgut", "Golbasi", "Kecioren", "Mamak", "Pursaklar", "Sincan", "Yenimahalle", "Akyurt", "Ayaş", "Bala", "Beypazari", "Camlidere", "Cubuk", "Elmadag", "Evren", "Gudul", "Haymana", "Kahramankazan", "Kalecik", "Kizilcahamam", "Nallihan", "Polatli", "Sereflikochisar"],
+    "Antalya": ["Merkez", "Kepez", "Konyaalti", "Muratpasa", "Akseki", "Alanya", "Demre", "Dosemealti", "Elmali", "Finike", "Gazipasa", "Gundogmus", "Ibradi", "Kas", "Kemer", "Koprulu", "Korkuteli", "Kumluca", "Manavgat", "Serik"],
+    "Ardahan": ["Merkez", "Cildir", "Damal", "Gole", "Hanak", "Posof"],
+    "Artvin": ["Merkez", "Ardanuc", "Arhavi", "Borcka", "Hopa", "Murgul", "Savsat", "Yusufeli"],
+    "Aydin": ["Merkez", "Efeler", "Bozdogan", "Buharkent", "Cine", "Didim", "Germencik", "Incirliova", "Karacasu", "Karpuzlu", "Kocarli", "Kosk", "Kusadasi", "Kuyucak", "Nazilli", "Soke", "Sultanhisar", "Yenipazar"],
+    "Balikesir": ["Merkez", "Altieylul", "Karesi", "Ayvalik", "Balya", "Bandirma", "Bigadic", "Burhaniye", "Dursunbey", "Edremit", "Erdek", "Gomec", "Gonen", "Havran", "Ivrindi", "Kepsut", "Manyas", "Marmara", "Savastepe", "Sindirgi", "Susurluk"],
+    "Bartin": ["Merkez", "Amasra", "Kurucasile", "Ulus"],
+    "Batman": ["Merkez", "Besiri", "Gercus", "Hasankeyf", "Kozluk", "Sason"],
+    "Bayburt": ["Merkez", "Aydintepe", "Demirozu"],
+    "Bilecik": ["Merkez", "Bozuyuk", "Golpazari", "Inhisar", "Osmaneli", "Pazaryeri", "Sogut", "Yenipazar"],
+    "Bingol": ["Merkez", "Adakli", "Genc", "Karliova", "Kigi", "Solhan", "Yayladere", "Yedisu"],
+    "Bitlis": ["Merkez", "Adilcevaz", "Ahlat", "Guroymak", "Hizan", "Mutki", "Tatvan"],
+    "Bolu": ["Merkez", "Dobruca", "Gerede", "Goynuk", "Kibriscik", "Mengen", "Mudurnu", "Seben", "Yenicaga"],
+    "Burdur": ["Merkez", "Aglasun", "Altinyayla", "Bucak", "Cavdir", "Celikkoyu", "Golhisar", "Karamanli", "Kemer", "Tefenni", "Yesilova"],
+    "Bursa": ["Merkez", "Nilufer", "Osmangazi", "Yildirim", "Buyukorhan", "Gemlik", "Gursu", "Harmancik", "Inegol", "Iznik", "Karacabey", "Keles", "Kestel", "Mudanya", "Mustafakemalpasa", "Orhaneli", "Orhangazi", "Yenisehir"],
+    "Canakkale": ["Merkez", "Ayvacik", "Bayramic", "Biga", "Bozcaada", "Can", "Eceabat", "Ezine", "Gelibolu", "Gokceada", "Lapseki", "Yenice"],
+    "Cankiri": ["Merkez", "Atkaracalar", "Bayramoren", "Cerkes", "Eldivan", "Ilgaz", "Kizilirmak", "Korgun", "Kursuolu", "Orta", "Sabanozu", "Yaprakli"],
+    "Corum": ["Merkez", "Alaca", "Bayat", "Bogazkale", "Dodurga", "Iskilip", "Kargi", "Lacin", "Mecitozu", "Oguzlar", "Ortakoy", "Osmancik", "Sungurlu", "Ugurludag"],
+    "Denizli": ["Merkez", "Merkezefendi", "Pamukkale", "Acipayam", "Babadagi", "Baklan", "Bekilli", "Beyagac", "Bozkurt", "Buldan", "Cal", "Cameli", "Cardak", "Civril", "Guney", "Honaz", "Kale", "Saraykoy", "Serinhisar", "Tavas"],
+    "Diyarbakir": ["Merkez", "Baglar", "Kayapinar", "Sur", "Yenisehir", "Bismil", "Cermik", "Cinar", "Cungus", "Dicle", "Egil", "Ergani", "Hani", "Hazro", "Kocakoy", "Kulp", "Lice", "Silvan"],
+    "Duzce": ["Merkez", "Akcakoca", "Cilimli", "Cumayeri", "Golyaka", "Gumusova", "Kaynasli", "Yigilca"],
+    "Edirne": ["Merkez", "Enez", "Havsa", "Ipsala", "Kesan", "Lalapasa", "Meric", "Suloglu", "Uzunkopru"],
+    "Elazig": ["Merkez", "Agin", "Alacakaya", "Aricak", "Baskil", "Karakocan", "Keban", "Kovancilar", "Maden", "Palu", "Sivrice"],
+    "Erzincan": ["Merkez", "Cayirli", "Ilic", "Kemah", "Kemaliye", "Otlukbeli", "Refahiye", "Tercan", "Uzumlu"],
+    "Erzurum": ["Merkez", "Aziziye", "Palandoken", "Yakutiye", "Askale", "Cat", "Hinis", "Horasan", "Ilica", "Ispir", "Karacoban", "Karayazi", "Koprukoy", "Narman", "Oltu", "Olur", "Pasinler", "Pazaryolu", "Senkaya", "Tekman", "Tortum", "Uzundere"],
+    "Eskisehir": ["Merkez", "Odunpazari", "Tepebasi", "Alpu", "Beylikova", "Cifteler", "Gunyuzu", "Han", "Inonu", "Mahmudiye", "Mihalgazi", "Mihalicik", "Saricakaya", "Seyitgazi", "Sivrihisar"],
+    "Gaziantep": ["Merkez", "Sahinbey", "Sehitkamil", "Araban", "Islahiye", "Karkamis", "Nizip", "Nurdagi", "Oguzeli", "Yavuzeli"],
+    "Giresun": ["Merkez", "Alucra", "Bulancak", "Camoluk", "Canakci", "Dereli", "Dogankent", "Espiye", "Eynesil", "Gorele", "Guce", "Kesap", "Piraziz", "Sebinkarahisar", "Tirebolu", "Yaglidere"],
+    "Gumushane": ["Merkez", "Kelkit", "Kose", "Kurtun", "Siran", "Torul"],
+    "Hakkari": ["Merkez", "Cukurca", "Semdinli", "Yuksekova"],
+    "Hatay": ["Merkez", "Antakya", "Defne", "Altinozu", "Arsuz", "Belen", "Dortyol", "Erzin", "Hassa", "Iskenderun", "Kirikhan", "Kumlu", "Payas", "Reyhanli", "Samandag", "Yayladagi"],
+    "Igdir": ["Merkez", "Aralik", "Karakoyunlu", "Tuzluca"],
+    "Isparta": ["Merkez", "Aksu", "Atabey", "Egirdir", "Gelendost", "Gonen", "Keciborlu", "Senirkent", "Sarkikaraagac", "Sutculer", "Uluborlu", "Yalvac", "Yenisarbademli"],
+    "Istanbul": ["Adalar", "Arnavutkoy", "Atasehir", "Avcilar", "Bagcilar", "Bahcelievler", "Bakirkoy", "Basaksehir", "Bayrampasa", "Besiktas", "Beykoz", "Beylikduzu", "Beyoglu", "Buyukcekmece", "Catalca", "Cekmekoy", "Esenler", "Esenyurt", "Eyupsultan", "Fatih", "Gaziosmanpasa", "Gungoren", "Kadikoy", "Kagithane", "Kartal", "Kucukcekmece", "Maltepe", "Pendik", "Sancaktepe", "Sariyer", "Silivri", "Sultanbeyli", "Sultangazi", "Sile", "Sisli", "Tuzla", "Umraniye", "Uskudar", "Zeytinburnu"],
+    "Izmir": ["Merkez", "Balcova", "Bayrakli", "Bornova", "Buca", "Cigli", "Gaziemir", "Guzelbahce", "Karabaglar", "Karsiyaka", "Konak", "Narlidere", "Aliaga", "Bayindir", "Bergama", "Beydag", "Cesme", "Dikili", "Foca", "Karaburun", "Kemalpasa", "Kinik", "Kiraz", "Menderes", "Menemen", "Odemis", "Seferihisar", "Selcuk", "Tire", "Torbali", "Urla"],
+    "Kahramanmaras": ["Merkez", "Dulkadiroglu", "Onikisubat", "Afsin", "Andirin", "Caglayancerit", "Ekinozu", "Elbistan", "Goksun", "Nurhak", "Pazarcik", "Turkoglu"],
+    "Karabuk": ["Merkez", "Eflani", "Eskipazar", "Ovacik", "Safranbolu", "Yenice"],
+    "Karaman": ["Merkez", "Ayranci", "Basyayla", "Ermenek", "Kazimkarabekir", "Sariveliler"],
+    "Kars": ["Merkez", "Akyaka", "Arpaçay", "Digor", "Kagizman", "Sarikamis", "Selim", "Susuz"],
+    "Kastamonu": ["Merkez", "Abana", "Agili", "Arac", "Azdavay", "Bozkurt", "Cide", "Daday", "Devrekani", "Doganyurt", "Hanonu", "Ihsangazi", "Inebolu", "Kure", "Pinarbasí", "Seydiler", "Senpazar", "Taskopru", "Tosya"],
+    "Kayseri": ["Merkez", "Kocasinan", "Melikgazi", "Talas", "Akkisla", "Bunyan", "Develi", "Felahiye", "Hacilar", "Incesu", "Ozvatan", "Pinarbasí", "Sarioglan", "Sariz", "Tomarza", "Yahyali", "Yesilhisar"],
+    "Kilis": ["Merkez", "Elbeyli", "Musabeyli", "Polateli"],
+    "Kirikkale": ["Merkez", "Bahsili", "Baliseyh", "Celebi", "Delice", "Karakecili", "Keskin", "Sulakyurt", "Yahsihan"],
+    "Kirklareli": ["Merkez", "Babaeski", "Demirkoy", "Kofa", "Luleburgaz", "Pehlivankoy", "Pinarhisar", "Vize"],
+    "Kirsehir": ["Merkez", "Akpinar", "Boztepe", "Cicekdagi", "Kaman", "Mucur"],
+    "Kocaeli": ["Merkez", "Basiskele", "Cayirova", "Darica", "Derince", "Dilovasi", "Gebze", "Golcuk", "Izmit", "Kandira", "Karamursel", "Kartepe", "Korfez"],
+    "Konya": ["Merkez", "Karatay", "Meram", "Selcuklu", "Ahirli", "Akoren", "Aksehir", "Altinekin", "Beysehir", "Bozkir", "Cihanbeyli", "Cumra", "Derbent", "Derebucak", "Doganhisar", "Emirgazi", "Eregli", "Guneysinir", "Hadim", "Halkapinar", "Huyuk", "Ilgin", "Kadinhani", "Karapinar", "Kulu", "Sarayonu", "Seydisehir", "Taskent", "Tuzlukcu", "Yalihuyuk", "Yunak"],
+    "Kutahya": ["Merkez", "Altintas", "Aslanapa", "Cavdarhisar", "Domanic", "Dumlupinar", "Emet", "Gediz", "Hisarcik", "Pazarlar", "Simav", "Saphane", "Tavsanli"],
+    "Malatya": ["Merkez", "Battalgazi", "Yesilyurt", "Akcadag", "Arapgir", "Arguvan", "Darende", "Dogansehir", "Doganyol", "Hekimhan", "Kale", "Kuluncak", "Puturge", "Yazihan"],
+    "Manisa": ["Merkez", "Sehzadeler", "Yunusemre", "Ahmetli", "Akhisar", "Alasehir", "Demirci", "Golmarmara", "Gordes", "Kirkagac", "Koprubasi", "Kula", "Salihli", "Sarigol", "Saruhanli", "Selendi", "Soma", "Turgutlu"],
+    "Mardin": ["Merkez", "Artuklu", "Dargecit", "Derik", "Kiziltepe", "Mazidagi", "Midyat", "Nusaybin", "Omerli", "Savur", "Yesilli"],
+    "Mersin": ["Merkez", "Akdeniz", "Mezitli", "Toroslar", "Yenisehir", "Anamur", "Aydincik", "Bozyazi", "Camliyayla", "Erdemli", "Gulnar", "Mut", "Silifke", "Tarsus"],
+    "Mugla": ["Merkez", "Mentese", "Bodrum", "Dalaman", "Datca", "Fethiye", "Kavaklidere", "Koycegiz", "Marmaris", "Milas", "Ortaca", "Seydikemer", "Ula", "Yatagan"],
+    "Mus": ["Merkez", "Bulanik", "Hasköy", "Korkut", "Malazgirt", "Varto"],
+    "Nevsehir": ["Merkez", "Acigol", "Avanos", "Derinkuyu", "Gulsehir", "Hacibektas", "Kozakli", "Urgup"],
+    "Nigde": ["Merkez", "Altunhisar", "Bor", "Camardi", "Ciftlik", "Ulukisla"],
+    "Ordu": ["Merkez", "Altinordu", "Akkus", "Aybasti", "Camas", "Catalpinar", "Fatsa", "Golkoy", "Gulyali", "Gurgentepe", "Ikizce", "Kabaduz", "Kabatas", "Korgan", "Kumru", "Mesudiye", "Perşembe", "Ulubey", "Unye"],
+    "Osmaniye": ["Merkez", "Bahce", "Duzici", "Hasanbeyli", "Kadirli", "Sumbas", "Toprakkale"],
+    "Rize": ["Merkez", "Ardesen", "Cayeli", "Derepazari", "Findikli", "Guneysu", "Hemsin", "Ikizdere", "Iyidere", "Kalkandere", "Pazar"],
+    "Sakarya": ["Merkez", "Adapazari", "Akyazi", "Arifiye", "Erenler", "Ferizli", "Geyve", "Hendek", "Karapurcek", "Karasu", "Kaynarca", "Kocaali", "Pamukova", "Sapanca", "Serdivan", "Sogutlu", "Tarakli"],
+    "Samsun": ["Merkez", "Atakum", "Canik", "Ilkadim", "Tekkeköy", "Alacam", "Asarcik", "Ayvacik", "Bafra", "Carsamba", "Havza", "Kavak", "Ladik", "Ondokuzmayis", "Salipazari", "Terme", "Vezirkopru", "Yakakent"],
+    "Sanliurfa": ["Merkez", "Eyyubiye", "Haliliye", "Karakopru", "Akcakale", "Birecik", "Bozova", "Ceylanpinar", "Halfeti", "Harran", "Hilvan", "Siverek", "Suruc", "Viransehir"],
+    "Siirt": ["Merkez", "Baykan", "Eruh", "Kurtalan", "Pervari", "Sirvan", "Tillo"],
+    "Sinop": ["Merkez", "Ayancik", "Boyabat", "Dikmen", "Duragan", "Erfelek", "Gerze", "Sarayduzu", "Turkeli"],
+    "Sirnak": ["Merkez", "Beytussebap", "Cizre", "Guclukonak", "Idil", "Silopi", "Uludere"],
+    "Sivas": ["Merkez", "Akincilar", "Altinyayla", "Divrigi", "Dogansar", "Gemerek", "Golova", "Gurun", "Hafik", "Imranli", "Kangal", "Koyulhisar", "Sarkisla", "Susehri", "Ulas", "Yildizeli", "Zara"],
+    "Tekirdag": ["Merkez", "Suleymanpasa", "Cerkezköy", "Corlu", "Ergene", "Hayrabolu", "Kapakli", "Malkara", "Marmaraereglisi", "Muratli", "Saray", "Sarkoy"],
+    "Tokat": ["Merkez", "Almus", "Artova", "Basciftlik", "Erbaa", "Niksar", "Pazar", "Resadiye", "Sulusaray", "Turhal", "Yesilyurt", "Zile"],
+    "Trabzon": ["Merkez", "Ortahisar", "Akcaabat", "Arakli", "Arsin", "Besikduzu", "Caykara", "Dernekpazari", "Duzkoy", "Hayrat", "Koprubasi", "Macka", "Of", "Surmene", "Salpazari", "Tonya", "Vakfikebir", "Yomra"],
+    "Tunceli": ["Merkez", "Cemisgezek", "Hozat", "Mazgirt", "Nazimiye", "Ovacik", "Pertek", "Pulumur"],
+    "Usak": ["Merkez", "Banaz", "Esme", "Karahalli", "Sivasli", "Ulubey"],
+    "Van": ["Merkez", "Ipekyolu", "Tusba", "Edremit", "Bahcesaray", "Baskale", "Caldiran", "Catak", "Ercis", "Gevas", "Gurpinar", "Muradiye", "Ozalp", "Saray"],
+    "Yalova": ["Merkez", "Altinova", "Armutlu", "Cinarcik", "Ciftlikkoy", "Termal"],
+    "Yozgat": ["Merkez", "Akdagmadeni", "Aydincik", "Bogazliyan", "Candir", "Cayiralan", "Cekerek", "Kadisehri", "Saraykent", "Sarikaya", "Sorgun", "Yenifakili", "Yerköy"],
+    "Zonguldak": ["Merkez", "Alapli", "Caycuma", "Devrek", "Eregli", "Gokcebey", "Kilimli", "Kozlu"]
+};
+
+function loadDistricts(province) {
+    const districtSelect = document.getElementById('districtSelect');
+    districtSelect.innerHTML = '<option value="">İlçe seçiniz</option>';
+    
+    if (province && districts[province]) {
+        districts[province].forEach(district => {
+            const option = document.createElement('option');
+            option.value = district;
+            option.textContent = district;
+            districtSelect.appendChild(option);
+        });
+    }
+}
+</script>
+{% endblock %}

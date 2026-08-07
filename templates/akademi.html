@@ -1,0 +1,881 @@
+{% extends "base.html" %}
+
+{% block title %}Dedektif Akademisi — Gizemli Vaka{% endblock %}
+{% block meta_description %}Dedektif Akademisi'nde soruşturma tekniklerini, adli bilimleri ve psikolojik profillemeyi öğren. Çaylak'tan Müfettiş'e uzanan eğitim yolculuğuna başla.{% endblock %}
+
+{% block content %}
+
+<style>
+/* ===== HERO ===== */
+.akademi-hero {
+    position: relative;
+    min-height: 520px;
+    background: #04081a;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+}
+.akademi-hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+        radial-gradient(ellipse at 20% 50%, rgba(255,215,0,0.08) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 30%, rgba(255,215,0,0.05) 0%, transparent 60%);
+    pointer-events: none;
+}
+.hero-grid-overlay {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(rgba(255,215,0,0.03) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(255,215,0,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+}
+.akademi-badge {
+    display: inline-block;
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 4px;
+    border: 1px solid currentColor;
+}
+
+/* ===== LEVEL PROGRESS ===== */
+.level-track {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    margin: 48px 0 56px;
+}
+.level-node {
+    text-align: center;
+    flex: 1;
+    max-width: 160px;
+    position: relative;
+}
+.level-node:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 26px; right: -50%;
+    width: 100%; height: 2px;
+    background: linear-gradient(90deg, #FFD700 0%, rgba(255,215,0,0.15) 100%);
+    z-index: 0;
+}
+.level-icon-wrap {
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 10px;
+    position: relative; z-index: 1;
+    font-size: 1.3rem;
+    border: 2px solid;
+}
+.level-icon-wrap.cayla    { border-color: #d97706; background: rgba(255,215,0,0.15); color: #d97706; }
+.level-icon-wrap.detektif { border-color: #0ea5e9; background: rgba(14,165,233,0.12); color: #0ea5e9; }
+.level-icon-wrap.mufettis { border-color: #f97316; background: rgba(249,115,22,0.12); color: #f97316; }
+.level-label { font-size: 0.7rem; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; }
+
+/* ===== LEVEL TAGS ===== */
+.level-tag {
+    font-size: 0.65rem; font-weight: 800; letter-spacing: 3px;
+    text-transform: uppercase; padding: 4px 12px; border-radius: 4px;
+}
+.tag-cayla    { background: rgba(255,215,0,0.15); color: #b45309; border: 1px solid rgba(255,215,0,0.5); }
+.tag-detektif { background: rgba(14,165,233,0.12); color: #0369a1; border: 1px solid rgba(14,165,233,0.4); }
+.tag-mufettis { background: rgba(249,115,22,0.12); color: #c2410c; border: 1px solid rgba(249,115,22,0.35); }
+
+/* ===== BRIEF CARDS ===== */
+.brief-section { padding: 56px 0; }
+.level-header { display: flex; align-items: center; gap: 14px; margin-bottom: 10px; }
+
+.brief-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 24px;
+    height: 100%;
+    transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+.brief-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
+.brief-card.cayla:hover    { border-color: rgba(255,215,0,0.6); }
+.brief-card.detektif:hover { border-color: rgba(14,165,233,0.5); }
+.brief-card.mufettis:hover { border-color: rgba(249,115,22,0.5); }
+
+.brief-card-icon {
+    width: 48px; height: 48px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 16px; font-size: 1.3rem;
+}
+.icon-cayla    { background: rgba(255,215,0,0.15); color: #d97706; }
+.icon-detektif { background: rgba(14,165,233,0.12); color: #0ea5e9; }
+.icon-mufettis { background: rgba(249,115,22,0.12); color: #f97316; }
+
+.brief-card h5 { font-size: 0.95rem; font-weight: 700; color: #1e293b; margin-bottom: 8px; line-height: 1.35; }
+.brief-card p  { font-size: 0.82rem; color: #64748b; line-height: 1.6; margin: 0; flex: 1; }
+.read-time { font-size: 0.7rem; color: #94a3b8; margin-top: 10px; margin-bottom: 14px; }
+
+.btn-ozet {
+    display: inline-block;
+    background: #FFD700;
+    color: #000 !important;
+    font-weight: 800;
+    font-size: 0.78rem;
+    padding: 8px 20px;
+    border-radius: 6px;
+    text-decoration: none !important;
+    transition: background 0.18s, transform 0.15s;
+    border: none;
+    cursor: pointer;
+    letter-spacing: 0.3px;
+}
+.btn-ozet:hover { background: #ffe033; transform: translateY(-1px); }
+.btn-ozet.orange { background: #f97316; color: #fff !important; }
+.btn-ozet.orange:hover { background: #ea6c0a; }
+.brief-card.detektif .btn-ozet { background: #0ea5e9; color: #fff !important; }
+.brief-card.detektif .btn-ozet:hover { background: #0284c7; }
+
+/* ===== CASE LINKS ===== */
+.case-link-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+    text-decoration: none;
+    display: block;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+}
+.case-link-card:hover { transform: translateY(-3px); box-shadow: 0 6px 18px rgba(0,0,0,0.1); border-color: #cbd5e1; }
+.case-link-card img { width: 100%; height: 90px; object-fit: cover; }
+.case-link-card .case-info { padding: 10px 12px; }
+.case-link-card .case-title { font-size: 0.78rem; font-weight: 700; color: #1e293b; line-height: 1.3; margin: 0; }
+
+/* ===== QUIZ ===== */
+.challenge-box {
+    background: linear-gradient(135deg, #0d1635 0%, #0a0f1e 100%);
+    border: 1px solid rgba(255,215,0,0.2);
+    border-radius: 20px;
+    padding: 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+.challenge-box::before {
+    content: '?';
+    position: absolute; right: -10px; top: -20px;
+    font-size: 200px; font-weight: 900;
+    color: rgba(255,215,0,0.03);
+    line-height: 1;
+}
+.quiz-option {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 10px;
+    padding: 12px 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: left;
+    font-size: 0.85rem;
+    color: #cbd5e1;
+    margin-bottom: 8px;
+    width: 100%;
+}
+.quiz-option:hover { background: rgba(255,215,0,0.1); border-color: rgba(255,215,0,0.4); color: #FFD700; }
+.quiz-option.correct { background: rgba(34,197,94,0.15) !important; border-color: #22c55e !important; color: #86efac !important; }
+.quiz-option.wrong   { background: rgba(239,68,68,0.15) !important; border-color: #ef4444 !important; color: #fca5a5 !important; }
+</style>
+
+<!-- ===== HERO ===== -->
+<section class="akademi-hero">
+    <div class="hero-grid-overlay"></div>
+    <div class="container position-relative" style="z-index:1;">
+        <div class="row align-items-center">
+            <div class="col-lg-7">
+                <div class="mb-3 d-flex align-items-center gap-3">
+                    <span class="akademi-badge" style="color:#FFD700; border-color:rgba(255,215,0,0.4);">
+                        <i class="fas fa-graduation-cap me-1"></i>DEDEKTİF AKADEMİSİ
+                    </span>
+                    <span style="color:#475569; font-size:0.8rem;">Soruşturma Brifingleri</span>
+                </div>
+                <h1 class="fw-black mb-3" style="color:#f1f5f9; font-size:clamp(2rem,4vw,3rem); line-height:1.15;">
+                    Gerçek Bir Dedektifin<br>
+                    <span style="color:#FFD700;">Zihnine Girin.</span>
+                </h1>
+                <p class="mb-4" style="color:#94a3b8; font-size:1.05rem; max-width:520px;">
+                    Sezgiye güvenmek amatörlerin işidir. Gerçek dedektifler kanıtlara dayanır.
+                    Bu akademide adli bilim, psikolojik profilleme ve dijital soruşturma tekniklerini öğrenin.
+                </p>
+                <div class="d-flex flex-wrap gap-3">
+                    <a href="#caylik" class="btn btn-warning fw-bold px-4 py-2 rounded-pill">
+                        <i class="fas fa-play me-2"></i>Eğitime Başla
+                    </a>
+                    <a href="#challenge" class="btn btn-outline-light fw-bold px-4 py-2 rounded-pill">
+                        <i class="fas fa-brain me-2"></i>Kendini Test Et
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-5 d-none d-lg-flex justify-content-end align-items-center">
+                <div class="position-relative" style="width:320px; height:260px;">
+                    <div class="position-absolute rounded-3 p-3 shadow-lg" style="background:#0d1635; border:1px solid rgba(255,215,0,0.25); top:0; left:0; width:180px;">
+                        <div class="d-flex align-items-center gap-2 mb-1">
+                            <i class="fas fa-fingerprint text-warning"></i>
+                            <small class="text-white fw-bold" style="font-size:0.7rem;">AKADEMİ SEVİYELERİ</small>
+                        </div>
+                        <div class="d-flex gap-1 flex-wrap mt-2">
+                            <span class="badge rounded-pill" style="background:rgba(255,215,0,0.15);color:#FFD700;font-size:0.65rem;">Çaylak</span>
+                            <span class="badge rounded-pill" style="background:rgba(255,215,0,0.25);color:#FFD700;font-size:0.65rem;">Dedektif</span>
+                            <span class="badge rounded-pill" style="background:rgba(249,115,22,0.2);color:#f97316;font-size:0.65rem;">Müfettiş</span>
+                        </div>
+                    </div>
+                    <div class="position-absolute rounded-3 p-3 shadow-lg" style="background:#0d1635; border:1px solid rgba(255,215,0,0.2); top:80px; right:0; width:190px;">
+                        <small class="text-secondary" style="font-size:0.7rem;">BRİFİNG KONULARI</small>
+                        <div class="mt-2" style="font-size:0.75rem;">
+                            <div class="text-white-50 mb-1"><i class="fas fa-check text-warning me-1" style="font-size:0.6rem;"></i>İfade Analizi</div>
+                            <div class="text-white-50 mb-1"><i class="fas fa-check text-warning me-1" style="font-size:0.6rem;"></i>Dijital Adli Bilişim</div>
+                            <div class="text-white-50 mb-1"><i class="fas fa-check text-warning me-1" style="font-size:0.6rem;"></i>Psikolojik Profilleme</div>
+                            <div class="text-white-50"><i class="fas fa-check text-warning me-1" style="font-size:0.6rem;"></i>Mağdurbilim</div>
+                        </div>
+                    </div>
+                    <div class="position-absolute rounded-3 p-3 shadow-lg" style="background:#0d1635; border:1px solid rgba(255,215,0,0.2); bottom:0; left:20px; width:160px;">
+                        <div class="text-center">
+                            <div style="font-size:1.8rem; font-weight:900; color:#FFD700; line-height:1;">15+</div>
+                            <small style="color:#94a3b8; font-size:0.7rem;">Soruşturma Brifingleri</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== LEVEL TRACKER ===== -->
+<div class="py-5" style="background:#ffffff; border-bottom:1px solid #e2e8f0;">
+    <div class="container">
+        <div class="text-center mb-4">
+            <p class="text-muted small" style="letter-spacing:2px; text-transform:uppercase; font-size:0.7rem;">EĞİTİM YOLU</p>
+            <h2 class="fw-bold fs-4" style="color:#1e293b;">Hangi Seviyedesin?</h2>
+        </div>
+        <div class="level-track">
+            <div class="level-node">
+                <div class="level-icon-wrap cayla">
+                    <i class="fas fa-seedling"></i>
+                </div>
+                <div class="level-label" style="color:#d97706;">Çaylak</div>
+                <div style="font-size:0.65rem; color:#94a3b8; margin-top:4px;">Temel Beceriler</div>
+            </div>
+            <div class="level-node">
+                <div class="level-icon-wrap detektif">
+                    <i class="fas fa-search"></i>
+                </div>
+                <div class="level-label" style="color:#0ea5e9;">Dedektif</div>
+                <div style="font-size:0.65rem; color:#94a3b8; margin-top:4px;">Teknik Analiz</div>
+            </div>
+            <div class="level-node">
+                <div class="level-icon-wrap mufettis">
+                    <i class="fas fa-user-tie"></i>
+                </div>
+                <div class="level-label" style="color:#f97316;">Müfettiş</div>
+                <div style="font-size:0.65rem; color:#94a3b8; margin-top:4px;">Psikoloji & Kapanış</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ===== ÇAYLAK SEVİYESİ ===== -->
+<section class="brief-section" id="caylik" style="background:#ffffff; border-bottom:1px solid #e2e8f0;">
+    <div class="container">
+        <div class="row align-items-center mb-5">
+            <div class="col">
+                <div class="level-header">
+                    <span class="level-tag tag-cayla">Çaylak</span>
+                </div>
+                <h2 class="fw-bold mb-2" style="font-size:1.75rem; color:#1e293b;">Temel Beceriler</h2>
+                <p style="max-width:600px; font-size:0.9rem; color:#64748b;">
+                    Dedektifliğe yeni başlıyorsanız ya da temellerinizi sağlamlaştırmak istiyorsanız buradan başlayın.
+                    Bu brifinglar her soruşturmacının ihtiyaç duyduğu temel zihniyeti ve teknikleri öğretir.
+                </p>
+            </div>
+        </div>
+
+        <div class="row g-4 mb-5">
+            <div class="col-md-6 col-lg-4">
+                <div class="brief-card cayla">
+                    <div class="brief-card-icon icon-cayla"><i class="fas fa-brain"></i></div>
+                    <span class="level-tag tag-cayla" style="font-size:0.6rem; margin-bottom:10px; display:inline-block;">Çaylak</span>
+                    <h5>Soruşturma Düşüncesi: Sezgi mi, Kanıt mı?</h5>
+                    <p>Çoğu amatör dedektif önce katili seçer, sonra doğrulayacak ipuçları arar. Gerçek dedektifler ise hipotez kurar ve kanıtların konuşmasına izin verir. Bu ayrım her şeyi değiştirir.</p>
+                    <div class="read-time"><i class="fas fa-clock me-1"></i>2 dakikalık okuma &bull; 390 kelime</div>
+                    <a href="{{ url_for('akademi_makale', slug='sorusturma-dusuncesi') }}" class="btn-ozet">Özeti Okuyun</a>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="brief-card cayla">
+                    <div class="brief-card-icon icon-cayla"><i class="fas fa-link"></i></div>
+                    <span class="level-tag tag-cayla" style="font-size:0.6rem; margin-bottom:10px; display:inline-block;">Çaylak</span>
+                    <h5>Delil Zinciri: Nasıl Bulduğunuz, Ne Kadar Önemli?</h5>
+                    <p>Profesyonel soruşturmacılar sadece delil bulmaz; delilin olay yerinden laboratuvara olan yolculuğunu da korur. Delil zincirinin kırılması bir davayı mahvedebilir.</p>
+                    <div class="read-time"><i class="fas fa-clock me-1"></i>2 dakikalık okuma &bull; 354 kelime</div>
+                    <a href="{{ url_for('akademi_makale', slug='delil-zinciri') }}" class="btn-ozet">Özeti Okuyun</a>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="brief-card cayla">
+                    <div class="brief-card-icon icon-cayla"><i class="fas fa-comments"></i></div>
+                    <span class="level-tag tag-cayla" style="font-size:0.6rem; margin-bottom:10px; display:inline-block;">Çaylak</span>
+                    <h5>İfade Analizi: Tanık Beyanlarındaki Kırmızı Bayraklar</h5>
+                    <p>Gerçek dedektifler ifadelerdeki sözel kırmızı bayrakları fark eder — zaman kipindeki değişimler, zamirin kayması, aşırı detay. Bu sinyaller gizlenen gerçeği ele verir.</p>
+                    <div class="read-time"><i class="fas fa-clock me-1"></i>2.5 dakikalık okuma &bull; 415 kelime</div>
+                    <a href="{{ url_for('akademi_makale', slug='ifade-analizi') }}" class="btn-ozet">Özeti Okuyun</a>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="brief-card cayla">
+                    <div class="brief-card-icon icon-cayla"><i class="fas fa-map-marked-alt"></i></div>
+                    <span class="level-tag tag-cayla" style="font-size:0.6rem; margin-bottom:10px; display:inline-block;">Çaylak</span>
+                    <h5>Olay Yeri Okuma: İlk 10 Dakika Kritiktir</h5>
+                    <p>Bir olay yerine girdiğinizde ilk 10 dakika içinde ne yaparsınız? Eğitimli bir göz, amatörün gözden kaçırdığı şeyleri görür. Sistematik tarama yöntemi bu farkı yaratır.</p>
+                    <div class="read-time"><i class="fas fa-clock me-1"></i>1.8 dakikalık okuma &bull; 310 kelime</div>
+                    <a href="#" class="btn-ozet">Özeti Okuyun</a>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="brief-card cayla">
+                    <div class="brief-card-icon icon-cayla"><i class="fas fa-project-diagram"></i></div>
+                    <span class="level-tag tag-cayla" style="font-size:0.6rem; margin-bottom:10px; display:inline-block;">Çaylak</span>
+                    <h5>Zaman Çizelgesi Kurma: Olayları Sıraya Diz</h5>
+                    <p>Her soruşturmanın temeli sağlam bir zaman çizelgesidir. Kim neredeydi, ne zamanda, ne yapıyordu? Bu soruların yanıtları çakıştığında ya da çeliştiğinde asıl hikaye ortaya çıkar.</p>
+                    <div class="read-time"><i class="fas fa-clock me-1"></i>2 dakikalık okuma &bull; 380 kelime</div>
+                    <a href="#" class="btn-ozet">Özeti Okuyun</a>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="brief-card cayla">
+                    <div class="brief-card-icon icon-cayla"><i class="fas fa-balance-scale"></i></div>
+                    <span class="level-tag tag-cayla" style="font-size:0.6rem; margin-bottom:10px; display:inline-block;">Çaylak</span>
+                    <h5>Kanıt Değerlendirme: Fiziksel mi, Tanıklık mı?</h5>
+                    <p>Her kanıt eşit değildir. Parmak izi ile görgü tanığı arasındaki farkı, fiziksel kanıtların tanıklığa üstünlüğünü ve her birinin ne zaman güvenilir olduğunu öğrenin.</p>
+                    <div class="read-time"><i class="fas fa-clock me-1"></i>2.2 dakikalık okuma &bull; 420 kelime</div>
+                    <a href="#" class="btn-ozet">Özeti Okuyun</a>
+                </div>
+            </div>
+        </div>
+
+        {% if kolay_vakalar %}
+        <div class="rounded-4 p-4" style="background:#f8fafc; border:1px solid #e2e8f0;">
+            <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+                <div>
+                    <span class="level-tag tag-cayla me-2">Çaylak</span>
+                    <span class="fw-bold" style="color:#1e293b;">Pratik Yapabileceğiniz Davalar</span>
+                </div>
+                <a href="{{ url_for('cases') }}" class="btn btn-sm btn-outline-warning rounded-pill px-3" style="font-size:0.75rem; color:#b45309; border-color:#d97706;">
+                    Tümünü Gör <i class="fas fa-arrow-right ms-1"></i>
+                </a>
+            </div>
+            <div class="row g-3">
+                {% for case in kolay_vakalar %}
+                <div class="col-md-4">
+                    <a href="{{ url_for('case_detail', case_id=case.id) }}" class="case-link-card">
+                        <img src="{{ url_for('static', filename='uploads/' + case.id + '/' + case.image) }}"
+                             alt="{{ case.title }}" onerror="this.src='{{ url_for('static', filename='default.jpg') }}'">
+                        <div class="case-info">
+                            <p class="case-title">{{ case.title }}</p>
+                            <small style="color:#FFD700; font-size:0.68rem; font-weight:700;">KOLAY &bull; {{ "%.2f"|format(case.price) }} TL</small>
+                        </div>
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- ===== DEDEKTİF SEVİYESİ ===== -->
+<section class="brief-section" id="detektif" style="background:#ffffff; border-bottom:1px solid #e2e8f0;">
+    <div class="container">
+        <div class="row align-items-center mb-5">
+            <div class="col">
+                <div class="level-header">
+                    <span class="level-tag tag-detektif">Dedektif</span>
+                </div>
+                <h2 class="fw-bold mb-2" style="font-size:1.75rem; color:#1e293b;">Teknik Analiz</h2>
+                <p style="max-width:600px; font-size:0.9rem; color:#64748b;">
+                    Temel zihniyeti kazandıktan sonra araçları öğrenme zamanı. Bu bölüm, modern soruşturmaların
+                    dijital ayak izlerinden finansal verilere uzanan teknik boyutlarını ele alır.
+                </p>
+            </div>
+        </div>
+
+        <div class="row g-4 mb-5">
+            <div class="col-md-6 col-lg-4">
+                <div class="brief-card detektif">
+                    <div class="brief-card-icon icon-detektif"><i class="fas fa-database"></i></div>
+                    <span class="level-tag tag-detektif" style="font-size:0.6rem; margin-bottom:10px; display:inline-block;">Dedektif</span>
+                    <h5>Dijital Metadata: Sessiz Tanığı Okumak</h5>
+                    <p>Metadata, dijital kanıtın sessiz tanığıdır. Bir fotoğraftaki GPS koordinatları, bir belgedeki değişim zamanı — bunlar çoğu zaman asıl hikayeyi anlatır. Yüzeyin altına bakın.</p>
+                    <div class="read-time"><i class="fas fa-clock me-1"></i>3.5 dakikalık okuma &bull; 662 kelime</div>
+                    <a href="{{ url_for('akademi_makale', slug='dijital-metadata') }}" class="btn-ozet">Özeti Okuyun</a>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="brief-card detektif">
+                    <div class="brief-card-icon icon-detektif"><i class="fas fa-video"></i></div>
+                    <span class="level-tag tag-detektif" style="font-size:0.6rem; margin-bottom:10px; display:inline-block;">Dedektif</span>
+                    <h5>CCTV Analizi: Önemli Kareyi Yakalamak</h5>
+                    <p>Güvenlik kamerası görüntüleri altın madenidir. Yürüyüş analizi, araç takibi ve görüntülerdeki kesintileri tespit etme sanatını öğrenin. Tek kare her şeyi değiştirebilir.</p>
+                    <div class="read-time"><i class="fas fa-clock me-1"></i>3.8 dakikalık okuma &bull; 751 kelime</div>
+                    <a href="{{ url_for('akademi_makale', slug='cctv-analizi') }}" class="btn-ozet">Özeti Okuyun</a>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="brief-card detektif">
+                    <div class="brief-card-icon icon-detektif"><i class="fas fa-mobile-alt"></i></div>
+                    <span class="level-tag tag-detektif" style="font-size:0.6rem; margin-bottom:10px; display:inline-block;">Dedektif</span>
+                    <h5>Telefon Kayıtları: Satırlar Arasını Okumak</h5>
+                    <p>Bir şüphelinin arama geçmişi onun bilinçdışıdır. Silinmiş mesajları yeniden oluşturma, konum verilerini çapraz kontrol etme ve arama örüntülerini analiz etme yöntemlerini öğrenin.</p>
+                    <div class="read-time"><i class="fas fa-clock me-1"></i>3.6 dakikalık okuma &bull; 717 kelime</div>
+                    <a href="{{ url_for('akademi_makale', slug='telefon-kayitlari') }}" class="btn-ozet">Özeti Okuyun</a>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="brief-card detektif">
+                    <div class="brief-card-icon icon-detektif"><i class="fas fa-money-bill-wave"></i></div>
+                    <span class="level-tag tag-detektif" style="font-size:0.6rem; margin-bottom:10px; display:inline-block;">Dedektif</span>
+                    <h5>Finansal Adli Tıp: Kağıtsız İzleri Takip Etmek</h5>
+                    <p>Parayı takip edin, motivi bulun. Şüphelinin gizli yaşamını ortaya çıkarmak için banka kayıtlarını ve kripto para transferlerini nasıl analiz edeceğinizi öğrenin.</p>
+                    <div class="read-time"><i class="fas fa-clock me-1"></i>2.9 dakikalık okuma &bull; 574 kelime</div>
+                    <a href="{{ url_for('akademi_makale', slug='finansal-adli-tip') }}" class="btn-ozet">Özeti Okuyun</a>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="brief-card detektif">
+                    <div class="brief-card-icon icon-detektif"><i class="fas fa-network-wired"></i></div>
+                    <span class="level-tag tag-detektif" style="font-size:0.6rem; margin-bottom:10px; display:inline-block;">Dedektif</span>
+                    <h5>Ağ Analizi: Gizli Noktaları Birleştirmek</h5>
+                    <p>Suçlular nadiren tek başlarına hareket eder. Kurbanlar, şüpheliler ve ortak arasındaki ilişkileri haritalamak için Bağlantı Analizi tablosunu kullanmayı öğrenin.</p>
+                    <div class="read-time"><i class="fas fa-clock me-1"></i>3.4 dakikalık okuma &bull; 686 kelime</div>
+                    <a href="{{ url_for('akademi_makale', slug='ag-analizi') }}" class="btn-ozet">Özeti Okuyun</a>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="brief-card detektif">
+                    <div class="brief-card-icon icon-detektif"><i class="fas fa-headphones"></i></div>
+                    <span class="level-tag tag-detektif" style="font-size:0.6rem; margin-bottom:10px; display:inline-block;">Dedektif</span>
+                    <h5>Adli İşitim: Sesi Analiz Etmek</h5>
+                    <p>Sadece ne söylediği değil, nasıl söylediği de önemlidir. Arka plan gürültüsü, ses titremesi ve söylem paternlerini inceleyerek aldatmayı nasıl tespit edeceğinizi öğrenin.</p>
+                    <div class="read-time"><i class="fas fa-clock me-1"></i>3.2 dakikalık okuma &bull; 613 kelime</div>
+                    <a href="{{ url_for('akademi_makale', slug='adli-isitim') }}" class="btn-ozet">Özeti Okuyun</a>
+                </div>
+            </div>
+        </div>
+
+        {% if orta_vakalar %}
+        <div class="rounded-4 p-4" style="background:#f8fafc; border:1px solid #e2e8f0;">
+            <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+                <div>
+                    <span class="level-tag tag-detektif me-2">Dedektif</span>
+                    <span class="fw-bold" style="color:#1e293b;">Teknik Becerilerinizi Test Edin</span>
+                </div>
+                <a href="{{ url_for('cases') }}" class="btn btn-sm rounded-pill px-3" style="font-size:0.75rem; background:rgba(14,165,233,0.15); color:#0369a1; border:1px solid rgba(14,165,233,0.4);">
+                    Tümünü Gör <i class="fas fa-arrow-right ms-1"></i>
+                </a>
+            </div>
+            <div class="row g-3">
+                {% for case in orta_vakalar %}
+                <div class="col-md-4">
+                    <a href="{{ url_for('case_detail', case_id=case.id) }}" class="case-link-card">
+                        <img src="{{ url_for('static', filename='uploads/' + case.id + '/' + case.image) }}"
+                             alt="{{ case.title }}" onerror="this.src='{{ url_for('static', filename='default.jpg') }}'">
+                        <div class="case-info">
+                            <p class="case-title">{{ case.title }}</p>
+                            <small style="color:#FFD700; font-size:0.68rem; font-weight:700;">ORTA &bull; {{ "%.2f"|format(case.price) }} TL</small>
+                        </div>
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- ===== MÜFETTİŞ SEVİYESİ ===== -->
+<section class="brief-section" id="mufettis" style="background:#ffffff; border-bottom:1px solid #e2e8f0;">
+    <div class="container">
+        <div class="row align-items-center mb-5">
+            <div class="col">
+                <div class="level-header">
+                    <span class="level-tag tag-mufettis">Müfettiş</span>
+                </div>
+                <h2 class="fw-bold mb-2" style="font-size:1.75rem; color:#1e293b;">Psikoloji & Vaka Kapanışı</h2>
+                <p style="max-width:600px; font-size:0.9rem; color:#64748b;">
+                    Son aşama insan faktörüne odaklanır. Davranışsal profilleme, alibi kırma ve sorgu stratejisi —
+                    parçalanmış kanıtları birbirine bağlayan ve davayı kapatan ileri düzey beceriler.
+                </p>
+            </div>
+        </div>
+
+        <div class="row g-4 mb-5">
+            <div class="col-md-6 col-lg-4">
+                <div class="brief-card mufettis">
+                    <div class="brief-card-icon icon-mufettis"><i class="fas fa-user-secret"></i></div>
+                    <span class="level-tag tag-mufettis" style="font-size:0.6rem; margin-bottom:10px; display:inline-block;">Müfettiş</span>
+                    <h5>Davranışsal Profilleme: "Neden"in İzinde</h5>
+                    <p>Her suç sahnesi bir psikolojik portreye dönüşür. "İmza" ile "MO" arasındaki farkı öğrenin. Suçlunun kim olduğunu değil, kim olabileceğini görmeyi başarın.</p>
+                    <div class="read-time"><i class="fas fa-clock me-1"></i>4.9 dakikalık okuma &bull; 970 kelime</div>
+                    <a href="#" class="btn-ozet orange">Özeti Okuyun</a>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="brief-card mufettis">
+                    <div class="brief-card-icon icon-mufettis"><i class="fas fa-calendar-check"></i></div>
+                    <span class="level-tag tag-mufettis" style="font-size:0.6rem; margin-bottom:10px; display:inline-block;">Müfettiş</span>
+                    <h5>Alibi Denetimi: 24 Saatlik Zaman Sınavı</h5>
+                    <p>Mükemmel bir alibi çoğunlukla üretilmiş bir alibiye işaret eder. "Kayıp saati" bulmayı ve bir şüphelinin zamansal yalanlarını nasıl çözeceğinizi öğrenin.</p>
+                    <div class="read-time"><i class="fas fa-clock me-1"></i>4.7 dakikalık okuma &bull; 930 kelime</div>
+                    <a href="{{ url_for('akademi_makale', slug='alibi-denetimi') }}" class="btn-ozet orange">Özeti Okuyun</a>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="brief-card mufettis">
+                    <div class="brief-card-icon icon-mufettis"><i class="fas fa-eye"></i></div>
+                    <span class="level-tag tag-mufettis" style="font-size:0.6rem; margin-bottom:10px; display:inline-block;">Müfettiş</span>
+                    <h5>Mağdurbilim: Bu Kişi Neden? Neden Şimdi?</h5>
+                    <p>Katili anlamanın anahtarı kurbanın hayatındadır. Yaşam tarzı risk faktörlerini, motifleri ve fırsatları analiz etmeyi öğrenin. Kurban size cinayetçiyi gösterir.</p>
+                    <div class="read-time"><i class="fas fa-clock me-1"></i>4.4 dakikalık okuma &bull; 882 kelime</div>
+                    <a href="{{ url_for('akademi_makale', slug='magdurbilim') }}" class="btn-ozet orange">Özeti Okuyun</a>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="brief-card mufettis">
+                    <div class="brief-card-icon icon-mufettis"><i class="fas fa-chess"></i></div>
+                    <span class="level-tag tag-mufettis" style="font-size:0.6rem; margin-bottom:10px; display:inline-block;">Müfettiş</span>
+                    <h5>Sorgu Stratejisi: Son Duvarı Yıkmak</h5>
+                    <p>Sorgu bir bağırma yarışması değil, satranç maçıdır. Topladığınız kanıtları kullanarak şüphelileri mantıksal paradokslara nasıl sürükleyeceğinizi öğrenin.</p>
+                    <div class="read-time"><i class="fas fa-clock me-1"></i>4.5 dakikalık okuma &bull; 894 kelime</div>
+                    <a href="{{ url_for('akademi_makale', slug='sorgu-stratejisi') }}" class="btn-ozet orange">Özeti Okuyun</a>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="brief-card mufettis">
+                    <div class="brief-card-icon icon-mufettis"><i class="fas fa-stethoscope"></i></div>
+                    <span class="level-tag tag-mufettis" style="font-size:0.6rem; margin-bottom:10px; display:inline-block;">Müfettiş</span>
+                    <h5>Otopsi Raporu Okuma: Son Tanığın Sesi</h5>
+                    <p>Otopsi raporu nihai gerçeğin kaynağıdır. Travma örüntülerini, toksikoloji bulgularını ve ölüm saatini soruşturmaya nasıl dönüştüreceğinizi öğrenin.</p>
+                    <div class="read-time"><i class="fas fa-clock me-1"></i>4.7 dakikalık okuma &bull; 937 kelime</div>
+                    <a href="{{ url_for('akademi_makale', slug='otopsi-raporu') }}" class="btn-ozet orange">Özeti Okuyun</a>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="brief-card mufettis">
+                    <div class="brief-card-icon icon-mufettis"><i class="fas fa-gavel"></i></div>
+                    <span class="level-tag tag-mufettis" style="font-size:0.6rem; margin-bottom:10px; display:inline-block;">Müfettiş</span>
+                    <h5>Dava Dosyasını Kapatmak: Kanıt Matrisi</h5>
+                    <p>Gerçeği bilmek kolaydır. Mahkemede kanıtlamak ise asıl beceridir. Çürütülmez bir kanıt matrisi nasıl hazırlanır? Dosyayı sonsuza kadar kapatın.</p>
+                    <div class="read-time"><i class="fas fa-clock me-1"></i>4.1 dakikalık okuma &bull; 821 kelime</div>
+                    <a href="{{ url_for('akademi_makale', slug='dava-kapatma') }}" class="btn-ozet orange">Özeti Okuyun</a>
+                </div>
+            </div>
+        </div>
+
+        {% if zor_vakalar %}
+        <div class="rounded-4 p-4" style="background:#f8fafc; border:1px solid #e2e8f0;">
+            <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+                <div>
+                    <span class="level-tag tag-mufettis me-2">Müfettiş</span>
+                    <span class="fw-bold" style="color:#1e293b;">Ustalığınızı Kanıtlayın</span>
+                </div>
+                <a href="{{ url_for('cases') }}" class="btn btn-sm rounded-pill px-3" style="background:rgba(249,115,22,0.15); color:#c2410c; border:1px solid rgba(249,115,22,0.35); font-size:0.75rem;">
+                    Tümünü Gör <i class="fas fa-arrow-right ms-1"></i>
+                </a>
+            </div>
+            <div class="row g-3">
+                {% for case in zor_vakalar %}
+                <div class="col-md-4">
+                    <a href="{{ url_for('case_detail', case_id=case.id) }}" class="case-link-card">
+                        <img src="{{ url_for('static', filename='uploads/' + case.id + '/' + case.image) }}"
+                             alt="{{ case.title }}" onerror="this.src='{{ url_for('static', filename='default.jpg') }}'">
+                        <div class="case-info">
+                            <p class="case-title">{{ case.title }}</p>
+                            <small style="color:#f97316; font-size:0.68rem; font-weight:700;">ZOR &bull; {{ "%.2f"|format(case.price) }} TL</small>
+                        </div>
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- ===== CHALLENGE QUIZ ===== -->
+<section id="challenge" style="background:#060b1c; padding:80px 0;">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-7">
+                <div class="challenge-box">
+                    <span class="akademi-badge mb-3 d-inline-block" style="color:#FFD700; border-color:rgba(255,215,0,0.3);">
+                        <i class="fas fa-brain me-1"></i>DEDEKTİF TESTİ
+                    </span>
+                    <h2 class="fw-bold text-white mb-2" style="font-size:1.6rem;">Gerçek Bir Dedektif misiniz?</h2>
+                    <p class="text-secondary mb-4" style="font-size:0.88rem;">Aşağıdaki soruyu okuyun ve doğru cevabı bulun. Çoğunun gözden kaçırdığı ipucunu siz görebilecek misiniz?</p>
+
+                    <!-- Progress bar -->
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <span id="questionCounter" class="text-warning fw-bold" style="font-size:0.8rem; letter-spacing:1px;">SORU 1 / 5</span>
+                        <div class="d-flex gap-1">
+                            <span class="quiz-dot" id="dot-0" style="width:10px;height:10px;border-radius:50%;background:#FFD700;display:inline-block;transition:background 0.3s;"></span>
+                            <span class="quiz-dot" id="dot-1" style="width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,0.15);display:inline-block;transition:background 0.3s;"></span>
+                            <span class="quiz-dot" id="dot-2" style="width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,0.15);display:inline-block;transition:background 0.3s;"></span>
+                            <span class="quiz-dot" id="dot-3" style="width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,0.15);display:inline-block;transition:background 0.3s;"></span>
+                            <span class="quiz-dot" id="dot-4" style="width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,0.15);display:inline-block;transition:background 0.3s;"></span>
+                        </div>
+                    </div>
+
+                    <div id="quizBox">
+                        <div class="rounded-3 p-4 mb-4 text-start" style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08);">
+                            <p class="text-white-50 small mb-2"><i class="fas fa-file-alt me-1 text-warning"></i><span id="scenarioLabel">SENARYO</span></p>
+                            <p class="text-white" id="questionText" style="font-size:0.88rem; line-height:1.7; margin:0;"></p>
+                        </div>
+
+                        <div id="optionsBox"></div>
+                        <div id="quizResult" class="mt-3" style="display:none;"></div>
+
+                        <button id="nextBtn" onclick="nextQuestion()" class="btn btn-warning fw-bold px-4 py-2 rounded-pill mt-3" style="display:none; font-size:0.85rem;">
+                            Sonraki Soru <i class="fas fa-arrow-right ms-2"></i>
+                        </button>
+                    </div>
+
+                    <div id="quizFinish" style="display:none;" class="text-center py-3">
+                        <div id="finishContent"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== CTA ===== -->
+<section style="background: linear-gradient(135deg, #0d1635 0%, #04081a 100%); padding: 72px 0;">
+    <div class="container text-center">
+        <i class="fas fa-search fa-2x text-warning mb-3"></i>
+        <h2 class="fw-black text-white mb-3" style="font-size:clamp(1.5rem,3vw,2.2rem);">
+            Öğrendiklerinizi Gerçek Bir Davada Deneyin
+        </h2>
+        <p class="text-secondary mb-4" style="max-width:480px; margin:0 auto; font-size:0.9rem;">
+            Akademide öğrendiğiniz teknikleri aktif dava dosyalarımızda test edin.
+            Her seviyeye uygun vakalarımız sizi bekliyor.
+        </p>
+        <div class="d-flex flex-wrap justify-content-center gap-3">
+            <a href="{{ url_for('cases') }}" class="btn btn-warning fw-bold px-5 py-3 rounded-pill">
+                <i class="fas fa-folder-open me-2"></i>Dava Dosyalarına Git
+            </a>
+            <a href="{{ url_for('how_to_play') }}" class="btn btn-outline-light fw-bold px-5 py-3 rounded-pill">
+                <i class="fas fa-question-circle me-2"></i>Nasıl Oynanır?
+            </a>
+        </div>
+    </div>
+</section>
+
+<script>
+const quizData = [
+    {
+        label: 'SENARYO',
+        question: 'Bir adam otel odasında ölü bulunuyor. Pencere açık, yerde kırık bir bardak var, çevrede su izi mevcut. Otopsi raporu ölüm saatini gece 02.00 olarak veriyor. Resepsiyonist, adamın saat 01.45\'te gece yarısı servisi sipariş ettiğini söylüyor. <strong style="color:#FFD700;">Ne dikkatinizi çekiyor?</strong>',
+        options: [
+            { text: 'A) Pencere açıktı, biri dışarıdan girmiş olabilir.', correct: false },
+            { text: 'B) Kırık bardak bir mücadeleye işaret ediyor.', correct: false },
+            { text: 'C) Ölüm saati ile sipariş saati çelişiyor — 01.45\'te sipariş veren kişi 02.00\'de ölü olamaz.', correct: true },
+            { text: 'D) Su izi, adam düşerken bardağı kırmış olabilir.', correct: false },
+        ],
+        explanation: 'Zaman tutarsızlıkları en güçlü ipuçlarından biridir. Çoğu amatör fiziksel kanıtlara odaklanırken gerçek dedektifler rakamların çeliştiği noktaları yakalar.'
+    },
+    {
+        label: 'İFADE ANALİZİ',
+        question: 'Bir cinayet soruşturmasında üç tanık farklı ifade veriyor: Birincisi katili kırmızı ceketli gördüğünü, ikincisi mavi, üçüncüsü ise gri diyor. Hepsi olayı aynı anda gördüklerini söylüyor. <strong style="color:#FFD700;">Dedektif olarak ne düşünürsünüz?</strong>',
+        options: [
+            { text: 'A) Üç tanıktan en az biri kesinlikle yalan söylüyor.', correct: false },
+            { text: 'B) İnsan belleği yanıltıcıdır; farklı ışık, açı ve stres algıyı bozar.', correct: true },
+            { text: 'C) Suçlu sahte delil bırakmak için üç farklı ceket giymiştir.', correct: false },
+            { text: 'D) En çok tanığın söylediği renk doğrudur — mavi.', correct: false },
+        ],
+        explanation: 'Görgü tanığı ifadeleri en az güvenilir kanıt türlerinden biridir. Stres altında insan belleği renk, şekil ve süre algısını sıkça çarpıtır. Bu "tanık yanılması" olarak bilinir.'
+    },
+    {
+        label: 'FİZİKSEL DELİL',
+        question: 'Bir evde hırsızlık yaşanmış. Cama dayalı bir merdiven var. Camda içten dışa doğru kırılma izleri mevcut. Kilit zorlanmadan açılmış. <strong style="color:#FFD700;">Bu kanıtlar hakkında ne söylenebilir?</strong>',
+        options: [
+            { text: 'A) Hırsız merdivenle camdan girmiştir.', correct: false },
+            { text: 'B) Kırılma içten dışa doğru — birisi sahte hırsızlık izlenimi yaratmış olabilir.', correct: true },
+            { text: 'C) Kilit profesyonelce açılmış, bu organize bir iştir.', correct: false },
+            { text: 'D) Merdiven rastgele unutulmuş olabilir.', correct: false },
+        ],
+        explanation: 'Cam kırılma yönü kritik bir göstergedir. İçten dışa kırılma, olayın içeriden sahnelendiğine işaret eder. Fiziksel delili yüzeysel yorumlamak yerine mekanizmasını analiz etmek gerekir.'
+    },
+    {
+        label: 'DİJİTAL İZ',
+        question: 'Bir şüpheli, cinayetin gerçekleştiği gece saat 23.00\'de evde olduğunu söylüyor. Telefon kayıtları o saatte şehir merkezinde bir baz istasyonuna bağlandığını gösteriyor. Şüpheli "telefonumu evde bıraktım" diyor. <strong style="color:#FFD700;">Bu ifade hakkında ne düşünürsünüz?</strong>',
+        options: [
+            { text: 'A) Telefonu gerçekten evde bırakmış olabilir, bu alibi\'yi doğrular.', correct: false },
+            { text: 'B) Telefon evde bırakılmışsa baz istasyonu verisi evi göstermeliydi — ifade çöküyor.', correct: true },
+            { text: 'C) Baz istasyonu verileri her zaman güvenilir değildir.', correct: false },
+            { text: 'D) Şüpheliyi eve gidip telefonu almış biri olabilir.', correct: false },
+        ],
+        explanation: 'Dijital kanıtlar tutarlı bir hikaye gerektirir. Şüpheli telefonu evde bıraktığını iddia ediyorsa baz istasyonu verisinin de evi göstermesi gerekirdi. Bu çelişki alibinin sahte olduğuna güçlü bir kanıttır.'
+    },
+    {
+        label: 'PSİKOLOJİK PROFİLLEME',
+        question: 'Bir soygunun ardından ekip şüphelileri sorguluyor. Dördüncü şüpheli sorgu odasına girince masaya oturmadan önce sandalyeyi duvara doğru çekiyor, kapıyı gözlemleyebilecek şekilde konumlanıyor. <strong style="color:#FFD700;">Bu davranış ne anlama gelebilir?</strong>',
+        options: [
+            { text: 'A) Şüpheli sadece rahat bir pozisyon arıyor.', correct: false },
+            { text: 'B) Bu rastlantısal bir harekettir, aşırı yorum yapılıyor.', correct: false },
+            { text: 'C) Kapıyı ve ortamı kontrol altında tutmak isteyen biri, genellikle yüksek stres ya da suçluluk hissediyor olabilir.', correct: true },
+            { text: 'D) Şüpheli kaçmayı planlıyor.', correct: false },
+        ],
+        explanation: 'Davranışsal ipuçları tek başına suç kanıtı değildir; ancak bağlamla birleştiğinde değerli veriler sunar. Kapıyı gözetleme pozisyonu, kontrol ihtiyacı ve hipervigilans (aşırı uyanıklık) baskı altındaki bireylerde sıkça görülür.'
+    }
+];
+
+let currentQ = 0;
+let score = 0;
+let answered = false;
+
+function renderQuestion(index) {
+    const q = quizData[index];
+    answered = false;
+    document.getElementById('questionCounter').textContent = `SORU ${index + 1} / ${quizData.length}`;
+    document.getElementById('scenarioLabel').textContent = q.label;
+    document.getElementById('questionText').innerHTML = q.question;
+    document.getElementById('quizResult').style.display = 'none';
+    document.getElementById('nextBtn').style.display = 'none';
+
+    const box = document.getElementById('optionsBox');
+    box.innerHTML = '';
+    q.options.forEach((opt, i) => {
+        const btn = document.createElement('button');
+        btn.className = 'quiz-option';
+        btn.innerHTML = opt.text;
+        btn.onclick = () => checkAnswer(btn, opt.correct, index);
+        box.appendChild(btn);
+    });
+
+    document.querySelectorAll('.quiz-dot').forEach((dot, i) => {
+        if (i < index) {
+            dot.style.background = '#22c55e';
+        } else if (i === index) {
+            dot.style.background = '#FFD700';
+        } else {
+            dot.style.background = 'rgba(255,255,255,0.15)';
+        }
+    });
+}
+
+function checkAnswer(btn, isCorrect, qIndex) {
+    if (answered) return;
+    answered = true;
+
+    const allBtns = document.querySelectorAll('.quiz-option');
+    allBtns.forEach(b => {
+        b.disabled = true;
+        b.style.cursor = 'default';
+    });
+
+    const q = quizData[qIndex];
+    if (isCorrect) {
+        btn.classList.add('correct');
+        score++;
+    } else {
+        btn.classList.add('wrong');
+        allBtns.forEach((b, i) => {
+            if (q.options[i] && q.options[i].correct) b.classList.add('correct');
+        });
+    }
+
+    const result = document.getElementById('quizResult');
+    result.style.display = 'block';
+
+    if (isCorrect) {
+        result.innerHTML = `<div class="rounded-3 p-3 text-start" style="background:rgba(34,197,94,0.1); border:1px solid rgba(34,197,94,0.3);">
+            <p class="text-success fw-bold mb-1"><i class="fas fa-check-circle me-2"></i>Doğru! Keskin bir gözlem.</p>
+            <p class="text-white-50 small mb-0">${q.explanation}</p>
+        </div>`;
+    } else {
+        result.innerHTML = `<div class="rounded-3 p-3 text-start" style="background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.3);">
+            <p class="text-danger fw-bold mb-1"><i class="fas fa-times-circle me-2"></i>Yanlış cevap.</p>
+            <p class="text-white-50 small mb-0">${q.explanation}</p>
+        </div>`;
+    }
+
+    const isLast = qIndex === quizData.length - 1;
+    const nextBtn = document.getElementById('nextBtn');
+    nextBtn.style.display = 'inline-block';
+    nextBtn.innerHTML = isLast
+        ? '<i class="fas fa-flag-checkered me-2"></i>Sonuçları Gör'
+        : 'Sonraki Soru <i class="fas fa-arrow-right ms-2"></i>';
+}
+
+function nextQuestion() {
+    currentQ++;
+    if (currentQ < quizData.length) {
+        renderQuestion(currentQ);
+    } else {
+        showFinish();
+    }
+}
+
+function showFinish() {
+    document.getElementById('quizBox').style.display = 'none';
+    document.getElementById('questionCounter').style.display = 'none';
+
+    document.querySelectorAll('.quiz-dot').forEach(dot => dot.style.background = '#22c55e');
+
+    const pct = Math.round((score / quizData.length) * 100);
+    let badge, msg, color;
+    if (score === 5) {
+        badge = '🏆 Müfettiş Seviyesi'; color = '#FFD700';
+        msg = 'Mükemmel! Tüm soruları doğru yanıtladınız. Gözlem gücünüz, analitik düşünceniz ve sezgilerinizle gerçek bir soruşturmacı gibi davrandınız.';
+    } else if (score >= 3) {
+        badge = '🔍 Dedektif Adayı'; color = '#0ea5e9';
+        msg = 'Çok iyi bir performans! Soruların büyük çoğunluğunu doğru çözdünüz. Birkaç ipucunu kaçırdınız ama bu beceriler gelişiyor.';
+    } else {
+        badge = '🌱 Çaylak'; color = '#94a3b8';
+        msg = 'Henüz başlangıç aşamasındasınız. Akademi brifinglerini okuyup bu testi tekrar deneyin — her seferinde daha keskin bir bakış açısı kazanacaksınız.';
+    }
+
+    document.getElementById('quizFinish').style.display = 'block';
+    document.getElementById('finishContent').innerHTML = `
+        <div class="rounded-4 p-4" style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1);">
+            <div style="font-size:2.5rem; font-weight:900; color:${color}; line-height:1;">${score}/${quizData.length}</div>
+            <div class="fw-bold mt-1 mb-3" style="color:${color}; font-size:0.9rem; letter-spacing:1px;">${badge}</div>
+            <p class="text-white-50 small mb-4">${msg}</p>
+            <div class="d-flex justify-content-center gap-2 flex-wrap">
+                <button onclick="restartQuiz()" class="btn btn-outline-light btn-sm rounded-pill px-4">
+                    <i class="fas fa-redo me-2"></i>Tekrar Dene
+                </button>
+                <a href="{{ url_for('cases') }}" class="btn btn-warning btn-sm fw-bold rounded-pill px-4">
+                    <i class="fas fa-folder-open me-2"></i>Dava Dosyalarına Git
+                </a>
+            </div>
+        </div>`;
+}
+
+function restartQuiz() {
+    currentQ = 0;
+    score = 0;
+    document.getElementById('quizBox').style.display = 'block';
+    document.getElementById('questionCounter').style.display = 'inline';
+    document.getElementById('quizFinish').style.display = 'none';
+    renderQuestion(0);
+}
+
+document.addEventListener('DOMContentLoaded', () => renderQuestion(0));
+</script>
+
+{% endblock %}

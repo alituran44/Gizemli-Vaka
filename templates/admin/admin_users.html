@@ -1,0 +1,92 @@
+{% extends "admin/base.html" %}
+
+{% block admin_content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold text-dark mb-0">Dedektif Yönetimi</h2>
+    <div class="badge bg-dark text-warning px-3 py-2 rounded-pill shadow-sm">
+        Toplam: {{ users|length }} Kayıt
+    </div>
+</div>
+
+<div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead style="background-color: #0C1430; color: #FFD700;">
+                <tr>
+                    <th class="ps-4 py-3">Dedektif</th>
+                    <th>E-posta</th>
+                    <th>Skor</th>
+                    <th class="text-end pe-4">İşlemler</th>
+                </tr>
+            </thead>
+            <tbody class="bg-white">
+                {% for user in users %}
+                <tr>
+                    <td class="ps-4">
+                        <div class="d-flex align-items-center">
+                            <div class="rounded-circle bg-warning text-dark d-flex align-items-center justify-content-center me-3 fw-bold" style="width: 40px; height: 40px;">
+                                {{ user.username[0]|upper }}
+                            </div>
+                            <div>
+                                <div class="fw-bold text-dark">{{ user.username }}</div>
+                                <small class="text-muted">ID: #{{ user.id }}</small>
+                            </div>
+                        </div>
+                    </td>
+                    <td>{{ user.email }}</td>
+                    <td><span class="badge bg-light text-dark border px-3">{{ user.score }} Puan</span></td>
+                    <td class="text-end pe-4">
+                        <a href="{{ url_for('admin_user_games', user_id=user.id) }}" class="btn btn-sm btn-outline-success rounded-pill me-2 px-3 shadow-sm">
+                            <i class="fas fa-gamepad"></i> Oyunları
+                        </a>
+                        <button class="btn btn-sm btn-outline-primary rounded-pill me-2 px-3 shadow-sm" data-bs-toggle="modal" data-bs-target="#editUser{{ user.id }}">
+                            <i class="fas fa-user-edit"></i> Düzenle
+                        </button>
+                        {% if user.username != 'admin' %}
+                        <a href="{{ url_for('admin_delete_user', id=user.id) }}" class="btn btn-sm btn-outline-danger rounded-pill px-3 shadow-sm" onclick="return confirm('Bu dedektifi silmek istediğinize emin misiniz?')">
+                            <i class="fas fa-trash-alt"></i> Sil
+                        </a>
+                        {% endif %}
+                    </td>
+                </tr>
+
+                <div class="modal fade" id="editUser{{ user.id }}" tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content border-0 shadow-lg rounded-4">
+                            <div class="modal-header border-0" style="background-color: #0C1430;">
+                                <h5 class="modal-title text-warning fw-bold">Dedektif Güncelle</h5>
+                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                            </div>
+                            <form action="{{ url_for('admin_edit_user', id=user.id) }}" method="POST">
+                                <div class="modal-body p-4 text-start">
+                                    <div class="mb-3">
+                                        <label class="form-label small fw-bold text-uppercase text-muted">Kullanıcı Adı</label>
+                                        <input type="text" name="username" class="form-control rounded-3 border-2" value="{{ user.username }}" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label small fw-bold text-uppercase text-muted">E-posta Adresi</label>
+                                        <input type="email" name="email" class="form-control rounded-3 border-2" value="{{ user.email }}" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label small fw-bold text-uppercase text-muted">Skor</label>
+                                        <input type="number" name="score" class="form-control rounded-3 border-2" value="{{ user.score }}">
+                                    </div>
+                                    <div class="mb-0">
+                                        <label class="form-label small fw-bold text-uppercase text-muted">Yeni Şifre (opsiyonel)</label>
+                                        <input type="password" name="new_password" class="form-control rounded-3 border-2" placeholder="Boş bırakılırsa değişmez" minlength="4">
+                                        <small class="text-muted">En az 4 karakter</small>
+                                    </div>
+                                </div>
+                                <div class="modal-footer border-0 p-4 pt-0">
+                                    <button type="submit" class="btn btn-warning w-100 rounded-pill py-2 fw-bold text-dark">Güncelle</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

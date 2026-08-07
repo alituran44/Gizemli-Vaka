@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="py-5" style="background-color: #050a14; min-height: 100vh;">
+    <div class="container py-5 text-start">
+        <h2 class="text-white fw-bold mb-5">Admin Kontrol Paneli</h2>
+
+        <div class="card bg-dark text-white mb-5 border-secondary">
+            <div class="card-body p-4">
+                <h5 class="fw-bold text-warning mb-4">Son Dakika Haber Şeridi</h5>
+                <form action="{{ url_for('admin') }}" method="POST">
+                    <input type="hidden" name="action" value="update_news">
+                    <textarea name="breaking_news_text" class="form-control bg-dark text-white border-secondary mb-3" rows="2">{{ settings.breaking_news }}</textarea>
+                    <button type="submit" class="btn btn-warning fw-bold">Şeridi Güncelle</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="card bg-dark text-white border-secondary">
+            <div class="card-body p-4">
+                <h5 class="fw-bold text-warning mb-4">Vaka Videolarını Yönet</h5>
+                <div class="table-responsive">
+                    <table class="table table-dark table-hover align-middle">
+                        <thead>
+                            <tr><th>Vaka İsmi</th><th>Mevcut Video</th><th>Yeni Video Yolu</th><th>İşlem</th></tr>
+                        </thead>
+                        <tbody>
+                            {% for case in cases %}
+                            <tr>
+                                <td>{{ case.title }}</td>
+                                <td class="small text-white-50">{{ case.video_url }}</td>
+                                <form action="{{ url_for('admin') }}" method="POST">
+                                    <input type="hidden" name="action" value="update_video">
+                                    <input type="hidden" name="case_id" value="{{ case.id }}">
+                                    <td><input type="text" name="case_video" class="form-control form-control-sm bg-dark text-white border-secondary" placeholder="Örn: static/video.mp4"></td>
+                                    <td><button type="submit" class="btn btn-sm btn-outline-warning">Güncelle</button></td>
+                                </form>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

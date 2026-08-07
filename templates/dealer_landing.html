@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+    .dealer-landing { background: linear-gradient(135deg, #0a1929 0%, #1a2942 100%); min-height: 100vh; padding: 40px 0; }
+    .dealer-hero { text-align: center; color: #fff; margin-bottom: 40px; }
+    .dealer-hero .cafe-name { color: #ffc107; font-weight: 800; font-size: 2rem; }
+    .dealer-hero .table-tag { display: inline-block; background: rgba(255,193,7,0.15); color: #ffc107; padding: 6px 18px; border-radius: 20px; font-weight: 600; margin-top: 10px; }
+    .case-grid-card { background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 8px 24px rgba(0,0,0,0.25); transition: transform 0.3s; height: 100%; display: flex; flex-direction: column; }
+    .case-grid-card:hover { transform: translateY(-6px); }
+    .case-grid-card img { width: 100%; height: 200px; object-fit: cover; }
+    .case-grid-card .body { padding: 20px; flex: 1; display: flex; flex-direction: column; }
+    .case-grid-card .title { color: #0a1929; font-weight: 700; font-size: 1.1rem; margin-bottom: 8px; }
+    .case-grid-card .desc { color: #64748b; font-size: 0.85rem; flex: 1; }
+    .case-grid-card .price { color: #b8860b; font-weight: 800; font-size: 1.3rem; margin: 12px 0; }
+    .btn-play { background: linear-gradient(135deg, #ffc107 0%, #e0a800 100%); color: #000; font-weight: 700; border: none; padding: 12px; border-radius: 8px; width: 100%; }
+    .btn-play:hover { background: linear-gradient(135deg, #e0a800 0%, #c79100 100%); color: #000; }
+</style>
+
+<div class="dealer-landing">
+    <div class="container">
+        <div class="dealer-hero">
+            <div style="font-size:1rem;color:#94a3b8;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;">
+                <i class="fas fa-store me-2"></i>Gizemli Vaka
+            </div>
+            <div class="cafe-name">{{ dealer.cafe_name }}</div>
+            {% if template.qr_type == 'table' and template.table_number %}
+            <div class="table-tag"><i class="fas fa-chair me-2"></i>Masa {{ template.table_number }}</div>
+            {% endif %}
+            <p style="color:#cbd5e1;margin-top:20px;font-size:1.05rem;">
+                Bir dedektiflik macerası seçin, ipuçlarını inceleyin ve davayı çözün!
+            </p>
+        </div>
+
+        {% if cases %}
+        <div class="row g-4">
+            {% for case in cases %}
+            <div class="col-md-6 col-lg-4">
+                <div class="case-grid-card">
+                    {% if case.image %}
+                    <img src="{{ url_for('static', filename='uploads/' ~ case.id ~ '/' ~ case.image) }}" alt="{{ case.title }}">
+                    {% else %}
+                    <div style="height:200px;background:linear-gradient(135deg,#1a2942,#0a1929);display:flex;align-items:center;justify-content:center;">
+                        <i class="fas fa-magnifying-glass" style="font-size:3rem;color:#ffc107;"></i>
+                    </div>
+                    {% endif %}
+                    <div class="body">
+                        <div class="title">{{ case.title }}</div>
+                        <div class="desc">{{ (case.description or '')[:120] }}{% if (case.description or '')|length > 120 %}...{% endif %}</div>
+                        <div class="price">{{ "%.2f"|format(case.price) }} ₺</div>
+                        {% if case.game_type == 'team' %}
+                        <a href="{{ url_for('team_purchase') }}?case_id={{ case.id }}" class="btn btn-play">
+                            <i class="fas fa-users me-2"></i>Oyna
+                        </a>
+                        {% else %}
+                        <a href="{{ url_for('case_detail', case_id=case.id) }}" class="btn btn-play">
+                            <i class="fas fa-play me-2"></i>Oyna
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="text-center" style="color:#cbd5e1;padding:60px 0;">
+            <i class="fas fa-folder-open" style="font-size:3rem;color:#ffc107;margin-bottom:15px;"></i>
+            <p>Şu anda gösterilecek aktif vaka bulunmuyor.</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,181 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="py-5 bg-light min-vh-100">
+  <div class="container mt-5">
+
+    <div class="mb-4">
+      <h2 class="fw-bold mb-1" style="color:#0C1430;"><i class="fas fa-envelope-open-text text-warning me-2"></i> Mail Şablonları</h2>
+      <p class="text-muted small mb-0">Sistem ve otomatik e-postalarını seçip sağda önizleyin.</p>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% for cat, msg in messages %}
+      <div class="alert alert-{{ 'success' if cat == 'success' else 'warning' if cat == 'warning' else 'danger' }} alert-dismissible fade show">
+        {{ msg }} <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      </div>
+      {% endfor %}
+    {% endwith %}
+
+    <div class="card border-0 shadow-sm" style="min-height:600px;">
+      <div class="row g-0 h-100">
+        <!-- Sol: Şablon Listesi -->
+        <div class="col-md-4 border-end" style="background:#fafbfc;">
+          <div class="p-3 border-bottom bg-white">
+            <div class="small fw-bold text-muted text-uppercase" style="font-size:0.7rem;letter-spacing:1px;">
+              <i class="fas fa-layer-group me-1"></i> Sistem Şablonları
+            </div>
+          </div>
+          <div class="list-group list-group-flush">
+            {% for tpl in template_types %}
+            <a href="?type={{ tpl.key }}"
+               class="list-group-item list-group-item-action border-0 py-3 px-4 {% if selected == tpl.key %}active-tpl{% endif %}">
+              <div class="fw-bold small text-dark">{{ tpl.name }}</div>
+              <div class="text-muted" style="font-size:0.75rem;">{{ tpl.desc }}</div>
+            </a>
+            {% endfor %}
+          </div>
+          <div class="p-3 border-top border-bottom bg-white mt-2">
+            <div class="small fw-bold text-muted text-uppercase" style="font-size:0.7rem;letter-spacing:1px;">
+              <i class="fas fa-link me-1"></i> Hızlı Erişim
+            </div>
+          </div>
+          <div class="p-3">
+            <a href="{{ url_for('admin_settings', section='email') }}" class="btn btn-sm btn-outline-secondary w-100 mb-2 rounded-pill">
+              <i class="fas fa-cog me-1"></i> SMTP Ayarları
+            </a>
+            <a href="{{ url_for('admin_subscribers') }}" class="btn btn-sm btn-outline-secondary w-100 rounded-pill">
+              <i class="fas fa-paper-plane me-1"></i> Toplu E-posta Gönder
+            </a>
+          </div>
+        </div>
+
+        <!-- Sağ: Önizleme -->
+        <div class="col-md-8 d-flex flex-column">
+          <div class="p-3 border-bottom bg-white d-flex align-items-center justify-content-between">
+            <div>
+              <strong class="text-dark">Önizleme</strong>
+              <span class="badge bg-warning text-dark ms-2" style="font-size:0.7rem;">
+                {% for tpl in template_types %}{% if tpl.key == selected %}{{ tpl.name }}{% endif %}{% endfor %}
+              </span>
+            </div>
+            <div class="d-flex gap-2">
+              <button class="btn btn-sm btn-outline-secondary rounded-pill px-3" onclick="setView('desktop')" id="btnDesktop">
+                <i class="fas fa-desktop me-1"></i> Masaüstü
+              </button>
+              <button class="btn btn-sm btn-outline-secondary rounded-pill px-3" onclick="setView('mobile')" id="btnMobile">
+                <i class="fas fa-mobile-alt me-1"></i> Mobil
+              </button>
+            </div>
+          </div>
+
+          <!-- iframe Önizleme -->
+          <div class="flex-grow-1 d-flex justify-content-center align-items-start p-3" style="background:#e8ecf0;overflow:auto;">
+            <div id="previewWrapper" style="transition:all 0.3s;width:100%;max-width:700px;">
+              <iframe id="previewFrame"
+                src="{{ url_for('admin_mail_template_preview', template_type=selected) }}"
+                style="width:100%;border:none;border-radius:8px;box-shadow:0 4px 20px rgba(0,0,0,0.15);min-height:600px;background:#fff;"
+                onload="autoResizeIframe(this)">
+              </iframe>
+            </div>
+          </div>
+
+          <!-- Test Gönderimi -->
+          <div class="p-3 border-top bg-white">
+            <div class="small fw-bold mb-2 text-secondary">
+              <i class="fas fa-paper-plane me-1"></i> Sistem Şablonu Test Gönderimi
+            </div>
+            <div class="input-group">
+              <input type="email" id="testEmailInput" class="form-control" placeholder="test@example.com">
+              <button class="btn btn-warning fw-bold px-4" onclick="sendTestTemplate()">
+                <i class="fas fa-paper-plane me-1"></i> Test Gönder
+              </button>
+            </div>
+            <div id="testResult" class="mt-2"></div>
+            <div class="mt-2">
+              <a href="?type={{ selected }}" class="small text-muted text-decoration-none">
+                <i class="fas fa-sync-alt me-1"></i> Önizlemeyi yenile
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-3 text-muted small">
+      <a href="{{ url_for('admin_cases') }}" class="text-decoration-none"><i class="fas fa-arrow-left me-1"></i> Admin Paneli</a>
+    </div>
+  </div>
+</div>
+
+<script>
+const selectedTemplate = '{{ selected }}';
+
+function setView(mode) {
+  const wrapper = document.getElementById('previewWrapper');
+  const frame = document.getElementById('previewFrame');
+  const btnD = document.getElementById('btnDesktop');
+  const btnM = document.getElementById('btnMobile');
+  if (mode === 'mobile') {
+    wrapper.style.maxWidth = '390px';
+    frame.style.minHeight = '700px';
+    btnM.classList.add('btn-secondary');
+    btnM.classList.remove('btn-outline-secondary');
+    btnD.classList.remove('btn-secondary');
+    btnD.classList.add('btn-outline-secondary');
+  } else {
+    wrapper.style.maxWidth = '700px';
+    frame.style.minHeight = '600px';
+    btnD.classList.add('btn-secondary');
+    btnD.classList.remove('btn-outline-secondary');
+    btnM.classList.remove('btn-secondary');
+    btnM.classList.add('btn-outline-secondary');
+  }
+}
+
+function autoResizeIframe(iframe) {
+  try {
+    const h = iframe.contentWindow.document.body.scrollHeight;
+    if (h > 100) iframe.style.minHeight = h + 'px';
+  } catch(e) {}
+}
+
+function sendTestTemplate() {
+  const email = document.getElementById('testEmailInput').value.trim();
+  if (!email) { alert('E-posta adresi giriniz.'); return; }
+
+  const resultDiv = document.getElementById('testResult');
+  resultDiv.innerHTML = '<span class="text-muted small"><i class="fas fa-spinner fa-spin me-1"></i> Gönderiliyor...</span>';
+
+  const fd = new FormData();
+  fd.append('test_email', email);
+  fd.append('template_type', selectedTemplate);
+
+  fetch('/admin/send-test-template', {method: 'POST', body: fd})
+    .then(r => r.json())
+    .then(data => {
+      if (data.success) {
+        resultDiv.innerHTML = `<div class="alert alert-success py-2 small mb-0"><i class="fas fa-check-circle me-1"></i> ${data.message || 'Test e-postası gönderildi!'}</div>`;
+      } else {
+        resultDiv.innerHTML = `<div class="alert alert-danger py-2 small mb-0"><i class="fas fa-exclamation-circle me-1"></i> ${data.message}</div>`;
+      }
+    })
+    .catch(() => {
+      resultDiv.innerHTML = '<div class="alert alert-danger py-2 small mb-0">Bağlantı hatası oluştu.</div>';
+    });
+}
+
+// İlk yüklemede masaüstü aktif
+setView('desktop');
+</script>
+
+<style>
+.active-tpl {
+  background-color: #0C1430 !important;
+  color: #FFD700 !important;
+  border-left: 4px solid #FFD700 !important;
+}
+.active-tpl .fw-bold, .active-tpl .text-muted { color: #FFD700 !important; }
+.list-group-item:hover:not(.active-tpl) { background-color: #f0f1f3; }
+.form-control:focus { border-color: #FFD700; box-shadow: 0 0 0 0.2rem rgba(255,215,0,.2); }
+</style>
+{% endblock %}

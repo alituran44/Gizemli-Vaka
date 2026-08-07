@@ -1,0 +1,406 @@
+{% extends "admin/base.html" %}
+{% block admin_content %}
+<h2 class="fw-bold mb-4 text-dark"><i class="fas fa-folder-plus text-primary me-2"></i>Yeni Vaka Ekle</h2>
+
+<form action="{{ url_for('admin_add_case') }}" method="POST" enctype="multipart/form-data">
+
+    <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
+        <h5 class="fw-bold text-navy mb-3"><i class="fas fa-info-circle me-2"></i>1. Temel Tanımlamalar</h5>
+        <div class="row g-3">
+            <div class="col-md-4">
+                <label class="small fw-bold">Vaka ID (slug)</label>
+                <input type="text" name="id" class="form-control bg-light" placeholder="orn: stonewood-cinayeti" required>
+            </div>
+            <div class="col-md-8">
+                <label class="small fw-bold">Vaka Başlığı</label>
+                <input type="text" name="title" class="form-control bg-light" required>
+            </div>
+            <div class="col-12">
+                <label class="small fw-bold">Kısa Tanım / Görev Emri</label>
+                <textarea name="description" class="form-control bg-light" rows="3"></textarea>
+            </div>
+            <div class="col-md-6">
+                <label class="small fw-bold">Vaka Kapak Resmi (Ana Sayfa)</label>
+                <input type="file" name="image" class="form-control" accept="image/*" required>
+            </div>
+            <div class="col-md-6">
+                <label class="small fw-bold">YouTube Video Linki</label>
+                <input type="text" name="video" class="form-control bg-light" placeholder="https://www.youtube.com/watch?v=...">
+                <div class="mt-3">
+                    <label class="small fw-bold">veya Video Dosyası Yükle</label>
+                    <input type="file" name="video_file" class="form-control" accept="video/*">
+                    <small class="text-muted">MP4, WebM formatları desteklenir</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card border-0 shadow-sm rounded-4 p-4 mb-4" style="border-left: 5px solid #17a2b8 !important;">
+        <h5 class="fw-bold text-info mb-3"><i class="fas fa-file-signature me-2"></i>Rapor Mektubu Ayarları</h5>
+        <p class="text-muted small mb-4">Bu bölüm, oyun içi soruşturma sayfasında gösterilen resmi mektup içeriğini belirler.</p>
+        <div class="row g-3">
+            <div class="col-md-6">
+                <label class="small fw-bold">Polis Departmanı Adı</label>
+                <input type="text" name="police_department" class="form-control" value="Stonewood Polis Departmanı" placeholder="Örn: Stonewood Polis Departmanı">
+            </div>
+            <div class="col-md-6">
+                <label class="small fw-bold">Başkomiser / İmza Adı</label>
+                <input type="text" name="commissioner_name" class="form-control" value="Başkomiser Morris" placeholder="Örn: Başkomiser Morris">
+            </div>
+            <div class="col-md-12">
+                <label class="small fw-bold">Rapor Mektubu İçeriği <span class="text-muted">- HTML destekler</span></label>
+                <textarea name="report_letter" class="form-control" rows="8" placeholder="&lt;p&gt;&lt;strong&gt;Dedektif,&lt;/strong&gt;&lt;/p&gt;&#10;&lt;p&gt;Tozlu raflar arasında kalmış bazı sırlar asla huzur bulmaz...&lt;/p&gt;"></textarea>
+                <small class="text-muted">Boş bırakırsanız varsayılan metin kullanılır.</small>
+            </div>
+            <div class="col-md-6">
+                <label class="small fw-bold">Uyarı Metni</label>
+                <textarea name="warning_text" class="form-control" rows="2" placeholder="Lütfen sonucu diğer oyunculara söylemeyin.">Lütfen sonucu diğer oyunculara söylemeyin.</textarea>
+            </div>
+            <div class="col-md-6">
+                <label class="small fw-bold">Talimatlar Metni</label>
+                <textarea name="instructions_text" class="form-control" rows="2" placeholder="Tüm kanıtları dikkatle inceleyin ve raporunuzu gönderin.">Tüm kanıtları dikkatle inceleyin ve raporunuzu gönderin.</textarea>
+            </div>
+        </div>
+    </div>
+
+    <div class="card border-0 shadow-sm rounded-4 p-4 mb-4" style="border-left: 5px solid #FFD700 !important;">
+        <h5 class="fw-bold text-dark mb-3"><i class="fas fa-tags me-2"></i>2. Satış ve İndirim Ayarları</h5>
+        <div class="row g-3">
+            <div class="col-md-3">
+                <label class="small fw-bold">Normal Fiyat (TL)</label>
+                <input type="number" step="0.01" name="old_price" class="form-control" placeholder="0.00">
+            </div>
+            <div class="col-md-3">
+                <label class="small fw-bold">İndirimli Satış Fiyatı (TL)</label>
+                <input type="number" step="0.01" name="price" class="form-control" required>
+            </div>
+            <div class="col-md-3">
+                <label class="small fw-bold">Görünecek İndirim Oranı (%)</label>
+                <input type="number" name="discount_rate" class="form-control" placeholder="Örn: 25">
+            </div>
+            <div class="col-md-3">
+                <label class="small fw-bold">Zorluk</label>
+                <select name="difficulty" class="form-select">
+                    <option value="Kolay">Kolay</option>
+                    <option value="Orta" selected>Orta</option>
+                    <option value="Zor">Zor</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row g-3 mt-3">
+            <div class="col-md-6">
+                <label class="small fw-bold"><i class="fas fa-gamepad me-1 text-warning"></i> Oyun Türü</label>
+                <div class="mt-2">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="game_type" id="game_type_individual" value="individual">
+                        <label class="form-check-label" for="game_type_individual">
+                            <i class="fas fa-user me-1"></i> Bireysel
+                        </label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="game_type" id="game_type_team" value="team">
+                        <label class="form-check-label" for="game_type_team">
+                            <i class="fas fa-users me-1"></i> Takım
+                        </label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="game_type" id="game_type_both" value="both" checked>
+                        <label class="form-check-label" for="game_type_both">
+                            <i class="fas fa-user-friends me-1"></i> Her İkisi
+                        </label>
+                    </div>
+                </div>
+                <small class="text-muted">Bu vaka hangi oyun modlarında gösterilsin?</small>
+            </div>
+        </div>
+    </div>
+
+    <div class="card border-0 shadow-sm rounded-4 p-4 mb-4" style="border-left: 5px solid #22c55e !important;">
+        <h5 class="fw-bold mb-3" style="color: #22c55e;"><i class="fas fa-play-circle me-2"></i>Demo Modu Ayarları</h5>
+        <p class="text-muted small mb-4">Demo modu, kullanıcıların satın almadan önce vakayı deneyimlemesine olanak tanır. Sadece Raporlar ve Kanıtlar bölümüne 6 tıklama hakkı verilir.</p>
+        <div class="row g-3">
+            <div class="col-md-12">
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" name="demo_enabled" id="demo_enabled">
+                    <label class="form-check-label fw-bold" for="demo_enabled">Demo Modunu Aktif Et</label>
+                </div>
+                <small class="text-muted">Aktif olduğunda vaka detay sayfasında "Ücretsiz Demo Oynayın" butonu görünür.</small>
+            </div>
+            <div class="col-md-12">
+                <label class="small fw-bold">Demo Limit Aşıldığında Gösterilecek Özet</label>
+                <textarea name="demo_summary" class="form-control" rows="4" placeholder="Bu vaka hakkında kısa bir özet yazın..."></textarea>
+                <small class="text-muted">6 tıklama sonrası açılan modalda gösterilir.</small>
+            </div>
+        </div>
+    </div>
+
+    <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
+        <h5 class="fw-bold text-danger mb-4"><i class="fas fa-folder-open me-2"></i>3. Soruşturma Dosyaları (Çoklu PDF, MP3, MP4)</h5>
+
+        <p class="small text-muted mb-3"><i class="fas fa-info-circle me-1"></i> Tüm kategorilere PDF, resim (JPG, PNG), video (MP4) ve ses (MP3) dosyaları yükleyebilirsiniz.</p>
+        <div class="accordion" id="investigationAccordion">
+            <div class="accordion-item border-0 mb-2 shadow-sm rounded-3 overflow-hidden">
+                <h2 class="accordion-header"><button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1">1. OLAY RAPORLARI</button></h2>
+                <div id="collapse1" class="accordion-collapse collapse" data-bs-parent="#investigationAccordion">
+                    <div class="accordion-body bg-light">
+                        <div id="cat1_container">
+                            <div class="input-group mb-2">
+                                <input type="file" name="cat1" class="form-control" accept=".pdf,.jpg,.jpeg,.png,.gif,.mp4,.mp3,.html,.htm">
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-sm btn-outline-success" onclick="addFileInput('cat1_container', 'cat1', '.pdf,.jpg,.jpeg,.png,.gif,.mp4,.mp3,.html,.htm')">
+                            <i class="fas fa-plus me-1"></i> Yeni Dosya Ekle
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item border-0 mb-2 shadow-sm rounded-3 overflow-hidden">
+                <h2 class="accordion-header"><button class="accordion-button collapsed fw-bold text-danger" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2">2. MAĞDUR DETAYLARI (ALT KATEGORİLER)</button></h2>
+                <div id="collapse2" class="accordion-collapse collapse" data-bs-parent="#investigationAccordion">
+                    <div class="accordion-body bg-light">
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label class="small fw-bold">Profil Raporları</label>
+                                <div id="cat2_profil_container">
+                                    <div class="input-group mb-2"><input type="file" name="cat2_profil" class="form-control" accept=".pdf,.jpg,.jpeg,.png,.gif,.mp4,.mp3,.html,.htm"></div>
+                                </div>
+                                <button type="button" class="btn btn-sm btn-outline-success" onclick="addFileInput('cat2_profil_container', 'cat2_profil', '.pdf,.jpg,.jpeg,.png,.gif,.mp4,.mp3,.html,.htm')"><i class="fas fa-plus"></i></button>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="small fw-bold">Olay Yeri Raporları</label>
+                                <div id="cat2_olayeri_container">
+                                    <div class="input-group mb-2"><input type="file" name="cat2_olayeri" class="form-control" accept=".pdf,.jpg,.jpeg,.png,.gif,.mp4,.mp3,.html,.htm"></div>
+                                </div>
+                                <button type="button" class="btn btn-sm btn-outline-success" onclick="addFileInput('cat2_olayeri_container', 'cat2_olayeri', '.pdf,.jpg,.jpeg,.png,.gif,.mp4,.mp3,.html,.htm')"><i class="fas fa-plus"></i></button>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="small fw-bold">Otopsi Raporları</label>
+                                <div id="cat2_otopsi_container">
+                                    <div class="input-group mb-2"><input type="file" name="cat2_otopsi" class="form-control" accept=".pdf,.jpg,.jpeg,.png,.gif,.mp4,.mp3,.html,.htm"></div>
+                                </div>
+                                <button type="button" class="btn btn-sm btn-outline-success" onclick="addFileInput('cat2_otopsi_container', 'cat2_otopsi', '.pdf,.jpg,.jpeg,.png,.gif,.mp4,.mp3,.html,.htm')"><i class="fas fa-plus"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item border-0 mb-2 shadow-sm rounded-3 overflow-hidden">
+                <h2 class="accordion-header"><button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapse3">3. ŞÜPHELİ PROFİLLERİ</button></h2>
+                <div id="collapse3" class="accordion-collapse collapse" data-bs-parent="#investigationAccordion">
+                    <div class="accordion-body bg-light">
+                        <div id="cat3_container">
+                            <div class="input-group mb-2"><input type="file" name="cat3" class="form-control" accept=".pdf,.jpg,.jpeg,.png,.gif,.mp4,.mp3,.html,.htm"></div>
+                        </div>
+                        <button type="button" class="btn btn-sm btn-outline-success" onclick="addFileInput('cat3_container', 'cat3', '.pdf,.jpg,.jpeg,.png,.gif,.mp4,.mp3,.html,.htm')"><i class="fas fa-plus me-1"></i> Yeni Dosya Ekle</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item border-0 mb-2 shadow-sm rounded-3 overflow-hidden">
+                <h2 class="accordion-header"><button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapse4">4. RÖPORTAJ KAYITLARI</button></h2>
+                <div id="collapse4" class="accordion-collapse collapse" data-bs-parent="#investigationAccordion">
+                    <div class="accordion-body bg-light">
+                        <div id="cat4_container">
+                            <div class="input-group mb-2"><input type="file" name="cat4" class="form-control" accept=".pdf,.jpg,.jpeg,.png,.gif,.mp4,.mp3,.html,.htm"></div>
+                        </div>
+                        <button type="button" class="btn btn-sm btn-outline-success" onclick="addFileInput('cat4_container', 'cat4', '.pdf,.jpg,.jpeg,.png,.gif,.mp4,.mp3,.html,.htm')"><i class="fas fa-plus me-1"></i> Yeni Dosya Ekle</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item border-0 mb-2 shadow-sm rounded-3 overflow-hidden">
+                <h2 class="accordion-header"><button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapse5">5. TANIK BEYANLARI</button></h2>
+                <div id="collapse5" class="accordion-collapse collapse" data-bs-parent="#investigationAccordion">
+                    <div class="accordion-body bg-light">
+                        <div id="cat5_container">
+                            <div class="input-group mb-2"><input type="file" name="cat5" class="form-control" accept=".pdf,.jpg,.jpeg,.png,.gif,.mp4,.mp3,.html,.htm"></div>
+                        </div>
+                        <button type="button" class="btn btn-sm btn-outline-success" onclick="addFileInput('cat5_container', 'cat5', '.pdf,.jpg,.jpeg,.png,.gif,.mp4,.mp3,.html,.htm')"><i class="fas fa-plus me-1"></i> Yeni Dosya Ekle</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item border-0 mb-2 shadow-sm rounded-3 overflow-hidden" style="border-left: 5px solid #0d6efd !important;">
+                <h2 class="accordion-header"><button class="accordion-button collapsed fw-bold text-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapse6">6. KANIT ARŞİVİ</button></h2>
+                <div id="collapse6" class="accordion-collapse collapse" data-bs-parent="#investigationAccordion">
+                    <div class="accordion-body bg-light">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="small fw-bold">Konum Haritaları</label>
+                                <div id="cat6_konum_container"><div class="input-group mb-2"><input type="file" name="cat6_konum" class="form-control" accept=".pdf,.jpg,.jpeg,.png,.gif,.mp4,.mp3,.html,.htm"></div></div>
+                                <button type="button" class="btn btn-sm btn-outline-success" onclick="addFileInput('cat6_konum_container', 'cat6_konum', '.pdf,.jpg,.jpeg,.png,.gif,.mp4,.mp3,.html,.htm')"><i class="fas fa-plus"></i></button>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="small fw-bold">SMS / Email Kayıtları</label>
+                                <div id="cat6_mesaj_container"><div class="input-group mb-2"><input type="file" name="cat6_mesaj" class="form-control" accept=".pdf,.jpg,.jpeg,.png,.gif,.mp4,.mp3,.html,.htm"></div></div>
+                                <button type="button" class="btn btn-sm btn-outline-success" onclick="addFileInput('cat6_mesaj_container', 'cat6_mesaj', '.pdf,.jpg,.jpeg,.png,.gif,.mp4,.mp3,.html,.htm')"><i class="fas fa-plus"></i></button>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="small fw-bold text-primary">Ses Dosyaları</label>
+                                <div id="cat6_audio_container"><div class="input-group mb-2"><input type="file" name="cat6_audio" class="form-control border-primary" accept=".pdf,.jpg,.jpeg,.png,.gif,.mp4,.mp3,.html,.htm"></div></div>
+                                <button type="button" class="btn btn-sm btn-outline-primary" onclick="addFileInput('cat6_audio_container', 'cat6_audio', '.pdf,.jpg,.jpeg,.png,.gif,.mp4,.mp3,.html,.htm')"><i class="fas fa-plus"></i></button>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="small fw-bold text-primary">Kamera Görüntüleri</label>
+                                <div id="cat6_video_container"><div class="input-group mb-2"><input type="file" name="cat6_video" class="form-control border-primary" accept=".pdf,.jpg,.jpeg,.png,.gif,.mp4,.mp3,.html,.htm"></div></div>
+                                <button type="button" class="btn btn-sm btn-outline-primary" onclick="addFileInput('cat6_video_container', 'cat6_video', '.pdf,.jpg,.jpeg,.png,.gif,.mp4,.mp3,.html,.htm')"><i class="fas fa-plus"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item border-0 shadow-sm rounded-3 overflow-hidden" style="border-left: 5px solid #6f42c1 !important;">
+                <h2 class="accordion-header"><button class="accordion-button collapsed fw-bold text-purple" type="button" data-bs-toggle="collapse" data-bs-target="#collapse7" style="color: #6f42c1;">7. DİĞER BELGELER (TÜM MEDYA)</button></h2>
+                <div id="collapse7" class="accordion-collapse collapse" data-bs-parent="#investigationAccordion">
+                    <div class="accordion-body bg-light">
+                        <p class="small text-muted mb-3">PDF, resim (JPG, PNG), video (MP4), ses (MP3) ve HTML dosyaları yükleyebilirsiniz.</p>
+                        <div id="cat7_container">
+                            <div class="input-group mb-2"><input type="file" name="cat7" class="form-control" accept=".pdf,.jpg,.jpeg,.png,.gif,.mp4,.mp3,.html,.htm"></div>
+                        </div>
+                        <button type="button" class="btn btn-sm btn-outline-purple" style="border-color: #6f42c1; color: #6f42c1;" onclick="addFileInput('cat7_container', 'cat7', '.pdf,.jpg,.jpeg,.png,.gif,.mp4,.mp3,.html,.htm')"><i class="fas fa-plus me-1"></i> Yeni Dosya Ekle</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card border-0 shadow-sm rounded-4 p-4 mb-4" style="border-left: 5px solid #198754 !important;">
+        <h5 class="fw-bold text-success mb-4"><i class="fas fa-user-secret me-2"></i>4. Şüpheli Yönetimi ve Rapor Ayarları</h5>
+
+        <div class="row g-3 mb-4">
+            <div class="col-md-6">
+                <label class="small fw-bold">Rapor Başlığı (örn: Emily Williams Davası)</label>
+                <input type="text" name="report_case_name" class="form-control" placeholder="Emily Williams Cinayeti" required>
+            </div>
+            <div class="col-md-6">
+                <label class="small fw-bold">Şirket/Birim Adı (örn: Soğuk Vaka A.Ş.)</label>
+                <input type="text" name="report_company" class="form-control" value="Soğuk Vaka A.Ş.">
+            </div>
+        </div>
+
+        <h5 class="mt-4 mb-3 text-warning"><i class="fas fa-file-alt me-2"></i>Rapor Formu Ayarları</h5>
+        
+        <div class="row g-3 mb-3">
+            <div class="col-md-4">
+                <label class="small fw-bold">Hitap (TR)</label>
+                <input type="text" name="report_greeting" class="form-control" value="Şef," placeholder="Şef,">
+            </div>
+            <div class="col-md-4">
+                <label class="small fw-bold">İmza Adı (TR)</label>
+                <input type="text" name="report_signature_name" class="form-control" value="Dedektif Ali Turan" placeholder="Dedektif Ali Turan">
+            </div>
+            <div class="col-md-4">
+                <label class="small fw-bold">Şirket Adı (TR)</label>
+                <input type="text" name="report_company_tr" class="form-control" value="Soğuk Vaka A.Ş." placeholder="Soğuk Vaka A.Ş.">
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label class="small fw-bold">Giriş Metni <small class="text-muted">- "Cinayete kurban giden genç kız Emily Williams davasındaki..."</small></label>
+            <textarea name="report_intro_text" class="form-control" rows="3" placeholder="Cinayete kurban giden genç kız Emily Williams davasındaki delil dosyalarını incelemek için sayısız saat harcadım ve sanırım sonunda gizemi çözdüm."></textarea>
+        </div>
+
+        <div class="mb-3">
+            <label class="small fw-bold">Şüpheli Soru Metni <small class="text-muted">- "Delilleri incelerken aklıma şu geldi: Bayan Williams'ı öldüren şüpheli şu olmalı:"</small></label>
+            <textarea name="report_suspect_question" class="form-control" rows="2" placeholder="Delilleri incelerken aklıma şu geldi: Bayan Williams'ı öldüren şüpheli şu olmalı:"></textarea>
+        </div>
+
+        <div class="mb-4">
+            <label class="small fw-bold">Onay Metni <small class="text-muted">- "Bu raporu göndererek, yukarıdaki seçimin..."</small></label>
+            <textarea name="report_confirmation_text" class="form-control" rows="2" placeholder="Bu raporu göndererek, yukarıdaki seçimin mevcut kanıtlar ve kapsamlı incelemeye dayanarak verdiğim nihai karar olduğunu teyit ediyorum."></textarea>
+        </div>
+
+        <label class="small fw-bold mb-2">Şüpheliler (İsim girin ve SUÇLUYU yanındaki yuvarlaktan işaretleyin)</label>
+        <div id="suspect-list" class="mb-3">
+            <div class="input-group mb-2 suspect-item">
+                <span class="input-group-text bg-white">
+                    <input type="radio" name="culprit_index" value="0" checked title="Suçlu Olarak İşaretle">
+                </span>
+                <input type="text" name="suspect_names[]" class="form-control" placeholder="Şüpheli Adı Soyadı" required>
+                <button type="button" class="btn btn-outline-danger" onclick="this.parentElement.remove()"><i class="fas fa-times"></i></button>
+            </div>
+        </div>
+        <button type="button" class="btn btn-sm btn-success rounded-pill px-3 mb-3" onclick="addSuspectField()">
+            <i class="fas fa-plus me-1"></i> Yeni Şüpheli Ekle
+        </button>
+
+        <h5 class="mt-4 mb-3 text-danger"><i class="fas fa-key me-2"></i>Anahtar Kelime Ayarları</h5>
+        <p class="text-muted small mb-3">Kullanıcının doğru cevap vermesi için yazması gereken anahtar kelimeleri virgülle ayırarak girin.</p>
+        
+        <div class="mb-3">
+            <label class="small fw-bold">Suçlu Anahtar Kelimeleri <small class="text-muted">- Suçlunun adı veya takma adları</small></label>
+            <input type="text" name="culprit_keywords" class="form-control" placeholder="örn: melis, melis derin, derin">
+            <small class="text-muted">Kullanıcının suçlu kutusuna yazması gereken kelimeler (büyük/küçük harf duyarsız)</small>
+        </div>
+        
+        <div class="mb-4">
+            <label class="small fw-bold">Açıklama Anahtar Kelimeleri <small class="text-muted">- Suçun nasıl işlendiğine dair kelimeler</small></label>
+            <input type="text" name="explanation_keywords" class="form-control" placeholder="örn: zehir, kahve, intikam">
+            <small class="text-muted">Kullanıcının açıklama kutusunda kullanması gereken kelimeler</small>
+        </div>
+
+        <div class="mt-4">
+            <label class="small fw-bold mb-2 text-primary"><i class="fas fa-file-upload me-1"></i>Başarı Dosyası (PDF, Resim veya HTML)</label>
+            <div class="border rounded-3 p-3 bg-light">
+                <input type="file" name="success_file" class="form-control" accept=".pdf,.jpg,.jpeg,.png,.gif,.html,.htm">
+                <small class="text-muted mt-1 d-block">Desteklenen formatlar: PDF, JPG, PNG, GIF, HTML</small>
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <label class="small fw-bold mb-2 text-primary"><i class="fas fa-pen-fancy me-1"></i>Vaka Doğru Çözüldüğünde Gösterilecek Final Mesajı</label>
+            <textarea name="success_message" id="editor"></textarea>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-warning w-100 fw-bold mt-2 py-3 rounded-pill shadow-lg">
+        <i class="fas fa-cloud-upload-alt me-2"></i>VAKAYI VE TÜM AYARLARI SİSTEME KAYDET
+    </button>
+</form>
+
+<script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
+<script>
+    CKEDITOR.replace('editor', {
+        height: 250,
+        removeButtons: 'PasteFromWord'
+    });
+
+    let suspectCount = 1;
+    function addSuspectField() {
+        const container = document.getElementById('suspect-list');
+        const div = document.createElement('div');
+        div.className = 'input-group mb-2 suspect-item';
+        div.innerHTML = `
+            <span class="input-group-text bg-white">
+                <input type="radio" name="culprit_index" value="${suspectCount}" title="Suçlu Olarak İşaretle">
+            </span>
+            <input type="text" name="suspect_names[]" class="form-control" placeholder="Şüpheli Adı Soyadı" required>
+            <button type="button" class="btn btn-outline-danger" onclick="this.parentElement.remove()"><i class="fas fa-times"></i></button>
+        `;
+        container.appendChild(div);
+        suspectCount++;
+    }
+
+    function addFileInput(containerId, fieldName, acceptTypes) {
+        const container = document.getElementById(containerId);
+        const div = document.createElement('div');
+        div.className = 'input-group mb-2';
+        div.innerHTML = `
+            <input type="file" name="${fieldName}" class="form-control" accept="${acceptTypes}">
+            <button type="button" class="btn btn-outline-danger" onclick="this.parentElement.remove()"><i class="fas fa-times"></i></button>
+        `;
+        container.appendChild(div);
+    }
+</script>
+
+<style>
+    .accordion-button:not(.collapsed) { background-color: #e7f1ff; color: #0c63e4; }
+    .accordion-button:focus { box-shadow: none; border-color: rgba(0,0,0,.125); }
+    .form-control:focus { border-color: #FFD700; box-shadow: 0 0 0 0.25rem rgba(255, 215, 0, 0.25); }
+    .suspect-item .input-group-text input[type="radio"] { cursor: pointer; width: 18px; height: 18px; }
+</style>
+{% endblock %}

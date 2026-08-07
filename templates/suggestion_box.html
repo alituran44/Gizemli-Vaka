@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+    .suggestion-hero {
+        background: linear-gradient(rgba(12, 20, 48, 0.7), rgba(12, 20, 48, 0.9)), url('/static/images/detective-bg.jpg');
+        background-size: cover;
+        background-position: center;
+        padding: 80px 0;
+        text-align: center;
+    }
+    .suggestion-hero h1 {
+        font-size: 3rem;
+        font-weight: 700;
+        color: #FFD700;
+        margin-bottom: 0;
+    }
+    .suggestion-section {
+        background: #f8f9fa;
+        padding: 60px 0;
+    }
+    .suggestion-card {
+        background: #fff;
+        border-radius: 8px;
+        padding: 50px;
+        max-width: 700px;
+        margin: 0 auto;
+        box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+    }
+    .suggestion-card h2 {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #1a1a2e;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    .suggestion-card .description {
+        color: #666;
+        font-size: 14px;
+        text-align: center;
+        line-height: 1.8;
+        margin-bottom: 40px;
+        padding-bottom: 30px;
+        border-bottom: 1px solid #eee;
+    }
+    .form-label {
+        font-size: 14px;
+        color: #555;
+        margin-bottom: 8px;
+    }
+    .form-control {
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 12px 15px;
+        font-size: 15px;
+        transition: border-color 0.3s;
+    }
+    .form-control:focus {
+        border-color: #ffcc00;
+        box-shadow: 0 0 0 3px rgba(255, 204, 0, 0.1);
+    }
+    .btn-suggestion {
+        background: #ffcc00;
+        border: none;
+        color: #000;
+        font-weight: 600;
+        padding: 14px 40px;
+        border-radius: 30px;
+        font-size: 15px;
+        transition: background 0.3s;
+        display: block;
+        margin: 0 auto;
+    }
+    .btn-suggestion:hover {
+        background: #e6b800;
+        color: #000;
+    }
+    .alert-success {
+        background: #d4edda;
+        border: 1px solid #c3e6cb;
+        color: #155724;
+        border-radius: 4px;
+        padding: 12px 15px;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+</style>
+
+<div class="suggestion-hero">
+    <div class="container">
+        <h1>Öneri Kutusu</h1>
+    </div>
+</div>
+
+<div class="suggestion-section">
+    <div class="container">
+        <div class="suggestion-card">
+            <h2>Bir sonraki oyunumuz için harika bir fikriniz mi var? Paylaşın!</h2>
+            <p class="description">
+                Her zaman en heyecan verici ve sürükleyici cinayet gizemi oyunlarını yaratmaya çalışıyoruz ve SİZİN de bu sürecin bir parçası olmanızı istiyoruz! Bir sonraki oyunumuz için önerilerinizi, temalarınız veya fikirlerinizi öneri kutumuz aracılığıyla paylaşın. Geri bildirimleriniz, mükemmel gizemi yaratmamıza yardımcı olmak açısından paha biçilmezdir.
+            </p>
+            
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <div class="alert-success">{{ messages[0] }}</div>
+            {% endif %}
+            {% endwith %}
+            
+            <form method="POST">
+                <div class="row g-4 mb-4">
+                    <div class="col-md-6">
+                        <label class="form-label">İsim *</label>
+                        <input type="text" name="name" class="form-control" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">E-posta</label>
+                        <input type="email" name="email" class="form-control" required>
+                    </div>
+                </div>
+                
+                <div class="mb-4">
+                    <label class="form-label">Teklifi *</label>
+                    <textarea name="suggestion" class="form-control" rows="6" required></textarea>
+                </div>
+                
+                <button type="submit" class="btn btn-suggestion">
+                    Önerinizi gönderin
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

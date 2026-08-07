@@ -1,0 +1,502 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+    .partner-page { background: linear-gradient(135deg, #e8ecf1 0%, #f0f4f8 100%); min-height: 100vh; padding: 40px 0; }
+    .partner-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 30px; margin-bottom: 25px; box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
+    .partner-card h3 { color: #b8860b; font-size: 1.2rem; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #e2e8f0; }
+    .form-control, .form-select { background: #f8fafc; border: 1px solid #cbd5e1; color: #1e293b; border-radius: 8px; padding: 12px 15px; }
+    .form-control:focus, .form-select:focus { background: #fff; border-color: #b8860b; color: #1e293b; box-shadow: 0 0 0 0.2rem rgba(184,134,11,0.15); }
+    .form-control::placeholder { color: #94a3b8; }
+    .form-select option { background: #fff; color: #1e293b; }
+    .form-label { color: #4a5568; font-weight: 600; font-size: 0.85rem; margin-bottom: 8px; }
+    .btn-gold { background: linear-gradient(135deg, #ffc107 0%, #e0a800 100%); color: #000; font-weight: 700; border: none; padding: 12px 30px; border-radius: 8px; transition: all 0.3s; }
+    .btn-gold:hover { background: linear-gradient(135deg, #e0a800 0%, #c79100 100%); color: #000; transform: translateY(-2px); box-shadow: 0 5px 20px rgba(255,193,7,0.3); }
+    .stat-box { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+    .stat-box .value { font-size: 1.8rem; font-weight: 700; color: #b8860b; }
+    .stat-box .label { font-size: 0.8rem; color: #64748b; margin-top: 5px; }
+    .coupon-item { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 15px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+    .coupon-code { font-family: monospace; font-size: 1.1rem; color: #b8860b; background: rgba(184,134,11,0.1); padding: 5px 15px; border-radius: 5px; }
+    .badge-status { padding: 5px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; }
+    .badge-pending { background: rgba(234,179,8,0.15); color: #a16207; }
+    .badge-approved { background: rgba(34,197,94,0.15); color: #15803d; }
+    .badge-rejected { background: rgba(239,68,68,0.15); color: #dc2626; }
+    .sale-item { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 15px; margin-bottom: 10px; }
+    .sale-item .case-name { color: #b8860b; font-weight: 600; }
+    .sale-item .amount { color: #15803d; font-weight: 700; }
+    .pending-box { background: #fffbeb; border: 2px dashed #d4a017; border-radius: 16px; padding: 50px 30px; text-align: center; }
+    .pending-box i { font-size: 4rem; color: #b8860b; margin-bottom: 20px; }
+    .pending-box h4 { color: #92400e; margin-bottom: 15px; }
+    .pending-box p { color: #64748b; }
+    .back-link { color: #b8860b; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; margin-bottom: 25px; }
+    .back-link:hover { color: #92400e; }
+    @media (max-width: 768px) {
+        .partner-page { padding: 20px 0; }
+        .partner-card { padding: 20px; }
+        .stat-box .value { font-size: 1.4rem; }
+        .coupon-item { flex-direction: column; align-items: flex-start; }
+    }
+</style>
+
+<div class="partner-page">
+    <div class="container">
+        <a href="{{ url_for('account') }}" class="back-link">
+            <i class="fas fa-arrow-left"></i> Hesabıma Dön
+        </a>
+        
+        <div class="d-flex align-items-center mb-4">
+            <i class="fas fa-handshake me-3" style="font-size: 2rem; color: #b8860b;"></i>
+            <div>
+                <h1 class="fw-bold mb-0" style="font-size: 1.8rem; color: #b8860b;">Ortaklık Programı</h1>
+                <p class="mb-0" style="color: #64748b;">Kazanç sağlayın, büyümeye katkıda bulunun</p>
+            </div>
+        </div>
+
+        {% if not partner %}
+        <div class="partner-card">
+            <h3><i class="fas fa-file-alt me-2"></i>Ortaklık Başvurusu</h3>
+            <p class="mb-4" style="color: #64748b;">Ortaklık programımıza katılarak kupon kodlarınız üzerinden satış yapabilir ve komisyon kazanabilirsiniz.</p>
+            
+            <form method="POST" action="{{ url_for('partner_apply') }}">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Ad *</label>
+                        <input type="text" name="first_name" class="form-control" placeholder="Adınız" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Soyad *</label>
+                        <input type="text" name="last_name" class="form-control" placeholder="Soyadınız" required>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label">Kendinizi Tanıtın *</label>
+                    <textarea name="bio" class="form-control" rows="4" placeholder="Kendinizi kısaca tanıtın, neden ortak olmak istiyorsunuz?" required></textarea>
+                </div>
+
+                <h5 class="mb-3" style="font-size: 1rem; color: #b8860b;"><i class="fas fa-university me-2"></i>Ödeme Bilgileri</h5>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">IBAN *</label>
+                        <input type="text" name="iban" class="form-control" placeholder="TR00 0000 0000 0000 0000 0000 00" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Hesap Sahibi Adı *</label>
+                        <input type="text" name="iban_name" class="form-control" placeholder="Ad Soyad (IBAN üzerindeki isim)" required>
+                    </div>
+                </div>
+
+                <h5 class="mb-3" style="font-size: 1rem; color: #b8860b;"><i class="fas fa-share-alt me-2"></i>Sosyal Medya Hesaplarınız</h5>
+                
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label"><i class="fab fa-instagram me-1"></i> Instagram</label>
+                        <input type="text" name="instagram" class="form-control" placeholder="@kullaniciadi">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label"><i class="fab fa-youtube me-1"></i> YouTube</label>
+                        <input type="text" name="youtube" class="form-control" placeholder="Kanal linki">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label"><i class="fab fa-tiktok me-1"></i> TikTok</label>
+                        <input type="text" name="tiktok" class="form-control" placeholder="@kullaniciadi">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label"><i class="fab fa-twitter me-1"></i> Twitter/X</label>
+                        <input type="text" name="twitter" class="form-control" placeholder="@kullaniciadi">
+                    </div>
+                    <div class="col-12 mb-4">
+                        <label class="form-label"><i class="fas fa-globe me-1"></i> Web Sitesi</label>
+                        <input type="text" name="website" class="form-control" placeholder="https://...">
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn btn-gold">
+                    <i class="fas fa-paper-plane me-2"></i>Başvuruyu Gönder
+                </button>
+            </form>
+        </div>
+
+        {% elif partner.status == 'pending' %}
+        <div class="pending-box">
+            <i class="fas fa-hourglass-half"></i>
+            <h4>Başvurunuz İnceleniyor</h4>
+            <p>Ortaklık başvurunuz alındı ve ekibimiz tarafından inceleniyor.<br>Onaylandığında size bildirim yapılacaktır.</p>
+            <small style="color: #64748b;">Başvuru Tarihi: {{ partner.created_at.strftime('%d.%m.%Y %H:%M') }}</small>
+        </div>
+
+        {% elif partner.status == 'rejected' %}
+        <div class="pending-box" style="border-color: rgba(239,68,68,0.4);">
+            <i class="fas fa-times-circle" style="color: #ef4444;"></i>
+            <h4 style="color: #ef4444;">Başvurunuz Reddedildi</h4>
+            <p>Maalesef ortaklık başvurunuz onaylanmadı.<br>Daha fazla bilgi için bizimle iletişime geçebilirsiniz.</p>
+        </div>
+
+        {% elif partner.status == 'approved' %}
+        <div class="row mb-4">
+            <div class="col-md-4 mb-3">
+                <div class="stat-box">
+                    <div class="value">{{ "%.2f"|format(partner.total_earnings) }} ₺</div>
+                    <div class="label">Toplam Kazanç</div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="stat-box">
+                    <div class="value">{{ "%.2f"|format(partner.pending_earnings) }} ₺</div>
+                    <div class="label">Bekleyen Kazanç</div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="stat-box">
+                    <div class="value">{{ "%.2f"|format(partner.withdrawn_earnings) }} ₺</div>
+                    <div class="label">Çekilen Tutar</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="partner-card">
+                    <h3><i class="fas fa-university me-2"></i>IBAN Bilgileri</h3>
+                    <form method="POST" action="{{ url_for('partner_update_iban') }}">
+                        <div class="mb-3">
+                            <label class="form-label">Hesap Sahibi Adı</label>
+                            <input type="text" name="iban_name" class="form-control" value="{{ partner.iban_name or '' }}" placeholder="Ad Soyad" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">IBAN</label>
+                            <input type="text" name="iban" class="form-control" value="{{ partner.iban or '' }}" placeholder="TR00 0000 0000 0000 0000 0000 00" required>
+                        </div>
+                        <button type="submit" class="btn btn-gold btn-sm">
+                            <i class="fas fa-save me-1"></i>Kaydet
+                        </button>
+                    </form>
+                </div>
+
+                <div class="partner-card">
+                    <h3><i class="fas fa-share-alt me-2"></i>Sosyal Medya Hesaplarım</h3>
+                    <form method="POST" action="{{ url_for('partner_update_social') }}">
+                        <div class="row">
+                            <div class="col-6 mb-3">
+                                <label class="form-label"><i class="fab fa-instagram me-1"></i> Instagram</label>
+                                <input type="text" name="instagram" class="form-control" value="{{ partner.instagram or '' }}" placeholder="@kullaniciadi">
+                            </div>
+                            <div class="col-6 mb-3">
+                                <label class="form-label"><i class="fab fa-youtube me-1"></i> YouTube</label>
+                                <input type="text" name="youtube" class="form-control" value="{{ partner.youtube or '' }}" placeholder="Kanal linki">
+                            </div>
+                            <div class="col-6 mb-3">
+                                <label class="form-label"><i class="fab fa-tiktok me-1"></i> TikTok</label>
+                                <input type="text" name="tiktok" class="form-control" value="{{ partner.tiktok or '' }}" placeholder="@kullaniciadi">
+                            </div>
+                            <div class="col-6 mb-3">
+                                <label class="form-label"><i class="fab fa-twitter me-1"></i> Twitter/X</label>
+                                <input type="text" name="twitter" class="form-control" value="{{ partner.twitter or '' }}" placeholder="@kullaniciadi">
+                            </div>
+                            <div class="col-12 mb-3">
+                                <label class="form-label"><i class="fas fa-globe me-1"></i> Web Sitesi</label>
+                                <input type="text" name="website" class="form-control" value="{{ partner.website or '' }}" placeholder="https://...">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-gold btn-sm">
+                            <i class="fas fa-save me-1"></i>Kaydet
+                        </button>
+                    </form>
+                </div>
+
+                <div class="partner-card">
+                    <h3><i class="fas fa-money-bill-wave me-2"></i>Para Çekme</h3>
+                    {% if not partner.iban %}
+                    <div class="alert alert-warning" style="background: #fffbeb; border: 1px solid #d4a017; color: #92400e;">
+                        <i class="fas fa-exclamation-triangle me-2"></i>Para çekmek için önce IBAN bilgilerinizi girin.
+                    </div>
+                    {% elif partner.pending_earnings <= 0 %}
+                    <div class="alert alert-info" style="background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.3); color: #3b82f6;">
+                        <i class="fas fa-info-circle me-2"></i>Çekilecek bakiyeniz bulunmuyor.
+                    </div>
+                    {% else %}
+                    <form method="POST" action="{{ url_for('partner_withdraw') }}">
+                        <div class="mb-3">
+                            <label class="form-label">Çekilecek Tutar (Maks: {{ "%.2f"|format(partner.pending_earnings) }} ₺)</label>
+                            <input type="number" name="amount" class="form-control" step="0.01" min="1" max="{{ partner.pending_earnings }}" placeholder="Tutar girin" required>
+                        </div>
+                        <button type="submit" class="btn btn-gold btn-sm">
+                            <i class="fas fa-paper-plane me-1"></i>Talep Oluştur
+                        </button>
+                    </form>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="partner-card">
+                    <h3><i class="fas fa-ticket-alt me-2"></i>Yeni Kupon Oluştur</h3>
+                    <form method="POST" action="{{ url_for('partner_create_coupon') }}">
+                        <div class="mb-3">
+                            <label class="form-label">Geçerli Vaka *</label>
+                            <select name="case_id" id="coupon_case" class="form-select" required>
+                                <option value="">Vaka Seçin</option>
+                                {% for case in cases %}
+                                <option value="{{ case.id }}" 
+                                        data-price="{{ case.price }}"
+                                        data-game-type="{{ case.game_type }}">
+                                    {{ case.title }} ({{ "%.2f"|format(case.price) }} ₺)
+                                    {% if case.game_type == 'team' %} — Takım{% elif case.game_type == 'both' %} — Bireysel/Takım{% endif %}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div id="earnings_preview" class="mb-3" style="display: none; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 10px; padding: 15px;">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span style="color: #64748b;" id="price_label">Vaka Fiyatı:</span>
+                                <span id="case_price_display" style="color: #1e293b;">0 ₺</span>
+                            </div>
+                            <div id="team_note" class="mb-2" style="display:none; font-size:0.8rem; color:#b8860b;">
+                                <i class="fas fa-users me-1"></i>Takım oyunu — fiyat takım başınadır (baz × 1,5)
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span style="color: #64748b;">Komisyon Oranınız:</span>
+                                <span style="color: #b8860b;">%{{ partner.commission_rate }}</span>
+                            </div>
+                            <hr style="border-color: #e2e8f0; margin: 10px 0;">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="fw-bold" style="color: #b8860b;" id="earning_label">Satış Başına Kazancınız:</span>
+                                <span id="earning_display" class="text-success fw-bold" style="font-size: 1.2rem;">0 ₺</span>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-gold btn-sm">
+                            <i class="fas fa-plus me-1"></i>Kupon Oluştur
+                        </button>
+                    </form>
+                </div>
+
+                <div class="partner-card">
+                    <h3><i class="fas fa-tags me-2"></i>Kuponlarım</h3>
+                    {% if partner.discount_codes %}
+                        {% for dc in partner.discount_codes %}
+                        <div class="coupon-item" style="flex-direction: column; align-items: flex-start;">
+                            {% if dc.case and dc.case.image %}
+                            <div class="w-100 mb-3 position-relative" style="border-radius:10px;overflow:hidden;max-height:160px;">
+                                <img src="{{ url_for('static', filename='uploads/' ~ dc.case.id ~ '/' ~ dc.case.image) }}"
+                                     alt="{{ dc.case.title }}"
+                                     style="width:100%;height:160px;object-fit:cover;display:block;">
+                                <div style="position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(to top,rgba(0,0,0,0.65) 0%,transparent 55%);"></div>
+                                <div style="position:absolute;bottom:10px;left:12px;right:12px;display:flex;align-items:flex-end;justify-content:space-between;">
+                                    <span style="color:#fff;font-weight:700;font-size:0.9rem;text-shadow:0 1px 4px rgba(0,0,0,0.6);">{{ dc.case.title }}</span>
+                                    <a href="{{ url_for('static', filename='uploads/' ~ dc.case.id ~ '/' ~ dc.case.image) }}" download="{{ dc.case.title }}.jpg"
+                                       class="btn btn-sm text-white" style="background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.5);font-size:0.72rem;backdrop-filter:blur(4px);" title="Görseli İndir">
+                                        <i class="fas fa-download me-1"></i>Görseli İndir
+                                    </a>
+                                </div>
+                            </div>
+                            {% endif %}
+                            <div class="d-flex align-items-center justify-content-between w-100 mb-2">
+                                <div>
+                                    <span class="coupon-code">{{ dc.code }}</span>
+                                    <span class="badge badge-status {% if dc.is_active %}badge-approved{% else %}badge-rejected{% endif %} ms-2">
+                                        {{ 'Aktif' if dc.is_active else 'Pasif' }}
+                                    </span>
+                                </div>
+                                <div class="d-flex align-items-center gap-2">
+                                    <span style="color: #64748b; font-size: 0.85rem;">{{ dc.usage_count }} kullanım</span>
+                                    {% if dc.usage_count == 0 %}
+                                    <form method="POST" action="{{ url_for('partner_delete_coupon', coupon_id=dc.id) }}" style="display:inline;" onsubmit="return confirm('Bu kuponu silmek istediğinize emin misiniz?')">
+                                        <button type="submit" class="btn btn-sm" style="color: #dc2626; border: 1px solid #dc2626; padding: 2px 8px; font-size: 0.75rem;" title="Kuponu Sil">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </form>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="w-100">
+                                {% if dc.case and dc.case.game_type == 'team' %}
+                                {% set coupon_link = 'https://gizemlivaka.com/team-purchase?case_id=' ~ dc.case.id ~ '&ref=' ~ dc.code %}
+                                {% else %}
+                                {% set coupon_link = 'https://gizemlivaka.com/case/' ~ (dc.case.id if dc.case else '') ~ '?ref=' ~ dc.code %}
+                                {% endif %}
+
+                                <label style="color: #64748b; font-size: 0.75rem;">Paylaşım Linki:</label>
+                                <div class="d-flex gap-2 mt-1 mb-3">
+                                    <input type="text" class="form-control form-control-sm" readonly
+                                           value="{{ coupon_link }}"
+                                           id="link_{{ dc.id }}" style="font-size: 0.8rem;">
+                                    <button type="button" class="btn btn-sm" style="border:1px solid #b8860b;color:#b8860b;" onclick="copyLink('link_{{ dc.id }}')" title="Linki Kopyala">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                    <a href="/partner/coupon/{{ dc.code }}/qr" download="kupon_{{ dc.code }}.png" class="btn btn-sm" style="border:1px solid #b8860b;color:#b8860b;" title="QR Kodu İndir">
+                                        <i class="fas fa-qrcode"></i>
+                                    </a>
+                                </div>
+
+                                <label style="color: #64748b; font-size: 0.75rem;">
+                                    <i class="fas fa-edit me-1"></i>Sosyal Medya Metni <span style="font-weight:400;">(düzenleyebilirsiniz)</span>:
+                                </label>
+                                <textarea id="caption_{{ dc.id }}" class="form-control form-control-sm mb-2" rows="4" style="font-size:0.8rem;resize:vertical;">🕵️ {{ dc.case.title if dc.case else 'Gizemli Vaka' }} adlı çevrimiçi dedektiflik oyununu denediniz mi?
+
+Gerçek suç dosyası atmosferinde dijital ipuçlarını inceleyin, şüphelileri sorgulayın ve davayı çözün! 🔍
+
+🎟️ {{ dc.code }} kupon koduyla indirimli satın alabilirsiniz!
+
+👉 {{ coupon_link }}</textarea>
+                                <div class="d-flex gap-2 flex-wrap">
+                                    <button type="button" class="btn btn-sm fw-semibold" style="background:#f0fdf4;border:1px solid #b8860b;color:#b8860b;font-size:0.78rem;" onclick="copyCaption('caption_{{ dc.id }}')">
+                                        <i class="fas fa-copy me-1"></i>Metni Kopyala
+                                    </button>
+                                    <button type="button" class="btn btn-sm text-white fw-semibold" style="background:#25D366;font-size:0.78rem;" onclick="shareWhatsApp('caption_{{ dc.id }}')">
+                                        <i class="fab fa-whatsapp me-1"></i>WhatsApp
+                                    </button>
+                                    <button type="button" class="btn btn-sm text-white fw-semibold" style="background:#000;font-size:0.78rem;" onclick="shareTwitter('caption_{{ dc.id }}')">
+                                        <i class="fab fa-x-twitter me-1"></i>X/Twitter
+                                    </button>
+                                    <button type="button" class="btn btn-sm text-white fw-semibold" style="background:#229ED9;font-size:0.78rem;" onclick="shareTelegram('link_{{ dc.id }}','caption_{{ dc.id }}')">
+                                        <i class="fab fa-telegram me-1"></i>Telegram
+                                    </button>
+                                    <button type="button" class="btn btn-sm text-white fw-semibold" style="background:#1877F2;font-size:0.78rem;" onclick="shareFacebook('link_{{ dc.id }}')">
+                                        <i class="fab fa-facebook me-1"></i>Facebook
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="text-center py-3 mb-0" style="color: #64748b;">Henüz kupon oluşturmadınız.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="partner-card">
+            <h3><i class="fas fa-chart-line me-2"></i>Satış Geçmişi</h3>
+            {% if partner.sales %}
+                {% for sale in partner.sales|sort(attribute='created_at', reverse=True) %}
+                <div class="sale-item">
+                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                        <div>
+                            <span class="case-name">{{ sale.case.title if sale.case else 'Bilinmeyen Vaka' }}</span>
+                            <span class="ms-2" style="color: #64748b; font-size: 0.8rem;">{{ sale.created_at.strftime('%d.%m.%Y %H:%M') }}</span>
+                        </div>
+                        <div>
+                            <span style="color: #64748b;">Satış: {{ "%.2f"|format(sale.sale_amount) }} ₺</span>
+                            <span class="amount ms-3">+{{ "%.2f"|format(sale.commission_amount) }} ₺</span>
+                        </div>
+                    </div>
+                    <div class="mt-1" style="color: #64748b; font-size: 0.8rem;">
+                        Kupon: <span class="coupon-code" style="font-size: 0.8rem; padding: 2px 8px;">{{ sale.discount_code.code if sale.discount_code else '-' }}</span>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p class="text-center py-4 mb-0" style="color: #64748b;">Henüz satış kaydınız bulunmuyor.</p>
+            {% endif %}
+        </div>
+
+        {% if partner.withdrawals %}
+        <div class="partner-card">
+            <h3><i class="fas fa-history me-2"></i>Çekim Geçmişi</h3>
+            {% for w in partner.withdrawals|sort(attribute='created_at', reverse=True) %}
+            <div class="sale-item">
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                    <div>
+                        <span class="fw-bold" style="color: #b8860b;">{{ "%.2f"|format(w.amount) }} ₺</span>
+                        <span class="badge badge-status ms-2 {% if w.status == 'pending' %}badge-pending{% elif w.status == 'completed' %}badge-approved{% else %}badge-rejected{% endif %}">
+                            {% if w.status == 'pending' %}Bekliyor{% elif w.status == 'completed' %}Tamamlandı{% else %}Reddedildi{% endif %}
+                        </span>
+                    </div>
+                    <span style="color: #64748b; font-size: 0.8rem;">{{ w.created_at.strftime('%d.%m.%Y %H:%M') }}</span>
+                </div>
+                <div class="mt-1" style="color: #64748b; font-size: 0.8rem;">
+                    IBAN: {{ w.iban }} ({{ w.iban_name }})
+                    {% if w.receipt_file %}
+                    <a href="{{ url_for('static', filename=w.receipt_file) }}" target="_blank" style="color: #b8860b;" class="ms-3">
+                        <i class="fas fa-file-invoice me-1"></i>Dekont Görüntüle
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% endif %}
+    </div>
+</div>
+
+<script>
+const commissionRate = {{ partner.commission_rate if partner else 10 }};
+
+function updateEarningsPreview() {
+    const caseSelect = document.getElementById('coupon_case');
+    const previewDiv = document.getElementById('earnings_preview');
+    
+    if (!caseSelect || !previewDiv) return;
+    
+    const selectedOption = caseSelect.options[caseSelect.selectedIndex];
+    const basePrice = parseFloat(selectedOption.dataset.price || 0);
+    const gameType = selectedOption.dataset.gameType || 'individual';
+    
+    if (basePrice > 0) {
+        const isTeam = gameType === 'team';
+        const isBoth = gameType === 'both';
+        // Takım oyunlarında fiyat baz × 1,5 (1 takım için)
+        const salePrice = isTeam ? basePrice * 1.5 : basePrice;
+        const earning = salePrice * (commissionRate / 100);
+
+        document.getElementById('price_label').textContent = isTeam ? 'Takım Fiyatı (1 takım):' : 'Vaka Fiyatı:';
+        document.getElementById('earning_label').textContent = isTeam ? 'Takım Satışı Başına Kazancınız:' : 'Satış Başına Kazancınız:';
+        document.getElementById('case_price_display').textContent = salePrice.toFixed(2) + ' ₺';
+        document.getElementById('earning_display').textContent = '+' + earning.toFixed(2) + ' ₺';
+        document.getElementById('team_note').style.display = isTeam ? 'block' : 'none';
+        previewDiv.style.display = 'block';
+    } else {
+        previewDiv.style.display = 'none';
+    }
+}
+
+function copyLink(inputId) {
+    const input = document.getElementById(inputId);
+    navigator.clipboard.writeText(input.value).then(() => {
+        showCopyToast('Link kopyalandı!');
+    });
+}
+
+function copyCaption(captionId) {
+    const text = document.getElementById(captionId).value;
+    navigator.clipboard.writeText(text).then(() => {
+        showCopyToast('Metin kopyalandı!');
+    });
+}
+
+function shareWhatsApp(captionId) {
+    const text = document.getElementById(captionId).value;
+    window.open('https://wa.me/?text=' + encodeURIComponent(text), '_blank');
+}
+
+function shareTwitter(captionId) {
+    const text = document.getElementById(captionId).value;
+    window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(text), '_blank');
+}
+
+function shareTelegram(linkId, captionId) {
+    const link = document.getElementById(linkId).value;
+    const text = document.getElementById(captionId).value;
+    window.open('https://t.me/share/url?url=' + encodeURIComponent(link) + '&text=' + encodeURIComponent(text), '_blank');
+}
+
+function shareFacebook(linkId) {
+    const link = document.getElementById(linkId).value;
+    window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(link), '_blank');
+}
+
+function showCopyToast(msg) {
+    const toast = document.createElement('div');
+    toast.textContent = '✓ ' + msg;
+    toast.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#1e293b;color:#fff;padding:10px 22px;border-radius:8px;font-size:0.9rem;z-index:9999;box-shadow:0 4px 15px rgba(0,0,0,0.2);';
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 2200);
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const caseSelect = document.getElementById('coupon_case');
+    if (caseSelect) caseSelect.addEventListener('change', updateEarningsPreview);
+});
+</script>
+{% endblock %}

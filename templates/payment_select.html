@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="py-5 bg-dark min-vh-100">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+                    <div class="card-header bg-warning text-dark py-4">
+                        <h4 class="mb-0 fw-bold"><i class="fas fa-credit-card me-2"></i>Ödeme Yöntemi Seçin</h4>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="row mb-4">
+                            <div class="col-md-4 text-center mb-3">
+                                <img src="{{ url_for('static', filename='uploads/' + case.id + '/' + case.image) }}" class="rounded-3 shadow" style="max-height: 150px;" onerror="this.src='{{ url_for('static', filename='default.jpg') }}'" alt="{{ case.title }}">
+                            </div>
+                            <div class="col-md-8">
+                                <h5 class="fw-bold">{{ case.title }}</h5>
+                                <p class="text-muted small">{{ case.description[:150] if case.description else '' }}...</p>
+                                <h3 class="text-success fw-bold">{{ "%.2f"|format(case.price) }} TL</h3>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <h5 class="fw-bold mb-4"><i class="fas fa-wallet me-2"></i>Ödeme Seçenekleri</h5>
+
+                        <div class="row g-3">
+                            {% if iyzico_enabled %}
+                            <div class="col-md-6">
+                                <form action="{{ url_for('payment_iyzico', case_id=case.id) }}" method="POST">
+                                    <button type="submit" class="btn btn-lg btn-outline-danger w-100 py-4 rounded-3">
+                                        <i class="fas fa-credit-card fa-2x mb-2 d-block"></i>
+                                        <strong>iyzico</strong>
+                                        <small class="d-block text-muted">Hızlı Ödeme</small>
+                                    </button>
+                                </form>
+                            </div>
+                            {% endif %}
+
+                            {% if param_enabled %}
+                            <div class="col-md-6">
+                                <a href="{{ url_for('payment_param', case_id=case.id) }}" class="btn btn-lg w-100 py-4 rounded-3 text-decoration-none" style="border: 2px solid #e64a19; color: #e64a19;">
+                                    <i class="fas fa-credit-card fa-2x mb-2 d-block"></i>
+                                    <strong>Kredi/Banka Kartı</strong>
+                                    <small class="d-block text-muted">3D Güvenli Ödeme</small>
+                                </a>
+                            </div>
+                            {% endif %}
+
+                            {% if havale_enabled %}
+                            <div class="col-md-6">
+                                <a href="{{ url_for('payment_havale_case', case_id=case.id) }}" class="btn btn-lg w-100 py-4 rounded-3 text-decoration-none" style="border: 2px solid #388e3c; color: #388e3c;">
+                                    <i class="fas fa-university fa-2x mb-2 d-block"></i>
+                                    <strong>Banka Havalesi / EFT</strong>
+                                    <small class="d-block text-muted">Havale ile Öde</small>
+                                </a>
+                            </div>
+                            {% endif %}
+
+                            {% if paynkolay_enabled %}
+                            <div class="col-md-6">
+                                <a href="{{ url_for('payment_paynkolay', case_id=case.id) }}" class="btn btn-lg w-100 py-4 rounded-3 text-decoration-none" style="border: 2px solid #1a3fa0; color: #1a3fa0;">
+                                    <i class="fas fa-credit-card fa-2x mb-2 d-block"></i>
+                                    <strong>Nkolay</strong>
+                                    <small class="d-block text-muted">3D Güvenli Ödeme</small>
+                                </a>
+                            </div>
+                            {% endif %}
+
+                            {% if not iyzico_enabled and not param_enabled and not havale_enabled and not paynkolay_enabled %}
+                            <div class="col-12">
+                                <div class="alert alert-warning">
+                                    <i class="fas fa-exclamation-triangle me-2"></i>
+                                    Şu anda aktif ödeme yöntemi bulunmuyor. Lütfen destek ile iletişime geçin.
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mt-4 pt-3 border-top text-center">
+                            <a href="{{ url_for('case_detail', case_id=case.id) }}" class="btn btn-outline-secondary rounded-pill px-4">
+                                <i class="fas fa-arrow-left me-2"></i>Geri Dön
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center mt-4">
+                    <small class="text-muted">
+                        <i class="fas fa-lock me-1"></i>
+                        Ödeme bilgileriniz 256-bit SSL şifreleme ile korunmaktadır.
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

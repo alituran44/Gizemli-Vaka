@@ -1,0 +1,77 @@
+{% extends "admin/base.html" %}
+{% block admin_content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="fas fa-gamepad me-2"></i>Nasil Oynanir Adimlari</h2>
+    <a href="{{ url_for('admin_add_how_to_play') }}" class="btn btn-warning fw-bold">
+        <i class="fas fa-plus me-1"></i> Yeni Adim Ekle
+    </a>
+</div>
+
+{% with msgs = get_flashed_messages() %}
+{% if msgs %}<div class="alert alert-success">{{ msgs[0] }}</div>{% endif %}
+{% endwith %}
+
+<div class="table-responsive">
+    <table class="table table-bordered table-hover bg-white">
+        <thead class="table-dark">
+            <tr>
+                <th>Sira</th>
+                <th>Rozet</th>
+                <th>Baslik</th>
+                <th>Gorsel</th>
+                <th>Durum</th>
+                <th>Islem</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for step in steps %}
+            <tr>
+                <td class="fw-bold">{{ step.order_num }}</td>
+                <td>
+                    <span class="badge bg-primary">{{ step.badge }}</span>
+                    {% if step.badge_en %}
+                    <br><small class="text-muted">{{ step.badge_en }}</small>
+                    {% endif %}
+                </td>
+                <td>
+                    {{ step.title }}
+                    {% if step.title_en %}
+                    <br><small class="text-muted">{{ step.title_en }}</small>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if step.image %}
+                    <img src="{{ url_for('static', filename='uploads/' + step.image) }}" alt="Gorsel" style="max-width: 80px; max-height: 50px; object-fit: cover; border-radius: 4px;">
+                    {% else %}
+                    <span class="text-muted">-</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if step.is_active %}
+                    <span class="badge bg-success">Aktif</span>
+                    {% else %}
+                    <span class="badge bg-danger">Pasif</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{{ url_for('admin_edit_how_to_play', step_id=step.id) }}" class="btn btn-sm btn-primary" title="Duzenle">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                    <a href="{{ url_for('admin_toggle_how_to_play', step_id=step.id) }}" class="btn btn-sm {% if step.is_active %}btn-secondary{% else %}btn-success{% endif %}" title="{% if step.is_active %}Pasif Yap{% else %}Aktif Yap{% endif %}">
+                        <i class="fas fa-{% if step.is_active %}pause{% else %}play{% endif %}"></i>
+                    </a>
+                    <a href="{{ url_for('admin_delete_how_to_play', step_id=step.id) }}" class="btn btn-sm btn-danger" onclick="return confirm('Bu adimi silmek istediginize emin misiniz?')" title="Sil">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+            {% if not steps %}
+            <tr>
+                <td colspan="6" class="text-center text-muted py-4">Henuz adim eklenmemis</td>
+            </tr>
+            {% endif %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

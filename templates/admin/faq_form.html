@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="py-5 bg-light min-vh-100">
+    <div class="container mt-5">
+        <div class="card border-0 shadow-lg" style="border-radius: 12px;">
+            <div class="card-header bg-dark text-white py-3">
+                <h5 class="mb-0 fw-bold">
+                    <i class="fas fa-question-circle text-warning me-2"></i>
+                    {% if faq %}Soru Düzenle{% else %}Yeni Soru Ekle{% endif %}
+                </h5>
+            </div>
+            <div class="card-body p-4">
+                <form method="POST">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">Soru (Türkçe) <span class="text-danger">*</span></label>
+                            <input type="text" name="question" class="form-control" value="{{ faq.question if faq else '' }}" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">Soru (İngilizce)</label>
+                            <input type="text" name="question_en" class="form-control" value="{{ faq.question_en if faq else '' }}">
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">Cevap (Türkçe) <span class="text-danger">*</span></label>
+                            <textarea name="answer" class="form-control" rows="5" required>{{ faq.answer if faq else '' }}</textarea>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">Cevap (İngilizce)</label>
+                            <textarea name="answer_en" class="form-control" rows="5">{{ faq.answer_en if faq else '' }}</textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">Sıra</label>
+                            <input type="number" name="order" class="form-control" value="{{ faq.order if faq else 0 }}">
+                            <small class="text-muted">Küçük sayılar önce gösterilir</small>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">Durum</label>
+                            <select name="is_active" class="form-select">
+                                <option value="1" {% if not faq or faq.is_active %}selected{% endif %}>Aktif</option>
+                                <option value="0" {% if faq and not faq.is_active %}selected{% endif %}>Pasif</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between mt-4">
+                        <a href="{{ url_for('admin_settings', section='faq') }}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left me-2"></i> Geri Dön
+                        </a>
+                        <button type="submit" class="btn btn-warning fw-bold">
+                            <i class="fas fa-save me-2"></i> Kaydet
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

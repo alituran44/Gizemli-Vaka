@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block title %}Blog - Dedektiflik Günlüğü | Gizemli Vaka{% endblock %}
+{% block meta_description %}Gizemli Vaka blog: Soruşturma teknikleri, dava analizleri ve dedektiflik dünyasından haberler.{% endblock %}
+
+{% block breadcrumb_schema %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "Ana Sayfa", "item": "https://gizemlivaka.com"},
+    {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://gizemlivaka.com/blog"}
+  ]
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<style>
+@media (max-width: 768px) {
+    .col-md-4 { flex: 0 0 100%; max-width: 100%; }
+}
+</style>
+<div class="py-5" style="background-color: #ffffff !important; min-height: 80vh;">
+    <div class="container py-5">
+
+        <div class="text-center mb-5">
+            <h1 class="fw-bold mb-3" style="color: #000b1c !important;">Dedektiflik Günlüğü</h1>
+            <p class="mx-auto" style="max-width: 700px; color: #495057 !important;">
+                Gizemli Vaka dünyasından haberler, soruşturma teknikleri ve dava analizleri.
+            </p>
+            <hr class="mx-auto" style="width: 50px; border-top: 3px solid #FFD700;">
+        </div>
+
+        <div class="row g-4">
+            {% for post in posts %}
+            <div class="col-md-4">
+                <div class="card h-100 border-0 bg-dark text-white shadow-lg" style="border-radius: 15px; overflow: hidden; transition: transform 0.3s ease;">
+
+                    {% if post.image %}
+                    <img loading="lazy" src="{{ url_for('static', filename='uploads/' + post.image) }}?v=3" class="card-img-top" alt="{{ post.title }}" style="height: 230px; object-fit: cover;">
+                    {% else %}
+                    <div class="bg-secondary d-flex align-items-center justify-content-center" style="height: 230px;">
+                        <i class="fas fa-image fa-3x text-white-50"></i>
+                    </div>
+                    {% endif %}
+
+                    <div class="card-body p-4">
+                        <small class="text-warning fw-bold">
+                            <i class="far fa-calendar-alt me-1"></i> {{ post.date_posted|tr_date }}
+                        </small>
+
+                        <h4 class="card-title fw-bold mt-2 h5">{{ post.title }}</h4>
+
+                        <p class="text-white-50 small mt-3">
+                            {{ post.content|truncate(120) }}
+                        </p>
+
+                        <a href="{{ url_for('post_detail', post_id=post.id) }}" class="stretched-link text-decoration-none" style="color: #FFD700;">
+                            Devamını Oku <i class="fas fa-arrow-right ms-1" style="font-size: 0.8rem;"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="col-12 text-center py-5">
+                <i class="fas fa-pen-nib fa-3x text-muted mb-3"></i>
+                <p class="text-muted">Henüz blog yazısı eklenmemiş.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<style>
+    .card:hover {
+        transform: translateY(-10px);
+    }
+</style>
+{% endblock %}

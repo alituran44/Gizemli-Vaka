@@ -1,0 +1,239 @@
+{% extends 'base.html' %}
+{% block title %}Kod Kullan{% endblock %}
+
+{% block content %}
+<style>
+    .redeem-container {
+        min-height: 80vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 40px 20px;
+    }
+    .redeem-card {
+        background: linear-gradient(180deg, #fffef5 0%, #f5f3e8 100%);
+        border: 2px solid #ffc107;
+        border-radius: 15px;
+        padding: 25px 20px;
+        max-width: 450px;
+        width: 100%;
+        text-align: center;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    .redeem-icon {
+        font-size: 2.5rem;
+        color: #ffc107;
+        margin-bottom: 10px;
+    }
+    .redeem-title {
+        color: #0a1929;
+        font-weight: 700;
+        font-size: 1.4rem;
+        margin-bottom: 8px;
+        line-height: 1.3;
+    }
+    .redeem-subtitle {
+        color: #666;
+        margin-bottom: 20px;
+        font-size: 0.9rem;
+    }
+    .code-input {
+        font-size: 1.3rem;
+        text-align: center;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        padding: 12px 15px;
+        border: 2px solid #ddd;
+        border-radius: 10px;
+        width: 100%;
+        font-weight: bold;
+        color: #0a1929;
+        background-color: #fff;
+        transition: all 0.3s;
+    }
+    .code-input:focus {
+        border-color: #ffc107;
+        outline: none;
+        box-shadow: 0 0 15px rgba(255,193,7,0.3);
+    }
+    .code-input::placeholder {
+        letter-spacing: 2px;
+        font-size: 0.9rem;
+        color: #aaa;
+    }
+    .btn-redeem {
+        background: linear-gradient(135deg, #ffc107 0%, #e6a800 100%);
+        color: #0a1929;
+        border: none;
+        padding: 14px 30px;
+        font-size: 1rem;
+        font-weight: 700;
+        border-radius: 30px;
+        cursor: pointer;
+        margin-top: 15px;
+        transition: all 0.3s;
+        width: 100%;
+        display: block;
+    }
+    .btn-redeem:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 30px rgba(255,193,7,0.4);
+        color: #0a1929;
+    }
+    .redeem-info {
+        margin-top: 25px;
+        padding-top: 15px;
+        border-top: 1px solid #ddd;
+        color: #888;
+        font-size: 0.85rem;
+    }
+    .flash-messages {
+        margin-bottom: 15px;
+    }
+    .flash-messages .alert {
+        padding: 10px 15px;
+        border-radius: 8px;
+        margin-bottom: 8px;
+        font-size: 0.9rem;
+    }
+    .register-section {
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 2px solid #ffc107;
+        text-align: left;
+    }
+    .register-section h3 {
+        color: #0a1929;
+        font-size: 1.1rem;
+        margin-bottom: 15px;
+        text-align: center;
+    }
+    .form-label {
+        font-weight: 600;
+        color: #0a1929;
+        font-size: 0.85rem;
+    }
+    .form-control {
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        padding: 10px 12px;
+        font-size: 0.9rem;
+    }
+    .form-control:focus {
+        border-color: #ffc107;
+        box-shadow: 0 0 10px rgba(255,193,7,0.2);
+    }
+    .code-badge {
+        background: #ffc107;
+        color: #0a1929;
+        padding: 5px 15px;
+        border-radius: 20px;
+        font-weight: bold;
+        font-size: 0.9rem;
+        display: inline-block;
+        margin-bottom: 15px;
+    }
+    .login-link {
+        margin-top: 15px;
+        font-size: 0.9rem;
+    }
+
+    @media (max-width: 768px) {
+        .redeem-container { min-height: 70vh; padding: 20px 15px; }
+        .redeem-card { padding: 20px 15px; max-width: 100%; border-radius: 12px; }
+        .redeem-icon { font-size: 2rem; margin-bottom: 8px; }
+        .redeem-title { font-size: 1.2rem; margin-bottom: 6px; }
+        .redeem-subtitle { font-size: 0.8rem; margin-bottom: 15px; }
+        .code-input { font-size: 1.1rem; padding: 10px 12px; letter-spacing: 3px; }
+        .code-input::placeholder { font-size: 0.8rem; }
+        .btn-redeem { padding: 12px 20px; font-size: 0.9rem; margin-top: 12px; }
+        .redeem-info { margin-top: 20px; padding-top: 12px; font-size: 0.75rem; }
+        .register-section { margin-top: 15px; padding-top: 15px; }
+        .register-section h3 { font-size: 1rem; margin-bottom: 12px; }
+        .form-label { font-size: 0.8rem; }
+        .form-control { padding: 8px 10px; font-size: 0.85rem; }
+        .code-badge { font-size: 0.8rem; padding: 4px 12px; }
+        .login-link { font-size: 0.8rem; }
+    }
+    @media (max-width: 576px) {
+        .redeem-container { padding: 15px 10px; }
+        .redeem-card { padding: 18px 12px; }
+        .redeem-title { font-size: 1.1rem; }
+        .code-input { font-size: 1rem; letter-spacing: 2px; }
+    }
+</style>
+
+<div class="redeem-container">
+    <div class="redeem-card">
+        <i class="fas fa-ticket-alt redeem-icon"></i>
+        
+        {% if show_register %}
+        <h1 class="redeem-title">KOD DOĞRULANDI!</h1>
+        <div class="code-badge"><i class="fas fa-check me-2"></i>{{ verified_code }}</div>
+        <p class="redeem-subtitle">Oynamaya başlamak için hesap oluşturun</p>
+        
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class="flash-messages">
+            {% for message in messages %}
+            <div class="alert alert-warning">{{ message }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% endwith %}
+        
+        <div class="register-section">
+            <h3><i class="fas fa-user-plus me-2"></i>Hesap Oluştur</h3>
+            <form method="POST" action="{{ url_for('redeem_register') }}">
+                <input type="hidden" name="code" value="{{ verified_code }}">
+                <div class="mb-3">
+                    <label class="form-label">Kullanıcı Adı</label>
+                    <input type="text" name="username" class="form-control" required autocomplete="username">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">E-posta</label>
+                    <input type="email" name="email" class="form-control" required autocomplete="email">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Şifre</label>
+                    <input type="password" name="password" class="form-control" required autocomplete="new-password">
+                </div>
+                <button type="submit" class="btn-redeem">
+                    <i class="fas fa-play me-2"></i>HESAP OLUŞTUR VE OYUNU BAŞLAT
+                </button>
+            </form>
+            <div class="login-link text-center">
+                <span class="text-muted">Zaten hesabınız var mı?</span>
+                <a href="{{ url_for('login') }}?pending_code={{ verified_code }}" class="text-warning fw-bold">Giriş Yap</a>
+            </div>
+        </div>
+        
+        {% else %}
+        <h1 class="redeem-title">KODUNUZU GİRİN</h1>
+        <p class="redeem-subtitle">Erişim kodunuzu girerek oynamaya başlayın</p>
+        
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class="flash-messages">
+            {% for message in messages %}
+            <div class="alert alert-warning">{{ message }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% endwith %}
+        
+        <form method="POST" action="{{ url_for('redeem_code') }}">
+            <input type="text" name="code" class="code-input" placeholder="KOD GİRİN" maxlength="12" autocomplete="off" autofocus>
+            <button type="submit" class="btn-redeem">
+                <i class="fas fa-unlock me-2"></i>KODU DOĞRULA
+            </button>
+        </form>
+        
+        <div class="redeem-info">
+            <p><i class="fas fa-shopping-bag me-2"></i>Trendyol, Hepsiburada veya diğer pazar yerlerinden mi satın aldınız?</p>
+            <p>Benzersiz kodunuzu yukarıya girerek davanıza erişin.</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

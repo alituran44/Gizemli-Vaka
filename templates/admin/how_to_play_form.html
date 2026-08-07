@@ -1,0 +1,89 @@
+{% extends "admin/base.html" %}
+{% block admin_content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>
+        <i class="fas fa-gamepad me-2"></i>
+        {% if step %}Adim Duzenle{% else %}Yeni Adim Ekle{% endif %}
+    </h2>
+    <a href="{{ url_for('admin_how_to_play') }}" class="btn btn-secondary">
+        <i class="fas fa-arrow-left me-1"></i> Geri Don
+    </a>
+</div>
+
+{% with msgs = get_flashed_messages() %}
+{% if msgs %}<div class="alert alert-success">{{ msgs[0] }}</div>{% endif %}
+{% endwith %}
+
+<div class="card border-0 shadow-sm">
+    <div class="card-body p-4">
+        <form method="POST" enctype="multipart/form-data">
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <label class="form-label fw-bold">Sira Numarasi <span class="text-danger">*</span></label>
+                    <input type="number" name="order_num" class="form-control" value="{{ step.order_num if step else 1 }}" min="1" required>
+                    <small class="text-muted">Kucuk sayilar once gosterilir</small>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label fw-bold">Rozet (Turkce) <span class="text-danger">*</span></label>
+                    <input type="text" name="badge" class="form-control" value="{{ step.badge if step else 'ADIM 1' }}" placeholder="Ornek: ADIM 1" required>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label fw-bold">Rozet (Ingilizce)</label>
+                    <input type="text" name="badge_en" class="form-control" value="{{ step.badge_en if step else 'STEP 1' }}" placeholder="Ornek: STEP 1">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label fw-bold">Baslik (Turkce) <span class="text-danger">*</span></label>
+                    <input type="text" name="title" class="form-control" value="{{ step.title if step else '' }}" placeholder="Adim basligi" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label fw-bold">Baslik (Ingilizce)</label>
+                    <input type="text" name="title_en" class="form-control" value="{{ step.title_en if step else '' }}" placeholder="Step title">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label fw-bold">Icerik (Turkce) <span class="text-danger">*</span></label>
+                    <textarea name="content" class="form-control" rows="5" placeholder="Adim aciklamasi" required>{{ step.content if step else '' }}</textarea>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label fw-bold">Icerik (Ingilizce)</label>
+                    <textarea name="content_en" class="form-control" rows="5" placeholder="Step description">{{ step.content_en if step else '' }}</textarea>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label fw-bold">Gorsel</label>
+                    <input type="file" name="image" class="form-control" accept="image/*">
+                    {% if step and step.image %}
+                    <div class="mt-2">
+                        <small class="text-muted">Mevcut gorsel:</small><br>
+                        <img src="{{ url_for('static', filename='uploads/' + step.image) }}" alt="Mevcut Gorsel" style="max-width: 150px; max-height: 100px; object-fit: cover; border-radius: 4px; margin-top: 5px;">
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label fw-bold">Durum</label>
+                    <div class="form-check form-switch mt-2">
+                        <input class="form-check-input" type="checkbox" name="is_active" id="is_active" {% if not step or step.is_active %}checked{% endif %}>
+                        <label class="form-check-label" for="is_active">Aktif</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-between mt-4">
+                <a href="{{ url_for('admin_how_to_play') }}" class="btn btn-secondary">
+                    <i class="fas fa-times me-1"></i> Iptal
+                </a>
+                <button type="submit" class="btn btn-warning fw-bold">
+                    <i class="fas fa-save me-1"></i> Kaydet
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

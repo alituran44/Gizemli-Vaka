@@ -1,0 +1,472 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="py-5 bg-white text-dark">
+    <div class="container border p-0 shadow-sm mt-5" style="border-radius: 8px; overflow: hidden; background: #fff;">
+        <div class="row g-0">
+            <div class="col-md-3 border-end bg-light">
+                <div class="list-group list-group-flush small fw-bold text-uppercase">
+                    <a href="{{ url_for('account', section='dashboard') }}" class="list-group-item list-group-item-action py-3 {% if section=='dashboard' %}text-warning border-start border-warning border-4 bg-white{% endif %}">
+                        <i class="fas fa-th-large me-2"></i> Kontrol Paneli
+                    </a>
+                    <a href="{{ url_for('account', section='orders') }}" class="list-group-item list-group-item-action py-3 {% if section=='orders' %}text-warning border-start border-warning border-4 bg-white{% endif %}">
+                        <i class="fas fa-shopping-bag me-2"></i> Siparişler
+                    </a>
+                    <a href="{{ url_for('account', section='address') }}" class="list-group-item list-group-item-action py-3 {% if section=='address' %}text-warning border-start border-warning border-4 bg-white{% endif %}">
+                        <i class="fas fa-map-marker-alt me-2"></i> Adres
+                    </a>
+                    <a href="{{ url_for('account', section='details') }}" class="list-group-item list-group-item-action py-3 {% if section=='details' %}text-warning border-start border-warning border-4 bg-white{% endif %}">
+                        <i class="fas fa-user-edit me-2"></i> Hesap Bilgileri
+                    </a>
+                    <a href="{{ url_for('account', section='active_games') }}" class="list-group-item list-group-item-action py-3 {% if section=='active_games' %}text-warning border-start border-warning border-4 bg-white{% endif %}">
+                        <i class="fas fa-gamepad me-2"></i> Aktif Oyunlarım
+                    </a>
+                    {% if organized_purchases %}
+                    <a href="{{ url_for('account', section='my_teams') }}" class="list-group-item list-group-item-action py-3 {% if section=='my_teams' %}text-warning border-start border-warning border-4 bg-white{% endif %}">
+                        <i class="fas fa-users-cog me-2"></i> Takımlarım
+                        <span class="badge bg-warning text-dark ms-1" style="font-size:0.65rem;">{{ organized_purchases|length }}</span>
+                    </a>
+                    {% endif %}
+                    <a href="{{ url_for('account_partner') }}" class="list-group-item list-group-item-action py-3">
+                        <i class="fas fa-handshake me-2"></i> Ortaklık Programı
+                    </a>
+
+                    {% if session.get('username') == 'admin' %}
+                    <a href="{{ url_for('admin_cases') }}" class="list-group-item list-group-item-action py-3 text-danger fw-bold border-start border-danger border-4 bg-white">
+                        <i class="fas fa-user-shield me-2"></i> ADMİN PANELİ
+                    </a>
+                    {% endif %}
+
+                    <a href="{{ url_for('logout') }}" class="list-group-item list-group-item-action py-3 text-muted">
+                        <i class="fas fa-sign-out-alt me-2"></i> Çıkış Yap
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-md-9 p-5" style="min-height: 500px;">
+
+                {% if section == 'dashboard' %}
+                <h2 class="fw-bold mb-4 border-bottom pb-2">Kontrol Paneli</h2>
+                <div class="mb-4">
+                    <p>Merhaba <strong>{{ user.screen_name or user.username }}</strong> (<strong>{{ user.screen_name or user.username }}</strong> değil misiniz? <a href="{{ url_for('logout') }}" class="text-warning text-decoration-none">Çıkış yapın</a>)</p>
+                </div>
+                <p class="text-muted">
+                    Hesap panelinizden son siparişlerinizi görüntüleyebilir, fatura adresinizi yönetebilir ve şifrenizi ve hesap bilgilerinizi düzenleyebilirsiniz.
+                </p>
+
+                {% if individual_games %}
+                <div class="mt-5">
+                    <h3 class="fw-bold mb-3 border-bottom pb-2"><i class="fas fa-user me-2 text-warning"></i> Bireysel Oyunlarım</h3>
+                    <div class="table-responsive">
+                        <table class="table align-middle">
+                            <thead>
+                                <tr class="small fw-bold text-muted border-bottom">
+                                    <th>Vaka</th>
+                                    <th>Satın Alma Tarihi</th>
+                                    <th>Durum</th>
+                                    <th>İşlem</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for purchase, case, progress in individual_games %}
+                                <tr class="border-bottom">
+                                    <td class="py-3">
+                                        <div class="fw-bold">{{ case.title }}</div>
+                                        <small class="text-muted">Bireysel</small>
+                                    </td>
+                                    <td>{{ purchase.created_at.strftime('%d.%m.%Y') if purchase and purchase.created_at else '-' }}</td>
+                                    <td>
+                                        {% if progress and progress.is_solved %}
+                                        <span class="badge bg-success"><i class="fas fa-check me-1"></i> Tamamlandı</span>
+                                        {% else %}
+                                        <span class="badge bg-warning text-dark"><i class="fas fa-play me-1"></i> Devam Ediyor</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <div class="btn-group btn-group-sm">
+                                            <a href="{{ url_for('play_case', case_id=case.id) }}" class="btn btn-warning fw-bold">
+                                                <i class="fas fa-gamepad me-1"></i> Oyna
+                                            </a>
+                                            {% if progress and progress.is_solved %}
+                                            <a href="{{ url_for('download_certificate', case_id=case.id) }}" class="btn btn-outline-success">
+                                                <i class="fas fa-certificate me-1"></i> Sertifika
+                                            </a>
+                                            {% endif %}
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if team_games %}
+                <div class="mt-5">
+                    <h3 class="fw-bold mb-3 border-bottom pb-2"><i class="fas fa-users me-2 text-warning"></i> Takım Oyunlarım</h3>
+                    <div class="table-responsive">
+                        <table class="table align-middle">
+                            <thead>
+                                <tr class="small fw-bold text-muted border-bottom">
+                                    <th>Vaka</th>
+                                    <th>Takım</th>
+                                    <th>Durum</th>
+                                    <th>İşlem</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for member, purchase, case in team_games %}
+                                <tr class="border-bottom">
+                                    <td class="py-3">
+                                        <div class="fw-bold">{{ case.title }}</div>
+                                        <small class="text-muted">{{ purchase.organizer_name if purchase else 'Takım Modu' }}</small>
+                                    </td>
+                                    <td>
+                                        {% if member %}
+                                        <span class="badge bg-primary bg-opacity-10 text-primary">{{ member.team_name or ('Takım ' ~ member.team_number) }}</span>
+                                        {% else %}
+                                        <span class="badge bg-primary bg-opacity-10 text-primary">-</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if member and member.completed %}
+                                        <span class="badge bg-success"><i class="fas fa-check me-1"></i> Tamamlandı</span>
+                                        {% else %}
+                                        <span class="badge bg-warning text-dark"><i class="fas fa-play me-1"></i> Devam Ediyor</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <div class="btn-group btn-group-sm">
+                                            {% if member %}
+                                            <a href="{{ url_for('team_play', access_token=member.access_token) }}" class="btn btn-warning fw-bold">
+                                                <i class="fas fa-gamepad me-1"></i> Oyna
+                                            </a>
+                                            {% if member.completed %}
+                                            <a href="{{ url_for('team_certificate', access_token=member.access_token) }}" class="btn btn-outline-success">
+                                                <i class="fas fa-certificate me-1"></i> Sertifika
+                                            </a>
+                                            {% endif %}
+                                            {% else %}
+                                            <a href="{{ url_for('play_case', case_id=case.id) }}" class="btn btn-warning fw-bold">
+                                                <i class="fas fa-gamepad me-1"></i> Oyna
+                                            </a>
+                                            {% endif %}
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if not individual_games and not team_games %}
+                <div class="alert alert-light border text-center py-4 mt-4">
+                    <i class="fas fa-gamepad fa-3x text-muted mb-3"></i>
+                    <p class="mb-0">Henüz aktif bir oyununuz bulunmuyor.</p>
+                    <small class="text-muted">Bir vaka satın aldığınızda burada görünecektir.</small>
+                </div>
+                {% endif %}
+
+                {% elif section == 'active_games' %}
+                <h2 class="fw-bold mb-4 border-bottom pb-2"><i class="fas fa-gamepad me-2 text-warning"></i> Aktif Oyunlarım</h2>
+                <p class="text-muted mb-4">Tüm bireysel ve takım oyunlarınızı buradan takip edebilirsiniz.</p>
+
+                {% if individual_games %}
+                <h4 class="fw-bold mb-3"><i class="fas fa-user me-2 text-primary"></i> Bireysel Oyunlarım</h4>
+                <div class="table-responsive mb-5">
+                    <table class="table align-middle">
+                        <thead>
+                            <tr class="small fw-bold text-muted border-bottom">
+                                <th>Vaka</th>
+                                <th>Satın Alma Tarihi</th>
+                                <th>Durum</th>
+                                <th>İşlem</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for purchase, case, progress in individual_games %}
+                            <tr class="border-bottom">
+                                <td class="py-3">
+                                    <div class="fw-bold">{{ case.title }}</div>
+                                    <small class="text-muted">Bireysel</small>
+                                </td>
+                                <td>{{ purchase.created_at.strftime('%d.%m.%Y') if purchase and purchase.created_at else '-' }}</td>
+                                <td>
+                                    {% if progress and progress.is_solved %}
+                                    <span class="badge bg-success"><i class="fas fa-check me-1"></i> Tamamlandı</span>
+                                    {% else %}
+                                    <span class="badge bg-warning text-dark"><i class="fas fa-play me-1"></i> Devam Ediyor</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <div class="btn-group btn-group-sm">
+                                        <a href="{{ url_for('play_case', case_id=case.id) }}" class="btn btn-warning fw-bold">
+                                            <i class="fas fa-gamepad me-1"></i> Oyna
+                                        </a>
+                                        {% if progress and progress.is_solved %}
+                                        <a href="{{ url_for('download_certificate', case_id=case.id) }}" class="btn btn-outline-success">
+                                            <i class="fas fa-certificate me-1"></i> Sertifika
+                                        </a>
+                                        {% endif %}
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% endif %}
+
+                {% if team_games %}
+                <h4 class="fw-bold mb-3"><i class="fas fa-users me-2 text-info"></i> Takım Oyunlarım</h4>
+                <div class="table-responsive">
+                    <table class="table align-middle">
+                        <thead>
+                            <tr class="small fw-bold text-muted border-bottom">
+                                <th>Vaka</th>
+                                <th>Takım</th>
+                                <th>Durum</th>
+                                <th>İşlem</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for member, purchase, case in team_games %}
+                            <tr class="border-bottom">
+                                <td class="py-3">
+                                    <div class="fw-bold">{{ case.title }}</div>
+                                    <small class="text-muted">{{ ('Organizatör: ' + purchase.organizer_name) if purchase else 'Takım Modu' }}</small>
+                                </td>
+                                <td>
+                                    {% if member %}
+                                    <span class="badge bg-primary bg-opacity-10 text-primary">{{ member.team_name or ('Takım ' ~ member.team_number) }}</span>
+                                    {% else %}
+                                    <span class="badge bg-primary bg-opacity-10 text-primary">-</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if member and member.completed %}
+                                    <span class="badge bg-success"><i class="fas fa-check me-1"></i> Tamamlandı</span>
+                                    <div class="small text-muted mt-1">{{ member.completed_at.strftime('%d.%m.%Y') if member.completed_at else '' }}</div>
+                                    {% else %}
+                                    <span class="badge bg-warning text-dark"><i class="fas fa-play me-1"></i> Devam Ediyor</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <div class="btn-group btn-group-sm">
+                                        {% if member %}
+                                        <a href="{{ url_for('team_play', access_token=member.access_token) }}" class="btn btn-warning fw-bold">
+                                            <i class="fas fa-gamepad me-1"></i> Oyna
+                                        </a>
+                                        {% if member.completed %}
+                                        <a href="{{ url_for('team_certificate', access_token=member.access_token) }}" class="btn btn-outline-success">
+                                            <i class="fas fa-certificate me-1"></i> Sertifika
+                                        </a>
+                                        {% endif %}
+                                        {% else %}
+                                        <a href="{{ url_for('team_play_solo', case_id=case.id) }}" class="btn btn-warning fw-bold">
+                                            <i class="fas fa-gamepad me-1"></i> Oyna
+                                        </a>
+                                        {% endif %}
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% endif %}
+
+                {% if not individual_games and not team_games %}
+                <div class="alert alert-light border text-center py-4">
+                    <i class="fas fa-gamepad fa-3x text-muted mb-3"></i>
+                    <p class="mb-0">Henüz aktif bir oyununuz bulunmuyor.</p>
+                    <small class="text-muted">Bir vaka satın aldığınızda veya takım oyununa davet edildiğinizde burada görünecektir.</small>
+                </div>
+                {% endif %}
+
+                {% elif section == 'my_teams' %}
+                <h2 class="fw-bold mb-4 border-bottom pb-2"><i class="fas fa-users-cog me-2 text-warning"></i> Takımlarım</h2>
+                <p class="text-muted mb-4">Organize ettiğiniz takım oyunlarını yönetin, üye ekleyin veya kaldırın.</p>
+                {% if organized_purchases %}
+                    {% for purchase in organized_purchases %}
+                    <div class="card border mb-4 shadow-sm">
+                        <div class="card-header d-flex justify-content-between align-items-center py-3" style="background:#fffef5;border-bottom:2px solid #ffc107;">
+                            <div>
+                                <h5 class="mb-0 fw-bold" style="color:#0C1430;">{{ purchase.case.title }}</h5>
+                                <small class="text-muted">{{ purchase.created_at.strftime('%d.%m.%Y') }} · {{ purchase.team_count }} takım</small>
+                            </div>
+                            <a href="{{ url_for('team_purchase_payment', purchase_id=purchase.id) }}" class="btn btn-sm btn-warning fw-bold">
+                                <i class="fas fa-cog me-1"></i>Yönet
+                            </a>
+                        </div>
+                        <div class="card-body p-0">
+                            {% set members_by_team = {} %}
+                            {% for member in purchase.members %}
+                                {% if member.team_number not in members_by_team %}
+                                    {% set _ = members_by_team.update({member.team_number: []}) %}
+                                {% endif %}
+                                {% set _ = members_by_team[member.team_number].append(member) %}
+                            {% endfor %}
+                            {% for team_num in range(1, purchase.team_count + 1) %}
+                            {% set t_members = members_by_team.get(team_num, []) %}
+                            <div class="px-4 py-3 border-bottom">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span class="fw-semibold" style="color:#0C1430;font-size:0.9rem;">
+                                        <i class="fas fa-users me-1 text-warning"></i>
+                                        {{ t_members[0].team_name if t_members else ('Takım ' ~ team_num) }}
+                                        <span class="badge bg-secondary ms-1" style="font-size:0.7rem;">{{ t_members|length }}/6</span>
+                                    </span>
+                                </div>
+                                <div class="d-flex flex-wrap gap-2 mb-2">
+                                    {% for member in t_members %}
+                                    <span class="badge d-flex align-items-center gap-1 py-2 px-3"
+                                          style="background:{% if member.completed %}rgba(40,167,69,0.15);color:#28a745;border:1px solid #28a74555{% elif member.accessed %}rgba(255,193,7,0.15);color:#856404;border:1px solid #ffc10755{% else %}rgba(108,117,125,0.1);color:#555;border:1px solid #dee2e6{% endif %}">
+                                        <i class="fas {% if member.completed %}fa-flag-checkered{% elif member.accessed %}fa-play{% else %}fa-envelope{% endif %} me-1"></i>
+                                        {{ member.email }}
+                                    </span>
+                                    {% endfor %}
+                                    {% if t_members|length == 0 %}
+                                    <span class="text-muted small">Henüz üye eklenmedi</span>
+                                    {% endif %}
+                                </div>
+                                {% if t_members|length < 6 %}
+                                <form method="POST" action="{{ url_for('team_manage_add_member') }}" class="d-flex gap-2 mt-2">
+                                    <input type="hidden" name="purchase_id" value="{{ purchase.id }}">
+                                    <input type="hidden" name="team_number" value="{{ team_num }}">
+                                    <input type="hidden" name="next" value="my_teams">
+                                    <input type="email" name="email" class="form-control form-control-sm" placeholder="yeni.uye@email.com" required style="max-width:260px;">
+                                    <button type="submit" class="btn btn-sm btn-warning fw-bold">
+                                        <i class="fas fa-user-plus me-1"></i>Ekle
+                                    </button>
+                                </form>
+                                {% endif %}
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                <div class="alert alert-light border text-center py-4">
+                    <i class="fas fa-users fa-3x text-muted mb-3 d-block"></i>
+                    <p class="mb-2">Organize ettiğiniz aktif bir takım oyunu bulunmuyor.</p>
+                    <a href="{{ url_for('team_purchase') }}" class="btn btn-warning fw-bold btn-sm">
+                        <i class="fas fa-plus me-1"></i>Takım Oyunu Başlat
+                    </a>
+                </div>
+                {% endif %}
+
+                {% elif section == 'orders' %}
+                <h2 class="fw-bold mb-4 border-bottom pb-2">Siparişler</h2>
+                {% if orders %}
+                <div class="table-responsive">
+                    <table class="table align-middle">
+                        <thead>
+                            <tr class="small fw-bold text-muted border-bottom">
+                                <th>Emir</th>
+                                <th>Tarih</th>
+                                <th>Durum</th>
+                                <th>Toplam</th>
+                                <th>Eylemler</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for order in orders %}
+                            <tr class="border-bottom">
+                                <td class="py-3 fw-bold">{{ order.order_number }}</td>
+                                <td>{{ order.date.strftime('%d %B %Y') if order.date else '-' }}</td>
+                                <td><span class="badge bg-success bg-opacity-10 text-success">{{ order.status }}</span></td>
+                                <td>{{ order.item_count }} ürün için {{ order.total_price }} TL</td>
+                                <td><a href="#" class="text-warning text-decoration-none small fw-bold">Görüntüle ></a></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="alert alert-light border"><i class="fas fa-shopping-cart me-2"></i> Henüz bir siparişiniz bulunmuyor.</div>
+                {% endif %}
+
+                {% elif section == 'address' %}
+                <h2 class="fw-bold mb-4 border-bottom pb-2">Fatura Adresi</h2>
+                <form method="POST" action="{{ url_for('account', section='address') }}">
+                    <div class="mb-3">
+                        <label class="small fw-bold mb-2">Adresiniz</label>
+                        <textarea name="billing_address" class="form-control" rows="5" placeholder="Siparişlerinizde kullanılacak fatura adresini giriniz...">{{ user.billing_address or '' }}</textarea>
+                    </div>
+                    <button type="submit" class="btn btn-warning fw-bold px-5 py-2 rounded-pill shadow-sm">Adresi Kaydet</button>
+                </form>
+
+                {% elif section == 'details' %}
+                <h2 class="fw-bold mb-4 border-bottom pb-2">Hesap Bilgileri</h2>
+                <form method="POST" action="{{ url_for('account', section='details') }}">
+                    <div class="row mb-3">
+                        <div class="col-md-6"><label class="small fw-bold">Adınız *</label><input type="text" name="first_name" class="form-control" value="{{ user.first_name or '' }}" required></div>
+                        <div class="col-md-6"><label class="small fw-bold">Soyadınız *</label><input type="text" name="last_name" class="form-control" value="{{ user.last_name or '' }}" required></div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="small fw-bold">Ekran Adı *</label>
+                        <input type="text" name="screen_name" class="form-control" value="{{ user.screen_name or user.username }}" required>
+                        <small class="text-muted d-block mt-1"><i>Adınız, hesap bölümünde ve yorumlarda bu şekilde görüntülenecektir.</i></small>
+                    </div>
+                    <div class="mb-5"><label class="small fw-bold">E-posta adresi *</label><input type="email" name="email" class="form-control" value="{{ user.email }}" required></div>
+
+                    <div class="bg-light p-4 border rounded" style="border-style: dashed !important;">
+                        <h4 class="fw-bold mb-4 border-bottom pb-2 text-uppercase small text-secondary">Parola Değişikliği</h4>
+                        <div class="mb-3"><label class="small fw-bold">Mevcut Parola</label><input type="password" name="current_password" class="form-control" placeholder="Değiştirmeyecekseniz boş bırakın"></div>
+                        <div class="mb-3"><label class="small fw-bold">Yeni Parola</label><input type="password" name="new_password" class="form-control"></div>
+                        <div class="mb-3"><label class="small fw-bold">Yeni Parolayı Onaylayın</label><input type="password" name="confirm_password" class="form-control"></div>
+                    </div>
+
+                    <button type="submit" class="btn btn-warning fw-bold px-5 py-3 rounded-pill mt-4 shadow-sm">Değişiklikleri Kaydet</button>
+                </form>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .list-group-item.active {
+        background-color: #fff !important;
+        color: #FFD700 !important;
+        border-color: transparent !important;
+    }
+    .list-group-item-action:hover {
+        background-color: #f8f9fa;
+        color: #FFD700;
+    }
+    .form-control:focus {
+        border-color: #FFD700;
+        box-shadow: 0 0 0 0.25rem rgba(255, 215, 0, 0.25);
+    }
+
+    @media (max-width: 768px) {
+        .py-5 { padding-top: 1.5rem !important; padding-bottom: 1.5rem !important; }
+        .container.border { margin-top: 1rem !important; }
+        .row.g-0 { flex-direction: column; }
+        .col-md-3 { flex: 0 0 100%; max-width: 100%; border-end: none !important; border-bottom: 1px solid #dee2e6; }
+        .col-md-9 { flex: 0 0 100%; max-width: 100%; }
+        .col-md-9.p-5 { padding: 20px !important; min-height: auto !important; }
+        .list-group { display: flex; flex-direction: row; flex-wrap: wrap; }
+        .list-group-item { flex: 1 1 auto; text-align: center; padding: 12px 8px !important; font-size: 0.7rem; border-left: none !important; border-bottom: 2px solid transparent; }
+        .list-group-item.text-warning { border-bottom: 3px solid #FFD700 !important; border-left: none !important; }
+        .list-group-item i { display: block; margin: 0 auto 5px auto !important; font-size: 1rem; }
+        h2.fw-bold { font-size: 1.3rem; }
+        .table-responsive { font-size: 0.8rem; }
+        .table th, .table td { padding: 8px 5px; }
+        .row.mb-3 .col-md-6 { flex: 0 0 100%; max-width: 100%; margin-bottom: 10px; }
+        .bg-light.p-4 { padding: 15px !important; }
+        .btn.rounded-pill { width: 100%; }
+        .text-danger.fw-bold { font-size: 0.65rem; }
+    }
+    @media (max-width: 576px) {
+        .list-group-item { font-size: 0.6rem; padding: 10px 5px !important; }
+        .list-group-item i { font-size: 0.9rem; }
+        h2.fw-bold { font-size: 1.1rem; }
+        .col-md-9.p-5 { padding: 15px !important; }
+    }
+</style>
+{% endblock %}

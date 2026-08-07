@@ -1,0 +1,90 @@
+{% extends "admin/base.html" %}
+
+{% block admin_content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold text-dark mb-0"><i class="fas fa-question-circle me-2 text-warning"></i> Sıkça Sorulan Sorular</h2>
+    <a href="{{ url_for('admin_add_faq') }}" class="btn btn-warning">
+        <i class="fas fa-plus me-2"></i>Yeni Soru Ekle
+    </a>
+</div>
+
+<div class="card border-0 shadow-sm">
+    <div class="card-header bg-dark text-white py-3">
+        <i class="fas fa-list me-2"></i> Tüm Sorular
+    </div>
+    <div class="card-body p-0">
+        {% if faqs %}
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th style="width: 60px;">Sıra</th>
+                        <th>Soru</th>
+                        <th style="width: 100px;">Durum</th>
+                        <th style="width: 150px;" class="text-end">İşlemler</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for faq in faqs %}
+                    <tr>
+                        <td><span class="badge bg-secondary">{{ faq.order }}</span></td>
+                        <td>
+                            <strong>{{ faq.question[:80] }}{% if faq.question|length > 80 %}...{% endif %}</strong>
+                            {% if faq.question_en %}
+                            <br><small class="text-muted">EN: {{ faq.question_en[:60] }}{% if faq.question_en|length > 60 %}...{% endif %}</small>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if faq.is_active %}
+                            <span class="badge bg-success">Aktif</span>
+                            {% else %}
+                            <span class="badge bg-secondary">Pasif</span>
+                            {% endif %}
+                        </td>
+                        <td class="text-end">
+                            <a href="{{ url_for('admin_edit_faq', faq_id=faq.id) }}" class="btn btn-sm btn-outline-warning" title="Düzenle">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a href="{{ url_for('admin_toggle_faq', faq_id=faq.id) }}" class="btn btn-sm btn-outline-{% if faq.is_active %}secondary{% else %}success{% endif %}" title="{% if faq.is_active %}Pasifleştir{% else %}Aktifleştir{% endif %}">
+                                <i class="fas fa-{% if faq.is_active %}eye-slash{% else %}eye{% endif %}"></i>
+                            </a>
+                            <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ faq.id }}" title="Sil">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    
+                    <div class="modal fade" id="deleteModal{{ faq.id }}" tabindex="-1">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header bg-danger text-white">
+                                    <h5 class="modal-title"><i class="fas fa-trash me-2"></i>Soruyu Sil</h5>
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Bu soruyu silmek istediğinizden emin misiniz?</p>
+                                    <p class="fw-bold">{{ faq.question[:100] }}{% if faq.question|length > 100 %}...{% endif %}</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                                    <a href="{{ url_for('admin_delete_faq', faq_id=faq.id) }}" class="btn btn-danger">Sil</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="text-center py-5">
+            <i class="fas fa-question-circle fa-3x text-muted mb-3"></i>
+            <h5 class="text-muted">Henüz soru eklenmemiş</h5>
+            <a href="{{ url_for('admin_add_faq') }}" class="btn btn-warning mt-3">
+                <i class="fas fa-plus me-2"></i>İlk Soruyu Ekle
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,813 @@
+{% extends "admin/base.html" %}
+{% block title %}Vaka Kütüphanesi - Admin{% endblock %}
+
+{% block admin_content %}
+<style>
+    .library-container {
+        background: #1a1a2e;
+        min-height: 100vh;
+        padding: 0;
+        margin: -20px;
+    }
+    .library-header {
+        background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 100%);
+        padding: 25px 30px;
+        border-bottom: 2px solid #8b0000;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+    .library-title {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+    .library-title h2 {
+        color: #ffc107;
+        font-weight: 800;
+        font-size: 1.3rem;
+        margin: 0;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+    }
+    .library-title .subtitle {
+        color: #ccc;
+        font-size: 0.85rem;
+        margin: 0;
+    }
+    .library-title i {
+        color: #ffc107;
+        font-size: 1.4rem;
+    }
+    .search-bar {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+    }
+    .search-bar input {
+        background: #2a2a3e;
+        border: 1px solid #444;
+        color: #fff;
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-size: 0.85rem;
+        width: 260px;
+    }
+    .search-bar input::placeholder {
+        color: #888;
+    }
+    .search-bar input:focus {
+        outline: none;
+        border-color: #8b0000;
+        box-shadow: 0 0 0 2px rgba(139,0,0,0.3);
+    }
+    .search-bar button {
+        background: #8b0000;
+        color: #fff;
+        border: none;
+        padding: 8px 18px;
+        border-radius: 6px;
+        font-weight: 700;
+        font-size: 0.85rem;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+    .search-bar button:hover {
+        background: #a00;
+    }
+    .category-tabs {
+        display: flex;
+        gap: 10px;
+        padding: 15px 30px;
+        background: #16162b;
+        border-bottom: 1px solid #2a2a3e;
+        flex-wrap: wrap;
+    }
+    .cat-tab {
+        background: #2a2a3e;
+        color: #ccc;
+        border: 1px solid #3a3a4e;
+        padding: 6px 16px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+    .cat-tab:hover {
+        background: #3a3a4e;
+        color: #fff;
+    }
+    .cat-tab.active {
+        background: #8b0000;
+        color: #fff;
+        border-color: #8b0000;
+    }
+    .discover-btn {
+        background: linear-gradient(135deg, #8b0000, #b00);
+        color: #fff;
+        border: none;
+        padding: 10px 24px;
+        border-radius: 8px;
+        font-weight: 700;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: all 0.3s;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin: 20px 30px;
+    }
+    .discover-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(139,0,0,0.4);
+    }
+    .discover-btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+    }
+    .cards-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 20px;
+        padding: 0 30px 30px;
+    }
+    .idea-card {
+        background: #22223a;
+        border: 1px solid #333;
+        border-radius: 10px;
+        overflow: hidden;
+        transition: all 0.3s;
+        position: relative;
+    }
+    .idea-card:hover {
+        border-color: #8b0000;
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+    }
+    .idea-card.used {
+        opacity: 0.5;
+    }
+    .card-badges {
+        display: flex;
+        gap: 6px;
+        padding: 15px 15px 0;
+        flex-wrap: wrap;
+    }
+    .badge-cat {
+        background: #8b0000;
+        color: #fff;
+        font-size: 0.65rem;
+        padding: 3px 10px;
+        border-radius: 3px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+    .badge-src {
+        background: transparent;
+        color: #888;
+        font-size: 0.65rem;
+        padding: 3px 10px;
+        border-radius: 3px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        border: 1px solid #444;
+    }
+    .badge-diff {
+        background: #333;
+        color: #ffc107;
+        font-size: 0.65rem;
+        padding: 3px 10px;
+        border-radius: 3px;
+        font-weight: 700;
+    }
+    .card-body-content {
+        padding: 12px 15px;
+    }
+    .card-body-content h3 {
+        color: #fff;
+        font-size: 0.95rem;
+        font-weight: 700;
+        margin-bottom: 8px;
+        line-height: 1.4;
+    }
+    .card-body-content p {
+        color: #999;
+        font-size: 0.8rem;
+        line-height: 1.5;
+        margin: 0;
+    }
+    .card-meta {
+        padding: 8px 15px;
+        color: #666;
+        font-size: 0.7rem;
+        display: flex;
+        gap: 12px;
+    }
+    .card-meta span i {
+        margin-right: 4px;
+    }
+    .card-actions {
+        display: flex;
+        border-top: 1px solid #333;
+    }
+    .card-actions button {
+        flex: 1;
+        padding: 10px;
+        border: none;
+        cursor: pointer;
+        font-size: 0.8rem;
+        font-weight: 700;
+        transition: background 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+    }
+    .btn-source {
+        background: #2a2a3e;
+        color: #aaa;
+        border-right: 1px solid #333;
+    }
+    .btn-source:hover {
+        background: #3a3a4e;
+        color: #fff;
+    }
+    .btn-create {
+        background: linear-gradient(135deg, #8b0000, #a00);
+        color: #fff;
+    }
+    .btn-create:hover {
+        background: linear-gradient(135deg, #a00, #c00);
+    }
+    .btn-create:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+    .btn-delete {
+        background: #2a2a3e;
+        color: #666;
+        border-right: 1px solid #333;
+        flex: 0 0 40px;
+    }
+    .btn-delete:hover {
+        background: #3a1a1a;
+        color: #ff4444;
+    }
+    .loading-overlay {
+        display: none;
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(0,0,0,0.8);
+        z-index: 9999;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        gap: 20px;
+    }
+    .loading-overlay.active {
+        display: flex;
+    }
+    .loading-overlay .spinner {
+        width: 60px;
+        height: 60px;
+        border: 4px solid #333;
+        border-top: 4px solid #8b0000;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+        to { transform: rotate(360deg); }
+    }
+    .loading-overlay p {
+        color: #fff;
+        font-size: 1.1rem;
+        font-weight: 600;
+    }
+    .loading-overlay .progress-text {
+        color: #999;
+        font-size: 0.85rem;
+    }
+    .empty-state {
+        text-align: center;
+        padding: 60px 30px;
+        color: #666;
+    }
+    .empty-state i {
+        font-size: 4rem;
+        color: #333;
+        margin-bottom: 15px;
+    }
+    .empty-state h3 {
+        color: #999;
+        font-size: 1.2rem;
+        margin-bottom: 8px;
+    }
+    .empty-state p {
+        color: #666;
+        font-size: 0.9rem;
+    }
+    .toast-container {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 10000;
+    }
+    .toast-msg {
+        background: #1a8754;
+        color: #fff;
+        padding: 12px 20px;
+        border-radius: 8px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        margin-top: 8px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        animation: slideIn 0.3s ease;
+    }
+    .toast-msg.error {
+        background: #8b0000;
+    }
+    @keyframes slideIn {
+        from { transform: translateX(100%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+    }
+    .status-badge {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 0.65rem;
+        padding: 3px 10px;
+        border-radius: 10px;
+        font-weight: 700;
+    }
+    .status-badge.completed {
+        background: #1a8754;
+        color: #fff;
+    }
+    .status-badge.generating {
+        background: #ffc107;
+        color: #000;
+    }
+    @media (max-width: 768px) {
+        .library-header { flex-direction: column; align-items: flex-start; }
+        .search-bar input { width: 180px; }
+        .cards-grid { grid-template-columns: 1fr; padding: 0 15px 15px; }
+        .category-tabs { padding: 10px 15px; }
+        .discover-btn { margin: 15px; }
+    }
+</style>
+
+<div class="library-container">
+    <div class="library-header">
+        <div class="library-title">
+            <i class="fas fa-book-open"></i>
+            <div>
+                <h2>Vaka Kütüphanesi</h2>
+                <p class="subtitle">Yerli ve yabancı gizemli vakalardan ilham al, AI ile tam dava dosyası oluştur</p>
+            </div>
+        </div>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Vakalarda ara...">
+            <button onclick="searchCases()"><i class="fas fa-search me-1"></i> Ara</button>
+        </div>
+    </div>
+
+    <div class="category-tabs">
+        <button class="cat-tab active" data-cat="all" onclick="setCategory('all', this)">
+            <i class="fas fa-folder"></i> Tümü
+        </button>
+        <button class="cat-tab" data-cat="unsolved" onclick="setCategory('unsolved', this)">
+            <i class="fas fa-question-circle"></i> Çözülmemiş Gizemler
+        </button>
+        <button class="cat-tab" data-cat="true_crime" onclick="setCategory('true_crime', this)">
+            <i class="fas fa-skull-crossbones"></i> Gerçek Suç
+        </button>
+        <button class="cat-tab" data-cat="weird" onclick="setCategory('weird', this)">
+            <i class="fas fa-ghost"></i> Tuhaf Olaylar
+        </button>
+        <button class="cat-tab" data-cat="science" onclick="setCategory('science', this)">
+            <i class="fas fa-flask"></i> Bilim Gizemleri
+        </button>
+        <button class="cat-tab" data-cat="historical" onclick="setCategory('historical', this)">
+            <i class="fas fa-landmark"></i> Tarihsel Gizemler
+        </button>
+    </div>
+
+    <div style="display:flex; gap:10px; align-items:center; padding: 12px 30px 0;">
+        <button class="discover-btn" id="discoverBtn" onclick="discoverCases()" style="margin:0;">
+            <i class="fas fa-magic"></i> Yeni Vakalar Keşfet (AI)
+        </button>
+        <button id="refreshBtn" onclick="refreshIdeas()" title="Mevcut fikirleri sil ve yeni fikirler getir" style="background:#2a2a3e; color:#ccc; border:1px solid #3a3a4e; padding:10px 18px; border-radius:8px; font-size:0.85rem; font-weight:600; cursor:pointer; display:flex; align-items:center; gap:7px; transition:all 0.2s;" onmouseover="this.style.background='#3a3a4e';this.style.color='#ffc107'" onmouseout="this.style.background='#2a2a3e';this.style.color='#ccc'">
+            <i class="fas fa-sync-alt"></i> Fikirleri Yenile
+        </button>
+    </div>
+
+    <div class="cards-grid" id="cardsGrid">
+        {% for idea in ideas %}
+        <div class="idea-card {% if idea.is_used %}used{% endif %}" data-category="{{ idea.category }}" id="idea-{{ idea.id }}">
+            {% if idea.status == 'completed' %}
+            <span class="status-badge completed"><i class="fas fa-check me-1"></i> Oluşturuldu</span>
+            {% elif idea.status == 'generating' %}
+            <span class="status-badge generating"><i class="fas fa-cog fa-spin me-1"></i> Üretiliyor</span>
+            {% endif %}
+            <div class="card-badges">
+                <span class="badge-cat">
+                    {% if idea.category == 'unsolved' %}Çözülmemiş Gizem
+                    {% elif idea.category == 'true_crime' %}Gerçek Suç
+                    {% elif idea.category == 'weird' %}Tuhaf Olay
+                    {% elif idea.category == 'science' %}Bilim Gizemi
+                    {% elif idea.category == 'historical' %}Tarihsel Gizem
+                    {% else %}Gizem{% endif %}
+                </span>
+                {% if idea.source_type %}
+                <span class="badge-src">{{ idea.source_type }}</span>
+                {% endif %}
+                {% if idea.difficulty %}
+                <span class="badge-diff">{{ idea.difficulty }}</span>
+                {% endif %}
+            </div>
+            <div class="card-body-content">
+                <h3>{{ idea.title }}</h3>
+                <p>{{ idea.description[:300] }}{% if idea.description|length > 300 %}...{% endif %}</p>
+            </div>
+            <div class="card-meta">
+                {% if idea.setting %}
+                <span><i class="fas fa-map-marker-alt"></i> {{ idea.setting[:50] }}</span>
+                {% endif %}
+                {% if idea.era %}
+                <span><i class="fas fa-clock"></i> {{ idea.era }}</span>
+                {% endif %}
+                {% if idea.tags %}
+                <span><i class="fas fa-tags"></i> {{ idea.tags[:40] }}</span>
+                {% endif %}
+            </div>
+            <div class="card-actions">
+                <button class="btn-delete" onclick="deleteIdea({{ idea.id }})" title="Sil">
+                    <i class="fas fa-trash"></i>
+                </button>
+                <button class="btn-source" onclick="showDetails({{ idea.id }})">
+                    <i class="fas fa-info-circle"></i> Detay
+                </button>
+                <button class="btn-create" onclick="createCase({{ idea.id }})" {% if idea.is_used %}disabled{% endif %}>
+                    <i class="fas fa-magic"></i> Vaka Oluştur
+                </button>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    {% if not ideas %}
+    <div class="empty-state" id="emptyState">
+        <i class="fas fa-book-open d-block"></i>
+        <h3>Kütüphane Boş</h3>
+        <p>"Yeni Vakalar Keşfet" butonuna tıklayarak AI destekli vaka fikirleri oluşturun.</p>
+    </div>
+    {% endif %}
+</div>
+
+<div class="loading-overlay" id="loadingOverlay">
+    <div class="spinner"></div>
+    <p id="loadingText">Vakalar keşfediliyor...</p>
+    <p class="progress-text" id="progressText">AI yerli ve yabancı kaynaklardan ilham alıyor</p>
+    <div id="progressBarContainer" style="display:none; width: 320px; margin: 15px auto 0; background: rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden; height: 20px;">
+        <div id="progressBar" style="width: 0%; height: 100%; background: linear-gradient(90deg, #ffc107, #ff6b00); border-radius: 10px; transition: width 0.5s ease; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: #000; min-width: 30px;"></div>
+    </div>
+    <p id="progressFileInfo" style="display:none; color: #aaa; font-size: 0.8rem; margin-top: 8px;"></p>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<div class="modal fade" id="detailModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="background: #1a1a2e; color: #fff; border: 1px solid #333;">
+            <div class="modal-header" style="border-bottom: 1px solid #333;">
+                <h5 class="modal-title" id="detailTitle" style="color: #ffc107;">Vaka Detayı</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="detailBody">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+let currentCategory = 'all';
+const ideasData = {};
+
+{% for idea in ideas %}
+try {
+ideasData[{{ idea.id }}] = {
+    id: {{ idea.id }},
+    title: {{ idea.title|tojson }},
+    description: {{ idea.description|tojson if idea.description else '""' }},
+    category: {{ idea.category|tojson if idea.category else '""' }},
+    tags: {{ idea.tags|tojson if idea.tags else '""' }},
+    setting: {{ idea.setting|tojson if idea.setting else '""' }},
+    era: {{ idea.era|tojson if idea.era else '""' }},
+    difficulty: {{ idea.difficulty|tojson if idea.difficulty else '""' }},
+    source_type: {{ idea.source_type|tojson if idea.source_type else '""' }},
+    status: {{ idea.status|tojson if idea.status else '"idea"' }},
+    is_used: {{ 'true' if idea.is_used else 'false' }},
+    extra: {}
+};
+{% if idea.case_data_json %}
+try { ideasData[{{ idea.id }}].extra = JSON.parse({{ idea.case_data_json|tojson }}); } catch(e) {}
+{% endif %}
+} catch(e) { console.warn('Idea parse error:', e); }
+{% endfor %}
+
+function showToast(msg, isError) {
+    const container = document.getElementById('toastContainer');
+    const toast = document.createElement('div');
+    toast.className = 'toast-msg' + (isError ? ' error' : '');
+    toast.textContent = msg;
+    container.appendChild(toast);
+    setTimeout(() => toast.remove(), 4000);
+}
+
+function showLoading(text, progress) {
+    document.getElementById('loadingText').textContent = text || 'Yükleniyor...';
+    document.getElementById('progressText').textContent = progress || '';
+    document.getElementById('loadingOverlay').classList.add('active');
+}
+
+function hideLoading() {
+    document.getElementById('loadingOverlay').classList.remove('active');
+    document.getElementById('progressBarContainer').style.display = 'none';
+    document.getElementById('progressFileInfo').style.display = 'none';
+}
+
+function setCategory(cat, btn) {
+    currentCategory = cat;
+    document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    filterCards();
+}
+
+function filterCards() {
+    document.querySelectorAll('.idea-card').forEach(card => {
+        if (currentCategory === 'all' || card.dataset.category === currentCategory) {
+            card.style.display = '';
+        } else {
+            card.style.display = 'none';
+        }
+    });
+}
+
+async function refreshIdeas() {
+    const btn = document.getElementById('refreshBtn');
+    btn.disabled = true;
+    showLoading('Fikirler yenileniyor...', 'Mevcut kullanılmamış fikirler temizleniyor ve yenileri getiriliyor');
+
+    try {
+        const res = await fetch('/admin/vaka-kutuphanesi/yenile', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({category: currentCategory})
+        });
+        const data = await res.json();
+        showToast(data.count + ' yeni vaka fikri getirildi!');
+        setTimeout(() => location.reload(), 1000);
+    } catch (e) {
+        showToast('Yenileme hatası: ' + e.message, true);
+    }
+
+    hideLoading();
+    btn.disabled = false;
+}
+
+async function discoverCases() {
+    const btn = document.getElementById('discoverBtn');
+    btn.disabled = true;
+    showLoading('Yeni vakalar keşfediliyor...', 'AI yerli ve yabancı kaynaklardan ilham alıyor');
+
+    try {
+        const res = await fetch('/admin/vaka-kutuphanesi/kesfet', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({category: currentCategory})
+        });
+        const data = await res.json();
+        if (data.count > 0) {
+            showToast(data.count + ' yeni vaka fikri keşfedildi!');
+            setTimeout(() => location.reload(), 1000);
+        } else {
+            showToast('Yeni vaka bulunamadı, farklı bir kategori deneyin.', true);
+        }
+    } catch (e) {
+        showToast('Hata: ' + e.message, true);
+    }
+
+    hideLoading();
+    btn.disabled = false;
+}
+
+async function searchCases() {
+    const query = document.getElementById('searchInput').value.trim();
+    if (!query) return;
+
+    showLoading('Aranıyor: "' + query + '"', 'AI ilgili vakalar arıyor...');
+
+    try {
+        const res = await fetch('/admin/vaka-kutuphanesi/ara', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({query: query})
+        });
+        const data = await res.json();
+        if (data.count > 0) {
+            showToast(data.count + ' vaka fikri bulundu!');
+            setTimeout(() => location.reload(), 1000);
+        } else {
+            showToast('Sonuç bulunamadı.', true);
+        }
+    } catch (e) {
+        showToast('Hata: ' + e.message, true);
+    }
+
+    hideLoading();
+}
+
+document.getElementById('searchInput').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') searchCases();
+});
+
+async function deleteIdea(id) {
+    if (!confirm('Bu vaka fikrini silmek istediğinize emin misiniz?')) return;
+    try {
+        const res = await fetch('/admin/vaka-kutuphanesi/sil/' + id, {method: 'POST'});
+        const data = await res.json();
+        if (data.success) {
+            document.getElementById('idea-' + id).remove();
+            showToast('Vaka fikri silindi.');
+        }
+    } catch (e) {
+        showToast('Silme hatası: ' + e.message, true);
+    }
+}
+
+async function createCase(id) {
+    if (!confirm('Bu vaka fikrini tam bir dava dosyasına dönüştürmek istediğinize emin misiniz? Bu işlem birkaç dakika sürebilir.')) return;
+
+    showLoading('Vaka oluşturuluyor...', 'AI senaryo, şüpheliler ve kanıt dosyaları hazırlıyor');
+    document.getElementById('progressBarContainer').style.display = 'block';
+    document.getElementById('progressFileInfo').style.display = 'block';
+    document.getElementById('progressBar').style.width = '0%';
+    document.getElementById('progressBar').textContent = '0%';
+    document.getElementById('progressFileInfo').textContent = '';
+
+    try {
+        const res = await fetch('/admin/vaka-kutuphanesi/olustur/' + id, {method: 'POST'});
+        const data = await res.json();
+
+        if (!data.success) {
+            showToast('Hata: ' + (data.error || 'Bilinmeyen hata'), true);
+            hideLoading();
+            document.getElementById('progressBarContainer').style.display = 'none';
+            document.getElementById('progressFileInfo').style.display = 'none';
+            return;
+        }
+
+        const pollInterval = setInterval(async () => {
+            try {
+                const pres = await fetch('/admin/vaka-kutuphanesi/progress/' + id);
+                const prog = await pres.json();
+
+                document.getElementById('progressText').textContent = prog.step || 'İşlem devam ediyor...';
+                const pct = prog.percent || 0;
+                document.getElementById('progressBar').style.width = pct + '%';
+                document.getElementById('progressBar').textContent = pct + '%';
+
+                if (prog.files_total > 0) {
+                    document.getElementById('progressFileInfo').textContent =
+                        prog.current_file + ' (' + prog.files_done + '/' + prog.files_total + ' dosya)';
+                }
+
+                if (prog.status === 'completed') {
+                    clearInterval(pollInterval);
+                    document.getElementById('progressBar').style.width = '100%';
+                    document.getElementById('progressBar').textContent = '100%';
+                    showToast('Vaka başarıyla oluşturuldu! ' + (prog.files_generated || 0) + ' dosya üretildi.');
+                    setTimeout(() => {
+                        if (prog.edit_url) {
+                            window.location.href = prog.edit_url;
+                        } else {
+                            location.reload();
+                        }
+                    }, 2000);
+                    hideLoading();
+                } else if (prog.status === 'error') {
+                    clearInterval(pollInterval);
+                    showToast('Hata: ' + (prog.error || 'Bilinmeyen hata'), true);
+                    hideLoading();
+                    document.getElementById('progressBarContainer').style.display = 'none';
+                    document.getElementById('progressFileInfo').style.display = 'none';
+                }
+            } catch (pollErr) {
+                console.warn('Progress poll error:', pollErr);
+            }
+        }, 2000);
+
+    } catch (e) {
+        showToast('Oluşturma hatası: ' + e.message, true);
+        hideLoading();
+        document.getElementById('progressBarContainer').style.display = 'none';
+        document.getElementById('progressFileInfo').style.display = 'none';
+    }
+}
+
+function showDetails(id) {
+    const idea = ideasData[id];
+    if (!idea) return;
+
+    document.getElementById('detailTitle').textContent = idea.title;
+
+    const catNames = {
+        'unsolved': 'Çözülmemiş Gizem',
+        'true_crime': 'Gerçek Suç',
+        'weird': 'Tuhaf Olay',
+        'science': 'Bilim Gizemi',
+        'historical': 'Tarihsel Gizem'
+    };
+
+    let extraData = {};
+    try { extraData = typeof idea.extra === 'string' ? JSON.parse(idea.extra) : (idea.extra || {}); } catch(e) {}
+
+    let html = '<div style="padding: 10px;">';
+    html += '<p style="color: #ccc; line-height: 1.8; margin-bottom: 20px; font-size: 0.95rem;">' + (idea.description || '') + '</p>';
+
+    var crimeTypeLabels = {
+        'cinayet': 'Cinayet', 'hirsizlik': 'Hırsızlık/Soygun', 'dolandiricilik': 'Dolandırıcılık',
+        'kayip_kisi': 'Kayıp Kişi', 'kacakcilik': 'Kaçakçılık', 'sabotaj': 'Sabotaj',
+        'kundaklama': 'Kundaklama', 'siber_suc': 'Siber Suç', 'diger': 'Diğer'
+    };
+    var crimeType = extraData.crime_type || '';
+    var isMurder = crimeType === 'cinayet' || !crimeType;
+
+    if (crimeType && crimeTypeLabels[crimeType]) {
+        html += '<div style="background: #1a1a2a; border-left: 4px solid #9b59b6; padding: 12px 15px; border-radius: 6px; margin-bottom: 15px;">';
+        html += '<strong style="color: #9b59b6; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px;"><i class="fas fa-gavel me-2"></i>Suç Türü</strong>';
+        html += '<p style="color: #eee; margin: 6px 0 0; font-size: 0.95rem; font-weight: 600;">' + crimeTypeLabels[crimeType] + '</p></div>';
+    }
+
+    if (extraData.victim_brief) {
+        var victimIcon = isMurder ? 'fa-skull-crossbones' : 'fa-user-shield';
+        var victimLabel = isMurder ? 'Maktul Bilgisi' : 'Mağdur Bilgisi';
+        var victimBg = isMurder ? '#2a1a1a' : '#1a2a2a';
+        var victimColor = isMurder ? '#c0392b' : '#e67e22';
+        html += '<div style="background: ' + victimBg + '; border-left: 4px solid ' + victimColor + '; padding: 15px; border-radius: 6px; margin-bottom: 15px;">';
+        html += '<strong style="color: ' + victimColor + '; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px;"><i class="fas ' + victimIcon + ' me-2"></i>' + victimLabel + '</strong>';
+        html += '<p style="color: #eee; margin: 8px 0 0; font-size: 0.9rem;">' + extraData.victim_brief + '</p></div>';
+    }
+
+    if (extraData.key_evidence && Array.isArray(extraData.key_evidence)) {
+        html += '<div style="background: #1a2a1a; border-left: 4px solid #2ecc71; padding: 15px; border-radius: 6px; margin-bottom: 15px;">';
+        html += '<strong style="color: #2ecc71; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px;"><i class="fas fa-search me-2"></i>Anahtar Kanıtlar</strong>';
+        html += '<div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px;">';
+        extraData.key_evidence.forEach(function(ev) {
+            html += '<span style="background: #22223a; color: #ccc; padding: 4px 12px; border-radius: 4px; font-size: 0.8rem;">' + ev + '</span>';
+        });
+        html += '</div></div>';
+    }
+
+    html += '<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 15px;">';
+    html += '<div style="background: #22223a; padding: 12px; border-radius: 6px;"><strong style="color: #ffc107; font-size: 0.8rem;">Kategori</strong><br><span style="color: #ccc; font-size: 0.9rem;">' + (catNames[idea.category] || idea.category) + '</span></div>';
+    html += '<div style="background: #22223a; padding: 12px; border-radius: 6px;"><strong style="color: #ffc107; font-size: 0.8rem;">Zorluk</strong><br><span style="color: #ccc; font-size: 0.9rem;">' + (idea.difficulty || '-') + '</span></div>';
+    html += '<div style="background: #22223a; padding: 12px; border-radius: 6px;"><strong style="color: #ffc107; font-size: 0.8rem;">Mekan</strong><br><span style="color: #ccc; font-size: 0.9rem;">' + (idea.setting || '-') + '</span></div>';
+    html += '<div style="background: #22223a; padding: 12px; border-radius: 6px;"><strong style="color: #ffc107; font-size: 0.8rem;">Dönem</strong><br><span style="color: #ccc; font-size: 0.9rem;">' + (idea.era || '-') + '</span></div>';
+    html += '<div style="background: #22223a; padding: 12px; border-radius: 6px;"><strong style="color: #ffc107; font-size: 0.8rem;">Kaynak Türü</strong><br><span style="color: #ccc; font-size: 0.9rem;">' + (idea.source_type || '-') + '</span></div>';
+
+    let suspectInfo = extraData.suspect_count || '-';
+    html += '<div style="background: #22223a; padding: 12px; border-radius: 6px;"><strong style="color: #ffc107; font-size: 0.8rem;">Şüpheli Sayısı</strong><br><span style="color: #ccc; font-size: 0.9rem;">' + suspectInfo + ' kişi</span></div>';
+    html += '</div>';
+
+    if (idea.tags) {
+        html += '<div style="margin-bottom: 15px;"><strong style="color: #ffc107; font-size: 0.8rem;">Etiketler</strong><br>';
+        html += '<div style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px;">';
+        idea.tags.split(',').forEach(function(tag) {
+            html += '<span style="background: #8b0000; color: #fff; padding: 3px 10px; border-radius: 3px; font-size: 0.75rem; font-weight: 600;">' + tag.trim() + '</span>';
+        });
+        html += '</div></div>';
+    }
+
+    if (!idea.is_used) {
+        html += '<div style="text-align: center; margin-top: 25px; padding-top: 15px; border-top: 1px solid #333;">';
+        html += '<p style="color: #888; font-size: 0.8rem; margin-bottom: 12px;">Bu vaka fikri tam bir dava dosyasına dönüştürülecek: şüpheli profilleri, otopsi raporu, olay yeri incelemesi, tanık ifadeleri, sorgu kayıtları ve daha fazlası AI tarafından oluşturulacak.</p>';
+        html += '<button onclick="document.querySelector(\'[data-bs-dismiss=modal]\').click(); createCase(' + id + ');" style="background: linear-gradient(135deg, #8b0000, #a00); color: #fff; border: none; padding: 14px 35px; border-radius: 8px; font-weight: 700; font-size: 0.95rem; cursor: pointer; transition: all 0.3s;"><i class="fas fa-magic me-2"></i> Tam Vaka Dosyası Oluştur</button>';
+        html += '</div>';
+    }
+    html += '</div>';
+
+    document.getElementById('detailBody').innerHTML = html;
+    new bootstrap.Modal(document.getElementById('detailModal')).show();
+}
+</script>
+{% endblock %}

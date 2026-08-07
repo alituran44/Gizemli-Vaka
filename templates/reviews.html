@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{% block title %}Yorumlar - Gizemli Vaka{% endblock %}
+{% block meta_description %}Gizemli Vaka oyuncularının yorumları ve deneyimleri. Gerçek dedektiflerden gerçek değerlendirmeler.{% endblock %}
+
+{% block structured_data %}
+{{ super() }}
+{% if comments %}
+{% set total_rating = namespace(val=0) %}
+{% for c in comments %}{% set total_rating.val = total_rating.val + c.rating %}{% endfor %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "Gizemli Vaka - Online Dedektiflik Oyunu",
+  "description": "Türkiye'nin ilk online dedektiflik oyun platformu. Gerçekçi cinayet dosyalarını inceleyin, delilleri analiz edin ve katili bulun.",
+  "url": "https://gizemlivaka.com",
+  "brand": {"@type": "Brand", "name": "Gizemli Vaka"},
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "{{ '%.1f' | format(total_rating.val / comments|length) }}",
+    "bestRating": "5",
+    "worstRating": "1",
+    "ratingCount": "{{ comments|length }}",
+    "reviewCount": "{{ comments|length }}"
+  },
+  "review": [
+    {% for comment in comments[:5] %}
+    {
+      "@type": "Review",
+      "author": {"@type": "Person", "name": "{{ comment.user.username }}"},
+      "reviewRating": {
+        "@type": "Rating",
+        "ratingValue": "{{ comment.rating }}",
+        "bestRating": "5"
+      },
+      "reviewBody": "{{ comment.content | replace('"', '') | replace('\n', ' ') | truncate(200) }}",
+      "datePublished": "{{ comment.date_posted.strftime('%Y-%m-%d') }}"
+    }{% if not loop.last %},{% endif %}
+    {% endfor %}
+  ]
+}
+</script>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="account-banner d-flex align-items-center" style="height: 380px; background: linear-gradient(to right, rgba(5, 10, 20, 0.85), rgba(5, 10, 20, 0.3)), url('{{ url_for('static', filename='reviews-bg.jpg') }}'); background-size: cover; background-position: center;">
+    <div class="container">
+        <h1 class="fw-bold text-white mb-3" style="font-size: 2.5rem;">Yorumlar</h1>
+        <p class="text-white opacity-75 mb-0" style="max-width: 650px; line-height: 1.6; font-size: 1rem;">
+            Gerçek dedektiflerden, gerçek deneyimler. Dünyanın dört bir yanından oyuncuların çevrimiçi Çözülmemiş Dava Dosyalarını nasıl deneyimlediğini keşfedin.
+        </p>
+    </div>
+</div>
+
+<style>
+    @media (max-width: 768px) {
+        .account-banner { height: 280px !important; }
+        .account-banner h1 { font-size: 1.8rem !important; }
+        .account-banner p { font-size: 0.9rem !important; }
+    }
+</style>
+
+<div class="py-5" style="background-color: #ffffff;">
+    <div class="container py-5">
+        <div class="text-center mb-5">
+            <span class="fw-bold small text-uppercase" style="letter-spacing: 1px; color: #050a14;">
+                Gerçek Dedektiflerden Gerçek Geri Bildirimler
+            </span>
+            <h2 class="fw-bold mt-2" style="color: #050a14; font-size: 2.2rem;">
+                Oyuncuların 
+                <span style="background-color: #FFD700; color: #000; padding: 0 10px;">Gizemli Vaka</span> 
+                Deneyimi
+            </h2>
+            <p class="text-secondary mt-3 mx-auto" style="max-width: 800px; font-size: 0.95rem;">
+                Oyuncularımızdan gelen geri bildirimleri duymaktan çok mutluyuz! Çevrimiçi Çözülmemiş Dava Dosyalarımızdan birini çözmekten keyif aldıysanız, lütfen bir yorum bırakmayı düşünün.
+            </p>
+        </div>
+
+        {% if comments %}
+        <div class="row g-4 text-start">
+            {% for comment in comments %}
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 border-0 shadow p-4" style="border-radius: 12px; background: #fff; border-top: 5px solid #FFD700 !important;">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <h6 class="fw-bold mb-0 text-dark" style="font-size: 1.1rem;">{{ comment.user.username }}</h6>
+                        <span class="badge bg-dark text-warning rounded-pill small" style="font-size: 0.7rem;">
+                            {{ comment.case.title }}
+                        </span>
+                    </div>
+                    <div class="text-warning mb-2" style="font-size: 0.75rem;">
+                        {% for i in range(comment.rating) %}
+                        <i class="fas fa-star"></i>
+                        {% endfor %}
+                        {% for i in range(5 - comment.rating) %}
+                        <i class="far fa-star"></i>
+                        {% endfor %}
+                    </div>
+                    <p class="text-secondary mb-2" style="font-size: 0.85rem; line-height: 1.5;">"{{ comment.content }}"</p>
+                    <small class="text-muted">{{ comment.date_posted.strftime('%d.%m.%Y') }}</small>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="text-center py-5">
+            <i class="fas fa-comments fa-4x text-muted mb-3"></i>
+            <p class="text-secondary">
+                Henüz yorum yok. Deneyiminizi paylaşan ilk kişi siz olun!
+            </p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

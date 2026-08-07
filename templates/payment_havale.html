@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="py-5 bg-dark min-vh-100">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+                    <div class="card-header text-white py-4 text-center" style="background: #2e7d32;">
+                        <h4 class="mb-0 fw-bold"><i class="fas fa-university me-2"></i>Banka Havalesi / EFT</h4>
+                    </div>
+                    <div class="card-body p-4 bg-white">
+
+                        <div class="alert alert-info mb-4">
+                            <i class="fas fa-info-circle me-2"></i>
+                            Aşağıdaki hesaba <strong>referans kodunuzu açıklama kısmına yazarak</strong> havale/EFT yapınız. Ödemeniz onaylandıktan sonra erişiminiz açılacaktır.
+                        </div>
+
+                        <div class="bg-light rounded-3 p-4 mb-4">
+                            <h6 class="text-muted small fw-bold mb-3 text-uppercase">Banka Bilgileri</h6>
+                            <table class="table table-borderless mb-0">
+                                <tr>
+                                    <td class="text-muted small py-2" style="width:40%;">Banka</td>
+                                    <td class="fw-bold py-2">{{ havale_banka_adi or '—' }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted small py-2">Hesap Sahibi</td>
+                                    <td class="fw-bold py-2">{{ havale_alici_adi or '—' }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted small py-2">IBAN</td>
+                                    <td class="fw-bold py-2 font-monospace" style="word-break:break-all;">{{ havale_iban or '—' }}</td>
+                                </tr>
+                                <tr class="border-top">
+                                    <td class="text-muted small py-2">Tutar</td>
+                                    <td class="fw-bold text-success py-2 fs-5">{{ "%.2f"|format(amount) }} TL</td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <div class="rounded-3 p-4 mb-4 text-center" style="background: #fff8e1; border: 2px dashed #f9a825;">
+                            <p class="text-muted small mb-1 fw-bold">Açıklama kısmına mutlaka yazınız:</p>
+                            <h3 class="fw-bold text-dark mb-2 font-monospace" id="refCode">{{ ref_code }}</h3>
+                            <button class="btn btn-sm btn-outline-secondary" onclick="copyRef(this)">
+                                <i class="fas fa-copy me-1"></i>Kopyala
+                            </button>
+                        </div>
+
+                        {% if title %}
+                        <div class="bg-light rounded-3 p-3 mb-4 d-flex align-items-center gap-3">
+                            <i class="fas fa-folder-open text-warning fa-lg"></i>
+                            <div>
+                                <small class="text-muted d-block">Satın Alınan İçerik</small>
+                                <span class="fw-bold">{{ title }}</span>
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        <div class="alert alert-warning small mb-4">
+                            <i class="fas fa-clock me-2"></i>
+                            Havale/EFT işleminizden sonra ödemeniz en geç <strong>1-2 saat içinde</strong> onaylanır.
+                            Herhangi bir sorun için <strong>destek@gizemlivaka.com</strong> adresine yazabilirsiniz.
+                        </div>
+
+                        <div class="text-center">
+                            <a href="{{ url_for('index') }}" class="btn btn-outline-secondary rounded-pill px-4">
+                                <i class="fas fa-home me-2"></i>Ana Sayfaya Dön
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function copyRef(btn) {
+    navigator.clipboard.writeText('{{ ref_code }}').then(() => {
+        btn.innerHTML = '<i class="fas fa-check me-1"></i>Kopyalandı!';
+        btn.classList.add('btn-success');
+        btn.classList.remove('btn-outline-secondary');
+        setTimeout(() => {
+            btn.innerHTML = '<i class="fas fa-copy me-1"></i>Kopyala';
+            btn.classList.remove('btn-success');
+            btn.classList.add('btn-outline-secondary');
+        }, 2500);
+    });
+}
+</script>
+{% endblock %}

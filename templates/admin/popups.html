@@ -1,0 +1,385 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="py-5 bg-light min-vh-100">
+  <div class="container mt-5">
+
+    <div class="d-flex align-items-center justify-content-between mb-4">
+      <div>
+        <h2 class="fw-bold mb-1" style="color:#0C1430;"><i class="fas fa-window-restore text-warning me-2"></i> Pop-up Yönetimi</h2>
+        <p class="text-muted small mb-0">Landing page'de gösterilecek pop-up'ları oluşturun ve yönetin.</p>
+      </div>
+      <button class="btn btn-warning fw-bold rounded-pill px-4 shadow-sm" onclick="openModal()">
+        <i class="fas fa-plus me-2"></i> Yeni Pop-up
+      </button>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% for cat, msg in messages %}
+      <div class="alert alert-{{ 'success' if cat == 'success' else 'danger' }} alert-dismissible fade show">
+        {{ msg }} <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      </div>
+      {% endfor %}
+    {% endwith %}
+
+    <!-- Popup Listesi -->
+    <div class="card border-0 shadow-sm mb-4">
+      <div class="card-header bg-white py-3 d-flex align-items-center">
+        <i class="fas fa-list text-warning me-2"></i>
+        <strong>Mevcut Pop-up'lar</strong>
+        <span class="badge bg-secondary ms-2">{{ popups|length }}</span>
+      </div>
+      <div class="card-body p-0">
+        {% if popups %}
+        <div class="table-responsive">
+          <table class="table table-hover mb-0 align-middle">
+            <thead class="table-light">
+              <tr>
+                <th style="width:40px;">Durum</th>
+                <th>Başlık</th>
+                <th>Tip</th>
+                <th>Öncelik</th>
+                <th>Tarih Aralığı</th>
+                <th class="text-end">İşlem</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for p in popups %}
+              <tr>
+                <td>
+                  <div class="form-check form-switch mb-0">
+                    <input class="form-check-input popup-toggle" type="checkbox" data-id="{{ p.id }}" {{ 'checked' if p.is_active }}>
+                  </div>
+                </td>
+                <td>
+                  <div class="fw-bold text-dark">{{ p.title }}</div>
+                  <div class="small text-muted">{{ p.popup_type|capitalize }} · {{ p.position|capitalize }}</div>
+                </td>
+                <td>
+                  {% if p.popup_type == 'info' %}<span class="badge bg-info">Bilgi</span>
+                  {% elif p.popup_type == 'promotion' %}<span class="badge bg-success">Promosyon</span>
+                  {% elif p.popup_type == 'announcement' %}<span class="badge bg-primary">Duyuru</span>
+                  {% else %}<span class="badge bg-warning text-dark">Uyarı</span>{% endif %}
+                </td>
+                <td><span class="badge bg-light text-dark border">{{ p.priority }}</span></td>
+                <td class="small text-muted">
+                  {% if p.start_date %}{{ p.start_date.strftime('%d.%m.%Y') }}{% else %}—{% endif %}
+                  →
+                  {% if p.end_date %}{{ p.end_date.strftime('%d.%m.%Y') }}{% else %}Süresiz{% endif %}
+                </td>
+                <td class="text-end">
+                  <button class="btn btn-sm btn-outline-primary border-0 me-1" onclick="openEditModal({{ p.id }})">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  <button class="btn btn-sm btn-outline-danger border-0" onclick="deletePopup({{ p.id }}, '{{ p.title }}')">
+                    <i class="fas fa-trash-alt"></i>
+                  </button>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        {% else %}
+        <div class="text-center py-5 text-muted">
+          <i class="fas fa-window-restore fa-3x mb-3 opacity-25"></i>
+          <p>Henüz pop-up oluşturulmamış.</p>
+          <button class="btn btn-warning btn-sm fw-bold rounded-pill px-4" onclick="openModal()">
+            <i class="fas fa-plus me-1"></i> İlk Pop-up'ı Oluştur
+          </button>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+    <div class="text-muted small">
+      <a href="{{ url_for('admin_cases') }}" class="text-decoration-none"><i class="fas fa-arrow-left me-1"></i> Admin Paneli</a>
+    </div>
+  </div>
+</div>
+
+<!-- Create/Edit Modal -->
+<div class="modal fade" id="popupModal" tabindex="-1" data-bs-backdrop="static">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content border-0 shadow-lg">
+      <div class="modal-header text-white border-0" style="background:linear-gradient(135deg,#0C1430,#1a2550);">
+        <h5 class="modal-title fw-bold"><i class="fas fa-window-restore me-2 text-warning"></i>
+          <span id="modalTitleText">Yeni Pop-up Oluştur</span>
+        </h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <form id="popupForm" method="POST" enctype="multipart/form-data">
+        <div class="modal-body p-4">
+
+          <div class="row g-3">
+            <div class="col-md-8">
+              <label class="small fw-bold mb-1 text-secondary">Başlık <span class="text-danger">*</span></label>
+              <input type="text" name="title" id="f_title" class="form-control" required placeholder="Pop-up başlığı">
+            </div>
+            <div class="col-md-4">
+              <label class="small fw-bold mb-1 text-secondary">Tip <span class="text-danger">*</span></label>
+              <select name="popup_type" id="f_popup_type" class="form-select">
+                <option value="info">Bilgi</option>
+                <option value="promotion">Promosyon</option>
+                <option value="announcement">Duyuru</option>
+                <option value="warning">Uyarı</option>
+              </select>
+            </div>
+            <div class="col-12">
+              <label class="small fw-bold mb-1 text-secondary">Mesaj <span class="text-danger">*</span></label>
+              <textarea name="message" id="f_message" class="form-control" rows="4" required placeholder="HTML içerik desteklenir&#10;Rich text içerik için HTML kullanabilirsiniz"></textarea>
+              <small class="text-muted">HTML etiketleri kullanılabilir (<code>&lt;b&gt;</code>, <code>&lt;a&gt;</code>, <code>&lt;br&gt;</code> vb.)</small>
+            </div>
+
+            <div class="col-md-6">
+              <label class="small fw-bold mb-1 text-secondary">Başlangıç Tarihi</label>
+              <input type="datetime-local" name="start_date" id="f_start_date" class="form-control">
+              <small class="text-muted">Boş bırakırsa hemen aktif olur</small>
+            </div>
+            <div class="col-md-6">
+              <label class="small fw-bold mb-1 text-secondary">Bitiş Tarihi</label>
+              <input type="datetime-local" name="end_date" id="f_end_date" class="form-control">
+              <small class="text-muted">Boş bırakırsa süresiz aktif kalır</small>
+            </div>
+
+            <div class="col-md-4">
+              <label class="small fw-bold mb-1 text-secondary">Hedef Kitle</label>
+              <select name="target_audience" id="f_target_audience" class="form-select">
+                <option value="all">Herkes</option>
+                <option value="guests">Misafirler</option>
+                <option value="logged_in">Giriş Yapanlar</option>
+              </select>
+            </div>
+            <div class="col-md-4">
+              <label class="small fw-bold mb-1 text-secondary">Öncelik</label>
+              <input type="number" name="priority" id="f_priority" class="form-control" value="0" min="0" max="100">
+              <small class="text-muted">Yüksek sayı = öncelikli</small>
+            </div>
+            <div class="col-md-4">
+              <label class="small fw-bold mb-1 text-secondary">Pozisyon</label>
+              <select name="position" id="f_position" class="form-select">
+                <option value="center">Ortada</option>
+                <option value="top">Üstte</option>
+                <option value="bottom">Altta</option>
+              </select>
+            </div>
+
+            <div class="col-md-4">
+              <label class="small fw-bold mb-1 text-secondary">Genişlik (px)</label>
+              <input type="number" name="width" id="f_width" class="form-control" value="500" min="200" max="1200">
+            </div>
+            <div class="col-md-4">
+              <label class="small fw-bold mb-1 text-secondary">Yükseklik (px, opsiyonel)</label>
+              <input type="number" name="height" id="f_height" class="form-control" placeholder="Otomatik">
+              <small class="text-muted">Boş bırakırsa otomatik ayarlanır</small>
+            </div>
+            <div class="col-md-4">
+              <label class="small fw-bold mb-1 text-secondary">Overlay Opaklığı (0-1)</label>
+              <input type="number" name="overlay_opacity" id="f_overlay_opacity" class="form-control" value="0.5" min="0" max="1" step="0.1">
+            </div>
+
+            <!-- GÖRSEL YÜKLEME (URL yerine dosya) -->
+            <div class="col-12">
+              <label class="small fw-bold mb-1 text-secondary">Görsel</label>
+              <div id="currentImagePreview" class="mb-2 d-none">
+                <img id="currentImage" src="" alt="Mevcut görsel" class="img-thumbnail" style="max-height:120px;max-width:200px;">
+                <div class="small text-muted mt-1">Mevcut görsel — yeni dosya seçmezseniz korunur.</div>
+              </div>
+              <input type="file" name="image_file" id="f_image_file" class="form-control" accept="image/*">
+              <small class="text-muted">JPG, PNG, GIF veya WebP · Maks. 5MB</small>
+            </div>
+
+            <div class="col-md-6">
+              <label class="small fw-bold mb-1 text-secondary">Buton Metni</label>
+              <input type="text" name="button_text" id="f_button_text" class="form-control" placeholder="Örn: Hemen Keşfet">
+            </div>
+            <div class="col-md-6">
+              <label class="small fw-bold mb-1 text-secondary">Buton Link URL</label>
+              <input type="text" name="button_url" id="f_button_url" class="form-control" placeholder="https://example.com">
+            </div>
+
+            <div class="col-md-6">
+              <label class="small fw-bold mb-1 text-secondary">Link Target</label>
+              <select name="link_target" id="f_link_target" class="form-select">
+                <option value="_self">Aynı Sekmede</option>
+                <option value="_blank">Yeni Sekmede</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label class="small fw-bold mb-1 text-secondary">Gizleme Süresi (gün)</label>
+              <input type="number" name="hide_duration" id="f_hide_duration" class="form-control" placeholder="Boş = kalıcı gizleme">
+            </div>
+
+            <div class="col-12 d-flex gap-4 flex-wrap">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="is_active" id="f_is_active" checked>
+                <label class="form-check-label small fw-bold" for="f_is_active">Aktif</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="is_closeable" id="f_is_closeable" checked>
+                <label class="form-check-label small fw-bold" for="f_is_closeable">Kapatılabilir</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="show_once_per_user" id="f_show_once">
+                <label class="form-check-label small fw-bold" for="f_show_once">Kullanıcı başına bir kez göster</label>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="modal-footer border-0 bg-light">
+          <button type="button" class="btn btn-light border rounded-pill px-4" data-bs-dismiss="modal">İptal</button>
+          <button type="button" class="btn btn-outline-secondary rounded-pill px-4" onclick="previewPopup()">
+            <i class="fas fa-eye me-1"></i> Önizle
+          </button>
+          <button type="submit" class="btn btn-warning fw-bold rounded-pill px-5 shadow-sm">
+            <i class="fas fa-save me-2"></i> <span id="submitBtnText">Oluştur</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Form (hidden) -->
+<form id="deleteForm" method="POST" style="display:none;"></form>
+
+<!-- Preview Modal -->
+<div class="modal fade" id="previewModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered" id="previewDialog">
+    <div class="modal-content border-0 shadow-lg" id="previewContent">
+      <div id="previewBody" class="p-4"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const popupData = {{ popups | map(attribute='id') | list | tojson }};
+
+// Popup verilerini JS'e aktar
+const popupMap = {
+  {% for p in popups %}
+  {{ p.id }}: {
+    title: {{ p.title | tojson }},
+    message: {{ p.message | tojson }},
+    popup_type: {{ p.popup_type | tojson }},
+    start_date: "{{ p.start_date.strftime('%Y-%m-%dT%H:%M') if p.start_date else '' }}",
+    end_date: "{{ p.end_date.strftime('%Y-%m-%dT%H:%M') if p.end_date else '' }}",
+    target_audience: {{ p.target_audience | tojson }},
+    priority: {{ p.priority }},
+    position: {{ p.position | tojson }},
+    width: {{ p.width }},
+    height: {{ p.height or 'null' }},
+    overlay_opacity: {{ p.overlay_opacity }},
+    image_filename: {{ (p.image_filename or '') | tojson }},
+    button_text: {{ (p.button_text or '') | tojson }},
+    button_url: {{ (p.button_url or '') | tojson }},
+    link_target: {{ p.link_target | tojson }},
+    is_active: {{ 'true' if p.is_active else 'false' }},
+    is_closeable: {{ 'true' if p.is_closeable else 'false' }},
+    show_once_per_user: {{ 'true' if p.show_once_per_user else 'false' }},
+    hide_duration: {{ p.hide_duration or 'null' }},
+  },
+  {% endfor %}
+};
+
+function openModal() {
+  document.getElementById('modalTitleText').textContent = 'Yeni Pop-up Oluştur';
+  document.getElementById('submitBtnText').textContent = 'Oluştur';
+  document.getElementById('popupForm').action = '{{ url_for("admin_popup_create") }}';
+  document.getElementById('popupForm').reset();
+  document.getElementById('currentImagePreview').classList.add('d-none');
+  new bootstrap.Modal(document.getElementById('popupModal')).show();
+}
+
+function openEditModal(id) {
+  const p = popupMap[id];
+  if (!p) return;
+  document.getElementById('modalTitleText').textContent = 'Pop-up Düzenle';
+  document.getElementById('submitBtnText').textContent = 'Güncelle';
+  document.getElementById('popupForm').action = `/admin/popups/${id}/edit`;
+
+  document.getElementById('f_title').value = p.title;
+  document.getElementById('f_message').value = p.message;
+  document.getElementById('f_popup_type').value = p.popup_type;
+  document.getElementById('f_start_date').value = p.start_date;
+  document.getElementById('f_end_date').value = p.end_date;
+  document.getElementById('f_target_audience').value = p.target_audience;
+  document.getElementById('f_priority').value = p.priority;
+  document.getElementById('f_position').value = p.position;
+  document.getElementById('f_width').value = p.width;
+  document.getElementById('f_height').value = p.height || '';
+  document.getElementById('f_overlay_opacity').value = p.overlay_opacity;
+  document.getElementById('f_button_text').value = p.button_text;
+  document.getElementById('f_button_url').value = p.button_url;
+  document.getElementById('f_link_target').value = p.link_target;
+  document.getElementById('f_is_active').checked = p.is_active;
+  document.getElementById('f_is_closeable').checked = p.is_closeable;
+  document.getElementById('f_show_once').checked = p.show_once_per_user;
+  document.getElementById('f_hide_duration').value = p.hide_duration || '';
+
+  // Mevcut görsel
+  const imgPreview = document.getElementById('currentImagePreview');
+  if (p.image_filename) {
+    document.getElementById('currentImage').src = `/static/uploads/popups/${p.image_filename}`;
+    imgPreview.classList.remove('d-none');
+  } else {
+    imgPreview.classList.add('d-none');
+  }
+
+  new bootstrap.Modal(document.getElementById('popupModal')).show();
+}
+
+function deletePopup(id, title) {
+  if (!confirm(`"${title}" başlıklı pop-up'ı silmek istediğinize emin misiniz?`)) return;
+  const form = document.getElementById('deleteForm');
+  form.action = `/admin/popups/${id}/delete`;
+  form.submit();
+}
+
+function previewPopup() {
+  const title = document.getElementById('f_title').value;
+  const message = document.getElementById('f_message').value;
+  const btnText = document.getElementById('f_button_text').value;
+  const width = document.getElementById('f_width').value || 500;
+  const imgFile = document.getElementById('f_image_file').files[0];
+
+  let imgHtml = '';
+  if (imgFile) {
+    const url = URL.createObjectURL(imgFile);
+    imgHtml = `<img src="${url}" style="width:100%;max-height:200px;object-fit:cover;border-radius:8px 8px 0 0;display:block;">`;
+  }
+
+  const html = `
+    ${imgHtml}
+    <div style="padding:24px;">
+      <h5 style="color:#0C1430;font-weight:800;margin-top:0;">${title || 'Pop-up Başlığı'}</h5>
+      <div style="color:#555;line-height:1.7;">${message || 'Pop-up mesajı burada görünecek.'}</div>
+      ${btnText ? `<div style="text-align:center;margin-top:20px;"><a href="#" class="btn btn-warning fw-bold rounded-pill px-4">${btnText}</a></div>` : ''}
+    </div>`;
+
+  document.getElementById('previewBody').innerHTML = html;
+  document.getElementById('previewDialog').style.maxWidth = width + 'px';
+
+  const previewModalEl = document.getElementById('previewModal');
+  const popupModalEl = document.getElementById('popupModal');
+  bootstrap.Modal.getInstance(popupModalEl).hide();
+  setTimeout(() => new bootstrap.Modal(previewModalEl).show(), 300);
+}
+
+// Toggle switch
+document.querySelectorAll('.popup-toggle').forEach(function(toggle) {
+  toggle.addEventListener('change', function() {
+    const id = this.dataset.id;
+    fetch(`/admin/popups/${id}/toggle`, {method: 'POST'})
+      .then(r => r.json())
+      .then(data => {
+        this.checked = data.is_active;
+      });
+  });
+});
+</script>
+
+<style>
+.form-check-input:checked { background-color: #FFD700 !important; border-color: #FFD700 !important; }
+.form-control:focus, .form-select:focus { border-color: #FFD700; box-shadow: 0 0 0 0.2rem rgba(255,215,0,.2); }
+</style>
+{% endblock %}

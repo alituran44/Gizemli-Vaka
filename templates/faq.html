@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+{% block title %}Sıkça Sorulan Sorular - Gizemli Vaka{% endblock %}
+{% block meta_description %}Gizemli Vaka hakkında sıkça sorulan sorular. Nasıl oynanır, ödeme seçenekleri, takım oyunları ve daha fazlası hakkında bilgi edinin.{% endblock %}
+{% block content %}
+<style>
+@media (max-width: 768px) {
+    .faq-hero { padding: 80px 0 40px !important; }
+    .faq-hero h1 { font-size: 1.6rem !important; }
+    .faq-hero p { font-size: 0.85rem !important; }
+    .col-lg-4 { flex: 0 0 100%; max-width: 100%; margin-bottom: 20px; }
+    .col-lg-8 { flex: 0 0 100%; max-width: 100%; }
+}
+@media (max-width: 576px) {
+    .faq-hero h1 { font-size: 1.3rem !important; }
+    .display-4 { font-size: 1.5rem !important; }
+}
+</style>
+<section class="faq-hero position-relative" style="background: linear-gradient(rgba(10, 25, 41, 0.85), rgba(10, 25, 41, 0.9)), url('{{ url_for('static', filename='images/faq-bg.jpg') }}') center/cover; padding: 120px 0 80px;">
+    <div class="container text-center text-white">
+        <h1 class="display-4 fw-bold mb-4">Sıkça Sorulan Sorular</h1>
+        <p class="lead opacity-75 mx-auto" style="max-width: 700px;">
+            Dedektif, Gizemli Vakalar operasyon merkezine hoş geldin. Karanlıkta kalan gerçekleri gün yüzüne çıkarma yolculuğunda, bu alan senin en güvenilir bilgi kaynağın olacak. Saha görevlerinde karşılaşabileceğin teknik engellerden, karmaşık delil analizlerine kadar tüm süreci bu brifing dosyasıyla yönetebilirsin.
+        </p>
+    </div>
+</section>
+
+<section class="py-5" style="background-color: #fff;">
+    <div class="container py-4">
+        <div class="row">
+            <div class="col-lg-4 mb-4 mb-lg-0">
+                <h2 class="fw-bold mb-4" style="color: #0a1929;">
+                    Sıkça sorulan sorular
+                </h2>
+                <p class="text-muted mb-4">
+                    Burada, çevrimiçi çözülmemiş dava dosyaları oyunlarımızla ilgili sıkça sorulan soruların yanıtlarını bulacaksınız.
+                </p>
+                <p class="text-muted mb-4">
+                    Soruşturma sırasında bir ipucunda takılırsan veya teknik bir yardıma ihtiyaç duyarsan, lütfen iletişim sayfamız üzerinden bizimle irtibata geçmekten çekinme. Adaletin yerini bulması ve dedektiflik deneyiminin hem sürükleyici hem de sorunsuz geçmesi için her an görev başındayız. Gerçeklerin peşindeki bu yolda sana eşlik etmekten heyecan duyuyoruz!
+                </p>
+                <a href="{{ url_for('contact') }}" class="btn btn-warning fw-bold px-4 py-2">
+                    <i class="fas fa-envelope me-2"></i>
+                    Bize Ulaşın
+                </a>
+            </div>
+            
+            <div class="col-lg-8">
+                {% if faqs %}
+                <div class="faq-list">
+                    {% for faq in faqs %}
+                    <div class="faq-item mb-3">
+                        <div class="faq-question d-flex align-items-start p-3" style="background-color: #fff; border: 1px solid #e0e0e0; border-radius: 8px; cursor: pointer;" onclick="toggleFaq({{ faq.id }})">
+                            <span class="faq-icon me-3 text-warning fw-bold" id="icon-{{ faq.id }}">+</span>
+                            <span class="fw-semibold" style="color: #0a1929;">
+                                {{ faq.question }}
+                            </span>
+                        </div>
+                        <div class="faq-answer p-3 ps-5" id="answer-{{ faq.id }}" style="display: none; background-color: #f8f9fa; border: 1px solid #e0e0e0; border-top: none; border-radius: 0 0 8px 8px; color: #333;">
+                            {{ faq.answer|safe }}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="text-center p-5" style="background-color: #f8f9fa; border-radius: 12px;">
+                    <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+                    <h5 class="text-muted">Henüz soru eklenmemiş</h5>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+function toggleFaq(id) {
+    const answer = document.getElementById('answer-' + id);
+    const icon = document.getElementById('icon-' + id);
+    
+    if (answer.style.display === 'none') {
+        answer.style.display = 'block';
+        icon.textContent = '-';
+    } else {
+        answer.style.display = 'none';
+        icon.textContent = '+';
+    }
+}
+</script>
+
+<style>
+.faq-question:hover {
+    background-color: #f8f9fa !important;
+}
+.faq-icon {
+    font-size: 1.5rem;
+    line-height: 1;
+    min-width: 20px;
+    text-align: center;
+}
+</style>
+
+{% endblock %}
+
+{% block breadcrumb_schema %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "Ana Sayfa", "item": "https://gizemlivaka.com"},
+    {"@type": "ListItem", "position": 2, "name": "Sıkça Sorulan Sorular", "item": "https://gizemlivaka.com/faq"}
+  ]
+}
+</script>
+{% endblock %}
+
+{% block structured_data %}
+{{ super() }}
+{% if faqs %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {% for faq in faqs %}
+    {
+      "@type": "Question",
+      "name": "{{ faq.question|e }}",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "{{ faq.answer|striptags|e }}"
+      }
+    }{% if not loop.last %},{% endif %}
+    {% endfor %}
+  ]
+}
+</script>
+{% endif %}
+{% endblock %}

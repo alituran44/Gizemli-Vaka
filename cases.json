@@ -1,0 +1,11 @@
+[
+    {
+        "id": 1,
+        "title": "Stonewood Gizemi",
+        "description": "Emily Williams'ın cinayetini araştırın. Şüpheli profillerini ve dijital kanıtları analiz ederek katili adalete teslim edin.",
+        "image": "unnamed.jpg",
+        "old_price": "29,99",
+        "price": "22,49",
+        "is_new": false
+    }
+]

@@ -1,0 +1,906 @@
+{% extends "base.html" %}
+{% block content %}
+<script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
+
+<div class="py-5 bg-light min-vh-100">
+    <div class="container border-0 shadow-lg mt-5 bg-white" style="border-radius: 12px; overflow: hidden;">
+        <div class="row g-0">
+            <div class="col-md-3 border-end bg-white">
+                <div class="list-group list-group-flush small fw-bold text-uppercase">
+                    <div class="p-4 bg-dark text-white d-flex align-items-center">
+                        <i class="fas fa-user-shield me-2 text-warning"></i>
+                        <span>SİTE YÖNETİMİ</span>
+                    </div>
+
+                    <a href="{{ url_for('admin_settings', section='news') }}" 
+                       class="list-group-item list-group-item-action py-3 border-0 {% if section=='news' %}active-setting{% endif %}">
+                        <i class="fas fa-bullhorn me-2"></i> Son Dakika Haberleri
+                    </a>
+
+                    <a href="{{ url_for('admin_settings', section='contact') }}" 
+                       class="list-group-item list-group-item-action py-3 border-0 {% if section=='contact' %}active-setting{% endif %}">
+                        <i class="fas fa-envelope me-2"></i> İletişim Bilgileri
+                    </a>
+
+                    <a href="{{ url_for('admin_settings', section='header') }}" 
+                       class="list-group-item list-group-item-action py-3 border-0 {% if section=='header' %}active-setting{% endif %}">
+                        <i class="fas fa-window-maximize me-2"></i> Header Ayarları
+                    </a>
+
+                    <a href="{{ url_for('admin_settings', section='footer') }}" 
+                       class="list-group-item list-group-item-action py-3 border-0 {% if section=='footer' %}active-setting{% endif %}">
+                        <i class="fas fa-shoe-prints me-2"></i> Footer Ayarları
+                    </a>
+
+                    <a href="{{ url_for('admin_settings', section='promo_video') }}" 
+                       class="list-group-item list-group-item-action py-3 border-0 {% if section=='promo_video' %}active-setting{% endif %}">
+                        <i class="fas fa-video me-2"></i> Tanıtım Videosu
+                    </a>
+
+                    <div class="p-2 bg-light small fw-bold text-muted border-top border-bottom" style="font-size: 0.65rem;">İÇERİK YÖNETİMİ</div>
+
+                    <a href="{{ url_for('admin_settings', section='pages') }}" 
+                       class="list-group-item list-group-item-action py-3 border-0 {% if section=='pages' %}active-setting{% endif %}">
+                        <i class="fas fa-file-alt me-2"></i> Tüm Sayfalar (Yasal)
+                    </a>
+                    <a href="{{ url_for('admin_settings', section='add_page') }}" 
+                       class="list-group-item list-group-item-action py-3 border-0 {% if section=='add_page' %}active-setting{% endif %}">
+                        <i class="fas fa-plus-circle me-2"></i> Yeni Sayfa Ekle
+                    </a>
+                    <a href="{{ url_for('admin_settings', section='faq') }}" 
+                       class="list-group-item list-group-item-action py-3 border-0 {% if section=='faq' %}active-setting{% endif %}">
+                        <i class="fas fa-question-circle me-2"></i> Sık Sorulan Sorular
+                    </a>
+                    <a href="{{ url_for('admin_settings', section='partner') }}" 
+                       class="list-group-item list-group-item-action py-3 border-0 {% if section=='partner' %}active-setting{% endif %}">
+                        <i class="fas fa-handshake me-2"></i> Ortak Olun Sayfası
+                    </a>
+
+                    <div class="p-2 bg-light small fw-bold text-muted border-top border-bottom" style="font-size: 0.65rem;">ÖDEME YÖNETİMİ</div>
+
+                    <a href="{{ url_for('admin_settings', section='payment') }}" 
+                       class="list-group-item list-group-item-action py-3 border-0 {% if section=='payment' %}active-setting{% endif %}">
+                        <i class="fas fa-credit-card me-2"></i> Ödeme Ayarları
+                    </a>
+
+                    <div class="p-2 bg-light small fw-bold text-muted border-top border-bottom" style="font-size: 0.65rem;">E-POSTA YÖNETİMİ</div>
+
+                    <a href="{{ url_for('admin_settings', section='email') }}"
+                       class="list-group-item list-group-item-action py-3 border-0 {% if section=='email' %}active-setting{% endif %}">
+                        <i class="fas fa-server me-2"></i> E-posta (SMTP) Ayarları
+                    </a>
+                    <a href="{{ url_for('admin_mail_templates') }}"
+                       class="list-group-item list-group-item-action py-3 border-0">
+                        <i class="fas fa-envelope-open-text me-2"></i> Mail Şablonları
+                    </a>
+                    <a href="{{ url_for('admin_popups') }}"
+                       class="list-group-item list-group-item-action py-3 border-0">
+                        <i class="fas fa-window-restore me-2"></i> Pop-up Yönetimi
+                    </a>
+
+                    <div class="mt-auto border-top">
+                        <a href="{{ url_for('admin_cases') }}" class="list-group-item list-group-item-action py-3 text-muted border-0">
+                            <i class="fas fa-arrow-left me-2"></i> Panele Dön
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-9 p-5">
+                <form method="POST" enctype="multipart/form-data">
+
+                    {% if section == 'news' %}
+                    <div class="section-header mb-4">
+                        <h2 class="fw-bold h4"><i class="fas fa-bullhorn text-warning me-2"></i> Haber Bandı Ayarları</h2>
+                        <p class="text-muted small">Sitenin en alt kısmında kayan duyuru metnini yönetin.</p>
+                    </div>
+                    <div class="mb-3">
+                        <label class="small fw-bold mb-2 text-secondary">Breaking News Metni</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-white border-end-0"><i class="fas fa-terminal text-muted"></i></span>
+                            <input type="text" name="breaking_news" class="form-control form-control-lg border-start-0 ps-0" 
+                                   value="{{ settings.get('breaking_news', '') }}" placeholder="Örn: Yeni deliller arşive eklendi!">
+                        </div>
+                    </div>
+
+                    {% elif section == 'contact' %}
+                    <div class="section-header mb-4">
+                        <h2 class="fw-bold h4"><i class="fas fa-envelope text-warning me-2"></i> Site İletişim Bilgileri</h2>
+                    </div>
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <label class="small fw-bold mb-2 text-secondary">E-posta Adresi</label>
+                            <input type="email" name="site_email" class="form-control ps-3 py-2" value="{{ settings.get('site_email', '') }}">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="small fw-bold mb-2 text-secondary">Telefon Numarası</label>
+                            <input type="text" name="site_phone" class="form-control ps-3 py-2" value="{{ settings.get('site_phone', '') }}">
+                        </div>
+                    </div>
+
+                    {% elif section == 'header' %}
+                    <div class="section-header mb-4">
+                        <h2 class="fw-bold h4"><i class="fas fa-heading text-warning me-2"></i> Logo & Gelişmiş Navigasyon</h2>
+                    </div>
+
+                    <div class="card border-0 shadow-sm mb-4 bg-light">
+                        <div class="card-body">
+                            <label class="fw-bold small text-secondary mb-2">Logo Resmi (Resim yüklerseniz metin logonun yerini alır)</label>
+                            {% if settings.get('logo_img') %}
+                                <div class="mb-2"><img src="{{ url_for('static', filename='uploads/' + settings.get('logo_img')) }}" height="40"></div>
+                            {% endif %}
+                            <input type="file" name="logo_img" class="form-control mb-2">
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <label class="small fw-bold text-secondary">Yedek Logo Metni (Kalın)</label>
+                            <input type="text" name="logo_bold" class="form-control" value="{{ settings.get('logo_bold', 'GİZEMLİ') }}">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="small fw-bold text-secondary">Yedek Logo Alt Metni (İnce)</label>
+                            <input type="text" name="logo_sub" class="form-control" value="{{ settings.get('logo_sub', 'VAKALAR') }}">
+                        </div>
+                    </div>
+
+                    <hr class="my-4">
+                    <h6 class="fw-bold text-dark border-start border-warning border-3 ps-2 mb-3">Üst Menü & Açılır Menü Ayarları</h6>
+                    <div class="row g-3">
+                        {% for i in range(1, 5) %}
+                        <div class="col-md-6 mb-3">
+                            <div class="p-3 border rounded bg-light shadow-sm h-100">
+                                <label class="small fw-bold text-primary">{{ i }}. Ana Menü Linki</label>
+                                <input type="text" name="nav{{i}}_text" class="form-control mb-1 fw-bold" placeholder="Görünecek İsim" value="{{ settings.get('nav'~i~'_text', '') }}">
+                                <input type="text" name="nav{{i}}_url" class="form-control mb-3 small" placeholder="Yönlenecek URL (/cases vb.)" value="{{ settings.get('nav'~i~'_url', '') }}">
+
+                                <label class="small text-muted fw-bold d-block mb-1">Alt Menü Öğeleri (Açılır Menü)</label>
+                                {% for j in range(1, 4) %}
+                                <div class="input-group input-group-sm mb-1">
+                                    <input type="text" name="nav{{i}}_sub{{j}}_text" class="form-control" placeholder="Alt Yazı" value="{{ settings.get('nav'~i~'_sub'~j~'_text', '') }}">
+                                    <input type="text" name="nav{{i}}_sub{{j}}_url" class="form-control" placeholder="Alt URL" value="{{ settings.get('nav'~i~'_sub'~j~'_url', '') }}">
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    {% elif section == 'footer' %}
+                    <div class="section-header mb-4">
+                        <h2 class="fw-bold h4"><i class="fas fa-shoe-prints text-warning me-2"></i> Footer & Alt Bölüm</h2>
+                    </div>
+                    <div class="mb-4">
+                        <label class="small fw-bold mb-2 text-secondary">Yasal Uyarı / Telif Metni</label>
+                        <textarea name="legal_text" class="form-control ps-3" rows="3">{{ settings.get('legal_text', '') }}</textarea>
+                    </div>
+                    <div class="mb-4">
+                        <label class="small fw-bold mb-2 text-secondary">En Alt Bar Bilgisi</label>
+                        <input type="text" name="bottom_bar_text" class="form-control" value="{{ settings.get('bottom_bar_text', '') }}">
+                    </div>
+                    <hr class="my-4">
+                    <h6 class="fw-bold text-dark border-start border-warning border-3 ps-2 mb-3">Footer Link Sütunları</h6>
+                    <div class="row g-3">
+                        {% for col in range(1, 4) %}
+                        <div class="col-md-4">
+                            <div class="p-3 border rounded bg-light h-100 shadow-sm">
+                                <label class="small fw-bold text-primary">{{ col }}. Sütun Başlığı</label>
+                                <input type="text" name="f_col{{ col }}_title" class="form-control mb-3 fw-bold" value="{{ settings.get('f_col'~col~'_title', '') }}">
+                                {% for link in range(1, 4) %}
+                                <div class="mb-2 p-2 border-start border-warning border-2 bg-white shadow-sm rounded">
+                                    <input type="text" name="f_col{{ col }}_l{{ link }}_text" class="form-control form-control-sm mb-1 border-0 bg-light" placeholder="Link Adı" value="{{ settings.get('f_col'~col~'_l'~link~'_text', '') }}">
+                                    <input type="text" name="f_col{{ col }}_l{{ link }}_url" class="form-control form-control-sm border-0 bg-light" placeholder="URL" value="{{ settings.get('f_col'~col~'_l'~link~'_url', '') }}">
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <hr class="my-4">
+                    <h6 class="fw-bold text-dark border-start border-warning border-3 ps-2 mb-3">Sosyal Medya Linkleri</h6>
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <label class="small fw-bold mb-2 d-block text-dark"><i class="fab fa-instagram text-danger me-2" style="font-size: 1.2rem;"></i> Instagram</label>
+                            <input type="text" name="social_instagram" class="form-control" value="{{ settings.get('social_instagram', '') }}" placeholder="https://instagram.com/...">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="small fw-bold mb-2 d-block text-dark"><i class="fab fa-facebook text-primary me-2" style="font-size: 1.2rem;"></i> Facebook</label>
+                            <input type="text" name="social_facebook" class="form-control" value="{{ settings.get('social_facebook', '') }}" placeholder="https://facebook.com/...">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="small fw-bold mb-2 d-block text-dark"><i class="fab fa-x-twitter me-2" style="font-size: 1.2rem;"></i> X (Twitter)</label>
+                            <input type="text" name="social_twitter" class="form-control" value="{{ settings.get('social_twitter', '') }}" placeholder="https://x.com/...">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="small fw-bold mb-2 d-block text-dark"><i class="fab fa-youtube text-danger me-2" style="font-size: 1.2rem;"></i> YouTube</label>
+                            <input type="text" name="social_youtube" class="form-control" value="{{ settings.get('social_youtube', '') }}" placeholder="https://youtube.com/...">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="small fw-bold mb-2 d-block text-dark"><i class="fab fa-tiktok me-2" style="font-size: 1.2rem;"></i> TikTok</label>
+                            <input type="text" name="social_tiktok" class="form-control" value="{{ settings.get('social_tiktok', '') }}" placeholder="https://tiktok.com/...">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="small fw-bold mb-2 d-block text-dark"><i class="fab fa-whatsapp text-success me-2" style="font-size: 1.2rem;"></i> WhatsApp Numarası</label>
+                            <input type="text" name="whatsapp_number" class="form-control" value="{{ settings.get('whatsapp_number', '') }}" placeholder="905xxxxxxxxx">
+                            <small class="text-muted">Ülke kodu ile birlikte yazın (örn: 905551234567)</small>
+                        </div>
+                        <div class="col-md-8">
+                            <label class="small fw-bold mb-2 d-block text-dark"><i class="fab fa-whatsapp text-success me-2" style="font-size: 1.2rem;"></i> WhatsApp Mesajı</label>
+                            <input type="text" name="whatsapp_message" class="form-control" value="{{ settings.get('whatsapp_message', '') }}" placeholder="Merhaba, Gizemli Vaka hakkında bilgi almak istiyorum.">
+                            <small class="text-muted">Kullanıcı tıkladığında otomatik gönderilecek mesaj</small>
+                        </div>
+                    </div>
+
+                    {% elif section == 'pages' %}
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h2 class="fw-bold h4"><i class="fas fa-file-invoice text-warning me-2"></i> Sistem Sayfaları</h2>
+                        <a href="{{ url_for('admin_settings', section='add_page') }}" class="btn btn-warning btn-sm fw-bold rounded-pill px-3 shadow-sm">+ Yeni Sayfa</a>
+                    </div>
+                    <div class="table-responsive border rounded bg-white">
+                        <table class="table table-hover mb-0">
+                            <thead class="table-light">
+                                <tr><th>Sayfa Başlığı</th><th>Bağlantı (URL)</th><th class="text-end">İşlem</th></tr>
+                            </thead>
+                            <tbody>
+                                {% for p in pages %}
+                                <tr>
+                                    <td class="fw-bold text-dark">{{ p.title }}</td>
+                                    <td class="small text-muted">/p/{{ p.slug }}</td>
+                                    <td class="text-end">
+                                        <a href="{{ url_for('admin_settings', section='edit_page', page_id=p.id) }}" class="btn btn-sm btn-outline-primary border-0">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <a href="{{ url_for('delete_page', id=p.id) }}" class="btn btn-sm btn-outline-danger border-0" onclick="return confirm('Bu sayfayı silmek istediğinize emin misiniz?')">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    {% elif section == 'add_page' %}
+                    <div class="section-header mb-4">
+                        <h2 class="fw-bold h4"><i class="fas fa-plus-circle text-warning me-2"></i> Yeni Sayfa Oluştur</h2>
+                    </div>
+                    <div class="mb-4">
+                        <label class="small fw-bold mb-2 text-secondary">Sayfa Başlığı</label>
+                        <input type="text" name="page_title" class="form-control form-control-lg ps-3 shadow-sm" placeholder="Örn: Gizlilik Sözleşmesi" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="small fw-bold mb-2 text-secondary">İçerik Metni (Zengin Metin Editörü)</label>
+                        <textarea name="page_content" id="page_content"></textarea>
+                    </div>
+                    <script>CKEDITOR.replace('page_content');</script>
+
+                    {% elif section == 'edit_page' and edit_page %}
+                    <div class="section-header mb-4">
+                        <h2 class="fw-bold h4"><i class="fas fa-edit text-warning me-2"></i> Sayfa Düzenle</h2>
+                    </div>
+                    <form method="POST" action="{{ url_for('admin_settings', section='edit_page', page_id=edit_page.id) }}">
+                        <div class="mb-4">
+                            <label class="small fw-bold mb-2 text-secondary">Sayfa Başlığı</label>
+                            <input type="text" name="page_title" class="form-control form-control-lg ps-3 shadow-sm" value="{{ edit_page.title }}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="small fw-bold mb-2 text-secondary">İçerik Metni (Zengin Metin Editörü)</label>
+                            <textarea name="page_content" id="edit_page_content">{{ edit_page.content }}</textarea>
+                        </div>
+                        <script>CKEDITOR.replace('edit_page_content');</script>
+                        <div class="mt-4">
+                            <button type="submit" class="btn btn-warning fw-bold px-4">
+                                <i class="fas fa-save me-2"></i> Değişiklikleri Kaydet
+                            </button>
+                            <a href="{{ url_for('admin_settings', section='pages') }}" class="btn btn-outline-secondary ms-2">İptal</a>
+                        </div>
+                    </form>
+
+                    {% elif section == 'faq' %}
+                    <div class="section-header mb-4">
+                        <h2 class="fw-bold h4"><i class="fas fa-question-circle text-warning me-2"></i> Sık Sorulan Sorular</h2>
+                        <p class="text-muted small">SSS sayfasında görünecek soruları ve cevapları yönetin.</p>
+                    </div>
+
+                    <div class="mb-4">
+                        <a href="{{ url_for('admin_add_faq') }}" class="btn btn-warning fw-bold">
+                            <i class="fas fa-plus me-2"></i> Yeni Soru Ekle
+                        </a>
+                    </div>
+
+                    {% if faqs %}
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Sıra</th>
+                                    <th>Soru (TR)</th>
+                                    <th>Soru (EN)</th>
+                                    <th>Durum</th>
+                                    <th class="text-end">İşlemler</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for faq in faqs %}
+                                <tr>
+                                    <td><span class="badge bg-secondary">{{ faq.order }}</span></td>
+                                    <td>{{ faq.question[:50] }}{% if faq.question|length > 50 %}...{% endif %}</td>
+                                    <td>{{ (faq.question_en[:50] if faq.question_en else '-') }}{% if faq.question_en and faq.question_en|length > 50 %}...{% endif %}</td>
+                                    <td>
+                                        {% if faq.is_active %}
+                                        <span class="badge bg-success">Aktif</span>
+                                        {% else %}
+                                        <span class="badge bg-danger">Pasif</span>
+                                        {% endif %}
+                                    </td>
+                                    <td class="text-end">
+                                        <a href="{{ url_for('admin_edit_faq', faq_id=faq.id) }}" class="btn btn-sm btn-outline-primary me-1">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <a href="{{ url_for('admin_toggle_faq', faq_id=faq.id) }}" class="btn btn-sm btn-outline-secondary me-1">
+                                            <i class="fas fa-toggle-{% if faq.is_active %}on{% else %}off{% endif %}"></i>
+                                        </a>
+                                        <a href="{{ url_for('admin_delete_faq', faq_id=faq.id) }}" class="btn btn-sm btn-outline-danger" onclick="return confirm('Bu soruyu silmek istediğinize emin misiniz?')">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle me-2"></i> Henüz soru eklenmemiş. Yukarıdaki butona tıklayarak yeni soru ekleyebilirsiniz.
+                    </div>
+                    {% endif %}
+
+                    {% elif section == 'partner' %}
+                    <div class="section-header mb-4">
+                        <h2 class="fw-bold h4"><i class="fas fa-handshake text-warning me-2"></i> Ortak Olun Sayfası</h2>
+                        <p class="text-muted small">Ortaklık programı sayfasının içeriklerini yönetin.</p>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="small fw-bold mb-2 text-secondary">Sayfa Başlığı (TR)</label>
+                        <input type="text" name="partner_title" class="form-control" value="{{ settings.get('partner_title', 'Ortaklık Programımıza Katılın') }}">
+                    </div>
+                    <div class="mb-4">
+                        <label class="small fw-bold mb-2 text-secondary">Sayfa Başlığı (EN)</label>
+                        <input type="text" name="partner_title_en" class="form-control" value="{{ settings.get('partner_title_en', 'Join Our Partnership Program') }}">
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="small fw-bold mb-2 text-secondary">Açıklama Metni (TR)</label>
+                        <textarea name="partner_description" class="form-control" rows="4">{{ settings.get('partner_description', 'Gizem ve gerçek suç öykülerine olan tutkumuzu paylaşan yayıncılarla ortaklık kurmaktan heyecan duyuyoruz. Ortaklık programımız kapsamında, çevrimiçi cinayet gizemi oyunlarımızı web sitenizde veya sosyal medya kanallarınızda tanıtarak komisyon kazanabilirsiniz.') }}</textarea>
+                    </div>
+                    <div class="mb-4">
+                        <label class="small fw-bold mb-2 text-secondary">Açıklama Metni (EN)</label>
+                        <textarea name="partner_description_en" class="form-control" rows="4">{{ settings.get('partner_description_en', 'We are excited to partner with publishers who share our passion for mystery and true crime stories. Through our partnership program, you can earn commission by promoting our online murder mystery games on your website or social media channels.') }}</textarea>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <label class="small fw-bold mb-2 text-secondary">Komisyon Oranı (%)</label>
+                            <input type="text" name="partner_commission" class="form-control" value="{{ settings.get('partner_commission', '%20') }}">
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <label class="small fw-bold mb-2 text-secondary">Çerez Süresi (gün)</label>
+                            <input type="text" name="partner_cookie_days" class="form-control" value="{{ settings.get('partner_cookie_days', '30') }}">
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="small fw-bold mb-2 text-secondary">Kayıt Linki</label>
+                        <input type="url" name="partner_signup_url" class="form-control" value="{{ settings.get('partner_signup_url', '') }}" placeholder="https://...">
+                        <small class="text-muted">Ortakların kayıt olacağı harici link (örn: AWIN, Impact vb.)</small>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="small fw-bold mb-2 text-secondary">Kayıt Butonu Metni (TR)</label>
+                        <input type="text" name="partner_button_text" class="form-control" value="{{ settings.get('partner_button_text', 'Hemen Kayıt Olun!') }}">
+                    </div>
+                    <div class="mb-4">
+                        <label class="small fw-bold mb-2 text-secondary">Kayıt Butonu Metni (EN)</label>
+                        <input type="text" name="partner_button_text_en" class="form-control" value="{{ settings.get('partner_button_text_en', 'Sign Up Now!') }}">
+                    </div>
+
+                    <hr class="my-4">
+                    <h5 class="fw-bold mb-4"><i class="fas fa-question-circle text-warning me-2"></i> Ortaklık Soruları ve Cevapları</h5>
+
+                    <div class="card border-0 shadow-sm mb-3">
+                        <div class="card-header bg-light py-2">
+                            <strong>Soru 1:</strong> Neden iş ortağı olmalısınız?
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-2">
+                                <label class="small text-muted">Cevap (TR)</label>
+                                <textarea name="partner_faq1_tr" class="form-control" rows="2">{{ settings.get('partner_faq1_tr', 'Kitlenize benzersiz dedektiflik oyunları tanıtırken her satıştan komisyon kazanın.') }}</textarea>
+                            </div>
+                            <div>
+                                <label class="small text-muted">Cevap (EN)</label>
+                                <textarea name="partner_faq1_en" class="form-control" rows="2">{{ settings.get('partner_faq1_en', 'Earn commission on every sale while promoting unique detective games to your audience.') }}</textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card border-0 shadow-sm mb-3">
+                        <div class="card-header bg-light py-2">
+                            <strong>Soru 2:</strong> Nasıl çalışıyor?
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-2">
+                                <label class="small text-muted">Cevap (TR)</label>
+                                <textarea name="partner_faq2_tr" class="form-control" rows="2">{{ settings.get('partner_faq2_tr', 'Kayıt olun, benzersiz linkinizi alın, paylaşın ve linkiniz üzerinden yapılan her satın almadan komisyon kazanın.') }}</textarea>
+                            </div>
+                            <div>
+                                <label class="small text-muted">Cevap (EN)</label>
+                                <textarea name="partner_faq2_en" class="form-control" rows="2">{{ settings.get('partner_faq2_en', 'Sign up, get your unique link, share it, and earn commission on every purchase made through your link.') }}</textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card border-0 shadow-sm mb-3">
+                        <div class="card-header bg-light py-2">
+                            <strong>Soru 3:</strong> Ne kadar kazanabilirim?
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-2">
+                                <label class="small text-muted">Cevap (TR)</label>
+                                <textarea name="partner_faq3_tr" class="form-control" rows="2">{{ settings.get('partner_faq3_tr', 'Her satışın komisyon oranı kadarını kazanırsınız. Ne kadar çok tanıtırsanız, o kadar çok kazanırsınız!') }}</textarea>
+                            </div>
+                            <div>
+                                <label class="small text-muted">Cevap (EN)</label>
+                                <textarea name="partner_faq3_en" class="form-control" rows="2">{{ settings.get('partner_faq3_en', 'You earn the commission rate of every sale. The more you promote, the more you earn!') }}</textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card border-0 shadow-sm mb-3">
+                        <div class="card-header bg-light py-2">
+                            <strong>Soru 4:</strong> Ne sıklıkla ödeme yapılıyor?
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-2">
+                                <label class="small text-muted">Cevap (TR)</label>
+                                <textarea name="partner_faq4_tr" class="form-control" rows="2">{{ settings.get('partner_faq4_tr', 'Ödemeler, iş ortağı platformumuz aracılığıyla aylık olarak yapılır.') }}</textarea>
+                            </div>
+                            <div>
+                                <label class="small text-muted">Cevap (EN)</label>
+                                <textarea name="partner_faq4_en" class="form-control" rows="2">{{ settings.get('partner_faq4_en', 'Payments are made monthly through our partner platform.') }}</textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card border-0 shadow-sm mb-3">
+                        <div class="card-header bg-light py-2">
+                            <strong>Soru 5:</strong> Minimum ödeme tutarı var mı?
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-2">
+                                <label class="small text-muted">Cevap (TR)</label>
+                                <textarea name="partner_faq5_tr" class="form-control" rows="2">{{ settings.get('partner_faq5_tr', 'Minimum ödeme eşikleri için lütfen iş ortağı platformumuzu kontrol edin.') }}</textarea>
+                            </div>
+                            <div>
+                                <label class="small text-muted">Cevap (EN)</label>
+                                <textarea name="partner_faq5_en" class="form-control" rows="2">{{ settings.get('partner_faq5_en', 'Please check our partner platform for minimum payout thresholds.') }}</textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card border-0 shadow-sm mb-3">
+                        <div class="card-header bg-light py-2">
+                            <strong>Soru 6:</strong> Programa katılabilir miyim?
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-2">
+                                <label class="small text-muted">Cevap (TR)</label>
+                                <textarea name="partner_faq6_tr" class="form-control" rows="2">{{ settings.get('partner_faq6_tr', 'Evet! Gizem oyunları, gerçek suç hikayeleri veya eğlenceyle ilgilenen bir kitleye sahip herkes katılabilir.') }}</textarea>
+                            </div>
+                            <div>
+                                <label class="small text-muted">Cevap (EN)</label>
+                                <textarea name="partner_faq6_en" class="form-control" rows="2">{{ settings.get('partner_faq6_en', 'Yes! Anyone with an audience interested in mystery games, true crime, or entertainment can join.') }}</textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    {% elif section == 'promo_video' %}
+                    </form>
+                    <div class="section-header mb-4">
+                        <h2 class="fw-bold h4"><i class="fas fa-video text-warning me-2"></i> Tanıtım Videosu</h2>
+                        <p class="text-muted small">Ana sayfada gösterilecek tanıtım videosunu buradan yönetebilirsiniz.</p>
+                    </div>
+
+                    {% if settings.get('promo_video') %}
+                    <div class="mb-4">
+                        <label class="small fw-bold mb-2 text-secondary">Mevcut Video</label>
+                        <div class="border rounded p-3 bg-light">
+                            <video controls style="width: 100%; max-height: 350px; border-radius: 8px;">
+                                <source src="{{ url_for('static', filename='uploads/' + settings.get('promo_video', '')) }}" type="video/mp4">
+                            </video>
+                            <div class="mt-2 d-flex justify-content-between align-items-center">
+                                <span class="small text-muted"><i class="fas fa-file-video me-1"></i> {{ settings.get('promo_video') }}</span>
+                                <a href="{{ url_for('delete_promo_video') }}" class="btn btn-sm btn-outline-danger" onclick="return confirm('Videoyu silmek istediğinize emin misiniz?')">
+                                    <i class="fas fa-trash me-1"></i> Videoyu Sil
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    {% if settings.get('promo_cover') %}
+                    <div class="mb-4">
+                        <label class="small fw-bold mb-2 text-secondary">Mevcut Kapak Resmi</label>
+                        <div class="border rounded p-3 bg-light">
+                            <img src="{{ url_for('static', filename='uploads/' + settings.get('promo_cover', '')) }}" style="max-height: 200px; border-radius: 8px;" class="d-block">
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <form id="promoVideoForm">
+                        <div class="mb-3">
+                            <label class="small fw-bold mb-2 text-secondary">Başlık</label>
+                            <input type="text" name="promo_title" class="form-control" value="{{ settings.get('promo_title', '') }}" placeholder="Tanıtım videosu başlığı">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="small fw-bold mb-2 text-secondary">Açıklama</label>
+                            <textarea name="promo_description" class="form-control" rows="3" placeholder="Kısa açıklama">{{ settings.get('promo_description', '') }}</textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="small fw-bold mb-2 text-secondary">Video Dosyası (MP4, WebM)</label>
+                            <input type="file" name="promo_video_file" id="promoVideoFile" class="form-control" accept="video/mp4,video/webm,video/ogg">
+                            <div class="form-text">Maksimum dosya boyutu: 500 MB</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="small fw-bold mb-2 text-secondary">Kapak Resmi (JPG, PNG)</label>
+                            <input type="file" name="promo_cover_file" id="promoCoverFile" class="form-control" accept="image/*">
+                        </div>
+
+                        <div id="uploadProgress" class="mb-3" style="display:none;">
+                            <div class="progress" style="height: 25px;">
+                                <div id="uploadProgressBar" class="progress-bar progress-bar-striped progress-bar-animated bg-warning" role="progressbar" style="width: 0%">0%</div>
+                            </div>
+                            <small class="text-muted mt-1 d-block" id="uploadStatus">Yükleniyor...</small>
+                        </div>
+
+                        <div id="uploadResult" class="mb-3" style="display:none;"></div>
+
+                        <button type="button" id="promoUploadBtn" class="btn btn-warning fw-bold px-4" onclick="uploadPromoVideo()">
+                            <i class="fas fa-save me-2"></i> Kaydet ve Yükle
+                        </button>
+                    </form>
+
+                    <script>
+                    function uploadPromoVideo() {
+                        var form = document.getElementById('promoVideoForm');
+                        var formData = new FormData(form);
+                        var btn = document.getElementById('promoUploadBtn');
+                        var progressDiv = document.getElementById('uploadProgress');
+                        var progressBar = document.getElementById('uploadProgressBar');
+                        var statusText = document.getElementById('uploadStatus');
+                        var resultDiv = document.getElementById('uploadResult');
+
+                        btn.disabled = true;
+                        btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Yükleniyor...';
+                        progressDiv.style.display = 'block';
+                        resultDiv.style.display = 'none';
+
+                        var xhr = new XMLHttpRequest();
+                        xhr.open('POST', '/admin/upload-promo-video', true);
+
+                        xhr.upload.onprogress = function(e) {
+                            if (e.lengthComputable) {
+                                var pct = Math.round((e.loaded / e.total) * 100);
+                                progressBar.style.width = pct + '%';
+                                progressBar.textContent = pct + '%';
+                                var mb = (e.loaded / 1024 / 1024).toFixed(1);
+                                var totalMb = (e.total / 1024 / 1024).toFixed(1);
+                                statusText.textContent = mb + ' MB / ' + totalMb + ' MB yüklendi';
+                            }
+                        };
+
+                        xhr.onload = function() {
+                            btn.disabled = false;
+                            btn.innerHTML = '<i class="fas fa-save me-2"></i> Kaydet ve Yükle';
+                            if (xhr.status === 200) {
+                                resultDiv.style.display = 'block';
+                                resultDiv.innerHTML = '<div class="alert alert-success"><i class="fas fa-check-circle me-2"></i> Başarıyla kaydedildi! Sayfa yenileniyor...</div>';
+                                setTimeout(function(){ location.reload(); }, 1500);
+                            } else {
+                                resultDiv.style.display = 'block';
+                                resultDiv.innerHTML = '<div class="alert alert-danger"><i class="fas fa-exclamation-circle me-2"></i> Hata oluştu. Lütfen tekrar deneyin.</div>';
+                                progressDiv.style.display = 'none';
+                            }
+                        };
+
+                        xhr.onerror = function() {
+                            btn.disabled = false;
+                            btn.innerHTML = '<i class="fas fa-save me-2"></i> Kaydet ve Yükle';
+                            resultDiv.style.display = 'block';
+                            resultDiv.innerHTML = '<div class="alert alert-danger"><i class="fas fa-exclamation-circle me-2"></i> Bağlantı hatası. Lütfen tekrar deneyin.</div>';
+                            progressDiv.style.display = 'none';
+                        };
+
+                        xhr.send(formData);
+                    }
+                    </script>
+
+                    {% elif section == 'payment' %}
+                    <div class="section-header mb-4">
+                        <h2 class="fw-bold h4"><i class="fas fa-credit-card text-warning me-2"></i> Ödeme Sistemi Ayarları</h2>
+                        <p class="text-muted small">iyzico, Param POS ve Havale/EFT ödeme seçeneklerini buradan yönetin.</p>
+                    </div>
+
+                    <div class="card border-0 shadow-sm mb-4" style="border-left: 5px solid #ff5722 !important;">
+                        <div class="card-header bg-white py-3">
+                            <h5 class="mb-0 fw-bold" style="color: #ff5722;"><i class="fas fa-credit-card me-2"></i>iyzico Entegrasyonu</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="small fw-bold mb-2 text-secondary">API Key</label>
+                                    <input type="text" name="iyzico_api_key" class="form-control" value="{{ settings.get('iyzico_api_key', '') }}" placeholder="iyzico API Key">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="small fw-bold mb-2 text-secondary">Secret Key</label>
+                                    <input type="password" name="iyzico_secret_key" class="form-control" value="{{ settings.get('iyzico_secret_key', '') }}" placeholder="iyzico Secret Key">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="small fw-bold mb-2 text-secondary">Base URL</label>
+                                    <select name="iyzico_base_url" class="form-select">
+                                        <option value="https://sandbox-api.iyzipay.com" {{ 'selected' if settings.get('iyzico_base_url', 'https://sandbox-api.iyzipay.com') == 'https://sandbox-api.iyzipay.com' }}>Sandbox (Test)</option>
+                                        <option value="https://api.iyzipay.com" {{ 'selected' if settings.get('iyzico_base_url') == 'https://api.iyzipay.com' }}>Production (Canlı)</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="small fw-bold mb-2 text-secondary">iyzico Aktif</label>
+                                    <select name="iyzico_enabled" class="form-select">
+                                        <option value="1" {{ 'selected' if settings.get('iyzico_enabled') == '1' }}>Aktif</option>
+                                        <option value="0" {{ 'selected' if settings.get('iyzico_enabled', '0') != '1' }}>Pasif</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card border-0 shadow-sm mb-4" style="border-left: 5px solid #388e3c !important;">
+                        <div class="card-header bg-white py-3">
+                            <h5 class="mb-0 fw-bold" style="color: #388e3c;"><i class="fas fa-university me-2"></i>Banka Havalesi / EFT</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="small fw-bold mb-2 text-secondary">Banka Adı</label>
+                                    <input type="text" name="havale_banka_adi" class="form-control" value="{{ settings.get('havale_banka_adi', '') }}" placeholder="Örn: Ziraat Bankası">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="small fw-bold mb-2 text-secondary">Hesap Sahibi (Alıcı Adı)</label>
+                                    <input type="text" name="havale_alici_adi" class="form-control" value="{{ settings.get('havale_alici_adi', '') }}" placeholder="Ad Soyad veya Şirket Adı">
+                                </div>
+                                <div class="col-md-12">
+                                    <label class="small fw-bold mb-2 text-secondary">IBAN</label>
+                                    <input type="text" name="havale_iban" class="form-control font-monospace" value="{{ settings.get('havale_iban', '') }}" placeholder="TR00 0000 0000 0000 0000 0000 00">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="small fw-bold mb-2 text-secondary">Havale/EFT Aktif</label>
+                                    <select name="havale_enabled" class="form-select">
+                                        <option value="1" {{ 'selected' if settings.get('havale_enabled') == '1' }}>Aktif</option>
+                                        <option value="0" {{ 'selected' if settings.get('havale_enabled', '0') != '1' }}>Pasif</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 d-flex align-items-end">
+                                    <a href="{{ url_for('admin_havale_transfers') }}" class="btn btn-outline-success w-100">
+                                        <i class="fas fa-list me-2"></i>Bekleyen Havaleler
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card border-0 shadow-sm mb-4" style="border-left: 5px solid #e64a19 !important;">
+                        <div class="card-header bg-white py-3">
+                            <h5 class="mb-0 fw-bold" style="color: #e64a19;"><i class="fas fa-credit-card me-2"></i>Param POS Entegrasyonu</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="small fw-bold mb-2 text-secondary">CLIENT_CODE</label>
+                                    <input type="text" name="param_client_code" class="form-control" value="{{ settings.get('param_client_code', '') }}" placeholder="Örn: 90049">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="small fw-bold mb-2 text-secondary">USERNAME</label>
+                                    <input type="text" name="param_username" class="form-control" value="{{ settings.get('param_username', '') }}" placeholder="TP...">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="small fw-bold mb-2 text-secondary">PASSWORD</label>
+                                    <input type="password" name="param_password" class="form-control" value="{{ settings.get('param_password', '') }}" placeholder="Param POS şifresi">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="small fw-bold mb-2 text-secondary">GUID</label>
+                                    <input type="text" name="param_guid" class="form-control" value="{{ settings.get('param_guid', '') }}" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="small fw-bold mb-2 text-secondary">Ortam</label>
+                                    <select name="param_env" class="form-select">
+                                        <option value="test" {{ 'selected' if settings.get('param_env', 'test') == 'test' }}>Test</option>
+                                        <option value="prod" {{ 'selected' if settings.get('param_env') == 'prod' }}>Canlı (Üretim)</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="small fw-bold mb-2 text-secondary">Param POS Aktif</label>
+                                    <select name="param_enabled" class="form-select">
+                                        <option value="1" {{ 'selected' if settings.get('param_enabled') == '1' }}>Aktif</option>
+                                        <option value="0" {{ 'selected' if settings.get('param_enabled', '0') != '1' }}>Pasif</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-info small">
+                        <i class="fas fa-info-circle me-2"></i>
+                        <strong>Önemli:</strong> iyzico ve Param POS API bilgilerini ilgili panellerden alabilirsiniz. Test modunda gerçek ödeme alınmaz. Havale ile gelen ödemeleri <strong>Bekleyen Havaleler</strong> sayfasından onaylayınız.
+                    </div>
+
+                    {% elif section == 'email' %}
+                    <div class="section-header mb-4" style="background:linear-gradient(135deg,#0a9880,#0cb896);padding:28px;border-radius:12px;color:#fff;margin:-32px -32px 32px;">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div>
+                                <h2 class="fw-bold h4 mb-1 text-white"><i class="fas fa-server me-2"></i> E-posta Sunucu Ayarları</h2>
+                                <p class="mb-0 opacity-75" style="font-size:0.85rem;">SMTP sunucu yapılandırması ve test e-postası gönderimi</p>
+                            </div>
+                            <i class="fas fa-envelope fa-3x opacity-25 text-white"></i>
+                        </div>
+                    </div>
+
+                    <div class="card border-0 shadow-sm mb-4">
+                        <div class="card-header py-3" style="background:linear-gradient(90deg,#0a9880,#0cb896);">
+                            <h6 class="mb-0 fw-bold text-white"><i class="fas fa-cog me-2"></i> SMTP Yapılandırması <small class="opacity-75 fw-normal">— E-posta gönderimi için sunucu ayarları</small></h6>
+                        </div>
+                        <div class="card-body p-4">
+                            <div class="row g-4">
+                                <div class="col-md-8">
+                                    <label class="small fw-bold mb-2 text-secondary">SMTP Sunucu <span class="text-danger">*</span></label>
+                                    <input type="text" name="smtp_host" class="form-control py-2"
+                                           value="{{ settings.get('smtp_host', '') }}" placeholder="smtp.yandex.com">
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="small fw-bold mb-2 text-secondary">Port <span class="text-danger">*</span></label>
+                                    <input type="number" name="smtp_port" class="form-control py-2"
+                                           value="{{ settings.get('smtp_port', '587') }}" placeholder="587">
+                                    <small class="text-muted">Genellikle 587 (TLS) veya 465 (SSL)</small>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="small fw-bold mb-2 text-secondary">Kullanıcı Adı <span class="text-danger">*</span></label>
+                                    <input type="text" name="smtp_user" class="form-control py-2"
+                                           value="{{ settings.get('smtp_user', '') }}" placeholder="kullanici@domain.com">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="small fw-bold mb-2 text-secondary">Şifre <span class="text-danger">*</span></label>
+                                    <div class="input-group">
+                                        <input type="password" name="smtp_pass" id="smtpPassField" class="form-control py-2"
+                                               value="{{ settings.get('smtp_pass', '') }}" placeholder="Yeni şifre girin">
+                                        <button class="btn btn-outline-secondary" type="button" onclick="togglePass()">
+                                            <i class="fas fa-eye" id="passEyeIcon"></i>
+                                        </button>
+                                    </div>
+                                    <small class="text-muted">Boş bırakırsa mevcut şifre korunur</small>
+                                </div>
+                                <div class="col-12">
+                                    <label class="small fw-bold mb-2 text-secondary">Gönderen E-posta</label>
+                                    <input type="email" name="smtp_from_email" class="form-control py-2"
+                                           value="{{ settings.get('smtp_from_email', '') }}" placeholder="gonderici@domain.com">
+                                    <small class="text-muted">E-postaların gönderileceği adres (boş bırakılırsa kullanıcı adı kullanılır)</small>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="p-3 border rounded-3 d-flex align-items-center gap-3">
+                                        <div class="form-check mb-0">
+                                            <input class="form-check-input" type="checkbox" name="smtp_use_tls" id="smtpTls" value="1"
+                                                   {{ 'checked' if settings.get('smtp_use_tls', '1') == '1' }}>
+                                            <label class="form-check-label fw-bold" for="smtpTls">TLS Kullan</label>
+                                        </div>
+                                        <small class="text-muted">Port 587 için genellikle aktif</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="p-3 border rounded-3 d-flex align-items-center gap-3">
+                                        <div class="form-check mb-0">
+                                            <input class="form-check-input" type="checkbox" name="smtp_use_ssl" id="smtpSsl" value="1"
+                                                   {{ 'checked' if settings.get('smtp_use_ssl', '0') == '1' }}>
+                                            <label class="form-check-label fw-bold" for="smtpSsl">SSL Kullan</label>
+                                        </div>
+                                        <small class="text-muted">Port 465 için genellikle aktif</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Test E-postası -->
+                    <div class="card border-0 shadow-sm mb-4" style="border-left:4px solid #0a9880!important;">
+                        <div class="card-body p-4">
+                            <h6 class="fw-bold mb-3" style="color:#0a9880;"><i class="fas fa-vial me-2"></i> Test E-postası Gönder</h6>
+                            <p class="text-muted small mb-3">Ayarları kaydetmeden önce bağlantıyı test edebilirsiniz.</p>
+                            <div class="input-group">
+                                <input type="email" id="smtpTestEmail" class="form-control py-2" placeholder="test@example.com">
+                                <button class="btn fw-bold px-4" style="background:#0a9880;color:#fff;" type="button" onclick="sendSmtpTest()">
+                                    <i class="fas fa-paper-plane me-1"></i> Test Gönder
+                                </button>
+                            </div>
+                            <div id="smtpTestResult" class="mt-3"></div>
+                            <small class="text-muted d-block mt-2">
+                                <i class="fas fa-info-circle me-1"></i>
+                                SMTP ayarlarını kaydetmeden test yapabilirsiniz — ancak test mevcut kaydedilmiş ayarları kullanır. Yeni ayarları önce kaydedin, sonra test edin.
+                            </small>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-light border small">
+                        <i class="fas fa-lightbulb text-warning me-2"></i>
+                        <strong>Yaygın Sağlayıcılar:</strong><br>
+                        <span class="text-muted">
+                            Gmail: smtp.gmail.com · 587 (TLS) — <em>Uygulama şifresi gerekir</em><br>
+                            Yandex: smtp.yandex.com · 587 (TLS) veya 465 (SSL)<br>
+                            Outlook/Hotmail: smtp-mail.outlook.com · 587 (TLS)<br>
+                            iCloud: smtp.mail.me.com · 587 (TLS)
+                        </span>
+                    </div>
+
+                    <script>
+                    function togglePass() {
+                        const f = document.getElementById('smtpPassField');
+                        const i = document.getElementById('passEyeIcon');
+                        if (f.type === 'password') { f.type = 'text'; i.className = 'fas fa-eye-slash'; }
+                        else { f.type = 'password'; i.className = 'fas fa-eye'; }
+                    }
+                    function sendSmtpTest() {
+                        const email = document.getElementById('smtpTestEmail').value.trim();
+                        if (!email) { alert('Test e-posta adresi giriniz.'); return; }
+                        const resultDiv = document.getElementById('smtpTestResult');
+                        resultDiv.innerHTML = '<span class="text-muted small"><i class="fas fa-spinner fa-spin me-1"></i> Gönderiliyor...</span>';
+                        const fd = new FormData();
+                        fd.append('test_email', email);
+                        fetch('/admin/test-smtp', {method: 'POST', body: fd})
+                            .then(r => r.json())
+                            .then(data => {
+                                if (data.success) {
+                                    resultDiv.innerHTML = '<div class="alert alert-success py-2 small mb-0"><i class="fas fa-check-circle me-1"></i> Test e-postası başarıyla gönderildi!</div>';
+                                } else {
+                                    resultDiv.innerHTML = `<div class="alert alert-danger py-2 small mb-0"><i class="fas fa-exclamation-circle me-1"></i> Hata: ${data.message}</div>`;
+                                }
+                            })
+                            .catch(() => {
+                                resultDiv.innerHTML = '<div class="alert alert-danger py-2 small mb-0">Bağlantı hatası oluştu.</div>';
+                            });
+                    }
+                    </script>
+
+                    {% endif %}
+
+                    <div class="mt-5 pt-3 border-top d-flex justify-content-end">
+                        <button type="submit" class="btn btn-warning fw-bold px-5 py-3 rounded-pill shadow-sm border-0">
+                            <i class="fas fa-save me-2"></i> DEĞİŞİKLİKLERİ UYGULA
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .active-setting {
+        background-color: #fff !important;
+        color: #FFD700 !important;
+        border-left: 5px solid #FFD700 !important;
+        font-weight: 800;
+    }
+    .list-group-item:hover:not(.active-setting) { background-color: #f8f9fa; color: #0C1430; }
+    .form-control:focus { border-color: #FFD700; box-shadow: 0 0 0 0.25rem rgba(255, 215, 0, 0.15); }
+    .section-header h2 { color: #0C1430; letter-spacing: -0.5px; }
+    .input-group-text { border-color: #dee2e6; }
+</style>
+{% endblock %}

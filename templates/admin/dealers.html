@@ -1,0 +1,187 @@
+{% extends "admin/base.html" %}
+
+{% block admin_content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold text-dark mb-0"><i class="fas fa-store me-2 text-warning"></i> Bayilik Yönetimi</h2>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-3 mb-3">
+        <div class="card border-0 shadow-sm text-center py-4">
+            <div class="card-body">
+                <h3 class="fw-bold text-primary mb-0">{{ dealers|length }}</h3>
+                <small class="text-muted">Toplam Bayi</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card border-0 shadow-sm text-center py-4">
+            <div class="card-body">
+                <h3 class="fw-bold text-warning mb-0">{{ dealers|selectattr('status', 'equalto', 'pending')|list|length }}</h3>
+                <small class="text-muted">Bekleyen Başvuru</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card border-0 shadow-sm text-center py-4">
+            <div class="card-body">
+                <h3 class="fw-bold text-success mb-0">{{ dealers|selectattr('status', 'equalto', 'approved')|list|length }}</h3>
+                <small class="text-muted">Onaylı Bayi</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card border-0 shadow-sm text-center py-4">
+            <div class="card-body">
+                <h3 class="fw-bold text-danger mb-0">{{ dealers|selectattr('status', 'equalto', 'rejected')|list|length }}</h3>
+                <small class="text-muted">Reddedilen</small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card border-0 shadow-sm">
+    <div class="card-header bg-dark text-white py-3">
+        <i class="fas fa-store me-2"></i> Tüm Bayiler
+    </div>
+    <div class="card-body p-0">
+        {% if dealers %}
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>Kafe / Firma</th>
+                        <th>Yetkili</th>
+                        <th>Şehir</th>
+                        <th>Bayi Kodu</th>
+                        <th>Durum</th>
+                        <th>Komisyon</th>
+                        <th>Toplam Kazanç</th>
+                        <th>Bekleyen</th>
+                        <th>Başvuru</th>
+                        <th class="text-end">İşlemler</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for dealer in dealers %}
+                    <tr>
+                        <td><strong>{{ dealer.cafe_name }}</strong></td>
+                        <td>{{ dealer.contact_name or '-' }}<br><small class="text-muted">{{ dealer.phone or '' }}</small></td>
+                        <td>{{ dealer.city or '-' }}</td>
+                        <td><span class="badge bg-secondary font-monospace">{{ dealer.dealer_code }}</span></td>
+                        <td>
+                            {% if dealer.status == 'pending' %}
+                            <span class="badge bg-warning text-dark">Bekliyor</span>
+                            {% elif dealer.status == 'approved' %}
+                            <span class="badge bg-success">Onaylı</span>
+                            {% else %}
+                            <span class="badge bg-danger">Reddedildi</span>
+                            {% endif %}
+                        </td>
+                        <td><span class="badge bg-info">%{{ dealer.commission_rate }}</span></td>
+                        <td class="text-success fw-bold">₺{{ "%.2f"|format(dealer.total_earnings) }}</td>
+                        <td class="text-warning fw-bold">₺{{ "%.2f"|format(dealer.pending_earnings) }}</td>
+                        <td>{{ dealer.created_at.strftime('%d.%m.%Y') }}</td>
+                        <td class="text-end">
+                            <a href="{{ url_for('admin_dealer_detail', dealer_id=dealer.id) }}" class="btn btn-sm btn-outline-primary" title="Görüntüle">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                            <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ dealer.id }}" title="Sil">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                            {% if dealer.status == 'pending' %}
+                            <a href="{{ url_for('admin_approve_dealer', dealer_id=dealer.id) }}" class="btn btn-sm btn-success" title="Onayla">
+                                <i class="fas fa-check"></i>
+                            </a>
+                            <a href="{{ url_for('admin_reject_dealer', dealer_id=dealer.id) }}" class="btn btn-sm btn-danger" title="Reddet">
+                                <i class="fas fa-times"></i>
+                            </a>
+                            {% endif %}
+                        </td>
+                    </tr>
+
+                    <div class="modal fade" id="deleteModal{{ dealer.id }}" tabindex="-1">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <form action="{{ url_for('admin_delete_dealer', dealer_id=dealer.id) }}" method="POST">
+                                    <div class="modal-header bg-danger text-white">
+                                        <h5 class="modal-title"><i class="fas fa-trash me-2"></i>Bayi Sil</h5>
+                                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="alert alert-danger">
+                                            <i class="fas fa-exclamation-triangle me-2"></i>
+                                            <strong>Dikkat!</strong> Bu işlem geri alınamaz.
+                                        </div>
+                                        <p><strong>{{ dealer.cafe_name }}</strong> bayisini ve tüm ilişkili verileri (QR kodları, satışlar, çekim talepleri) silmek istediğinizden emin misiniz?</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                                        <button type="submit" class="btn btn-danger">Sil</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="text-center py-5">
+            <i class="fas fa-store fa-3x text-muted mb-3"></i>
+            <h5 class="text-muted">Henüz bayi başvurusu yok</h5>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="card border-0 shadow-sm mt-4">
+    <div class="card-header bg-success text-white py-3 d-flex justify-content-between align-items-center">
+        <span><i class="fas fa-chart-line me-2"></i> Bayilik Satışları</span>
+        <form method="GET" class="d-flex gap-2 mb-0">
+            <select name="dealer_id" class="form-select form-select-sm" style="width: 220px;" onchange="this.form.submit()">
+                <option value="">Tüm Bayiler</option>
+                {% for d in dealers|selectattr('status', 'equalto', 'approved') %}
+                <option value="{{ d.id }}" {% if selected_dealer == d.id|string %}selected{% endif %}>{{ d.cafe_name }}</option>
+                {% endfor %}
+            </select>
+        </form>
+    </div>
+    <div class="card-body p-0">
+        {% if sales %}
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>Tarih</th>
+                        <th>Bayi</th>
+                        <th>Vaka</th>
+                        <th>QR</th>
+                        <th>Satış Tutarı</th>
+                        <th>Komisyon</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for sale in sales %}
+                    <tr>
+                        <td>{{ sale.created_at.strftime('%d.%m.%Y %H:%M') }}</td>
+                        <td><strong>{{ sale.dealer.cafe_name if sale.dealer else '-' }}</strong></td>
+                        <td>{{ sale.case.title if sale.case else '-' }}</td>
+                        <td><span class="badge bg-secondary">{{ sale.qr_template.name if sale.qr_template else '-' }}</span></td>
+                        <td>₺{{ "%.2f"|format(sale.sale_amount) }}</td>
+                        <td class="text-success fw-bold">+₺{{ "%.2f"|format(sale.commission_amount) }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="text-center py-5">
+            <i class="fas fa-chart-bar fa-3x text-muted mb-3"></i>
+            <h5 class="text-muted">Henüz satış kaydı yok</h5>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

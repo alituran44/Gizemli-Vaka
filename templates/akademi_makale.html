@@ -1,0 +1,368 @@
+{% extends "base.html" %}
+
+{% block title %}{{ article.title }} — Dedektif Akademisi | Gizemli Vaka{% endblock %}
+{% block meta_description %}{{ article.subtitle }} Gizemli Vaka Dedektif Akademisi'nde soruşturma ve adli bilim teknikleri öğrenin.{% endblock %}
+
+{% block structured_data %}
+{{ super() }}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "{{ article.title }}",
+  "description": "{{ article.subtitle }}",
+  "inLanguage": "tr-TR",
+  "author": {
+    "@type": "Organization",
+    "name": "Gizemli Vaka",
+    "url": "https://gizemlivaka.com"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Gizemli Vaka",
+    "url": "https://gizemlivaka.com"
+  },
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "Gizemli Vaka — Dedektif Akademisi",
+    "url": "https://gizemlivaka.com/dedektif-akademisi"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://gizemlivaka.com/dedektif-akademisi/{{ current_slug }}"
+  },
+  "about": {
+    "@type": "Thing",
+    "name": "Dedektiflik ve Adli Bilim"
+  }
+}
+</script>
+{% endblock %}
+
+{% block breadcrumb_schema %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "Ana Sayfa", "item": "https://gizemlivaka.com"},
+    {"@type": "ListItem", "position": 2, "name": "Dedektif Akademisi", "item": "https://gizemlivaka.com/dedektif-akademisi"},
+    {"@type": "ListItem", "position": 3, "name": "{{ article.title }}", "item": "https://gizemlivaka.com/dedektif-akademisi/{{ current_slug }}"}
+  ]
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<style>
+.makale-hero {
+    background: #ffffff;
+    border-bottom: 1px solid #e2e8f0;
+    padding: 56px 0 40px;
+    position: relative;
+    overflow: hidden;
+}
+.level-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 0.65rem; font-weight: 800; letter-spacing: 3px;
+    text-transform: uppercase; padding: 5px 14px; border-radius: 4px;
+    margin-bottom: 18px;
+}
+.badge-cayla    { background: rgba(255,215,0,0.15); color: #b45309; border: 1px solid rgba(255,215,0,0.5); }
+.badge-detektif { background: rgba(14,165,233,0.12); color: #0369a1; border: 1px solid rgba(14,165,233,0.4); }
+.badge-mufettis { background: rgba(249,115,22,0.12); color: #c2410c; border: 1px solid rgba(249,115,22,0.35); }
+
+.makale-body {
+    background: #f8fafc;
+    padding: 56px 0 80px;
+}
+.makale-content {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 48px;
+    line-height: 1.8;
+    color: #334155;
+    font-size: 0.95rem;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.05);
+}
+@media (max-width: 768px) { .makale-content { padding: 24px; } }
+
+.makale-content .lead-para {
+    font-size: 1.05rem; color: #1e293b; line-height: 1.75;
+    border-left: 3px solid #d97706; padding-left: 20px;
+    margin-bottom: 32px;
+}
+.makale-content h2 {
+    color: #1e293b; font-size: 1.2rem; font-weight: 800;
+    margin-top: 40px; margin-bottom: 14px;
+    padding-bottom: 8px; border-bottom: 1px solid #e2e8f0;
+}
+.makale-content h3 {
+    color: #334155; font-size: 1rem; font-weight: 700;
+    margin-top: 24px; margin-bottom: 10px;
+}
+.makale-content p { margin-bottom: 16px; }
+.makale-content strong { color: #1e293b; }
+.makale-content em { color: #64748b; }
+
+.brief-list { padding-left: 0; list-style: none; margin-bottom: 16px; }
+.brief-list li {
+    padding: 8px 12px 8px 32px;
+    position: relative;
+    margin-bottom: 6px;
+    border-radius: 6px;
+    background: #f1f5f9;
+    color: #334155;
+}
+.brief-list li::before {
+    content: '→';
+    position: absolute; left: 10px;
+    color: #d97706; font-weight: 700;
+}
+ol.brief-list { counter-reset: item; }
+ol.brief-list li::before {
+    content: counter(item);
+    counter-increment: item;
+    color: #d97706; font-weight: 800; font-size: 0.8rem;
+}
+
+.example-box {
+    background: #fffbeb;
+    border: 1px solid rgba(217,119,6,0.25);
+    border-radius: 10px;
+    padding: 18px 20px;
+    margin: 20px 0;
+    color: #334155;
+}
+.example-box p { margin: 0; }
+.example-box p + p { margin-top: 10px; }
+.example-box ul { margin: 10px 0 0; }
+
+.lab-box {
+    background: #fffbeb;
+    border: 1px solid rgba(217,119,6,0.3);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-top: 32px;
+}
+.lab-box .lab-title {
+    color: #b45309; font-weight: 800; font-size: 0.75rem;
+    letter-spacing: 2px; text-transform: uppercase;
+    margin-bottom: 10px;
+}
+.lab-box p, .lab-box ul { margin-bottom: 8px; color: #334155; }
+.lab-box p:last-child { margin-bottom: 0; }
+
+.protocol-steps { margin: 20px 0; }
+.step {
+    display: flex; gap: 16px; align-items: flex-start;
+    margin-bottom: 14px; padding: 14px 16px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    color: #334155;
+}
+.step-num {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: #d97706; color: #fff;
+    font-weight: 900; font-size: 0.9rem;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+}
+.step div { padding-top: 4px; font-size: 0.88rem; }
+
+.matrix-table { overflow-x: auto; margin: 20px 0; }
+.matrix-table table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+.matrix-table th {
+    background: #f1f5f9; color: #1e293b;
+    padding: 10px 14px; text-align: left; font-weight: 700;
+    border-bottom: 2px solid #e2e8f0;
+    white-space: nowrap;
+}
+.matrix-table td {
+    padding: 9px 14px; color: #475569;
+    border-bottom: 1px solid #f1f5f9;
+}
+.matrix-table tr:hover td { background: #f8fafc; }
+
+/* Sidebar */
+.sidebar-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 16px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+}
+.sidebar-card h6 {
+    font-size: 0.65rem; letter-spacing: 2px; text-transform: uppercase;
+    color: #94a3b8; margin-bottom: 12px; font-weight: 700;
+}
+.nav-article-link {
+    display: block; padding: 10px 12px; border-radius: 8px;
+    text-decoration: none; color: #64748b; font-size: 0.82rem;
+    transition: all 0.18s;
+    border: 1px solid transparent;
+}
+.nav-article-link:hover { background: #fef9c3; color: #b45309; border-color: rgba(217,119,6,0.25); }
+.nav-article-link.active { background: #fef9c3; color: #b45309; border-color: rgba(217,119,6,0.4); font-weight: 700; }
+.nav-article-link .art-num { color: #cbd5e1; font-size: 0.7rem; margin-right: 6px; }
+</style>
+
+<!-- HERO -->
+<section class="makale-hero">
+    <div class="container position-relative" style="z-index:1;">
+        <a href="{{ url_for('dedektif_akademisi') }}" class="text-decoration-none d-inline-flex align-items-center gap-2 mb-4" style="color:#94a3b8; font-size:0.8rem;">
+            <i class="fas fa-arrow-left"></i> Dedektif Akademisi'ne Dön
+        </a>
+        <div class="row align-items-center">
+            <div class="col-lg-8">
+                <span class="level-badge badge-{{ article.level_tag }}">
+                    <i class="fas {{ article.icon }}"></i>
+                    {{ article.level }} • Makale {{ article.article_no }}
+                </span>
+                <h1 class="fw-black mb-3" style="color:#1e293b; font-size:clamp(1.5rem,3.5vw,2.3rem); line-height:1.2;">
+                    {{ article.title }}
+                </h1>
+                <p style="color:#64748b; font-size:0.95rem; max-width:620px;">{{ article.subtitle }}</p>
+                <div class="d-flex align-items-center gap-3 mt-3" style="font-size:0.78rem; color:#94a3b8;">
+                    <span><i class="fas fa-clock me-1" style="color:#d97706;"></i>{{ article.read_time }} dakikalık okuma</span>
+                    <span>•</span>
+                    <span>{{ article.word_count }} kelime</span>
+                    <span>•</span>
+                    <span class="level-badge badge-{{ article.level_tag }}" style="font-size:0.6rem; padding:3px 10px;">{{ article.level }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- BODY -->
+<section class="makale-body">
+    <div class="container">
+        <div class="row g-4">
+
+            <!-- MAIN CONTENT -->
+            <div class="col-lg-8">
+                <div class="makale-content">
+                    {{ article.content | safe }}
+                </div>
+
+                <!-- PREV / NEXT NAV -->
+                <div class="d-flex justify-content-between gap-3 mt-4">
+                    {% if article.prev %}
+                    <a href="{{ url_for('akademi_makale', slug=article.prev.slug) }}"
+                       class="flex-fill text-decoration-none p-3 rounded-3 d-flex align-items-center gap-3"
+                       style="background:#f8fafc; border:1px solid #e2e8f0;">
+                        <i class="fas fa-arrow-left" style="color:#d97706;"></i>
+                        <div>
+                            <div style="font-size:0.65rem; color:#94a3b8; text-transform:uppercase; letter-spacing:1px;">Önceki Makale</div>
+                            <div style="font-size:0.85rem; color:#1e293b; font-weight:600;">{{ article.prev.title }}</div>
+                        </div>
+                    </a>
+                    {% else %}
+                    <div class="flex-fill"></div>
+                    {% endif %}
+
+                    {% if article.next %}
+                    <a href="{{ url_for('akademi_makale', slug=article.next.slug) }}"
+                       class="flex-fill text-decoration-none p-3 rounded-3 d-flex align-items-center justify-content-end gap-3 text-end"
+                       style="background:#f8fafc; border:1px solid #e2e8f0;">
+                        <div>
+                            <div style="font-size:0.65rem; color:#94a3b8; text-transform:uppercase; letter-spacing:1px;">Sonraki Makale</div>
+                            <div style="font-size:0.85rem; color:#1e293b; font-weight:600;">{{ article.next.title }}</div>
+                        </div>
+                        <i class="fas fa-arrow-right" style="color:#d97706;"></i>
+                    </a>
+                    {% else %}
+                    <a href="{{ url_for('dedektif_akademisi') }}"
+                       class="flex-fill text-decoration-none p-3 rounded-3 d-flex align-items-center justify-content-end gap-3 text-end"
+                       style="background:#fffbeb; border:1px solid rgba(217,119,6,0.3);">
+                        <div>
+                            <div style="font-size:0.65rem; color:#b45309; text-transform:uppercase; letter-spacing:1px;">Tamamlandı!</div>
+                            <div style="font-size:0.85rem; color:#b45309; font-weight:600;">Akademiye Dön</div>
+                        </div>
+                        <i class="fas fa-graduation-cap" style="color:#d97706;"></i>
+                    </a>
+                    {% endif %}
+                </div>
+
+                <!-- CTA -->
+                <div class="mt-4 p-4 rounded-3 text-center" style="background:#fffbeb; border:1px solid rgba(217,119,6,0.25);">
+                    <p class="fw-bold mb-1" style="color:#1e293b;">Öğrendiklerinizi Gerçek Bir Davada Test Edin</p>
+                    <p class="small mb-3" style="color:#64748b;">Bu brifingdeki teknikleri aktif dava dosyalarımızda uygulayın.</p>
+                    <a href="{{ url_for('cases') }}" class="btn btn-warning fw-bold px-4 py-2 rounded-pill">
+                        <i class="fas fa-folder-open me-2"></i>Dava Dosyalarına Git
+                    </a>
+                </div>
+            </div>
+
+            <!-- SIDEBAR -->
+            <div class="col-lg-4">
+                <div class="sticky-top" style="top: 90px;">
+
+                    <!-- Level Info -->
+                    <div class="sidebar-card mb-3">
+                        <h6>Bu Brifing Hakkında</h6>
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <div class="rounded-3 d-flex align-items-center justify-content-center"
+                                 style="width:44px;height:44px; background:#fffbeb; color:#d97706; font-size:1.2rem; border:1px solid rgba(217,119,6,0.2);">
+                                <i class="fas {{ article.icon }}"></i>
+                            </div>
+                            <div>
+                                <div class="fw-bold" style="font-size:0.85rem; color:#1e293b;">{{ article.level }} Seviyesi</div>
+                                <div style="color:#94a3b8; font-size:0.75rem;">Makale {{ article.article_no }} / 14</div>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between py-2" style="border-top:1px solid #f1f5f9;">
+                            <span style="color:#94a3b8; font-size:0.78rem;">Okuma Süresi</span>
+                            <span style="color:#1e293b; font-size:0.78rem; font-weight:600;">{{ article.read_time }} dk</span>
+                        </div>
+                        <div class="d-flex justify-content-between py-2" style="border-top:1px solid #f1f5f9;">
+                            <span style="color:#94a3b8; font-size:0.78rem;">Kelime Sayısı</span>
+                            <span style="color:#1e293b; font-size:0.78rem; font-weight:600;">{{ article.word_count }}</span>
+                        </div>
+                    </div>
+
+                    <!-- All Articles Navigation -->
+                    <div class="sidebar-card">
+                        <h6>Tüm Brifinglar</h6>
+                        {% set all_articles = [
+                            ('sorusturma-dusuncesi', '01', 'Soruşturma Düşüncesi', 'cayla'),
+                            ('delil-zinciri', '02', 'Delil Zinciri', 'cayla'),
+                            ('ifade-analizi', '03', 'İfade Analizi', 'cayla'),
+                            ('dijital-metadata', '04', 'Dijital Metadata', 'detektif'),
+                            ('adli-isitim', '05', 'Adli İşitim', 'detektif'),
+                            ('cctv-analizi', '06', 'CCTV Analizi', 'detektif'),
+                            ('telefon-kayitlari', '07', 'Telefon Kayıtları', 'detektif'),
+                            ('finansal-adli-tip', '08', 'Finansal Adli Tıp', 'detektif'),
+                            ('ag-analizi', '09', 'Ağ Analizi', 'detektif'),
+                            ('alibi-denetimi', '10', 'Alibi Denetimi', 'mufettis'),
+                            ('magdurbilim', '11', 'Mağdurbilim', 'mufettis'),
+                            ('sorgu-stratejisi', '12', 'Sorgu Stratejisi', 'mufettis'),
+                            ('otopsi-raporu', '13', 'Otopsi Raporu', 'mufettis'),
+                            ('dava-kapatma', '14', 'Dava Kapatma', 'mufettis'),
+                        ] %}
+                        {% for art_slug, art_num, art_title, art_level in all_articles %}
+                        <a href="{{ url_for('akademi_makale', slug=art_slug) }}"
+                           class="nav-article-link {% if art_slug == current_slug %}active{% endif %}">
+                            <span class="art-num">{{ art_num }}</span>{{ art_title }}
+                        </a>
+                        {% endfor %}
+                    </div>
+
+                    <!-- Back to Academy -->
+                    <a href="{{ url_for('dedektif_akademisi') }}"
+                       class="d-block mt-3 text-center text-decoration-none py-3 rounded-3"
+                       style="background:#fffbeb; border:1px solid rgba(217,119,6,0.3); color:#b45309; font-size:0.82rem; font-weight:700;">
+                        <i class="fas fa-graduation-cap me-2"></i>Akademiye Dön
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,367 @@
+{% extends "base.html" %}
+
+{% block title %}Aktif Davalarım | {{ settings.get('logo_bold', 'Gizemli Vakalar') }}{% endblock %}
+
+{% block content %}
+<style>
+    .hero-active {
+        background: linear-gradient(rgba(12, 20, 48, 0.9), rgba(12, 20, 48, 0.9)), url('/static/girilmez.jpg');
+        background-size: cover; background-position: center; padding: 40px 0; 
+        display: flex; align-items: center; justify-content: center; color: white;
+    }
+    .hero-active h1 { font-size: 1.5rem; text-transform: uppercase; margin: 0; letter-spacing: 2px; }
+    
+    .main-container { max-width: 1100px; margin: -40px auto 50px; background: #fff; padding: 40px; border-radius: 10px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); color: #333; }
+    .badge-custom { background: #FFD700; color: black; padding: 8px 20px; border-radius: 25px; font-weight: bold; margin-bottom: 20px; display: inline-block; }
+    
+    .case-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 30px; }
+    .card { border-radius: 12px; overflow: hidden; position: relative; border: 1px solid #eee; text-align: center; padding-bottom: 15px; transition: 0.3s; background: #fff; }
+    .card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0,0,0,0.15); }
+    .card img { width: 100%; height: 180px; object-fit: cover; }
+    
+    .btn-yellow { 
+        background: #FFD700; color: black; padding: 8px 18px; border-radius: 20px; 
+        text-decoration: none; font-weight: 600; display: inline-block; margin-top: 8px; font-size: 0.8rem; border: none; transition: 0.3s;
+    }
+    .btn-yellow:hover { background: #0C1430; color: white; }
+    .btn-green { background: #22c55e; color: white; }
+    .btn-green:hover { background: #16a34a; color: white; }
+    
+    .section-title {
+        color: #0C1430; border-bottom: 3px solid #FFD700; padding-bottom: 10px; 
+        display: flex; align-items: center; gap: 10px; margin-bottom: 25px;
+    }
+    .section-title i { color: #FFD700; }
+    
+    .empty-state {
+        text-align: center; padding: 25px; background: #f8f9fa; border-radius: 8px; margin-top: 15px;
+    }
+    .empty-state i { font-size: 2rem; color: #ccc; margin-bottom: 10px; }
+    .empty-state p { color: #888; margin-bottom: 12px; font-size: 0.85rem; }
+    
+    .status-badge {
+        display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; margin-bottom: 8px;
+    }
+    .status-completed { background: #22c55e; color: white; }
+    .status-progress { background: #f59e0b; color: white; }
+    
+    @media (max-width: 992px) {
+        .case-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 576px) {
+        .case-grid { grid-template-columns: 1fr; }
+        .hero-active h1 { font-size: 1.8rem; }
+        .main-container { margin: -20px 15px 30px; padding: 25px; }
+    }
+
+    /* Takım oyunları tablosu */
+    .team-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+    .team-table thead th { background: #0C1430; color: #FFD700; padding: 12px 14px; font-weight: 600; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; }
+    .team-table tbody tr { border-bottom: 1px solid #f0f0f0; transition: background 0.2s; }
+    .team-table tbody tr:hover { background: #fafafa; }
+    .team-table td { padding: 12px 14px; vertical-align: middle; }
+    .team-badge { background: #e0e7ff; color: #3730a3; padding: 4px 10px; border-radius: 12px; font-size: 0.75rem; font-weight: 600; }
+
+    /* Organize edilen oyunlar */
+    .organized-card { background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; margin-bottom: 20px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+    .organized-card-header { background: #f8f9fb; padding: 14px 18px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e5e7eb; }
+    .team-slot { border-bottom: 1px solid #f0f0f0; }
+    .team-slot:last-child { border-bottom: none; }
+    .team-slot-header { display: flex; justify-content: space-between; align-items: center; padding: 10px 18px; background: #fafbff; }
+    .member-list { padding: 4px 18px 10px; }
+    .member-row { display: flex; align-items: center; gap: 10px; padding: 7px 0; border-bottom: 1px dashed #f0f0f0; }
+    .member-row:last-child { border-bottom: none; }
+    .member-avatar { width: 30px; height: 30px; border-radius: 50%; background: #0C1430; color: #FFD700; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.75rem; flex-shrink: 0; }
+    .member-info { flex: 1; }
+    .member-email { font-size: 0.82rem; color: #333; font-weight: 500; }
+    .member-status { margin-top: 2px; }
+    .btn-remove-member { background: none; border: none; color: #ef4444; cursor: pointer; padding: 3px 7px; border-radius: 6px; font-size: 0.8rem; transition: background 0.2s; }
+    .btn-remove-member:hover { background: #fee2e2; }
+</style>
+
+<div class="hero-active">
+    <h1><i class="fas fa-folder-open me-3"></i>Aktif Davalarım</h1>
+</div>
+
+<div class="main-container">
+    <center>
+        <div class="badge-custom">
+            <i class="fas fa-briefcase me-2"></i>Aktif Çözülmemiş Dava Dosyalarınız
+        </div>
+        <p style="max-width: 600px; margin: 0 auto;">
+            Hoş geldin, Dedektif 
+            <b style="color: #FFD700;">{{ current_user if current_user else 'Misafir' }}</b>. 
+            Burada kilidini açtığınız tüm Gizemli Vakalar oyunlarını bulacaksınız.
+        </p>
+    </center>
+
+    <div style="margin-top: 50px;">
+        <h2 class="section-title">
+            <i class="fas fa-user"></i> 
+            Bireysel Oyunlarım
+        </h2>
+        
+        {% if individual_cases %}
+        <div class="case-grid">
+            {% for item in individual_cases %}
+            <div class="card">
+                <img src="{{ url_for('static', filename='uploads/' + item.case.id + '/' + item.case.image) }}" loading="lazy" alt="{{ item.case.title }}">
+                <p style="font-size: 0.7rem; color: #999; margin: 12px 0 5px;">
+                    DOSYA NO: #{{ item.case.id[:5].upper() }}
+                </p>
+                <h3 style="margin: 5px 15px; font-size: 1rem; color: #0C1430;">
+                    {{ item.case.title }}
+                </h3>
+                {% if item.completed %}
+                <span class="status-badge status-completed">
+                    <i class="fas fa-check me-1"></i>Tamamlandı
+                </span>
+                {% else %}
+                <span class="status-badge status-progress">
+                    <i class="fas fa-play me-1"></i>Devam Ediyor
+                </span>
+                {% endif %}
+                <br>
+                <a href="{{ url_for('play_case', case_id=item.case.id) }}" class="btn-yellow">
+                    <i class="fas fa-gamepad me-1"></i>Hemen Oyna!
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <i class="fas fa-folder-open"></i>
+            <p>Henüz bireysel oyununuz bulunmuyor.</p>
+            <a href="{{ url_for('cases') }}" class="btn-yellow">
+                <i class="fas fa-search me-1"></i>Vakaları İncele
+            </a>
+        </div>
+        {% endif %}
+    </div>
+
+    <div style="margin-top: 60px;">
+        <h2 class="section-title">
+            <i class="fas fa-users"></i> 
+            Takım Oyunlarım
+        </h2>
+        
+        {% if team_games %}
+        <div class="table-responsive">
+            <table class="team-table">
+                <thead>
+                    <tr>
+                        <th>Vaka</th>
+                        <th>Takım</th>
+                        <th>Organizatör</th>
+                        <th>Durum</th>
+                        <th class="text-end">İşlemler</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in team_games %}
+                    <tr>
+                        <td>
+                            <div class="d-flex align-items-center gap-2">
+                                <img src="{{ url_for('static', filename='uploads/' + item.case.id + '/' + item.case.image) }}" 
+                                     alt="{{ item.case.title }}" 
+                                     style="width:42px;height:42px;object-fit:cover;border-radius:6px;flex-shrink:0;">
+                                <div>
+                                    <div class="fw-bold" style="color:#0C1430;font-size:0.9rem;">{{ item.case.title }}</div>
+                                    <div style="font-size:0.72rem;color:#999;">ID: {{ item.case.id }}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            {% if item.get('from_individual') %}
+                            <span class="team-badge">Takım Modu</span>
+                            {% else %}
+                            <span class="team-badge">{{ item.member.team_name or ('Takım ' ~ item.member.team_number) }}</span>
+                            {% endif %}
+                        </td>
+                        <td style="font-size:0.85rem;color:#555;">
+                            {% if item.purchase %}{{ item.purchase.organizer_name }}{% else %}—{% endif %}
+                        </td>
+                        <td>
+                            {% if item.completed or (not item.get('from_individual') and item.member.completed) %}
+                            <span class="status-badge status-completed"><i class="fas fa-check me-1"></i>Tamamlandı</span>
+                            {% else %}
+                            <span class="status-badge status-progress"><i class="fas fa-play me-1"></i>Devam Ediyor</span>
+                            {% endif %}
+                        </td>
+                        <td class="text-end">
+                            {% if item.get('from_individual') %}
+                            <a href="{{ url_for('team_play_solo', case_id=item.case.id) }}" class="btn-yellow" style="font-size:0.78rem;padding:6px 14px;">
+                                <i class="fas fa-gamepad me-1"></i>Oyna
+                            </a>
+                            {% else %}
+                            <a href="{{ url_for('team_play', access_token=item.member.access_token) }}" class="btn-yellow" style="font-size:0.78rem;padding:6px 14px;">
+                                <i class="fas fa-gamepad me-1"></i>Oyna
+                            </a>
+                            {% if item.member.completed %}
+                            <a href="{{ url_for('team_certificate', access_token=item.member.access_token) }}" class="btn-yellow btn-green" style="font-size:0.78rem;padding:6px 10px;margin-left:4px;">
+                                <i class="fas fa-certificate"></i>
+                            </a>
+                            {% endif %}
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <i class="fas fa-users"></i>
+            <p>Henüz takım oyununuz bulunmuyor.</p>
+            <a href="{{ url_for('teams') }}" class="btn-yellow">
+                <i class="fas fa-users me-1"></i>Takım Etkinlikleri
+            </a>
+        </div>
+        {% endif %}
+    </div>
+
+    {% if organized_purchases %}
+    <div style="margin-top: 60px;">
+        <div class="d-flex justify-content-between align-items-center" style="border-bottom: 3px solid #FFD700; padding-bottom: 10px; margin-bottom: 25px;">
+            <h2 class="section-title mb-0" style="border:none;padding:0;">
+                <i class="fas fa-user-tie" style="color:#FFD700;"></i> 
+                Organize Ettiğim Takım Oyunları
+            </h2>
+            <span class="badge" style="background:#FFD700;color:#0C1430;font-size:0.8rem;padding:6px 12px;border-radius:20px;">
+                {{ organized_purchases|length }} Oyun
+            </span>
+        </div>
+
+        {% for purchase in organized_purchases %}
+        {% set pcase = purchase.case %}
+        <div class="organized-card">
+            <div class="organized-card-header">
+                <div class="d-flex align-items-center gap-3">
+                    {% if pcase %}
+                    <img src="{{ url_for('static', filename='uploads/' + pcase.id + '/' + pcase.image) }}" 
+                         alt="{{ pcase.title }}" 
+                         style="width:50px;height:50px;object-fit:cover;border-radius:8px;flex-shrink:0;">
+                    {% endif %}
+                    <div>
+                        <div class="fw-bold" style="font-size:1rem;color:#0C1430;">{{ pcase.title if pcase else 'Bilinmiyor' }}</div>
+                        <div style="font-size:0.75rem;color:#888;">{{ purchase.team_count }} takım &bull; {{ purchase.members|length }} üye kayıtlı</div>
+                    </div>
+                </div>
+                <button class="btn-yellow" style="font-size:0.78rem;padding:6px 14px;" 
+                        onclick="openAddMemberModal({{ purchase.id }}, {{ purchase.team_count }})">
+                    <i class="fas fa-user-plus me-1"></i>Oyuncu Ekle
+                </button>
+            </div>
+
+            {% for team_no in range(1, purchase.team_count + 1) %}
+            {% set t_members = purchase.members | selectattr('team_number', 'equalto', team_no) | list %}
+            <div class="team-slot">
+                <div class="team-slot-header">
+                    <span class="team-badge">{{ t_members[0].team_name if t_members else ('Takım ' ~ team_no) }}</span>
+                    <button class="btn btn-sm" style="background:#FFD700;color:#0C1430;border:none;border-radius:15px;font-size:0.72rem;padding:3px 10px;font-weight:600;"
+                            onclick="openAddMemberModal({{ purchase.id }}, {{ purchase.team_count }}, {{ team_no }})">
+                        <i class="fas fa-plus me-1"></i>Üye Ekle
+                    </button>
+                </div>
+                {% if t_members %}
+                <div class="member-list">
+                    {% for m in t_members %}
+                    <div class="member-row">
+                        <div class="member-avatar">{{ m.email[0]|upper }}</div>
+                        <div class="member-info">
+                            <div class="member-email">{{ m.email }}</div>
+                            <div class="member-status">
+                                {% if m.completed %}
+                                <span class="status-badge status-completed" style="font-size:0.65rem;padding:2px 8px;"><i class="fas fa-check me-1"></i>Tamamladı</span>
+                                {% elif m.accessed %}
+                                <span class="status-badge status-progress" style="font-size:0.65rem;padding:2px 8px;"><i class="fas fa-play me-1"></i>Oyunda</span>
+                                {% else %}
+                                <span class="status-badge" style="font-size:0.65rem;padding:2px 8px;background:#e5e7eb;color:#6b7280;"><i class="fas fa-clock me-1"></i>Bekleniyor</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% if not m.accessed and not m.completed %}
+                        <form method="POST" action="{{ url_for('team_manage_remove_member', member_id=m.id) }}" style="margin:0;" onsubmit="return confirm('Bu üyeyi kaldırmak istediğinize emin misiniz?')">
+                            <input type="hidden" name="next" value="active_cases">
+                            <button type="submit" class="btn-remove-member" title="Üyeyi Kaldır">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </form>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div style="padding:10px 12px;font-size:0.8rem;color:#aaa;font-style:italic;">
+                    <i class="fas fa-user-slash me-1"></i>Bu takımda henüz üye yok.
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
+
+<!-- Üye Ekleme Modal -->
+<div class="modal fade" id="addMemberModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="border-radius:12px;overflow:hidden;border:none;">
+            <div class="modal-header" style="background:#0C1430;">
+                <h5 class="modal-title text-white fw-bold">
+                    <i class="fas fa-user-plus me-2 text-warning"></i>Takıma Oyuncu Ekle
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <form id="addMemberForm" method="POST" action="{{ url_for('team_manage_add_member') }}">
+                <input type="hidden" name="next" value="active_cases">
+                <input type="hidden" name="purchase_id" id="addPurchaseId">
+                <div class="modal-body p-4">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold" style="color:#0C1430;">Takım Numarası</label>
+                        <select name="team_number" id="addTeamNumber" class="form-select">
+                        </select>
+                        <div class="form-text">Oyuncuyu hangi takıma eklemek istediğinizi seçin.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold" style="color:#0C1430;">
+                            <i class="fas fa-envelope me-1 text-warning"></i>E-posta Adresi
+                        </label>
+                        <input type="email" name="email" class="form-control" placeholder="ornek@email.com" required>
+                        <div class="form-text">Oyuncu bu e-posta ile giriş yaptığında oyuna katılabilecek.</div>
+                    </div>
+                    <div class="alert alert-info py-2 px-3" style="font-size:0.8rem;border-radius:8px;">
+                        <i class="fas fa-info-circle me-1"></i>
+                        Eklediğiniz e-posta adresi sisteme kayıtlı olmasa bile eklenebilir. 
+                        Oyuncu aynı e-posta ile giriş yaptığında oyun listesinde görünecek.
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-sm rounded-pill" data-bs-dismiss="modal">İptal</button>
+                    <button type="submit" class="btn btn-warning fw-bold btn-sm rounded-pill px-4">
+                        <i class="fas fa-user-plus me-1"></i>Ekle
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+function openAddMemberModal(purchaseId, teamCount, preselectedTeam) {
+    document.getElementById('addPurchaseId').value = purchaseId;
+    var sel = document.getElementById('addTeamNumber');
+    sel.innerHTML = '';
+    for (var i = 1; i <= teamCount; i++) {
+        var opt = document.createElement('option');
+        opt.value = i;
+        opt.text = 'Takım ' + i;
+        if (preselectedTeam && preselectedTeam == i) opt.selected = true;
+        sel.appendChild(opt);
+    }
+    var modal = new bootstrap.Modal(document.getElementById('addMemberModal'));
+    modal.show();
+}
+</script>
+{% endblock %}

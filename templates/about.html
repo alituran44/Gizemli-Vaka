@@ -1,0 +1,193 @@
+{% extends 'base.html' %}
+{% block title %}Hakkımızda - Gizemli Vaka | Türkiye'nin İlk Online Dedektiflik Oyunu{% endblock %}
+{% block meta_description %}Gizemli Vaka hakkında bilgi edinin. Türkiye'nin ilk online dedektiflik oyun platformu — gerçekçi kurgu cinayet davaları, bireysel ve kurumsal takım oyunları ile 2024'ten bu yana hizmetinizde.{% endblock %}
+
+{% block structured_data %}
+{{ super() }}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "AboutPage",
+  "name": "Gizemli Vaka Hakkında",
+  "description": "Türkiye'nin ilk online dedektiflik oyun platformu Gizemli Vaka hakkında bilgi edinin. Gerçekçi kurgu cinayet davalarını tarayıcıdan çözen bireysel ve kurumsal oyun platformu.",
+  "url": "https://gizemlivaka.com/about",
+  "inLanguage": "tr-TR",
+  "mainEntity": {
+    "@type": "Organization",
+    "name": "Gizemli Vaka",
+    "url": "https://gizemlivaka.com",
+    "description": "Gizemli Vaka, Türkiye'nin ilk online dedektiflik oyun platformudur. 2024 yılında kurulan platform, kullanıcılara gerçekçi kurgu cinayet davalarını web tarayıcısı üzerinden çözme deneyimi sunar. Bireysel oyun ve 2-50+ kişilik kurumsal takım modları mevcuttur.",
+    "foundingDate": "2024",
+    "foundingLocation": {"@type": "Place", "addressCountry": "TR", "name": "Türkiye"},
+    "areaServed": "TR",
+    "knowsAbout": [
+      "Dedektiflik oyunu",
+      "Murder mystery game",
+      "Online kurumsal etkinlik",
+      "Team building oyunu",
+      "İnteraktif hikaye oyunu",
+      "Adli bilim simülasyonu"
+    ],
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Dava Dosyaları",
+      "url": "https://gizemlivaka.com/cases"
+    }
+  }
+}
+</script>
+{% endblock %}
+
+{% block breadcrumb_schema %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "Ana Sayfa", "item": "https://gizemlivaka.com"},
+    {"@type": "ListItem", "position": 2, "name": "Hakkımızda", "item": "https://gizemlivaka.com/about"}
+  ]
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<style>
+@media (max-width: 768px) {
+    .about-hero { min-height: 200px !important; padding: 30px 0 !important; }
+    .about-hero h1 { font-size: 1.8rem !important; }
+    .about-hero .lead { font-size: 0.9rem !important; }
+    .col-lg-8, .col-lg-4 { flex: 0 0 100%; max-width: 100%; }
+    .sticky-top { position: static !important; }
+    .card-body { padding: 20px !important; }
+    .row.g-3 .col-md-4 { flex: 0 0 100%; max-width: 100%; }
+}
+@media (max-width: 576px) {
+    .about-hero h1 { font-size: 1.4rem !important; }
+    .display-4 { font-size: 1.6rem !important; }
+}
+</style>
+<div class="about-hero py-5" style="background: linear-gradient(135deg, #0a1929 0%, #1a365d 100%); min-height: 300px;">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-8">
+                <span class="badge bg-warning text-dark px-3 py-2 mb-3 fw-bold">Dosya No: 000</span>
+                <h1 class="display-4 text-white fw-bold mb-3">Arşivin Perdesi Aralanıyor</h1>
+                <p class="lead text-warning fst-italic">"Adalet Bazen Tozlu Raflarda Bekler..."</p>
+            </div>
+            <div class="col-lg-4 text-center d-none d-lg-block">
+                <i class="fas fa-folder-open text-warning" style="font-size: 8rem; opacity: 0.3;"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container py-5">
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-lg mb-4" style="background-color: #0a1929;">
+                <div class="card-body p-4 p-md-5">
+                    <p class="text-white" style="font-size: 1.1rem; line-height: 1.9;">
+                        <strong class="text-warning">www.gizemlivaka.com</strong>, sıradan bir oyun platformu değil; ucu açık bırakılmış hikâyelerin, cevaplanmamış soruların ve adaleti bekleyen dosyaların dijital arşividir. Bizler, gerçekliğin sınırlarında gezinen, detayların içindeki gizli gerçeği bulmaya tutkun bir ekibiz.
+                    </p>
+                </div>
+            </div>
+
+            <div class="card border-0 shadow-lg mb-4" style="background-color: #fff;">
+                <div class="card-body p-4 p-md-5">
+                    <h2 class="fw-bold mb-4" style="color: #0a1929;">
+                        <i class="fas fa-users text-warning me-2"></i> Biz Kimiz?
+                    </h2>
+                    <p style="font-size: 1.05rem; line-height: 1.8; color: #333;">
+                        Biz, hikâye anlatıcılığını interaktif bir deneyime dönüştüren hayalperestler ve dedektif ruhlu tasarımcılarız. Amacımız; sizi ekran başından alıp, bir suç mahallinin soğuk sessizliğine, bir sorgu odasının loş ışığına veya şifreli bir ses kaydının derinliklerine götürmektir.
+                    </p>
+                    <p style="font-size: 1.05rem; line-height: 1.8; color: #333;">
+                        Gizemli Vakalar olarak, her bir vaka dosyasını oluştururken sadece bulmaca tasarlamıyoruz; yaşayan, nefes alan ve her bir köşesinde ayrı bir sır barındıran dünyalar kuruyoruz.
+                    </p>
+                </div>
+            </div>
+
+            <div class="card border-0 shadow-lg mb-4" style="background-color: #0a1929;">
+                <div class="card-body p-4 p-md-5">
+                    <h2 class="fw-bold mb-4 text-warning">
+                        <i class="fas fa-question-circle me-2"></i> Neden Buradasınız?
+                    </h2>
+                    <p class="text-white" style="font-size: 1.05rem; line-height: 1.8;">
+                        Çünkü siz de herkesin baktığı ama kimsenin görmediği detayları fark ediyorsunuz. Yarım kalmış bir hikâyeyi tamamlamak, bir şüphelinin yalanını yakalamak veya "çözülemez" denilen o vakayı aydınlatmak için buradasınız.
+                    </p>
+                    
+                    <div class="row mt-4 g-3">
+                        <div class="col-md-4">
+                            <div class="p-3 rounded" style="background-color: rgba(255,193,7,0.1); border-left: 3px solid #ffc107;">
+                                <h6 class="text-warning fw-bold"><i class="fas fa-file-alt me-2"></i>Gerçekçi Kanıtlar</h6>
+                                <p class="text-white small mb-0">Polis raporları, adli tıp kayıtları, ses dosyaları ve güvenlik kamerası görüntüleriyle tam bir simülasyon deneyimi.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="p-3 rounded" style="background-color: rgba(255,193,7,0.1); border-left: 3px solid #ffc107;">
+                                <h6 class="text-warning fw-bold"><i class="fas fa-book me-2"></i>Derin Hikâyeler</h6>
+                                <p class="text-white small mb-0">Her vaka, etik ikilemler ve beklenmedik ters köşelerle dolu bir serüven sunar.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="p-3 rounded" style="background-color: rgba(255,193,7,0.1); border-left: 3px solid #ffc107;">
+                                <h6 class="text-warning fw-bold"><i class="fas fa-balance-scale me-2"></i>Sizin Kararlarınız</h6>
+                                <p class="text-white small mb-0">Burada sadece bir izleyici değilsiniz; adaletin terazisini tutan kişisiniz.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card border-0 shadow-lg mb-4" style="background-color: #fff;">
+                <div class="card-body p-4 p-md-5">
+                    <h2 class="fw-bold mb-4" style="color: #0a1929;">
+                        <i class="fas fa-eye text-warning me-2"></i> Vizyonumuz
+                    </h2>
+                    <p style="font-size: 1.05rem; line-height: 1.8; color: #333;">
+                        Türkiye'nin en kapsamlı interaktif dedektiflik arşivini oluşturmak ve her bir kullanıcımıza kendi "eureka!" anını yaşatmak. Yankı FM Cinayeti gibi karmaşık vakalardan, yerel efsanelere kadar geniş bir yelpazede, zekanızı ve sezgilerinizi test edecek içerikler üretmeye devam ediyoruz.
+                    </p>
+                    <blockquote class="blockquote mt-4 p-4 rounded" style="background-color: #0a1929; border-left: 4px solid #ffc107;">
+                        <p class="mb-0 text-warning fst-italic" style="font-size: 1.1rem;">
+                            "Gerçek, çoğu zaman hayal gücünden daha tuhaftır. Onu bulmak ise sadece bir dikkat meselesidir."
+                        </p>
+                    </blockquote>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card border-0 shadow-lg sticky-top" style="top: 100px; background-color: #0a1929;">
+                <div class="card-body p-4">
+                    <h5 class="text-warning fw-bold mb-4">
+                        <i class="fas fa-envelope me-2"></i> İletişim ve İş Birliği
+                    </h5>
+                    <p class="text-white small mb-4">
+                        Vaka dosyalarımız hakkında sorularınız varsa veya kendi dedektiflik hikâyenizi bizimle paylaşmak isterseniz, ekibimize ulaşmaktan çekinmeyin.
+                    </p>
+                    
+                    <div class="d-flex align-items-center mb-3 p-3 rounded" style="background-color: rgba(255,193,7,0.1);">
+                        <i class="fas fa-envelope text-warning me-3" style="font-size: 1.5rem;"></i>
+                        <div>
+                            <small class="text-muted d-block">E-posta</small>
+                            <a href="mailto:info@gizemlivaka.com" class="text-white text-decoration-none">info@gizemlivaka.com</a>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex align-items-center mb-4 p-3 rounded" style="background-color: rgba(255,193,7,0.1);">
+                        <i class="fas fa-globe text-warning me-3" style="font-size: 1.5rem;"></i>
+                        <div>
+                            <small class="text-muted d-block">Web</small>
+                            <span class="text-white">www.gizemlivaka.com</span>
+                        </div>
+                    </div>
+                    
+                    <a href="{{ url_for('contact') }}" class="btn btn-warning w-100 fw-bold py-3">
+                        <i class="fas fa-paper-plane me-2"></i> Bize Ulaşın
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

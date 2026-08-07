@@ -1,0 +1,262 @@
+{% extends "base.html" %}
+{% block title %}Nasıl Oynanır - Gizemli Vaka{% endblock %}
+{% block meta_description %}Gizemli Vaka nasıl oynanır? Adım adım rehber: Dosyanızı açın, delilleri inceleyin, şüphelileri sorgulayın ve raporunuzu gönderin.{% endblock %}
+
+{% block breadcrumb_schema %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "Ana Sayfa", "item": "https://gizemlivaka.com"},
+    {"@type": "ListItem", "position": 2, "name": "Nasıl Oynanır", "item": "https://gizemlivaka.com/how-to-play"}
+  ]
+}
+</script>
+{% endblock %}
+
+{% block structured_data %}
+{{ super() }}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "Gizemli Vaka Nasıl Oynanır?",
+  "description": "Gizemli Vaka online dedektiflik oyununda dava dosyasını inceleyerek katili bulma adımları.",
+  "totalTime": "PT2H",
+  "estimatedCost": {
+    "@type": "MonetaryAmount",
+    "currency": "TRY",
+    "value": "149"
+  },
+  "tool": [
+    {"@type": "HowToTool", "name": "Web tarayıcısı"},
+    {"@type": "HowToTool", "name": "Bilgisayar veya mobil cihaz"}
+  ],
+  "step": [
+    {
+      "@type": "HowToStep",
+      "position": 1,
+      "name": "Dava Dosyası Seçin",
+      "text": "gizemlivaka.com/cases adresinden ilginizi çeken bir cinayet davası seçin ve satın alın. Her dava benzersiz bir senaryo, şüpheliler ve kanıtlar içerir.",
+      "url": "https://gizemlivaka.com/cases"
+    },
+    {
+      "@type": "HowToStep",
+      "position": 2,
+      "name": "Kurgusal Polis Sistemine Erişin",
+      "text": "Satın aldığınız davayı 'Aktif Davalarım' bölümünden açın. Kurgusal bir polis veritabanı arayüzüyle karşılaşacaksınız.",
+      "url": "https://gizemlivaka.com/active-cases"
+    },
+    {
+      "@type": "HowToStep",
+      "position": 3,
+      "name": "Dava Özetini İzleyin",
+      "text": "Davayı açar açmaz resmi brifing videosunu izleyin. Bu video size olayın arka planını ve görevinizi açıklar."
+    },
+    {
+      "@type": "HowToStep",
+      "position": 4,
+      "name": "Kanıtları İnceleyin",
+      "text": "Olay raporları, otopsi belgeleri, şüpheli profilleri, ses kayıtları, video görüntüleri ve dijital izleri kategorilere göre inceleyin."
+    },
+    {
+      "@type": "HowToStep",
+      "position": 5,
+      "name": "İpucu Alın (İsteğe Bağlı)",
+      "text": "Takılırsanız ücretli ipucu paketleri satın alabilirsiniz. İpuçları sizi doğrudan cevaba götürmez; doğru yönde düşünmenizi sağlar."
+    },
+    {
+      "@type": "HowToStep",
+      "position": 6,
+      "name": "Raporunuzu Gönderin",
+      "text": "Kimin suçlu olduğuna karar verdiğinizde 'Rapor Gönder' butonuna tıklayın. Suçlunun adını ve nasıl yaptığını yazarak raporunuzu iletin.",
+      "url": "https://gizemlivaka.com/play"
+    },
+    {
+      "@type": "HowToStep",
+      "position": 7,
+      "name": "Sonucu Öğrenin",
+      "text": "Raporunuz değerlendirilir ve doğru/yanlış sonucu ile birlikte resmi çözüm açıklaması ekrana gelir."
+    }
+  ]
+}
+</script>
+{% endblock %}
+
+{% block content %}
+
+<style>
+@media (max-width: 768px) {
+    .position-relative:first-child { min-height: 40vh !important; }
+    .position-relative:first-child h1 { font-size: 2rem !important; }
+    .position-relative:first-child p { font-size: 0.95rem !important; }
+}
+@media (max-width: 576px) {
+    .position-relative:first-child h1 { font-size: 1.5rem !important; }
+}
+</style>
+
+<div class="position-relative" style="min-height: 60vh; display: flex; align-items: center; justify-content: center;">
+    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url('{{ url_for('static', filename='uploads/dark_detective_office_background.png') }}?v=2') center/cover no-repeat; z-index: 1;"></div>
+    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(12, 20, 48, 0.75); z-index: 2;"></div>
+    <div class="container position-relative text-center py-5" style="z-index: 3;">
+        <h1 class="fw-bold text-white mb-4" style="font-size: 3.5rem; text-shadow: 0 4px 20px rgba(0,0,0,0.5);">Nasıl Oynanır</h1>
+        <p class="text-white mx-auto" style="font-size: 1.2rem; line-height: 1.9; max-width: 700px; opacity: 0.9;">
+            Kurgusal bir polis veritabanına erişim kazanın ve baş dedektif olarak görev alın. Teslimat beklemeyin, kurulum yapmayın; herhangi bir cihazdan dosyanızı açın, delilleri inceleyin, şüpheli ifadelerini dinleyin ve sonuca ulaştığınızda raporunuzu Şefe iletin.
+        </p>
+    </div>
+</div>
+
+<div class="py-5" style="background-color: #f8f9fa;">
+    <div class="container py-4">
+        
+        {% if steps %}
+        {% for step in steps %}
+        <div class="row align-items-center mb-5 pb-5 {% if loop.index is even %}flex-lg-row-reverse{% endif %}">
+            <div class="col-lg-6 mb-4 mb-lg-0">
+                <div class="rounded-4 overflow-hidden shadow-lg">
+                    {% if step.image %}
+                    <img loading="lazy" src="{{ url_for('static', filename='uploads/' + step.image) }}?v=2" alt="{{ step.title }}" class="img-fluid w-100">
+                    {% else %}
+                    <div class="bg-secondary d-flex align-items-center justify-content-center" style="height: 300px;">
+                        <i class="fas fa-image text-white" style="font-size: 4rem; opacity: 0.3;"></i>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-lg-6 {% if loop.index is even %}pe-lg-5{% else %}ps-lg-5{% endif %}">
+                <span class="badge mb-3" style="background-color: #FFD700; color: #000; font-size: 0.75rem; padding: 5px 12px;">{{ step.badge }}</span>
+                <h2 class="fw-bold mb-3" style="color: #0C1430; font-size: 2rem;">{{ step.title }}</h2>
+                <div class="text-secondary mb-4" style="line-height: 1.8;">
+                    {{ step.content|safe }}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <div class="text-center py-5">
+            <p class="text-muted">Henüz adım eklenmedi.</p>
+        </div>
+        {% endif %}
+
+    </div>
+</div>
+
+<div class="py-5 bg-white">
+    <div class="container py-4">
+        <h2 class="fw-bold text-center mb-3" style="color: #0C1430; font-size: 2rem;">Bir Dava Dosyasının İçinde Neler Var?</h2>
+        <p class="text-secondary text-center mx-auto mb-5" style="max-width: 900px; line-height: 1.8;">
+            Gizemli Vaka'nın her dosyası, "departman" tarafından toplanan gerçekçi kanıtlarla dolu. Kağıt belgeler ve dijital izlerin bir karışımını kullanarak gerçeği bir araya getireceksiniz. Bu karışım, <strong>Çevrimiçi Çözülmemiş Dava Dosyalarımızın</strong> basit bir bulmaca yerine gerçek bir soruşturma gibi hissettirmesinin nedenidir.
+        </p>
+
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="p-4 h-100 border rounded-3" style="background-color: #f8f9fa;">
+                    <div class="d-flex align-items-center mb-3">
+                        <i class="fas fa-file-alt fa-lg me-3" style="color: #0C1430;"></i>
+                        <h5 class="fw-bold mb-0" style="color: #0C1430;">Belgeler ve Raporlar</h5>
+                    </div>
+                    <p class="text-secondary small mb-0">Olay kayıtları, görgü tanığı ifadeleri, otopsi bulguları ve adli özetler, zaman çizelgenizi temellendirmenize yardımcı olacaktır.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="p-4 h-100 border rounded-3" style="background-color: #f8f9fa;">
+                    <div class="d-flex align-items-center mb-3">
+                        <i class="fas fa-camera fa-lg me-3" style="color: #0C1430;"></i>
+                        <h5 class="fw-bold mb-0" style="color: #0C1430;">Olay Yeri Detayları</h5>
+                    </div>
+                    <p class="text-secondary small mb-0">Desen tespiti, yeniden yapılandırma ve alibilerin doğrulanması veya çürütülmesi için yüksek detaylı görüntüler.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="p-4 h-100 border rounded-3" style="background-color: #f8f9fa;">
+                    <div class="d-flex align-items-center mb-3">
+                        <i class="fas fa-microphone fa-lg me-3" style="color: #0C1430;"></i>
+                        <h5 class="fw-bold mb-0" style="color: #0C1430;">Sesli Kanıt</h5>
+                    </div>
+                    <p class="text-secondary small mb-0">Acil durum çağrıları, sesli mesajlar, telsiz konuşmaları ve şüpheli sorgulamaları gibi durumlarda ses tonu, duraksamalar ve kelime seçimi önemlidir.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="p-4 h-100 border rounded-3" style="background-color: #f8f9fa;">
+                    <div class="d-flex align-items-center mb-3">
+                        <i class="fas fa-video fa-lg me-3" style="color: #0C1430;"></i>
+                        <h5 class="fw-bold mb-0" style="color: #0C1430;">Video ve Güvenlik Kamerası</h5>
+                    </div>
+                    <p class="text-secondary small mb-0">Hareketleri, temas anlarını ve çelişkileri ortaya koyan gözetim kayıtları ve saha kayıtları.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="p-4 h-100 border rounded-3" style="background-color: #f8f9fa;">
+                    <div class="d-flex align-items-center mb-3">
+                        <i class="fas fa-mobile-alt fa-lg me-3" style="color: #0C1430;"></i>
+                        <h5 class="fw-bold mb-0" style="color: #0C1430;">Sosyal ve Dijital İzler</h5>
+                    </div>
+                    <p class="text-secondary small mb-0">Gizlilikleri, güdüleri ve zaman çizelgelerini ortaya çıkaran paylaşımlar, mesajlar ve cihaz ekran görüntüleri.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="p-4 h-100 border rounded-3" style="background-color: #f8f9fa;">
+                    <div class="d-flex align-items-center mb-3">
+                        <i class="fas fa-map-marked-alt fa-lg me-3" style="color: #0C1430;"></i>
+                        <h5 class="fw-bold mb-0" style="color: #0C1430;">Haritalar ve Profiller</h5>
+                    </div>
+                    <p class="text-secondary small mb-0">Kuramınızı gerçeklere dayandırmak için mağdur geçmişleri, şüpheli profilleri ve konum haritaları.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="py-5" style="background-color: #0C1430;">
+    <div class="container py-4">
+        <div class="row align-items-center mb-4">
+            <div class="col-lg-8">
+                <span class="text-uppercase small fw-bold" style="color: #FFD700; letter-spacing: 2px;">Çevrimiçi Olmanın Nedenleri Daha İyi</span>
+                <h2 class="fw-bold text-white mt-2" style="font-size: 2rem;">Sorunsuz oyun. Gerçek bir dedektiflik hissi.</h2>
+            </div>
+            <div class="col-lg-4 text-lg-end mt-3 mt-lg-0">
+                <a href="{{ url_for('cases') }}" class="btn px-4 py-2 fw-bold rounded-pill" style="background-color: #FFD700; color: #000;">Dakikalar içinde başlayın</a>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="p-4 h-100 rounded-3" style="background-color: #16213e; border: 1px solid rgba(255,215,0,0.2);">
+                    <i class="fas fa-bolt text-warning mb-3"></i>
+                    <h5 class="fw-bold text-warning mb-2">Hemen Oynayın</h5>
+                    <p class="text-white-50 small mb-0">Teslimat veya kurulum yok. Dosyayı tarayıcınızda açın ve hemen incelemeye başlayın.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="p-4 h-100 rounded-3" style="background-color: #16213e; border: 1px solid rgba(255,215,0,0.2);">
+                    <i class="fas fa-laptop text-warning mb-3"></i>
+                    <h5 class="fw-bold text-warning mb-2">Çoklu cihaz erişimi</h5>
+                    <p class="text-white-50 small mb-0">İstediğiniz zaman masaüstü, dizüstü veya tablet arasında geçiş yapın - kesintisiz araştırma için mükemmel.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="p-4 h-100 rounded-3" style="background-color: #16213e; border: 1px solid rgba(255,215,0,0.2);">
+                    <i class="fas fa-users text-warning mb-3"></i>
+                    <h5 class="fw-bold text-warning mb-2">Ekip ile çöz</h5>
+                    <p class="text-white-50 small mb-0">Arkadaşlarınız veya iş arkadaşlarınızla aynı davayı birlikte çözün. Kurumsal team building etkinlikleri için mükemmel grup deneyimi.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="py-5 bg-white text-center">
+    <div class="container py-4">
+        <h2 class="fw-bold mb-4" style="color: #0C1430; font-size: 2rem;">Hazır mısınız?</h2>
+        <p class="text-secondary mb-4" style="max-width: 600px; margin: 0 auto;">
+            İlk vakanızı seçin ve dedektiflik maceranıza başlayın. Karanlık sokaklarda adalet sizi bekliyor.
+        </p>
+        <a href="{{ url_for('cases') }}" class="btn px-5 py-3 fw-bold rounded-pill shadow" style="background-color: #FFD700; color: #000; font-size: 1rem;">
+            <i class="fas fa-folder-open me-2"></i>Vakaları İncele
+        </a>
+    </div>
+</div>
+
+{% endblock %}

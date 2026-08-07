@@ -1,0 +1,186 @@
+{% extends "admin/base.html" %}
+{% block title %}Şifreli Mesajlar — {{ case.title }}{% endblock %}
+{% block content %}
+<div class="d-flex align-items-center justify-content-between mb-4">
+    <div>
+        <a href="{{ url_for('admin_cases') }}" class="btn btn-sm btn-outline-secondary me-2">
+            <i class="fas fa-arrow-left me-1"></i>Vakalar
+        </a>
+        <h4 class="d-inline-block mb-0">Şifreli Mesajlar — <span class="text-warning">{{ case.title }}</span></h4>
+    </div>
+    <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#addClueModal">
+        <i class="fas fa-plus me-1"></i>Yeni Ekle
+    </button>
+</div>
+
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    {{ messages[0] }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+</div>
+{% endif %}
+{% endwith %}
+
+{% if clues %}
+<div class="row g-3">
+    {% for clue in clues %}
+    <div class="col-12">
+        <div class="card bg-dark border-secondary">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
+                    <div class="flex-grow-1">
+                        <div class="d-flex align-items-center gap-2 mb-2 flex-wrap">
+                            <span class="badge bg-warning text-dark">#{{ clue.order_num }}</span>
+                            <h5 class="mb-0 text-white">{{ clue.title }}</h5>
+                            <span class="badge bg-secondary">{{ clue.cipher_type|upper }}</span>
+                        </div>
+                        {% if clue.cipher_hint %}
+                        <p class="text-muted small mb-2"><i class="fas fa-lightbulb me-1 text-warning"></i>{{ clue.cipher_hint }}</p>
+                        {% endif %}
+                        <pre class="bg-black text-success p-2 rounded small mb-2" style="white-space:pre-wrap;word-break:break-all;">{{ clue.encrypted_text }}</pre>
+                        <p class="small text-info mb-1"><i class="fas fa-key me-1"></i>Doğru Cevap: <code>{{ clue.correct_answer }}</code></p>
+                        <p class="small text-success mb-0"><i class="fas fa-lock-open me-1"></i>Çözüm Metni: {{ clue.decrypted_reveal }}</p>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-sm btn-outline-warning" data-bs-toggle="modal" data-bs-target="#editModal{{ clue.id }}">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <form method="POST" action="{{ url_for('admin_delete_encrypted_clue', clue_id=clue.id) }}"
+                              onsubmit="return confirm('Bu şifreli mesajı silmek istediğinize emin misiniz?');">
+                            <button type="submit" class="btn btn-sm btn-outline-danger"><i class="fas fa-trash"></i></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Modal -->
+    <div class="modal fade" id="editModal{{ clue.id }}" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content bg-dark text-white">
+                <div class="modal-header border-secondary">
+                    <h5 class="modal-title">Şifreli Mesajı Düzenle</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <form method="POST" action="{{ url_for('admin_edit_encrypted_clue', clue_id=clue.id) }}">
+                    <div class="modal-body">
+                        {% include 'admin/_clue_form_fields.html' ignore missing %}
+                        <div class="row g-3">
+                            <div class="col-md-8">
+                                <label class="form-label small text-muted">Başlık</label>
+                                <input type="text" name="title" class="form-control form-control-sm bg-dark text-white border-secondary" value="{{ clue.title }}" required>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label small text-muted">Sıra</label>
+                                <input type="number" name="order_num" class="form-control form-control-sm bg-dark text-white border-secondary" value="{{ clue.order_num }}">
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label small text-muted">Şifre Türü</label>
+                                <select name="cipher_type" class="form-select form-select-sm bg-dark text-white border-secondary">
+                                    {% for t in ['caesar','vigenere','morse','binary','base64','rot13','custom'] %}
+                                    <option value="{{ t }}" {% if clue.cipher_type==t %}selected{% endif %}>{{ t|upper }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label small text-muted">İpucu</label>
+                                <input type="text" name="cipher_hint" class="form-control form-control-sm bg-dark text-white border-secondary" value="{{ clue.cipher_hint or '' }}" placeholder="Oyuncuya gösterilecek ipucu">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label small text-muted">Talimat (opsiyonel)</label>
+                                <input type="text" name="unlock_instructions" class="form-control form-control-sm bg-dark text-white border-secondary" value="{{ clue.unlock_instructions or '' }}">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label small text-muted">Şifreli Metin</label>
+                                <textarea name="encrypted_text" rows="4" class="form-control form-control-sm bg-dark text-white border-secondary font-monospace" required>{{ clue.encrypted_text }}</textarea>
+                            </div>
+                            <div class="col-md-5">
+                                <label class="form-label small text-muted">Doğru Cevap(lar) <span class="text-secondary">(| ile ayır)</span></label>
+                                <input type="text" name="correct_answer" class="form-control form-control-sm bg-dark text-white border-secondary" value="{{ clue.correct_answer }}" required placeholder="cevap1|cevap2">
+                            </div>
+                            <div class="col-md-7">
+                                <label class="form-label small text-muted">Çözüm Açıklaması (çözünce gösterilir)</label>
+                                <input type="text" name="decrypted_reveal" class="form-control form-control-sm bg-dark text-white border-secondary" value="{{ clue.decrypted_reveal }}" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer border-secondary">
+                        <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">İptal</button>
+                        <button type="submit" class="btn btn-sm btn-warning">Kaydet</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="text-center py-5 text-muted">
+    <i class="fas fa-lock fa-3x mb-3 d-block opacity-50"></i>
+    <p>Bu vaka için henüz şifreli mesaj eklenmemiş.</p>
+    <button class="btn btn-warning mt-2" data-bs-toggle="modal" data-bs-target="#addClueModal">
+        <i class="fas fa-plus me-1"></i>İlk Şifreli Mesajı Ekle
+    </button>
+</div>
+{% endif %}
+
+<!-- Add Modal -->
+<div class="modal fade" id="addClueModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content bg-dark text-white">
+            <div class="modal-header border-secondary">
+                <h5 class="modal-title"><i class="fas fa-lock me-2 text-warning"></i>Yeni Şifreli Mesaj Ekle</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <form method="POST" action="{{ url_for('admin_add_encrypted_clue', case_id=case.id) }}">
+                <div class="modal-body">
+                    <div class="row g-3">
+                        <div class="col-md-8">
+                            <label class="form-label small text-muted">Başlık</label>
+                            <input type="text" name="title" class="form-control form-control-sm bg-dark text-white border-secondary" required placeholder="örn. Laboratuvar Notu #1">
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label small text-muted">Sıra</label>
+                            <input type="number" name="order_num" class="form-control form-control-sm bg-dark text-white border-secondary" value="0">
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label small text-muted">Şifre Türü</label>
+                            <select name="cipher_type" class="form-select form-select-sm bg-dark text-white border-secondary">
+                                {% for t in ['caesar','vigenere','morse','binary','base64','rot13','custom'] %}
+                                <option value="{{ t }}">{{ t|upper }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label small text-muted">İpucu <span class="text-secondary">(oyuncuya görünür)</span></label>
+                            <input type="text" name="cipher_hint" class="form-control form-control-sm bg-dark text-white border-secondary" placeholder="Sezar şifresi, kaydırma değeri: 3">
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label small text-muted">Talimat <span class="text-secondary">(opsiyonel)</span></label>
+                            <input type="text" name="unlock_instructions" class="form-control form-control-sm bg-dark text-white border-secondary" placeholder="Bu belgeyi çözmek için...">
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label small text-muted">Şifreli Metin</label>
+                            <textarea name="encrypted_text" rows="4" class="form-control form-control-sm bg-dark text-white border-secondary font-monospace" required placeholder="KHOOR ZRUOG..."></textarea>
+                        </div>
+                        <div class="col-md-5">
+                            <label class="form-label small text-muted">Doğru Cevap(lar) <span class="text-secondary">(| ile ayır)</span></label>
+                            <input type="text" name="correct_answer" class="form-control form-control-sm bg-dark text-white border-secondary" required placeholder="hello world|merhaba">
+                        </div>
+                        <div class="col-md-7">
+                            <label class="form-label small text-muted">Çözüm Açıklaması</label>
+                            <input type="text" name="decrypted_reveal" class="form-control form-control-sm bg-dark text-white border-secondary" required placeholder="Bu mesaj şunu ifade ediyor...">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-secondary">
+                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">İptal</button>
+                    <button type="submit" class="btn btn-sm btn-warning"><i class="fas fa-plus me-1"></i>Ekle</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,248 @@
+{% extends "admin/base.html" %}
+
+{% block admin_content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold text-dark mb-0">
+        <i class="fas fa-user-tie me-2 text-warning"></i> 
+        {{ partner.user.username }} - Ortak Detayı
+    </h2>
+    <a href="{{ url_for('admin_partners') }}" class="btn btn-outline-secondary">
+        <i class="fas fa-arrow-left me-2"></i> Geri Dön
+    </a>
+</div>
+
+<div class="row">
+    <div class="col-lg-4 mb-4">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-dark text-white py-3">
+                <i class="fas fa-info-circle me-2"></i> Ortak Bilgileri
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <label class="small text-muted d-block">Durum</label>
+                    {% if partner.status == 'pending' %}
+                    <span class="badge bg-warning text-dark fs-6">Bekliyor</span>
+                    {% elif partner.status == 'approved' %}
+                    <span class="badge bg-success fs-6">Onaylı</span>
+                    {% else %}
+                    <span class="badge bg-danger fs-6">Reddedildi</span>
+                    {% endif %}
+                </div>
+                <div class="mb-3">
+                    <label class="small text-muted d-block">Kullanıcı Adı</label>
+                    <strong>{{ partner.user.username }}</strong>
+                </div>
+                <div class="mb-3">
+                    <label class="small text-muted d-block">E-posta</label>
+                    {{ partner.user.email }}
+                </div>
+                <div class="mb-3">
+                    <label class="small text-muted d-block">Biyografi</label>
+                    <p class="mb-0">{{ partner.bio or 'Belirtilmemiş' }}</p>
+                </div>
+                <hr>
+                <h6 class="text-muted mb-3"><i class="fas fa-share-alt me-2"></i>Sosyal Medya</h6>
+                <div class="mb-2"><i class="fab fa-instagram text-danger me-2"></i>
+                    {% if partner.instagram %}<a href="https://instagram.com/{{ partner.instagram|replace('@','') }}" target="_blank">{{ partner.instagram }}</a>{% else %}<span class="text-muted small">Belirtilmemiş</span>{% endif %}
+                </div>
+                <div class="mb-2"><i class="fab fa-youtube text-danger me-2"></i>
+                    {% if partner.youtube %}<a href="{{ partner.youtube }}" target="_blank">{{ partner.youtube }}</a>{% else %}<span class="text-muted small">Belirtilmemiş</span>{% endif %}
+                </div>
+                <div class="mb-2"><i class="fab fa-tiktok me-2"></i>
+                    {% if partner.tiktok %}{{ partner.tiktok }}{% else %}<span class="text-muted small">Belirtilmemiş</span>{% endif %}
+                </div>
+                <div class="mb-2"><i class="fab fa-twitter text-info me-2"></i>
+                    {% if partner.twitter %}{{ partner.twitter }}{% else %}<span class="text-muted small">Belirtilmemiş</span>{% endif %}
+                </div>
+                <div class="mb-2"><i class="fas fa-globe text-primary me-2"></i>
+                    {% if partner.website %}<a href="{{ partner.website }}" target="_blank">{{ partner.website }}</a>{% else %}<span class="text-muted small">Belirtilmemiş</span>{% endif %}
+                </div>
+                <hr>
+                <h6 class="text-muted mb-3"><i class="fas fa-university me-2"></i>Ödeme Bilgileri</h6>
+                <div class="mb-2"><strong>IBAN:</strong> {{ partner.iban or 'Belirtilmemiş' }}</div>
+                <div class="mb-2"><strong>Hesap Sahibi:</strong> {{ partner.iban_name or 'Belirtilmemiş' }}</div>
+                <hr>
+                <div class="mb-2"><small class="text-muted">Başvuru Tarihi:</small> {{ partner.created_at.strftime('%d.%m.%Y %H:%M') }}</div>
+                {% if partner.approved_at %}
+                <div class="mb-2"><small class="text-muted">Onay Tarihi:</small> {{ partner.approved_at.strftime('%d.%m.%Y %H:%M') }}</div>
+                {% endif %}
+            </div>
+            {% if partner.status == 'pending' %}
+            <div class="card-footer bg-light">
+                <div class="d-flex gap-2">
+                    <a href="{{ url_for('admin_approve_partner', partner_id=partner.id) }}" class="btn btn-success flex-fill">
+                        <i class="fas fa-check me-2"></i> Onayla
+                    </a>
+                    <a href="{{ url_for('admin_reject_partner', partner_id=partner.id) }}" class="btn btn-danger flex-fill">
+                        <i class="fas fa-times me-2"></i> Reddet
+                    </a>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="card border-0 shadow-sm mt-4">
+            <div class="card-header bg-warning text-dark py-3">
+                <i class="fas fa-percent me-2"></i> Komisyon Ayarı
+            </div>
+            <div class="card-body">
+                <form action="{{ url_for('admin_update_commission', partner_id=partner.id) }}" method="POST">
+                    <div class="input-group">
+                        <span class="input-group-text">%</span>
+                        <input type="number" class="form-control" name="commission_rate" value="{{ partner.commission_rate }}" min="1" max="50">
+                        <button type="submit" class="btn btn-primary">Güncelle</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="card border-0 shadow-sm mt-4">
+            <div class="card-header bg-success text-white py-3">
+                <i class="fas fa-money-bill-wave me-2"></i> Ödeme Yap
+            </div>
+            <div class="card-body">
+                {% if partner.pending_earnings > 0 %}
+                <form action="{{ url_for('admin_partner_pay', partner_id=partner.id) }}" method="POST" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label class="form-label small text-muted">Ödeme Tutarı (Maks: ₺{{ "%.2f"|format(partner.pending_earnings) }})</label>
+                        <div class="input-group">
+                            <span class="input-group-text">₺</span>
+                            <input type="number" class="form-control" name="amount" step="0.01" min="0.01" max="{{ partner.pending_earnings }}" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small text-muted">Dekont Dosyası</label>
+                        <input type="file" class="form-control" name="receipt" accept="image/*,.pdf" required>
+                    </div>
+                    <button type="submit" class="btn btn-success w-100">
+                        <i class="fas fa-check me-2"></i>Ödeme Yap
+                    </button>
+                </form>
+                {% else %}
+                <div class="text-center py-3">
+                    <i class="fas fa-check-circle fa-2x text-success mb-2"></i>
+                    <p class="text-muted mb-0">Bekleyen ödeme bulunmuyor</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-8 mb-4">
+        <div class="row mb-4">
+            <div class="col-md-4 mb-3">
+                <div class="card border-0 shadow-sm text-center py-4 bg-success text-white">
+                    <div class="card-body">
+                        <h3 class="fw-bold mb-0">₺{{ "%.2f"|format(partner.total_earnings) }}</h3>
+                        <small>Toplam Kazanç</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="card border-0 shadow-sm text-center py-4 bg-warning text-dark">
+                    <div class="card-body">
+                        <h3 class="fw-bold mb-0">₺{{ "%.2f"|format(partner.pending_earnings) }}</h3>
+                        <small>Bekleyen Kazanç</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="card border-0 shadow-sm text-center py-4 bg-info text-white">
+                    <div class="card-body">
+                        <h3 class="fw-bold mb-0">₺{{ "%.2f"|format(partner.withdrawn_earnings) }}</h3>
+                        <small>Çekilen Kazanç</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-header bg-primary text-white py-3">
+                <i class="fas fa-tags me-2"></i> Oluşturduğu Kuponlar
+            </div>
+            <div class="card-body p-0">
+                {% if partner.discount_codes %}
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Kupon Kodu</th>
+                                <th>İndirim</th>
+                                <th>Kullanım</th>
+                                <th>Durum</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for code in partner.discount_codes %}
+                            <tr>
+                                <td><code class="bg-light px-2 py-1 rounded">{{ code.code }}</code></td>
+                                <td>
+                                    {% if code.discount_percent > 0 %}
+                                    %{{ code.discount_percent }}
+                                    {% else %}
+                                    ₺{{ "%.2f"|format(code.discount_amount) }}
+                                    {% endif %}
+                                </td>
+                                <td>{{ code.usage_count }}{% if code.usage_limit > 0 %}/{{ code.usage_limit }}{% endif %}</td>
+                                <td>
+                                    {% if code.is_active %}
+                                    <span class="badge bg-success">Aktif</span>
+                                    {% else %}
+                                    <span class="badge bg-secondary">Pasif</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="text-center py-4">
+                    <i class="fas fa-tags fa-2x text-muted mb-2"></i>
+                    <p class="text-muted mb-0">Henüz kupon oluşturulmamış</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-dark text-white py-3">
+                <i class="fas fa-chart-line me-2"></i> Satış Geçmişi
+            </div>
+            <div class="card-body p-0">
+                {% if sales %}
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Tarih</th>
+                                <th>Vaka</th>
+                                <th>Kupon Kodu</th>
+                                <th>Satış Tutarı</th>
+                                <th>Komisyon</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for sale in sales %}
+                            <tr>
+                                <td>{{ sale.created_at.strftime('%d.%m.%Y %H:%M') }}</td>
+                                <td>{{ sale.case.title if sale.case else 'Bilinmiyor' }}</td>
+                                <td><code class="bg-light px-2 py-1 rounded">{{ sale.discount_code.code }}</code></td>
+                                <td>₺{{ "%.2f"|format(sale.sale_amount) }}</td>
+                                <td class="text-success fw-bold">₺{{ "%.2f"|format(sale.commission_amount) }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="text-center py-4">
+                    <i class="fas fa-chart-line fa-2x text-muted mb-2"></i>
+                    <p class="text-muted mb-0">Henüz satış kaydı yok</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

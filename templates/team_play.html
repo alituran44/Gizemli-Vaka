@@ -1,0 +1,2104 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ case.title }} - Team Play</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Bebas+Neue&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy-dark: #0a1929;
+            --navy-main: #122a46;
+            --navy-light: #1a3a5c;
+            --gold-main: #ffc107;
+            --gold-dark: #d4a106;
+            --gold-light: #ffcd38;
+            --text-white: #ffffff;
+            --text-light: #e3e8ef;
+            --text-gray: #8899a8;
+            --border-color: #2a4a6a;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--navy-dark);
+            color: var(--text-white);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .header {
+            background: linear-gradient(180deg, var(--navy-main) 0%, var(--navy-dark) 100%);
+            border-bottom: 4px solid var(--gold-main);
+            padding: 12px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .logo-badge {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(145deg, var(--gold-main) 0%, var(--gold-dark) 100%);
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .logo-badge i {
+            font-size: 1.2rem;
+            color: var(--navy-dark);
+        }
+        .logo-text h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.4rem;
+            letter-spacing: 3px;
+            margin: 0;
+            line-height: 1;
+            color: var(--gold-main);
+        }
+        .logo-text span {
+            font-size: 0.7rem;
+            color: var(--text-gray);
+            letter-spacing: 1px;
+            display: block;
+        }
+        .header-btns {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .team-badge {
+            background: linear-gradient(145deg, var(--gold-main) 0%, var(--gold-dark) 100%);
+            color: var(--navy-dark);
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-main {
+            padding: 10px 20px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 4px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .btn-gold {
+            background: linear-gradient(145deg, var(--gold-main) 0%, var(--gold-dark) 100%);
+            color: var(--navy-dark);
+        }
+        .btn-gold:hover { background: var(--gold-light); color: var(--navy-dark); transform: translateY(-1px); }
+
+        .hero {
+            background: linear-gradient(180deg, var(--navy-main) 0%, var(--navy-dark) 100%);
+            padding: 50px 20px 40px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .hero-inner {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .case-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--gold-main);
+            color: var(--navy-dark);
+            padding: 6px 16px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            border-radius: 2px;
+        }
+        .hero h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.8rem;
+            line-height: 1.1;
+            margin-bottom: 15px;
+            letter-spacing: 2px;
+            color: var(--text-white);
+        }
+        .hero .desc {
+            font-size: 1rem;
+            color: var(--text-gray);
+            margin-bottom: 25px;
+            max-width: 600px;
+        }
+        .case-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .meta-tag {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--navy-light);
+            padding: 8px 15px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            border-left: 3px solid var(--gold-main);
+        }
+        .meta-tag i { color: var(--gold-main); }
+
+        .video-section {
+            padding: 40px 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .section-header i {
+            color: var(--gold-main);
+            font-size: 1.2rem;
+        }
+        .section-header h2 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.4rem;
+            letter-spacing: 2px;
+            margin: 0;
+            color: var(--gold-main);
+        }
+        .video-box {
+            background: var(--navy-main);
+            border: 2px solid var(--gold-dark);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .video-box video, .video-box iframe {
+            width: 100%;
+            aspect-ratio: 16/9;
+            border: none;
+            display: block;
+        }
+        .video-footer {
+            background: var(--navy-light);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid var(--border-color);
+        }
+        .video-footer h4 { margin: 0; font-size: 0.95rem; }
+        .video-footer span { color: var(--text-gray); font-size: 0.8rem; }
+        .video-footer .badge-lock {
+            background: var(--gold-main);
+            color: var(--navy-dark);
+            padding: 4px 10px;
+            border-radius: 3px;
+            font-size: 0.7rem;
+            font-weight: 700;
+        }
+
+        .hint-section {
+            padding: 0 20px 30px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .hint-box {
+            background: linear-gradient(135deg, rgba(255,193,7,0.1) 0%, rgba(255,193,7,0.02) 100%);
+            border: 1px solid var(--gold-dark);
+            border-left: 4px solid var(--gold-main);
+            border-radius: 0 8px 8px 0;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+        .hint-box h5 {
+            color: var(--gold-main);
+            margin: 0 0 10px 0;
+            font-weight: 600;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .hint-box p { color: var(--text-light); margin: 0; }
+        .hint-available {
+            background: linear-gradient(135deg, rgba(255,193,7,0.15) 0%, rgba(255,193,7,0.05) 100%);
+            border: 2px dashed var(--gold-main);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .hint-available .hint-header { cursor: pointer; }
+        .hint-available .hint-header h5 {
+            color: var(--gold-main);
+            margin: 0 0 8px 0;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+        .hint-available .hint-warning {
+            color: #ff9800;
+            font-size: 0.85rem;
+            margin: 0 0 15px 0;
+        }
+        .btn-reveal-hint {
+            background: linear-gradient(135deg, var(--gold-main) 0%, #e6a800 100%);
+            color: #000;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .btn-reveal-hint:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(255,193,7,0.4);
+        }
+        .hint-available .hint-content {
+            text-align: left;
+            background: linear-gradient(135deg, rgba(255,193,7,0.1) 0%, rgba(255,193,7,0.02) 100%);
+            border: 1px solid var(--gold-dark);
+            border-left: 4px solid var(--gold-main);
+            border-radius: 0 8px 8px 0;
+            padding: 20px;
+            margin-top: 15px;
+        }
+        .hint-available .hint-content h5 {
+            color: var(--gold-main);
+            margin: 0 0 10px 0;
+            font-weight: 600;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .hint-available .hint-content p { color: var(--text-light); margin: 0; }
+        .hint-available.revealed { border-style: solid; }
+        .hint-available.revealed .hint-header { display: none; }
+        .hint-pending {
+            background: var(--navy-main);
+            border: 1px solid var(--border-color);
+            border-left: 4px solid var(--text-gray);
+            border-radius: 0 8px 8px 0;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+        .hint-pending h5 { color: var(--text-gray); font-size: 0.9rem; }
+        .countdown-row {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .time-box {
+            background: var(--navy-dark);
+            border: 1px solid var(--border-color);
+            padding: 12px 16px;
+            border-radius: 6px;
+            text-align: center;
+            min-width: 65px;
+        }
+        .time-box .num {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--gold-main);
+            display: block;
+        }
+        .time-box .lbl {
+            font-size: 0.65rem;
+            color: var(--text-gray);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .hint-ready-section {
+            margin-top: 15px;
+            text-align: center;
+        }
+        .hint-ready-section .hint-warning {
+            color: #ff9800;
+            font-size: 0.85rem;
+            margin: 0 0 10px 0;
+        }
+        .hint-content-pending {
+            text-align: left;
+            background: linear-gradient(135deg, rgba(255,193,7,0.1) 0%, rgba(255,193,7,0.02) 100%);
+            border: 1px solid var(--gold-dark);
+            border-left: 4px solid var(--gold-main);
+            border-radius: 0 8px 8px 0;
+            padding: 20px;
+            margin-top: 15px;
+        }
+        .hint-content-pending h5 {
+            color: var(--gold-main);
+            margin: 0 0 10px 0;
+            font-weight: 600;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .hint-content-pending p { color: var(--text-light); margin: 0; }
+
+        .evidence-section {
+            padding: 40px 20px;
+            background: var(--navy-main);
+        }
+        .evidence-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .evidence-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, 120px);
+            gap: 15px;
+            justify-content: center;
+        }
+        @media (max-width: 900px) {
+            .evidence-grid { grid-template-columns: repeat(4, 1fr); }
+        }
+        @media (max-width: 600px) {
+            .evidence-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+        .evidence-card {
+            background: var(--navy-dark);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .evidence-card:hover {
+            border-color: var(--gold-main);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+        .card-top {
+            height: 70px;
+            background: linear-gradient(135deg, var(--navy-light) 0%, var(--navy-main) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 2px solid var(--gold-dark);
+        }
+        .card-top i {
+            font-size: 1.8rem;
+            color: var(--gold-main);
+        }
+        .evidence-card:hover .card-top i { color: var(--gold-main); }
+        .evidence-card:hover .card-top { border-bottom-color: var(--gold-main); }
+        .card-info {
+            padding: 15px;
+            text-align: center;
+        }
+        .card-info h5 {
+            margin: 0 0 3px 0;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+        .card-info span {
+            color: var(--text-gray);
+            font-size: 0.7rem;
+        }
+        .thumb-card {
+            background: var(--navy-dark);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 140px;
+        }
+        .thumb-card:hover {
+            border-color: var(--gold-main);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+        .thumb-preview {
+            width: 100%;
+            height: 100px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--navy-mid);
+        }
+        .thumb-preview img, .thumb-preview video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .thumb-icon {
+            font-size: 2.5rem;
+            color: var(--gold-main);
+        }
+        .thumb-name {
+            padding: 10px;
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-light);
+            border-top: 2px solid var(--gold-main);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .notes-section {
+            padding: 40px 20px;
+        }
+        .notes-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .notes-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+        }
+        .note-card {
+            background: var(--navy-main);
+            border: 1px solid var(--border-color);
+            border-top: 3px solid var(--gold-main);
+            border-radius: 0 0 8px 8px;
+            padding: 25px;
+        }
+        .note-card .icon-box {
+            width: 45px;
+            height: 45px;
+            background: var(--gold-main);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+        .note-card .icon-box i { color: var(--navy-dark); font-size: 1.1rem; }
+        .note-card h5 { margin: 0 0 15px 0; font-weight: 600; }
+        .note-card p { 
+            color: var(--text-gray); 
+            margin: 0; 
+            font-size: 0.85rem; 
+            line-height: 1.8; 
+            text-align: justify;
+            white-space: pre-line;
+        }
+
+        .doc-section {
+            padding: 50px 20px;
+            background: var(--navy-main);
+        }
+        .official-doc {
+            background: linear-gradient(180deg, #fffef5 0%, #f5f3e8 100%);
+            color: #1a1a1a;
+            max-width: 650px;
+            margin: 0 auto;
+            padding: 40px 30px;
+            border-radius: 4px;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.5);
+            position: relative;
+            border: 1px solid #d4c9a0;
+        }
+        .official-doc::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 8px;
+            background: linear-gradient(90deg, var(--navy-main) 0%, var(--gold-main) 50%, var(--navy-main) 100%);
+        }
+        .official-doc .seal {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            width: 70px;
+            height: 70px;
+            border: 3px solid var(--navy-main);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+        .official-doc .seal i { font-size: 1.5rem; color: var(--navy-main); }
+        .official-doc .seal span { font-size: 0.5rem; color: var(--navy-main); font-weight: 700; letter-spacing: 1px; }
+        .official-doc .doc-header {
+            border-bottom: 2px solid var(--navy-main);
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+        .official-doc .doc-header h3 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.3rem;
+            letter-spacing: 2px;
+            margin: 0;
+            color: var(--navy-main);
+        }
+        .official-doc p { line-height: 1.8; margin-bottom: 12px; }
+        .official-doc .signature {
+            margin-top: 25px;
+            padding-top: 15px;
+            border-top: 1px solid #ccc;
+            width: 180px;
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.95);
+            z-index: 1000;
+            padding: 15px;
+            overflow-y: auto;
+        }
+        .modal-overlay.active { display: flex; flex-direction: column; }
+        body.modal-open { overflow: hidden; }
+        .modal-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background: var(--navy-main);
+            border: 1px solid var(--gold-main);
+            border-bottom: 3px solid var(--gold-main);
+            border-radius: 8px 8px 0 0;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .modal-top h3 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            margin: 0;
+            color: var(--gold-main);
+        }
+        .modal-content {
+            flex: 1;
+            background: var(--navy-dark);
+            border: 1px solid var(--border-color);
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: auto;
+            min-height: 300px;
+            padding: 20px;
+        }
+        .modal-content img, .modal-content video { 
+            max-width: 95%; 
+            max-height: 75vh; 
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            cursor: pointer;
+        }
+        .btn-close-modal {
+            background: transparent;
+            border: 2px solid var(--gold-main);
+            color: var(--gold-main);
+            padding: 8px 18px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        .btn-close-modal:hover { background: var(--gold-main); color: var(--navy-dark); }
+        .nav-btns {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .nav-btns button {
+            background: var(--navy-light);
+            border: 1px solid var(--gold-main);
+            color: var(--gold-main);
+            width: 36px;
+            height: 36px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .nav-btns button:hover { background: var(--gold-main); color: var(--navy-dark); }
+        .nav-btns span { color: var(--text-gray); font-size: 0.85rem; }
+        .file-nav-btn {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 50px;
+            background: var(--navy-main);
+            border: 2px solid var(--gold-main);
+            color: var(--gold-main);
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 1001;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+        }
+        .file-nav-btn:hover { background: var(--gold-main); color: var(--navy-dark); }
+        .file-nav-prev { left: 20px; }
+        .file-nav-next { right: 20px; }
+        .file-counter {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--navy-main);
+            border: 1px solid var(--gold-main);
+            color: var(--gold-main);
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            z-index: 1001;
+            display: none;
+        }
+
+        .audio-box {
+            text-align: center;
+            background: linear-gradient(135deg, rgba(10,25,41,0.9) 0%, rgba(26,42,74,0.85) 100%);
+            padding: 50px 80px;
+            border-radius: 16px;
+            border: 3px solid var(--gold-dark);
+            min-height: 220px;
+            max-width: 100%;
+            width: 100%;
+        }
+        .audio-box i { font-size: 3.5rem; color: var(--gold-main); margin-bottom: 15px; display: block; }
+        .audio-box .audio-title { color: var(--text-white); font-size: 1.1rem; margin-bottom: 5px; }
+        .audio-box .audio-subtitle { color: var(--text-gray); font-size: 0.9rem; margin-bottom: 20px; }
+        .audio-box audio { width: 100%; max-width: 700px; }
+
+        .pdf-box { 
+            background: #fff; 
+            padding: 20px; 
+            border-radius: 8px; 
+            max-width: 100%; 
+            overflow: auto;
+            max-height: 80vh;
+        }
+        .pdf-box canvas { 
+            max-width: 100%; 
+            height: auto !important; 
+            cursor: pointer;
+        }
+
+        .html-box {
+            background: #fff;
+            width: 100%;
+            max-width: 900px;
+            height: 80vh;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .html-box iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .files-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 30px;
+            justify-content: center;
+        }
+
+        .report-section {
+            padding: 50px 20px;
+            background: var(--navy-dark);
+        }
+        .report-form {
+            background: linear-gradient(180deg, #0d2035 0%, #0a1929 100%);
+            color: #e2e8f0;
+            max-width: 600px;
+            margin: 30px auto;
+            padding: 40px 25px;
+            border-radius: 8px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            box-shadow: 0 0 40px rgba(0,0,0,0.6);
+        }
+        .report-form .form-header {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--gold-main);
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+        .report-form .form-header h3 {
+            font-family: 'Bebas Neue', sans-serif;
+            letter-spacing: 2px;
+            margin: 0;
+            font-size: 1.2rem;
+            color: var(--gold-main);
+        }
+        .report-form .form-header .badge {
+            background: var(--navy-main);
+            color: var(--gold-main);
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            border: 1px solid var(--gold-main);
+        }
+        .suspect-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin: 20px 0;
+        }
+        .suspect-option {
+            background: rgba(255,255,255,0.05);
+            border: 2px solid rgba(212, 175, 55, 0.4);
+            color: #e2e8f0;
+            padding: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+        .suspect-option:hover {
+            background: var(--gold-main);
+            border-color: var(--gold-main);
+            color: var(--navy-main);
+            transform: translateY(-2px);
+        }
+
+        .success-panel {
+            background: linear-gradient(180deg, #fffef5 0%, #f5f3e8 100%);
+            color: #1a1a1a;
+            max-width: 550px;
+            margin: 30px auto;
+            padding: 50px 30px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid #d4c9a0;
+        }
+        .success-panel i { font-size: 3.5rem; color: #27ae60; margin-bottom: 15px; }
+        .success-panel h2 {
+            font-family: 'Bebas Neue', sans-serif;
+            letter-spacing: 2px;
+            color: #27ae60;
+        }
+
+
+        #lightbox {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.98);
+            z-index: 2000;
+            padding: 20px;
+            cursor: zoom-out;
+        }
+        #lightbox.active { display: flex; align-items: center; justify-content: center; }
+        #lightbox img { max-width: 98%; max-height: 98%; object-fit: contain; }
+
+        .footer {
+            text-align: center;
+            padding: 30px 20px;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-gray);
+            font-size: 0.75rem;
+            background: var(--navy-dark);
+        }
+
+        @media (max-width: 768px) {
+            .header { padding: 10px 15px; }
+            .header-inner { gap: 10px; }
+            .logo-badge { width: 40px; height: 40px; }
+            .logo-badge i { font-size: 1rem; }
+            .logo-text h1 { font-size: 1.1rem; letter-spacing: 2px; }
+            .logo-text span { font-size: 0.6rem; }
+            .header-btns { gap: 6px; }
+            .btn-main { padding: 8px 12px; font-size: 0.7rem; letter-spacing: 0.5px; }
+            .hero { padding: 30px 15px 25px; }
+            .hero h1 { font-size: 1.8rem; margin-bottom: 10px; }
+            .hero .desc { font-size: 0.9rem; margin-bottom: 20px; }
+            .case-badge { padding: 5px 12px; font-size: 0.65rem; margin-bottom: 15px; }
+            .case-meta { gap: 10px; }
+            .meta-tag { padding: 6px 10px; font-size: 0.75rem; }
+            .video-section { padding: 25px 15px; }
+            .section-header h2 { font-size: 1.2rem; }
+            .video-footer { padding: 12px 15px; flex-wrap: wrap; gap: 8px; }
+            .video-footer h4 { font-size: 0.85rem; }
+            .hint-section { padding: 0 15px 20px; }
+            .hint-box { padding: 15px; }
+            .hint-box h5 { font-size: 0.85rem; }
+            .hint-available { padding: 15px; }
+            .countdown-row { gap: 8px; }
+            .time-box { padding: 10px 12px; min-width: 55px; }
+            .time-box .num { font-size: 1.3rem; }
+            .time-box .lbl { font-size: 0.55rem; }
+            .evidence-section { padding: 30px 15px; }
+            .evidence-grid { grid-template-columns: repeat(3, 1fr); gap: 10px; }
+            .notes-section { padding: 30px 15px; }
+            .notes-grid { grid-template-columns: 1fr; gap: 15px; }
+            .note-card { padding: 20px; }
+            .note-card h5 { font-size: 0.95rem; }
+            .note-card p { font-size: 0.8rem; }
+            .doc-section { padding: 30px 15px; }
+            .official-doc { padding: 25px 20px; }
+            .official-doc .seal { width: 50px; height: 50px; top: 15px; right: 15px; }
+            .official-doc .seal i { font-size: 1.1rem; }
+            .official-doc .doc-header h3 { font-size: 1.1rem; }
+            .official-doc p { font-size: 0.9rem; }
+            .modal-overlay { padding: 10px; }
+            .modal-top { padding: 12px 15px; }
+            .modal-top h3 { font-size: 1rem; }
+            .modal-content { padding: 15px; min-height: 200px; }
+            .modal-content img, .modal-content video { max-height: 60vh; }
+            .audio-box { padding: 30px 20px; min-height: 180px; }
+            .audio-box i { font-size: 2.5rem; }
+            .audio-box .audio-title { font-size: 1rem; }
+            .audio-box .audio-subtitle { font-size: 0.85rem; }
+            .files-grid { gap: 15px; padding: 20px; }
+            .report-form { padding: 25px 20px; margin: 20px 15px; }
+            .report-form .form-header h3 { font-size: 1rem; }
+            .suspect-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+            .suspect-option { padding: 12px 8px; font-size: 0.8rem; }
+            .success-panel { padding: 35px 20px; margin: 20px 15px; }
+            .success-panel i { font-size: 2.5rem; }
+            .file-nav-btn { width: 40px; height: 40px; font-size: 1rem; }
+            .file-nav-prev { left: 10px; }
+            .file-nav-next { right: 10px; }
+            .footer { padding: 20px 15px; }
+        }
+        @media (max-width: 480px) {
+            .header-inner { justify-content: center; flex-wrap: wrap; }
+            .logo { flex-direction: column; text-align: center; gap: 8px; }
+            .logo-badge { width: 35px; height: 35px; }
+            .logo-text h1 { font-size: 1rem; }
+            .header-btns { width: 100%; justify-content: center; }
+            .btn-main { padding: 7px 10px; font-size: 0.65rem; }
+            .hero h1 { font-size: 1.5rem; }
+            .hero .desc { font-size: 0.85rem; }
+            .case-meta { flex-direction: column; gap: 8px; }
+            .meta-tag { justify-content: center; }
+            .evidence-grid { grid-template-columns: repeat(2, 1fr); }
+            .suspect-grid { grid-template-columns: 1fr; }
+            .modal-top { flex-direction: column; text-align: center; }
+            .nav-btns { order: 2; width: 100%; justify-content: center; flex-wrap: wrap; }
+            .audio-box { padding: 25px 15px; }
+            .audio-box audio { width: 100%; }
+        }
+
+        .chat-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 999;
+        }
+        .chat-toggle {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(145deg, var(--gold-main) 0%, var(--gold-dark) 100%);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .chat-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(255,193,7,0.4);
+        }
+        .chat-toggle i {
+            font-size: 1.8rem;
+            color: #0a1929;
+        }
+        .chat-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            width: 22px;
+            height: 22px;
+            background: #e74c3c;
+            color: white;
+            border-radius: 50%;
+            font-size: 0.7rem;
+            font-weight: 700;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+        .chat-badge.show { display: flex; }
+        .chat-box {
+            position: absolute;
+            bottom: 75px;
+            right: 0;
+            width: 350px;
+            height: 450px;
+            background: var(--navy-main);
+            border: 2px solid var(--gold-main);
+            border-radius: 12px;
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+        }
+        .chat-box.active { display: flex; }
+        .chat-header {
+            background: linear-gradient(145deg, var(--gold-main) 0%, var(--gold-dark) 100%);
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .chat-header h4 {
+            margin: 0;
+            color: var(--navy-dark);
+            font-weight: 700;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .chat-header h4 i { font-size: 1rem; }
+        .chat-close {
+            background: none;
+            border: none;
+            color: var(--navy-dark);
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 5px;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+        .chat-close:hover { opacity: 1; }
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            background: var(--navy-dark);
+        }
+        .chat-messages::-webkit-scrollbar { width: 6px; }
+        .chat-messages::-webkit-scrollbar-track { background: var(--navy-main); }
+        .chat-messages::-webkit-scrollbar-thumb { background: var(--gold-dark); border-radius: 3px; }
+        .chat-message {
+            max-width: 85%;
+            padding: 10px 14px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+        .chat-message.other {
+            align-self: flex-start;
+            background: var(--navy-light);
+            border: 1px solid var(--border-color);
+            border-bottom-left-radius: 4px;
+        }
+        .chat-message.mine {
+            align-self: flex-end;
+            background: linear-gradient(145deg, var(--gold-main) 0%, var(--gold-dark) 100%);
+            color: var(--navy-dark);
+            border-bottom-right-radius: 4px;
+        }
+        .chat-message .sender {
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+            opacity: 0.8;
+        }
+        .chat-message.other .sender { color: var(--gold-main); }
+        .chat-message.mine .sender { color: var(--navy-main); }
+        .chat-message .text { word-wrap: break-word; }
+        .chat-message .time {
+            font-size: 0.65rem;
+            opacity: 0.6;
+            margin-top: 5px;
+            text-align: right;
+        }
+        .chat-input-area {
+            padding: 12px;
+            background: var(--navy-main);
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            gap: 10px;
+        }
+        .chat-input {
+            flex: 1;
+            background: var(--navy-dark);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 10px 15px;
+            color: var(--text-white);
+            font-size: 0.85rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .chat-input:focus { border-color: var(--gold-main); }
+        .chat-input::placeholder { color: var(--text-gray); }
+        .chat-send {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: linear-gradient(145deg, var(--gold-main) 0%, var(--gold-dark) 100%);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        .chat-send:hover { transform: scale(1.1); }
+        .chat-send i { color: var(--navy-dark); font-size: 1rem; }
+        .chat-empty {
+            text-align: center;
+            color: var(--text-gray);
+            padding: 40px 20px;
+            font-size: 0.85rem;
+        }
+        .chat-empty i { font-size: 2rem; margin-bottom: 10px; display: block; color: var(--gold-dark); opacity: 0.5; }
+        @media (max-width: 480px) {
+            .chat-container { bottom: 15px; right: 15px; }
+            .chat-toggle { width: 50px; height: 50px; }
+            .chat-toggle i { font-size: 1.2rem; }
+            .chat-box { width: calc(100vw - 30px); height: 400px; right: 0; bottom: 65px; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-inner">
+            <div class="logo">
+                <div class="logo-badge"><i class="fas fa-shield-halved"></i></div>
+                <div class="logo-text">
+                    <h1>EMNİYET MÜDÜRLÜĞÜ</h1>
+                    <span>TAKIM SORUŞTURMASI</span>
+                </div>
+            </div>
+            <div class="header-btns">
+                <div class="team-badge">
+                    <i class="fas fa-users"></i>
+                    {{ member.team_name or ('Takım ' ~ member.team_number) }}
+                </div>
+                <div id="game-timer-display" style="display:flex;align-items:center;gap:8px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,215,0,0.3);border-radius:8px;padding:6px 14px;">
+                    <i class="fas fa-stopwatch" style="color:var(--gold-main);font-size:0.9rem;"></i>
+                    <span id="timer-value" style="color:var(--gold-main);font-family:monospace;font-size:1.1rem;font-weight:700;letter-spacing:2px;">00:00:00</span>
+                </div>
+                <a href="{{ url_for('active_cases') }}" class="btn-main btn-gold" style="background: transparent; border: 2px solid var(--gold-main); color: var(--gold-main);"><i class="fas fa-arrow-left"></i>Çıkış</a>
+                <button onclick="openReport()" class="btn-main btn-gold"><i class="fas fa-file-signature"></i>Rapor Gönder</button>
+            </div>
+        </div>
+    </header>
+
+    <div id="main-content">
+        <section class="hero">
+            <div class="hero-inner">
+                <div class="case-badge"><i class="fas fa-folder-open"></i>AKTİF DAVA</div>
+                <h1>{{ case.title }}</h1>
+                <p class="desc">{{ case.description or 'Bir suç, birden fazla şüpheli. Gerçeği ortaya çıkarabilecek misiniz?' }}</p>
+                <div class="case-meta">
+                    <div class="meta-tag"><i class="fas fa-envelope"></i>{{ member.email }}</div>
+                    <div class="meta-tag"><i class="fas fa-hashtag"></i>{{ case.id }}</div>
+                    <div class="meta-tag"><i class="fas fa-circle" style="color: #22c55e; font-size: 0.5rem;"></i>Aktif</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="video-section">
+            <div class="section-header">
+                <i class="fas fa-video"></i>
+                <h2>DAVA ÖZETİ</h2>
+            </div>
+            <div class="video-box">
+                {% if case.video and ('youtube.com' in case.video or 'youtu.be' in case.video) %}
+                    {% set video_id = case.video.split('v=')[1].split('&')[0] if 'v=' in case.video else case.video.split('/')[-1].split('?')[0] %}
+                    <iframe src="https://www.youtube.com/embed/{{ video_id }}" allowfullscreen></iframe>
+                {% elif case.video and case.video != '#' %}
+                    {% if case.video.endswith('.html') or case.video.endswith('.htm') %}
+                        {% if case.video.startswith('/static') or case.video.startswith('http') %}
+                        <iframe src="{{ case.video }}" allowfullscreen style="width:100%;aspect-ratio:16/9;border:none;border-radius:8px;"></iframe>
+                        {% else %}
+                        <iframe src="{{ url_for('static', filename='uploads/' + case.id + '/' + case.video) }}" allowfullscreen style="width:100%;aspect-ratio:16/9;border:none;border-radius:8px;"></iframe>
+                        {% endif %}
+                    {% elif case.video.startswith('/static') or case.video.startswith('http') %}
+                    <video controls preload="none"><source src="{{ case.video }}" type="video/mp4"></video>
+                    {% else %}
+                    <video controls preload="none"><source src="{{ url_for('static', filename='uploads/' + case.id + '/' + case.video) }}" type="video/mp4"></video>
+                    {% endif %}
+                {% else %}
+                    <div style="aspect-ratio:16/9; background:var(--navy-dark); display:flex; align-items:center; justify-content:center; color: var(--text-gray);">
+                        <div class="text-center"><i class="fas fa-video-slash fa-3x mb-3"></i><p>Video yok</p></div>
+                    </div>
+                {% endif %}
+                <div class="video-footer">
+                    <div>
+                        <h4>Resmi Brifing Videosu</h4>
+                        <span>Gizli Materyal</span>
+                    </div>
+                    <span class="badge-lock"><i class="fas fa-lock me-1"></i>GÜVENLİ</span>
+                </div>
+            </div>
+        </section>
+
+        {% set now = import_datetime() %}
+        {% set all_hints = case.hints|selectattr('is_active', 'equalto', true)|list %}
+        {% if all_hints %}
+        <section class="hint-section">
+            {% for hint in all_hints %}
+            {% set hint_time = hint.show_datetime.strftime('%Y-%m-%dT%H:%M:%S') %}
+            {% set hint_passed = hint.show_datetime <= now %}
+            {% if hint_passed %}
+            <div class="hint-available" id="hint-available-{{ hint.id }}" data-hint-id="{{ hint.id }}">
+                <div class="hint-header" onclick="revealHint({{ hint.id }})">
+                    <h5><i class="fas fa-lightbulb me-2"></i>İpucu Mevcut</h5>
+                    <p class="hint-warning"><i class="fas fa-exclamation-triangle me-1"></i>Açmak için tıklayın</p>
+                    <button class="btn-reveal-hint"><i class="fas fa-eye me-2"></i>İpucunu Göster</button>
+                </div>
+                <div class="hint-content" style="display:none;">
+                    <h5><i class="fas fa-lightbulb"></i>İpucu</h5>
+                    <p>{{ hint.hint_text }}</p>
+                </div>
+            </div>
+            {% else %}
+            <div class="hint-pending" id="hint-{{ hint.id }}" data-time="{{ hint_time }}" data-hint-id="{{ hint.id }}">
+                <h5><i class="fas fa-hourglass-half me-2"></i>İpucu geliyor...</h5>
+                <div class="countdown-row">
+                    <div class="time-box"><span class="num hours">00</span><span class="lbl">Sa</span></div>
+                    <div class="time-box"><span class="num minutes">00</span><span class="lbl">Dk</span></div>
+                    <div class="time-box"><span class="num seconds">00</span><span class="lbl">Sn</span></div>
+                </div>
+                <div class="hint-ready-section" style="display:none;">
+                    <p class="hint-warning"><i class="fas fa-exclamation-triangle me-1"></i>Açmak için tıklayın</p>
+                    <button class="btn-reveal-hint" onclick="revealPendingHint({{ hint.id }})"><i class="fas fa-eye me-2"></i>İpucunu Aç</button>
+                </div>
+                <div class="hint-content-pending" style="display:none;">
+                    <h5><i class="fas fa-lightbulb"></i>İpucu</h5>
+                    <p>{{ hint.hint_text }}</p>
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </section>
+        {% endif %}
+
+        <section class="evidence-section">
+            <div class="evidence-inner">
+                <div class="section-header" style="margin-bottom: 25px;">
+                    <i class="fas fa-folder-open"></i>
+                    <h2>KANIT DOSYALARI</h2>
+                </div>
+                <div class="evidence-grid">
+                    <div class="evidence-card" data-category="Olay Raporları" onclick="showFileThumbs('Olay Raporları')">
+                        <div class="card-top"><span style="font-size:2.2rem;color:#ffc107;">📄</span></div>
+                        <div class="card-info"><h5>Raporlar</h5></div>
+                    </div>
+                    <div class="evidence-card" data-category="Mağdur Detayları" onclick="showFileThumbs('Mağdur Detayları')">
+                        <div class="card-top"><span style="font-size:2.2rem;color:#ffc107;">👤</span></div>
+                        <div class="card-info"><h5>Mağdur</h5></div>
+                    </div>
+                    <div class="evidence-card" data-category="Şüpheli Profilleri" onclick="showFileThumbs('Şüpheli Profilleri')">
+                        <div class="card-top"><span style="font-size:2.2rem;color:#ffc107;">🕵️</span></div>
+                        <div class="card-info"><h5>Şüpheliler</h5></div>
+                    </div>
+                    <div class="evidence-card" data-category="Röportaj Kayıtları" onclick="showFileThumbs('Röportaj Kayıtları')">
+                        <div class="card-top"><span style="font-size:2.2rem;color:#ffc107;">🎙️</span></div>
+                        <div class="card-info"><h5>Sorgular</h5></div>
+                    </div>
+                    <div class="evidence-card" data-category="Tanık Beyanları" onclick="showFileThumbs('Tanık Beyanları')">
+                        <div class="card-top"><span style="font-size:2.2rem;color:#ffc107;">👁️</span></div>
+                        <div class="card-info"><h5>Tanıklar</h5></div>
+                    </div>
+                    <div class="evidence-card" data-category="Kanıt Arşivi" onclick="showFileThumbs('Kanıt Arşivi')">
+                        <div class="card-top"><span style="font-size:2.2rem;color:#ffc107;">🔍</span></div>
+                        <div class="card-info"><h5>Kanıtlar</h5></div>
+                    </div>
+                    <div class="evidence-card" data-category="Diğer Belgeler" onclick="showFileThumbs('Diğer Belgeler')">
+                        <div class="card-top"><span style="font-size:2.2rem;color:#ffc107;">📁</span></div>
+                        <div class="card-info"><h5>Diğer</h5></div>
+                    </div>
+                    <div class="evidence-card" onclick="openNotesModal()" style="border: 2px solid #ffc107;">
+                        <div class="card-top"><span style="font-size:2.2rem;color:#ffc107;">📝</span></div>
+                        <div class="card-info"><h5>Notlar</h5></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="notes-section">
+            <div class="notes-inner">
+                <div class="notes-grid">
+                    <div class="note-card">
+                        <div class="icon-box"><i class="fas fa-exclamation-triangle"></i></div>
+                        <h5>Uyarı</h5>
+                        <p>{{ case.warning_text or 'Lütfen sonucu diğer oyunculara söylemeyin.' }}</p>
+                    </div>
+                    <div class="note-card">
+                        <div class="icon-box"><i class="fas fa-search"></i></div>
+                        <h5>Talimatlar</h5>
+                        <p>{{ case.instructions_text or 'Tüm kanıtları dikkatle inceleyin ve raporunuzu gönderin.' }}</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="doc-section">
+            <div class="official-doc">
+                <div class="seal">
+                    <i class="fas fa-shield-halved"></i>
+                    <span>RESMİ</span>
+                </div>
+                <div class="doc-header">
+                    <h3>{{ case.police_department or 'Emniyet Müdürlüğü' }}</h3>
+                </div>
+                                {% if case.report_letter %}{{ case.report_letter|safe }}{% else %}
+                <p>Dedektif Takımı,</p>
+                <p>Bu dava sizin uzmanlığınızı gerektiriyor. Tüm kanıtları dikkatle inceleyin. Kimseye güvenmeyin. Faili bulun.</p>
+                
+                <div class="signature"><p>İyi şanslar,<br><strong>{% if case.commissioner_name %}{{ case.commissioner_name }}{% else %}Şef{% endif %}</strong></p></div>
+                {% endif %}
+            </div>
+        </section>
+
+        <footer class="footer">
+            <i class="fas fa-shield-halved me-2"></i>SADECE YETKİLİ PERSONEL
+        </footer>
+    </div>
+
+    <div id="viewer-modal" class="modal-overlay">
+        <div class="modal-top">
+            <h3><i class="fas fa-file me-2"></i>KANIT</h3>
+            <div class="nav-btns">
+                <button onclick="changePage(-1)"><i class="fas fa-chevron-left"></i></button>
+                <span id="page-info"></span>
+                <button onclick="changePage(1)"><i class="fas fa-chevron-right"></i></button>
+            </div>
+            <button class="btn-close-modal" onclick="closeViewer()">Kapat</button>
+        </div>
+        <div id="viewer-content" class="modal-content"></div>
+        <button class="file-nav-btn file-nav-prev" onclick="navigateFile(-1)"><i class="fas fa-chevron-left"></i></button>
+        <button class="file-nav-btn file-nav-next" onclick="navigateFile(1)"><i class="fas fa-chevron-right"></i></button>
+        <div id="file-counter" class="file-counter"></div>
+    </div>
+
+    <div id="files-modal" class="modal-overlay">
+        <div class="modal-top">
+            <h3><i class="fas fa-folder-open me-2"></i><span id="files-title">DOSYALAR</span></h3>
+            <button class="btn-close-modal" onclick="closeFiles()">Kapat</button>
+        </div>
+        <div class="modal-content" style="align-items: flex-start;">
+            <div class="files-grid" id="files-list"></div>
+        </div>
+    </div>
+
+    <div id="notes-modal" class="modal-overlay">
+        <div class="notes-form" style="background: #8B6914; background-image: url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22><defs><filter id=%22noise%22><feTurbulence type=%22fractalNoise%22 baseFrequency=%220.9%22 numOctaves=%224%22 stitchTiles=%22stitch%22/><feColorMatrix type=%22saturate%22 values=%220%22/></filter></defs><rect width=%22200%22 height=%22200%22 fill=%22%23a67c52%22/><rect width=%22200%22 height=%22200%22 filter=%22url(%23noise)%22 opacity=%220.15%22/></svg>'); border-radius: 8px; max-width: 95vw; width: 100%; padding: 20px; position: relative; border: 12px solid #5d4e37; box-shadow: inset 0 0 50px rgba(0,0,0,0.4), 0 10px 30px rgba(0,0,0,0.5); margin: auto; max-height: 90vh; overflow-y: auto;">
+            <button onclick="closeNotesModal()" style="position: absolute; top: -5px; right: -5px; background: #dc3545; border: 3px solid #fff; color: white; font-size: 14px; cursor: pointer; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 5px rgba(0,0,0,0.3); z-index: 10;" title="Kapat"><i class="fas fa-times"></i></button>
+            
+            <div style="text-align: center; margin-bottom: 15px;">
+                <h3 style="color: #3d2914; margin: 0; font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; text-shadow: 1px 1px 0 rgba(255,255,255,0.3);"><i class="fas fa-folder-open me-2" style="color: #8B4513;"></i>{{ case.title }} - Şüpheli Notları</h3>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; padding: 5px;">
+                {% for suspect in case.suspects %}
+                <div style="background: linear-gradient(135deg, #fffef5 0%, #f5f0dc 100%); padding: 12px; border-radius: 2px; box-shadow: 2px 3px 8px rgba(0,0,0,0.3); transform: rotate({{ (loop.index0 % 5) - 2 }}deg); position: relative;">
+                    <div style="position: absolute; top: -6px; left: 50%; transform: translateX(-50%); width: 16px; height: 16px; background: radial-gradient(circle at 30% 30%, #ff8a8a, #dc3545 60%); border-radius: 50%; box-shadow: 0 2px 3px rgba(0,0,0,0.4);"></div>
+                    <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 6px; margin-top: 4px;">
+                        <div style="width: 28px; height: 28px; background: #0a1929; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid #ffc107;">
+                            <i class="fas fa-user" style="color: #ffc107; font-size: 0.7rem;"></i>
+                        </div>
+                        <span style="color: #2c1810; font-weight: 700; font-size: 0.85rem; font-family: 'Patrick Hand', cursive;">{{ suspect.name }}</span>
+                    </div>
+                    <div class="suspect-notes-list" data-suspect="{{ suspect.name }}" style="max-height: 80px; overflow-y: auto; margin-bottom: 6px; font-family: 'Patrick Hand', cursive; font-size: 0.75rem; color: #333;"></div>
+                    <div style="display: flex; gap: 4px; align-items: center;">
+                        <i class="fas fa-pen" style="color: #999; font-size: 0.65rem;"></i>
+                        <input type="text" class="suspect-note-input" data-suspect="{{ suspect.name }}" placeholder="Not yaz..." style="flex: 1; border: none; border-bottom: 1px dashed #999; padding: 4px; font-size: 0.75rem; background: transparent; color: #333; font-family: 'Patrick Hand', cursive;">
+                        <button onclick="addSuspectNote('{{ suspect.name }}')" style="background: #22c55e; color: white; border: none; padding: 4px 8px; border-radius: 3px; font-size: 0.65rem; cursor: pointer; font-weight: 600;">Kaydet</button>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <div style="background: linear-gradient(135deg, #fffacd 0%, #fff8b0 100%); padding: 12px; border-radius: 2px; box-shadow: 2px 3px 8px rgba(0,0,0,0.3); transform: rotate(0.5deg); margin-top: 12px; position: relative;">
+                <div style="position: absolute; top: -6px; left: 50%; transform: translateX(-50%); width: 16px; height: 16px; background: radial-gradient(circle at 30% 30%, #7aeb7a, #22c55e 60%); border-radius: 50%; box-shadow: 0 2px 3px rgba(0,0,0,0.4);"></div>
+                <span style="color: #2c1810; font-weight: 700; font-size: 0.9rem; font-family: 'Patrick Hand', cursive;"><i class="fas fa-lightbulb me-1" style="color: #f59e0b;"></i>Genel Notlar & Teoriler</span>
+                <div id="general-notes-list" style="max-height: 60px; overflow-y: auto; margin: 6px 0; font-family: 'Patrick Hand', cursive; font-size: 0.8rem; color: #333;"></div>
+                <div style="display: flex; gap: 4px; align-items: center;">
+                    <i class="fas fa-pen" style="color: #999; font-size: 0.7rem;"></i>
+                    <input type="text" id="general-note-input" placeholder="Not yaz..." style="flex: 1; border: none; border-bottom: 1px dashed #999; padding: 4px; font-size: 0.8rem; background: transparent; color: #333; font-family: 'Patrick Hand', cursive;">
+                    <button onclick="addGeneralNote()" style="background: #22c55e; color: white; border: none; padding: 4px 8px; border-radius: 3px; font-size: 0.7rem; cursor: pointer; font-weight: 600;">Kaydet</button>
+                </div>
+            </div>
+            
+            <div style="display: flex; gap: 10px; margin-top: 15px; justify-content: center;">
+                <button onclick="clearAllNotes()" style="background: #dc3545; color: white; border: none; padding: 8px 20px; border-radius: 5px; font-weight: 600; cursor: pointer; font-size: 0.85rem; box-shadow: 0 3px 6px rgba(0,0,0,0.3);">
+                    <i class="fas fa-trash me-1"></i> Tümünü Temizle
+                </button>
+            </div>
+            <p id="notes-saved-msg" style="text-align: center; color: #22c55e; margin-top: 8px; display: none; font-size: 0.85rem; text-shadow: 0 0 5px #22c55e;"><i class="fas fa-check"></i> Kaydedildi!</p>
+        </div>
+    </div>
+
+    <div id="report-modal" class="modal-overlay">
+        <div class="report-form" style="max-width: 600px;">
+            <div class="form-header">
+                <h3>{{ case.report_company or 'Emniyet' }}</h3>
+                <span class="badge">GİZLİ</span>
+            </div>
+
+            <p class="report-intro" style="line-height: 1.5; margin-bottom: 12px; font-size: 0.9rem;">
+                <em>{{ case.report_suspect_question or 'Delilleri incelerken aklıma şu geldi. Suçlu şu olmalı:' }}</em>
+            </p>
+
+            {% if case.suspects %}
+            <div style="background: rgba(255,255,255,0.05); border: 1px solid rgba(212,175,55,0.3); border-radius: 6px; padding: 10px; margin-bottom: 12px;">
+                <p style="font-weight: 600; color: var(--gold-main); margin-bottom: 8px; font-size: 0.85rem;">
+                    <i class="fas fa-users me-2"></i>Şüpheliler: <small style="color:#94a3b8;">(tıklayarak seçin)</small>
+                </p>
+                <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+                    {% for s in case.suspects %}
+                    <button type="button" onclick="addTeamSuspectToInput('{{ s.name }}')"
+                        style="background: var(--navy-main); color: white; padding: 5px 12px; border-radius: 15px; font-size: 0.8rem; border: none; cursor: pointer; transition: all 0.2s;"
+                        onmouseover="this.style.background='#ffc107'; this.style.color='#0a1929';"
+                        onmouseout="this.style.background='var(--navy-main)'; this.style.color='white';">{{ s.name }}</button>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+            <div style="background: rgba(212,175,55,0.12); border: 1px solid rgba(212,175,55,0.4); border-radius: 6px; padding: 10px 12px; margin-bottom: 12px;">
+                <p style="margin: 0; color: var(--gold-main); font-size: 0.85rem;">
+                    <i class="fas fa-info-circle me-1"></i>
+                    <strong>Birden fazla suçlu olabilir!</strong> Suçlu adını ve açıklamada yöntemi/motifi belirtin.
+                </p>
+            </div>
+
+            <div style="margin-bottom: 10px;">
+                <label style="font-weight: 600; color: var(--gold-main); display: block; margin-bottom: 5px; font-size: 0.9rem;">
+                    <i class="fas fa-user-secret me-2"></i>Suçlu/Suçlular:
+                </label>
+                <input type="text" id="team-culprit-input" placeholder="Şüphelilere tıklayarak veya yazarak seçin"
+                    style="width: 100%; padding: 10px 12px; border: 2px solid rgba(212,175,55,0.3); border-radius: 6px; font-size: 0.9rem; background: rgba(255,255,255,0.07); color: #e2e8f0;"
+                    onfocus="this.style.borderColor='var(--gold-main)'" onblur="this.style.borderColor='rgba(212,175,55,0.3)'">
+            </div>
+
+            <div style="margin-bottom: 10px;">
+                <label style="font-weight: 600; color: var(--gold-main); display: block; margin-bottom: 5px; font-size: 0.9rem;">
+                    <i class="fas fa-pencil-alt me-2"></i>Nasıl Oldu? (Açıklama):
+                </label>
+                <textarea id="team-explanation-input" placeholder="Cinayet yöntemi ve motivasyonu..." rows="2"
+                    style="width: 100%; padding: 10px 12px; border: 2px solid rgba(212,175,55,0.3); border-radius: 6px; font-size: 0.9rem; resize: none; background: rgba(255,255,255,0.07); color: #e2e8f0;"
+                    onfocus="this.style.borderColor='var(--gold-main)'" onblur="this.style.borderColor='rgba(212,175,55,0.3)'"></textarea>
+            </div>
+
+            <div style="text-align: center; margin-top: 12px;">
+                <button class="btn-main btn-gold" onclick="submitTeamReport()" style="padding: 10px 25px; font-size: 0.95rem;">
+                    <i class="fas fa-paper-plane me-2"></i>Raporu Gönder
+                </button>
+            </div>
+
+            <p class="report-confirmation" style="line-height: 1.7; margin-top: 20px; font-size: 0.9rem;">
+                <em>{{ case.report_confirmation_text or 'Bu raporu göndererek, yukarıdaki seçimin mevcut kanıtlar ve kapsamlı incelemeye dayanarak verdiğim nihai karar olduğunu teyit ediyorum.' }}</em>
+            </p>
+
+            <div style="margin-top: 25px; border-top: 1px solid rgba(212,175,55,0.3); padding-top: 12px;">
+                <p style="color: #94a3b8; font-size: 0.9rem; margin-bottom: 5px;">Saygılarımla</p>
+                <p style="color: #e2e8f0; font-weight: 600; margin-bottom: 3px;">{{ member.team_name or member.email }}</p>
+                <p style="color: var(--gold-main); font-weight: 700; font-size: 0.85rem;">{{ case.report_company or 'Takım Soruşturması' }}</p>
+            </div>
+
+            <div style="text-align: center; margin-top: 20px;">
+                <button class="btn-main btn-outline" onclick="closeReport()">Vazgeç</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="success-modal" class="modal-overlay">
+        <div class="success-panel">
+            <i class="fas fa-trophy"></i>
+            <h2>TEBRİKLER!</h2>
+            <div id="success-content">
+                <p>{{ case.success_message or 'Vakayı başarıyla çözdünüz!' }}</p>
+            </div>
+            <a href="/team-certificate/{{ member.access_token }}" class="btn btn-warning mt-4 px-4 py-3 fw-bold" style="display: inline-flex; align-items: center; gap: 10px; font-size: 1.1rem; text-decoration: none;">
+                <i class="fas fa-award"></i>
+                Sertifikanı İndir
+            </a>
+        </div>
+    </div>
+
+    <div id="fail-modal" class="modal-overlay">
+        <div class="report-form" style="max-width: 450px; text-align: center;">
+            <i class="fas fa-times-circle fa-3x text-danger mb-3"></i>
+            <h3 class="text-danger">Yanlış Cevap!</h3>
+            <p>Bu doğru cevap değil. Lütfen kanıtları tekrar inceleyin ve tekrar deneyin.</p>
+            <button onclick="closeFailModal()" class="btn btn-warning mt-3 px-4 py-2 fw-bold">
+                <i class="fas fa-redo me-2"></i>Tekrar Dene
+            </button>
+        </div>
+    </div>
+
+    <div id="lightbox" onclick="closeLightbox()">
+        <img id="lightbox-img" src="" alt="">
+    </div>
+
+    <div class="chat-container">
+        <button class="chat-toggle" onclick="toggleChat()" title="Takım Sohbeti">
+            <span style="font-size: 1.6rem;">💬</span>
+            <span class="chat-badge" id="chat-badge">0</span>
+        </button>
+        <div class="chat-box" id="chat-box">
+            <div class="chat-header">
+                <h4><i class="fas fa-users"></i> Takım Sohbeti</h4>
+                <button class="chat-close" onclick="toggleChat()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="chat-messages" id="chat-messages">
+                <div class="chat-empty">
+                    <i class="fas fa-comments"></i>
+                    Henüz mesaj yok. Takımınızla sohbet etmeye başlayın!
+                </div>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" class="chat-input" id="chat-input" placeholder="Mesajınızı yazın..." maxlength="500">
+                <button class="chat-send" onclick="sendMessage()" title="Gönder">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+        let pdfDoc = null, currentPage = 1, totalPages = 0;
+        let currentFileList = [];
+        let currentFileIndex = 0;
+        
+        const caseFiles = {
+            {% for f in case.files %}'{{ f.id }}': { filename: '{{ f.filename }}', display_name: '{{ f.display_name or "" }}', category: '{{ f.category }}', sub_category: '{{ f.sub_category or "" }}', url: '{{ ("/vaka/" + case.id + "/dosya/" + f.filename) if f.filename else "" }}', youtube: '{{ f.youtube_link or "" }}' },{% endfor %}
+        };
+
+        function detectType(url) {
+            const ext = url.split('.').pop().toLowerCase();
+            if (ext === 'pdf') return 'pdf';
+            if (['jpg','jpeg','png','gif','webp'].includes(ext)) return 'image';
+            if (['mp3','wav','ogg'].includes(ext)) return 'audio';
+            if (['mp4','webm'].includes(ext)) return 'video';
+            if (['html','htm'].includes(ext)) return 'html';
+            return 'file';
+        }
+
+        function getYoutubeId(url) {
+            const match = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\?\/]+)/);
+            return match ? match[1] : null;
+        }
+
+        async function showMedia(url, youtubeUrl) {
+            document.getElementById('viewer-modal').classList.add('active');
+            document.body.classList.add('modal-open');
+            const container = document.getElementById('viewer-content');
+            container.innerHTML = '<i class="fas fa-spinner fa-spin fa-3x" style="color: var(--gold-main);"></i>';
+            pdfDoc = null; document.getElementById('page-info').textContent = '';
+
+            if (youtubeUrl) {
+                const videoId = getYoutubeId(youtubeUrl);
+                if (videoId) {
+                    container.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1" style="width:100%;max-width:900px;height:500px;border:none;border-radius:8px;" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
+                    return;
+                }
+            }
+
+            if (!url) return;
+            const type = detectType(url);
+
+            if (type === 'pdf') {
+                try {
+                    pdfDoc = await pdfjsLib.getDocument(url).promise;
+                    totalPages = pdfDoc.numPages; currentPage = 1;
+                    container.innerHTML = '<div class="pdf-box" id="pdf-container"></div>';
+                    renderPage(currentPage);
+                } catch(e) { container.innerHTML = `<iframe src="${url}" style="width:100%;height:100%;border:none;"></iframe>`; }
+            } else if (type === 'image') {
+                container.innerHTML = `<img loading="lazy" src="${url}" alt="Vaka kanıtı görseli" onclick="zoomMedia(this)" title="Büyütmek için tıklayın">`;
+            } else if (type === 'audio') {
+                const fileName = url.split('/').pop().replace(/\.[^/.]+$/, '').replace(/_/g, ' ');
+                container.innerHTML = `<div class="audio-box"><i class="fas fa-microphone"></i><p class="audio-title">Ses Kaydı</p><p class="audio-subtitle">${fileName}</p><audio controls><source src="${url}"></audio></div>`;
+            } else if (type === 'video') {
+                container.innerHTML = `<video controls autoplay><source src="${url}"></video>`;
+            } else if (type === 'html') {
+                container.innerHTML = `<iframe src="${url}" style="width:100%;max-width:900px;height:600px;border:none;border-radius:8px;background:#fff;"></iframe>`;
+            }
+        }
+
+        async function renderPage(num) {
+            if (!pdfDoc) return;
+            const page = await pdfDoc.getPage(num);
+            const viewport = page.getViewport({ scale: 2 });
+            const canvas = document.createElement('canvas');
+            canvas.width = viewport.width; canvas.height = viewport.height;
+            await page.render({ canvasContext: canvas.getContext('2d'), viewport }).promise;
+            document.getElementById('pdf-container').innerHTML = '';
+            document.getElementById('pdf-container').appendChild(canvas);
+            document.getElementById('page-info').textContent = `${num} / ${totalPages}`;
+            
+            canvas.onclick = function() {
+                openLightbox(canvas.toDataURL());
+            };
+        }
+
+        function changePage(d) {
+            if (!pdfDoc) return;
+            const n = currentPage + d;
+            if (n >= 1 && n <= totalPages) { currentPage = n; renderPage(currentPage); }
+        }
+
+        function closeViewer() { 
+            document.getElementById('viewer-modal').classList.remove('active'); 
+            document.body.classList.remove('modal-open');
+            pdfDoc = null; 
+            currentFileList = [];
+            currentFileIndex = 0;
+        }
+        
+        function navigateFile(direction) {
+            if (currentFileList.length <= 1) return;
+            currentFileIndex += direction;
+            if (currentFileIndex < 0) currentFileIndex = currentFileList.length - 1;
+            if (currentFileIndex >= currentFileList.length) currentFileIndex = 0;
+            const file = currentFileList[currentFileIndex];
+            showMedia(file.url, file.youtube);
+            updateFileCounter();
+        }
+        
+        function updateFileCounter() {
+            const counter = document.getElementById('file-counter');
+            if (currentFileList.length > 1) {
+                counter.textContent = `${currentFileIndex + 1} / ${currentFileList.length}`;
+                counter.style.display = 'block';
+                document.querySelector('.file-nav-prev').style.display = 'flex';
+                document.querySelector('.file-nav-next').style.display = 'flex';
+            } else {
+                counter.style.display = 'none';
+                document.querySelector('.file-nav-prev').style.display = 'none';
+                document.querySelector('.file-nav-next').style.display = 'none';
+            }
+        }
+
+        function showFileThumbs(cat) {
+            document.getElementById('files-modal').classList.add('active');
+            document.body.classList.add('modal-open');
+            const titles = {'Olay Raporları':'RAPORLAR','Mağdur Detayları':'MAĞDUR','Şüpheli Profilleri':'ŞÜPHELİLER','Röportaj Kayıtları':'SORGULAR','Tanık Beyanları':'TANIKLAR','Kanıt Arşivi':'KANITLAR','Diğer Belgeler':'DİĞER'};
+            document.getElementById('files-title').textContent = titles[cat] || cat;
+            let html = '';
+            let catFiles = [];
+            for (let id in caseFiles) {
+                const f = caseFiles[id];
+                let match = cat === 'Mağdur Detayları' ? (f.category === 'Mağdur Detayları') : cat === 'Kanıt Arşivi' ? ['Konum Haritaları','SMS/Email Kayıtları','Ses Dosyaları','Kamera Görüntüleri'].includes(f.sub_category) : f.category === cat;
+                if (match) {
+                    catFiles.push(f);
+                    const idx = catFiles.length - 1;
+                    const ext = f.filename ? f.filename.split('.').pop().toLowerCase() : '';
+                    const name = f.display_name || (f.filename ? f.filename.replace(/_/g,' ').replace(/\.[^.]+$/,'') : 'Video');
+                    let thumbHtml = '';
+                    
+                    if (f.youtube) {
+                        const ytId = getYoutubeId(f.youtube);
+                        if (ytId) {
+                            thumbHtml = `<img loading="lazy" src="https://img.youtube.com/vi/${ytId}/mqdefault.jpg" alt="${name}">`;
+                        } else {
+                            thumbHtml = `<div class="thumb-icon"><i class="fab fa-youtube"></i></div>`;
+                        }
+                    } else if (['jpg','jpeg','png','gif','webp'].includes(ext)) {
+                        thumbHtml = `<img loading="lazy" src="${f.url}" alt="${name}">`;
+                    } else if (['mp4','webm','mov'].includes(ext)) {
+                        thumbHtml = `<video muted><source src="${f.url}"></video>`;
+                    } else if (ext === 'pdf') {
+                        thumbHtml = `<div class="thumb-icon"><i class="fas fa-file-pdf"></i></div>`;
+                    } else if (['mp3','wav','ogg'].includes(ext)) {
+                        thumbHtml = `<div class="thumb-icon"><i class="fas fa-headphones"></i></div>`;
+                    } else if (['html','htm'].includes(ext)) {
+                        thumbHtml = `<div class="thumb-icon"><i class="fas fa-file-code"></i></div>`;
+                    } else {
+                        thumbHtml = `<div class="thumb-icon"><i class="fas fa-file"></i></div>`;
+                    }
+                    html += `<div class="thumb-card" onclick="openFileFromCategory('${cat}', ${idx})">
+                        <div class="thumb-preview">${thumbHtml}</div>
+                        <div class="thumb-name">${name}</div>
+                    </div>`;
+                }
+            }
+            if (!html) html = '<div style="grid-column:1/-1;text-align:center;padding:60px;color:var(--text-gray);"><i class="fas fa-folder-open fa-3x mb-3"></i><p>Dosya yok</p></div>';
+            document.getElementById('files-list').innerHTML = html;
+        }
+        
+        function openFileFromCategory(cat, idx) {
+            closeFiles();
+            let catFiles = [];
+            for (let id in caseFiles) {
+                const f = caseFiles[id];
+                let match = cat === 'Mağdur Detayları' ? (f.category === 'Mağdur Detayları') : cat === 'Kanıt Arşivi' ? ['Konum Haritaları','SMS/Email Kayıtları','Ses Dosyaları','Kamera Görüntüleri'].includes(f.sub_category) : f.category === cat;
+                if (match) catFiles.push(f);
+            }
+            currentFileList = catFiles;
+            currentFileIndex = idx;
+            const file = currentFileList[currentFileIndex];
+            showMedia(file.url, file.youtube);
+            updateFileCounter();
+        }
+        function closeFiles() { 
+            document.getElementById('files-modal').classList.remove('active'); 
+            document.body.classList.remove('modal-open');
+        }
+
+        function openLightbox(url) { document.getElementById('lightbox-img').src = url; document.getElementById('lightbox').classList.add('active'); }
+        function closeLightbox() { document.getElementById('lightbox').classList.remove('active'); }
+
+        function zoomMedia(el) {
+            const src = el.src || el.querySelector('source')?.src;
+            if (src) {
+                document.getElementById('lightbox-img').src = src;
+                document.getElementById('lightbox').classList.add('active');
+            }
+        }
+
+        function openReport() { 
+            document.getElementById('report-modal').classList.add('active'); 
+            document.body.classList.add('modal-open');
+        }
+        function closeReport() { 
+            document.getElementById('report-modal').classList.remove('active'); 
+            document.body.classList.remove('modal-open');
+        }
+
+        function getSuspectNotes(suspect) {
+            const saved = localStorage.getItem('team_suspect_notes_{{ case.id }}_{{ member.id }}_' + suspect);
+            return saved ? JSON.parse(saved) : [];
+        }
+        function saveSuspectNotes(suspect, notes) {
+            localStorage.setItem('team_suspect_notes_{{ case.id }}_{{ member.id }}_' + suspect, JSON.stringify(notes));
+        }
+        function getGeneralNotes() {
+            const saved = localStorage.getItem('team_general_notes_{{ case.id }}_{{ member.id }}');
+            return saved ? JSON.parse(saved) : [];
+        }
+        function saveGeneralNotes(notes) {
+            localStorage.setItem('team_general_notes_{{ case.id }}_{{ member.id }}', JSON.stringify(notes));
+        }
+        function renderSuspectNotes(suspect) {
+            const list = document.querySelector('.suspect-notes-list[data-suspect="' + suspect + '"]');
+            const notes = getSuspectNotes(suspect);
+            list.innerHTML = notes.map((n, i) => '<div style="display:flex;align-items:center;gap:4px;padding:2px 0;border-bottom:1px dotted #ccc;"><span style="flex:1;">• ' + n + '</span><button onclick="deleteSuspectNote(\'' + suspect + '\',' + i + ')" style="background:#dc3545;color:white;border:none;padding:1px 4px;border-radius:2px;font-size:0.6rem;cursor:pointer;"><i class="fas fa-times"></i></button></div>').join('');
+        }
+        function renderGeneralNotes() {
+            const list = document.getElementById('general-notes-list');
+            const notes = getGeneralNotes();
+            list.innerHTML = notes.map((n, i) => '<div style="display:flex;align-items:center;gap:4px;padding:2px 0;border-bottom:1px dotted #ccc;"><span style="flex:1;">• ' + n + '</span><button onclick="deleteGeneralNote(' + i + ')" style="background:#dc3545;color:white;border:none;padding:1px 4px;border-radius:2px;font-size:0.6rem;cursor:pointer;"><i class="fas fa-times"></i></button></div>').join('');
+        }
+        function addSuspectNote(suspect) {
+            const input = document.querySelector('.suspect-note-input[data-suspect="' + suspect + '"]');
+            if (input.value.trim()) {
+                const notes = getSuspectNotes(suspect);
+                notes.push(input.value.trim());
+                saveSuspectNotes(suspect, notes);
+                renderSuspectNotes(suspect);
+                input.value = '';
+                showSavedMsg();
+            }
+        }
+        function deleteSuspectNote(suspect, index) {
+            const notes = getSuspectNotes(suspect);
+            notes.splice(index, 1);
+            saveSuspectNotes(suspect, notes);
+            renderSuspectNotes(suspect);
+        }
+        function addGeneralNote() {
+            const input = document.getElementById('general-note-input');
+            if (input.value.trim()) {
+                const notes = getGeneralNotes();
+                notes.push(input.value.trim());
+                saveGeneralNotes(notes);
+                renderGeneralNotes();
+                input.value = '';
+                showSavedMsg();
+            }
+        }
+        function deleteGeneralNote(index) {
+            const notes = getGeneralNotes();
+            notes.splice(index, 1);
+            saveGeneralNotes(notes);
+            renderGeneralNotes();
+        }
+        function showSavedMsg() {
+            const msg = document.getElementById('notes-saved-msg');
+            msg.style.display = 'block';
+            setTimeout(() => msg.style.display = 'none', 1500);
+        }
+        function openNotesModal() {
+            document.getElementById('notes-modal').classList.add('active');
+            document.body.classList.add('modal-open');
+            document.querySelectorAll('.suspect-notes-list').forEach(el => {
+                renderSuspectNotes(el.dataset.suspect);
+            });
+            renderGeneralNotes();
+        }
+        function closeNotesModal() { 
+            document.getElementById('notes-modal').classList.remove('active'); 
+            document.body.classList.remove('modal-open');
+        }
+        function clearAllNotes() {
+            if (confirm('Tüm notları silmek istediğinizden emin misiniz?')) {
+                document.querySelectorAll('.suspect-notes-list').forEach(el => {
+                    localStorage.removeItem('team_suspect_notes_{{ case.id }}_{{ member.id }}_' + el.dataset.suspect);
+                    el.innerHTML = '';
+                });
+                localStorage.removeItem('team_general_notes_{{ case.id }}_{{ member.id }}');
+                document.getElementById('general-notes-list').innerHTML = '';
+            }
+        }
+        
+        function addTeamSuspectToInput(name) {
+            const input = document.getElementById('team-culprit-input');
+            const current = input.value.trim();
+            if (current && !current.includes(name)) {
+                input.value = current + ', ' + name;
+            } else if (!current) {
+                input.value = name;
+            }
+            input.focus();
+        }
+
+        function submitTeamReport() {
+            const culprit = document.getElementById('team-culprit-input').value.trim();
+            const explanation = document.getElementById('team-explanation-input').value.trim();
+            if (!culprit) {
+                alert('Lütfen suçluyu belirtin.');
+                return;
+            }
+            const confirmMsg = '"' + culprit + '" son kararınız mı?';
+            if (!confirm(confirmMsg)) return;
+
+            const elapsedTeam1 = typeof getGameElapsedSeconds === 'function' ? getGameElapsedSeconds() : null;
+            fetch('/team-complete/{{ member.access_token }}', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ culprit: culprit, explanation: explanation, elapsed_seconds: elapsedTeam1 })
+            })
+            .then(r => r.json())
+            .then(d => {
+                document.getElementById('report-modal').classList.remove('active');
+                document.body.classList.remove('modal-open');
+                document.getElementById('success-modal').classList.add('active');
+            }).catch(err => {
+                console.error('Submit error:', err);
+                alert('Bir hata oluştu. Lütfen tekrar deneyin.');
+            });
+        }
+
+        function submitGuess(id, name) {
+            const confirmMsg = name + ' son kararınız mı?';
+            if (!confirm(confirmMsg)) return;
+            
+            const elapsedTeam2 = typeof getGameElapsedSeconds === 'function' ? getGameElapsedSeconds() : null;
+            fetch('/team-complete/{{ member.access_token }}', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ suspect_id: id, elapsed_seconds: elapsedTeam2 })
+            })
+            .then(r => r.json())
+            .then(d => {
+                document.getElementById('report-modal').classList.remove('active');
+                document.getElementById('success-modal').classList.add('active');
+            }).catch(err => {
+                console.error('Submit error:', err);
+                alert('Bir hata oluştu.');
+            });
+        }
+
+        function closeFailModal() {
+            document.getElementById('fail-modal').classList.remove('active');
+            document.body.classList.remove('modal-open');
+        }
+        
+        function revealHint(hintId) {
+            const hintEl = document.getElementById('hint-available-' + hintId);
+            if (!hintEl) return;
+            
+            hintEl.classList.add('revealed');
+            const content = hintEl.querySelector('.hint-content');
+            if (content) content.style.display = 'block';
+        }
+        
+        function revealPendingHint(hintId) {
+            const hintEl = document.getElementById('hint-' + hintId);
+            if (!hintEl) return;
+            
+            const readySection = hintEl.querySelector('.hint-ready-section');
+            const content = hintEl.querySelector('.hint-content-pending');
+            if (readySection) readySection.style.display = 'none';
+            if (content) content.style.display = 'block';
+        }
+        
+        function startCountdowns() {
+            document.querySelectorAll('.hint-pending').forEach(el => {
+                const targetTime = new Date(el.dataset.time);
+                
+                const interval = setInterval(() => {
+                    const now = new Date();
+                    const diff = targetTime - now;
+                    
+                    if (diff <= 0) {
+                        clearInterval(interval);
+                        const countdownRow = el.querySelector('.countdown-row');
+                        const readySection = el.querySelector('.hint-ready-section');
+                        if (countdownRow) countdownRow.style.display = 'none';
+                        if (readySection) readySection.style.display = 'block';
+                        return;
+                    }
+                    
+                    const hours = Math.floor(diff / (1000 * 60 * 60));
+                    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+                    
+                    el.querySelector('.hours').textContent = String(hours).padStart(2, '0');
+                    el.querySelector('.minutes').textContent = String(minutes).padStart(2, '0');
+                    el.querySelector('.seconds').textContent = String(seconds).padStart(2, '0');
+                }, 1000);
+            });
+        }
+
+        document.addEventListener('keydown', function(e) { 
+            if (e.key === 'Escape') {
+                closeLightbox();
+                closeViewer();
+                closeFiles();
+                closeNotesModal();
+                closeReport();
+                closeFailModal();
+                document.getElementById('success-modal').classList.remove('active');
+                document.body.classList.remove('modal-open');
+            }
+        });
+
+        {% if member.completed %}
+        document.getElementById('success-modal').classList.add('active');
+        {% endif %}
+
+        startCountdowns();
+
+        const chatToken = '{{ member.access_token }}';
+        const chatUserEmail = '{{ member.email }}';
+        let chatLastId = 0;
+        let chatIsOpen = false;
+        let unreadCount = 0;
+
+        function toggleChat() {
+            const chatBox = document.getElementById('chat-box');
+            chatIsOpen = !chatIsOpen;
+            if (chatIsOpen) {
+                chatBox.classList.add('active');
+                unreadCount = 0;
+                updateChatBadge();
+                loadMessages();
+                document.getElementById('chat-input').focus();
+            } else {
+                chatBox.classList.remove('active');
+            }
+        }
+
+        function updateChatBadge() {
+            const badge = document.getElementById('chat-badge');
+            if (unreadCount > 0) {
+                badge.textContent = unreadCount > 99 ? '99+' : unreadCount;
+                badge.classList.add('show');
+            } else {
+                badge.classList.remove('show');
+            }
+        }
+
+        function renderMessages(messages, append = false) {
+            const container = document.getElementById('chat-messages');
+            if (!append) {
+                container.innerHTML = '';
+            }
+            if (messages.length === 0 && !append) {
+                container.innerHTML = `<div class="chat-empty">
+                    <i class="fas fa-comments"></i>
+                    Henüz mesaj yok. Takımınızla sohbet etmeye başlayın!
+                </div>`;
+                return;
+            }
+            const emptyMsg = container.querySelector('.chat-empty');
+            if (emptyMsg) emptyMsg.remove();
+            
+            messages.forEach(msg => {
+                const div = document.createElement('div');
+                div.className = 'chat-message ' + (msg.is_mine ? 'mine' : 'other');
+                div.innerHTML = `
+                    <div class="sender">${msg.sender_name}</div>
+                    <div class="text">${escapeHtml(msg.message)}</div>
+                    <div class="time">${msg.created_at}</div>
+                `;
+                container.appendChild(div);
+                if (msg.id > chatLastId) chatLastId = msg.id;
+            });
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function loadMessages(initial = true) {
+            const url = initial ? `/api/team-chat/messages/${chatToken}` : `/api/team-chat/messages/${chatToken}?last_id=${chatLastId}`;
+            fetch(url)
+                .then(r => r.json())
+                .then(data => {
+                    if (data.success && data.messages.length > 0) {
+                        if (initial) {
+                            renderMessages(data.messages, false);
+                        } else {
+                            renderMessages(data.messages, true);
+                            if (!chatIsOpen) {
+                                unreadCount += data.messages.filter(m => !m.is_mine).length;
+                                updateChatBadge();
+                            }
+                        }
+                    } else if (initial && data.messages && data.messages.length === 0) {
+                        renderMessages([], false);
+                    }
+                })
+                .catch(err => console.error('Chat load error:', err));
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('chat-input');
+            const message = input.value.trim();
+            if (!message) return;
+
+            fetch('/api/team-chat/send', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ token: chatToken, message: message })
+            })
+            .then(r => r.json())
+            .then(data => {
+                if (data.success) {
+                    input.value = '';
+                    renderMessages([data.message], true);
+                }
+            })
+            .catch(err => console.error('Chat send error:', err));
+        }
+
+        document.getElementById('chat-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+
+        loadMessages(true);
+        setInterval(() => loadMessages(false), 3000);
+
+        // ===== OYUN SAYACI =====
+        (function() {
+            const TIMER_KEY = 'gv_timer_team_{{ member.access_token }}';
+
+            function loadState() {
+                try { return JSON.parse(localStorage.getItem(TIMER_KEY) || '{}'); } catch(e) { return {}; }
+            }
+            function saveState(s) {
+                localStorage.setItem(TIMER_KEY, JSON.stringify(s));
+            }
+
+            let state = loadState();
+            if (state.startedAt) {
+                state.accumulated = (state.accumulated || 0) + Math.floor((Date.now() - state.startedAt) / 1000);
+                state.startedAt = null;
+                saveState(state);
+            }
+
+            function getElapsed() {
+                let total = state.accumulated || 0;
+                if (state.startedAt) total += Math.floor((Date.now() - state.startedAt) / 1000);
+                return total;
+            }
+
+            function fmt(s) {
+                const h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), sec = s % 60;
+                return [h,m,sec].map(v => String(v).padStart(2,'0')).join(':');
+            }
+
+            function startTimer() {
+                if (state.startedAt) return;
+                state.startedAt = Date.now();
+                saveState(state);
+            }
+
+            function pauseTimer() {
+                if (!state.startedAt) return;
+                state.accumulated = (state.accumulated || 0) + Math.floor((Date.now() - state.startedAt) / 1000);
+                state.startedAt = null;
+                saveState(state);
+            }
+
+            function stopAndClear() {
+                pauseTimer();
+                localStorage.removeItem(TIMER_KEY);
+            }
+
+            window.getGameElapsedSeconds = getElapsed;
+            window.stopGameTimer = stopAndClear;
+
+            startTimer();
+
+            document.addEventListener('visibilitychange', function() {
+                if (document.hidden) { pauseTimer(); } else { startTimer(); }
+            });
+
+            const timerEl = document.getElementById('timer-value');
+            if (timerEl) {
+                setInterval(function() { timerEl.textContent = fmt(getElapsed()); }, 1000);
+                timerEl.textContent = fmt(getElapsed());
+            }
+        })();
+    </script>
+</body>
+</html>

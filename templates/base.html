@@ -1,0 +1,1226 @@
+<!DOCTYPE html>
+<html lang="{{ session.get('lang', 'tr') }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Gizemli Vaka">
+    <meta name="theme-color" content="#0C1430">
+    <meta name="format-detection" content="telephone=no">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-81N7Q32T32"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-81N7Q32T32');
+    </script>
+    <title>{% block title %}{{ t.site_title }}{% endblock %}</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="icon" type="image/png" sizes="192x192" href="{{ url_for('static', filename='favicon-192.png') }}">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='favicon-192.png') }}">
+    {% block meta_tags %}{% endblock %}
+    <meta name="description" content="{% block meta_description %}Gizemli Vaka - Türkiye'nin ilk online dedektiflik oyunu. Gerçekçi cinayet dosyalarını inceleyin, delilleri analiz edin ve katili bulun. Bireysel ve takım oyunları.{% endblock %}">
+    <meta name="keywords" content="{% block meta_keywords %}dedektiflik oyunu, cinayet gizemi, online dedektif, soruşturma oyunu, takım oyunu, gizemli vaka, murder mystery, detective game{% endblock %}">
+    {% block robots_meta %}<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">{% endblock %}
+    <link rel="canonical" href="https://gizemlivaka.com{{ request.path }}">
+    <link rel="alternate" hreflang="tr" href="https://gizemlivaka.com{{ request.path }}">
+    <link rel="alternate" hreflang="en" href="https://gizemlivaka.com{{ request.path }}">
+    <link rel="alternate" hreflang="x-default" href="https://gizemlivaka.com{{ request.path }}">
+    {% block og_tags %}
+    <meta property="og:title" content="{{ self.title() }}">
+    <meta property="og:description" content="{% block og_description %}Türkiye'nin ilk online dedektiflik oyunu. Gerçekçi cinayet dosyalarını inceleyin ve katili bulun.{% endblock %}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://gizemlivaka.com{{ request.path }}">
+    <meta property="og:locale" content="tr_TR">
+    <meta property="og:locale:alternate" content="en_US">
+    <meta property="og:site_name" content="Gizemli Vaka">
+    {% block og_image %}
+    {% if settings.get('logo_img') %}
+    <meta property="og:image" content="{{ request.url_root }}static/uploads/{{ settings.get('logo_img') }}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Gizemli Vaka - Online Dedektiflik Oyunu">
+    {% endif %}
+    {% endblock %}
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@gizemlivaka">
+    <meta name="twitter:title" content="{{ self.title() }}">
+    <meta name="twitter:description" content="{{ self.og_description() }}">
+    {% block twitter_image %}
+    {% if settings.get('logo_img') %}
+    <meta name="twitter:image" content="{{ request.url_root }}static/uploads/{{ settings.get('logo_img') }}">
+    <meta name="twitter:image:alt" content="Gizemli Vaka - Online Dedektiflik Oyunu">
+    {% endif %}
+    {% endblock %}
+    {% endblock %}
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
+    <style>
+        body { background-color: #0C1430; color: white; font-family: 'Segoe UI', sans-serif; }
+        .navbar { background-color: #0C1430 !important; border-bottom: 1px solid rgba(255, 215, 0, 0.2); padding: 15px 0; }
+        .nav-link { color: #fff !important; font-weight: 600; font-size: 0.85rem; margin: 0 10px; transition: 0.3s; }
+        .nav-link:hover { color: #FFD700 !important; }
+        .dropdown-menu { background-color: #0C1430; border: 1px solid rgba(255, 215, 0, 0.2); margin-top: 10px; }
+        .dropdown-item { color: #fff !important; font-size: 0.8rem; padding: 10px 20px; }
+        .dropdown-item:hover { background-color: #FFD700 !important; color: #000 !important; }
+        .main-footer { background-color: #0C1430; padding: 0; margin-top: 50px; }
+        .legal-text { font-size: 0.75rem; color: #a0aec0; line-height: 1.8; padding-bottom: 30px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+        .footer-link-col ul { list-style: none; padding: 0; margin: 0; }
+        .footer-link-col ul li { margin-bottom: 12px; }
+        .footer-link-col ul li a { color: #fff; text-decoration: none; font-size: 0.9rem; transition: 0.3s; }
+        .footer-link-col ul li a:hover { color: #FFD700; text-decoration: underline; }
+        .email-btn { background-color: transparent; color: #fff; font-weight: 500; border-radius: 50px; padding: 12px 25px; text-decoration: none; display: inline-block; font-size: 0.85rem; border: 2px solid #FFD700; transition: 0.3s; }
+        .email-btn:hover { background-color: #FFD700; color: #000; }
+        .alert-system { position: fixed; top: 100px; right: 20px; z-index: 9999; min-width: 300px; }
+        @media (max-width: 991px) {
+            .navbar { padding: 10px 0; }
+            .navbar-brand img { height: 40px !important; }
+            .navbar-brand div span:first-child { font-size: 1rem !important; }
+            .navbar-brand div span:last-child { font-size: 0.6rem !important; }
+            .navbar-collapse { background: #0C1430; padding: 15px; margin-top: 10px; border-radius: 10px; border: 1px solid rgba(255,215,0,0.2); }
+            .nav-link { padding: 10px 0 !important; margin: 0 !important; border-bottom: 1px solid rgba(255,255,255,0.1); }
+            .mega-menu { width: 100% !important; left: 0 !important; transform: none !important; position: static !important; }
+            .mega-menu .col-4 { flex: 0 0 50%; max-width: 50%; }
+            .d-flex.align-items-center.gap-3 { gap: 0.5rem !important; }
+            .alert-system { left: 10px; right: 10px; min-width: auto; top: 80px; }
+        }
+        @media (max-width: 767px) {
+            .container { padding-left: 15px; padding-right: 15px; }
+            .mega-menu .col-4 { flex: 0 0 100%; max-width: 100%; }
+            .mega-menu { padding: 15px !important; }
+            .footer-link-col { margin-bottom: 20px; }
+            .legal-text { font-size: 0.7rem; }
+            h1 { font-size: 1.8rem !important; }
+            h2 { font-size: 1.5rem !important; }
+            h3 { font-size: 1.3rem !important; }
+            .btn { padding: 10px 20px; font-size: 0.9rem; }
+            table { font-size: 0.85rem; }
+            .table-responsive { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+        }
+        @media (max-width: 576px) {
+            .navbar-brand div span:first-child { font-size: 0.9rem !important; }
+            .navbar-brand div span:last-child { font-size: 0.5rem !important; letter-spacing: 1px !important; }
+            .footer-bottom .row { text-align: center; }
+            .footer-bottom .col-md-4 { justify-content: center !important; }
+            .email-btn { padding: 10px 15px; font-size: 0.75rem; }
+        }
+    </style>
+    {% block structured_data %}
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Gizemli Vaka",
+      "alternateName": ["Gizemli Vakalar", "Turkey Detective Game", "Turkish Murder Mystery"],
+      "url": "https://gizemlivaka.com",
+      "description": "Türkiye'nin ilk online dedektiflik oyunu. Gerçekçi cinayet dosyalarını inceleyin, delilleri analiz edin ve katili bulun.",
+      "inLanguage": ["tr-TR", "en-US"],
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://gizemlivaka.com/cases?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      },
+      "sameAs": [
+        "https://www.instagram.com/gizemlivaka",
+        "https://twitter.com/gizemlivaka"
+      ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Gizemli Vaka",
+      "legalName": "Gizemli Vaka",
+      "url": "https://gizemlivaka.com",
+      "description": "Türkiye'nin ilk online dedektiflik oyun platformu. Gerçekçi kurgu cinayet davalarını tarayıcıdan çözen bireysel ve kurumsal oyun hizmeti.",
+      "foundingDate": "2024",
+      "foundingLocation": {"@type": "Place", "addressCountry": "TR"},
+      "areaServed": ["TR", "Worldwide"],
+      "knowsAbout": ["dedektiflik oyunu", "murder mystery", "online oyun", "kurumsal etkinlik", "takım oyunu", "cinayet gizemi", "team building", "detective game"],
+      "inLanguage": ["tr-TR", "en-US"],
+      {% if settings.get('logo_img') %}
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://gizemlivaka.com/static/uploads/{{ settings.get('logo_img') }}",
+        "width": 512,
+        "height": 512
+      },
+      "image": "https://gizemlivaka.com/static/uploads/{{ settings.get('logo_img') }}",
+      {% endif %}
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "customer service",
+        "availableLanguage": ["Turkish", "English"],
+        "url": "https://gizemlivaka.com/contact"
+      },
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Dava Dosyaları",
+        "description": "Online dedektiflik için gerçekçi kurgu cinayet davaları",
+        "url": "https://gizemlivaka.com/cases"
+      },
+      "sameAs": [
+        "https://www.instagram.com/gizemlivaka",
+        "https://twitter.com/gizemlivaka"
+      ]
+    }
+    </script>
+    {% block breadcrumb_schema %}{% endblock %}
+    {% endblock %}
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container">
+            <a class="navbar-brand text-white fw-bold d-flex align-items-center" href="{{ url_for('index') }}">
+                {% if settings.get('logo_img') %}
+                    <img src="{{ url_for('static', filename='uploads/' + settings.get('logo_img')) }}" alt="Gizemli Vaka" style="height: 90px;">
+                    <div class="ms-2" style="line-height: 1.1;">
+                        <span style="color: #ffc107; font-size: 1.4rem; font-weight: 800; letter-spacing: 1px;">GİZEMLİ</span><br>
+                        <span style="color: #ffffff; font-size: 1.1rem; font-weight: 600; letter-spacing: 3px;">VAKA</span>
+                    </div>
+                {% else %}
+                <div style="line-height: 1;">
+                    <span style="color: #ffc107;">{{ settings.get('logo_bold', 'GİZEMLİ') }}</span><br>
+                    <span style="font-size: 0.7rem; letter-spacing: 2px;">{{ settings.get('logo_sub', 'VAKALAR') }}</span>
+                </div>
+                {% endif %}
+            </a>
+
+            <button class="navbar-toggler navbar-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('how_to_play') }}"><i class="fas fa-play-circle me-1" style="color:#FFD700;"></i>{{ t.how_to_play }}?</a>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"><i class="fas fa-folder-open me-1" style="color:#FFD700;"></i>{{ t.unsolved_cases }}</a>
+                        <div class="dropdown-menu mega-menu shadow p-4" style="width: 700px; left: 50%; transform: translateX(-50%);">
+                            <div class="row g-3">
+                                {% for case in cases[:6] if cases %}
+                                <div class="col-4">
+                                    <a href="{{ url_for('case_detail', case_id=case.id) }}" class="text-decoration-none">
+                                        <div class="mega-case-card rounded overflow-hidden position-relative" style="height: 120px;">
+                                            <img src="{{ url_for('static', filename='uploads/' + case.id + '/' + case.image) }}" class="w-100 h-100" style="object-fit: cover;" alt="{{ case.title }} - Dedektiflik Vakası" loading="lazy">
+                                            <div class="position-absolute bottom-0 start-0 end-0 p-2" style="background: linear-gradient(transparent, rgba(0,0,0,0.9));">
+                                                <div class="text-warning fw-bold small">{{ case.title }}</div>
+                                                <div class="text-white-50" style="font-size: 0.65rem;">S01 - EP{{ loop.index }}</div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            <div class="text-center mt-4">
+                                <a href="{{ url_for('cases') }}" class="btn rounded-pill px-4 py-2 fw-bold" style="background-color: #FFD700; color: #000;">{{ t.view_all_cases }}</a>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('teams') }}"><i class="fas fa-users me-1" style="color:#FFD700;"></i>{{ t.teams }}</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('dedektif_akademisi') }}">
+                            <i class="fas fa-graduation-cap me-1" style="color:#FFD700;"></i>Dedektif Akademisi
+                        </a>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"><i class="fas fa-ellipsis-h me-1" style="color:#FFD700;"></i>{{ t.more }}</a>
+                        <ul class="dropdown-menu shadow">
+                            <li><a class="dropdown-item" href="{{ url_for('about') }}"><i class="fas fa-info-circle text-warning me-2"></i>Hakkımızda</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('dedektif_akademisi') }}"><i class="fas fa-graduation-cap text-warning me-2"></i>Dedektif Akademisi</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('gift_cards') }}"><i class="fas fa-gift text-warning me-2"></i>{{ t.gift_cards }}</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('blog') }}"><i class="fas fa-newspaper text-warning me-2"></i>{{ t.blog }}</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('faq') }}"><i class="fas fa-question-circle text-warning me-2"></i>Sıkça Sorulan Sorular</a></li>
+                            {% if current_user %}
+                            <li><a class="dropdown-item" href="{{ url_for('account_partner') }}"><i class="fas fa-chart-line text-warning me-2"></i>Ortaklık Panelim</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('account_dealer') }}"><i class="fas fa-store text-warning me-2"></i>Bayilik Panelim</a></li>
+                            {% endif %}
+                            <li><a class="dropdown-item" href="{{ url_for('contact') }}"><i class="fas fa-envelope text-warning me-2"></i>{{ t.contact }}</a></li>
+                        </ul>
+                    </li>
+
+                    {% if current_user %}
+                    <li class="nav-item ms-3">
+                        <a class="nav-link px-3 py-2 rounded-pill" href="{{ url_for('active_cases') }}" style="border: 2px solid #22c55e; color: #22c55e !important; font-weight: bold; background: transparent;">
+                            <i class="fas fa-gamepad me-1"></i> {{ t.my_active_games }}
+                        </a>
+                    </li>
+                    {% endif %}
+
+                    {% if session.get('username') == 'admin' %}
+                    <li class="nav-item">
+                        <a class="nav-link fw-bold text-warning border-start border-warning ms-3 ps-3" href="{{ url_for('admin_orders') }}">
+                            <i class="fas fa-tools me-1"></i> {{ t.panel }}
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+
+            <div class="d-flex align-items-center gap-3">
+                <a href="{{ url_for('account') if current_user else url_for('login') }}" class="text-warning" title="{{ t.my_account }}">
+                    <i class="fas fa-user-circle fs-4"></i>
+                </a>
+
+                <a href="{{ url_for('view_cart') }}" class="text-warning position-relative" title="{{ t.my_cart }}">
+                    <i class="fas fa-shopping-cart fs-5"></i>
+                    {% if cart_count > 0 %}
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning text-dark" style="font-size: 0.55rem;">{{ cart_count }}</span>
+                    {% endif %}
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="alert-system">
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            {% for message in messages %}
+              <div class="alert alert-warning alert-dismissible fade show shadow-lg border-0" role="alert" style="background: #FFD700; color: #000; font-weight: bold;">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+    </div>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="main-footer">
+        <div class="container py-5">
+            <div class="legal-text mb-4">
+                <span class="text-warning fw-bold">{{ t.legal_notice }}:</span> {{ settings.get('legal_text', 'Çevrimiçi çözülmemiş dava dosyaları oyunlarımızın tamamı kurgusal eserlerdir. İsimler, karakterler, yerler ve olaylar ya yaratıcının hayal ürünüdür ya da kurgusal olarak kullanılmıştır. Gerçek olaylara, mekanlara veya kişilere (yaşayan veya ölü) herhangi bir benzerlik tamamen tesadüfidir.') }}
+            </div>
+
+            <div class="row mb-5">
+                <div class="col-lg-3 col-md-12 mb-4">
+                    <div class="footer-logo mb-4">
+                        <div class="d-flex align-items-center">
+                            {% if settings.get('logo_img') %}
+                                <img src="{{ url_for('static', filename='uploads/' + settings.get('logo_img')) }}" alt="Gizemli Vakalar" style="height: 100px;">
+                            {% else %}
+                                <div class="fingerprint-icon me-3">
+                                    <i class="fas fa-fingerprint fa-2x text-white"></i>
+                                </div>
+                                <div>
+                                    <div class="fw-bold" style="font-size: 1.5rem; letter-spacing: 2px; color: #ffc107;">{{ settings.get('logo_bold', 'GİZEMLİ') }}</div>
+                                    <div class="text-white" style="font-size: 0.9rem; letter-spacing: 4px;">{{ settings.get('logo_sub', 'VAKALAR') }}</div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <a href="mailto:{{ settings.get('site_email', 'info@gizemlivaka.com') }}" class="email-btn">
+                        <i class="fas fa-envelope me-2"></i> {{ settings.get('site_email', 'info@gizemlivaka.com') }}
+                    </a>
+                </div>
+
+                <div class="col-lg-9">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 footer-link-col">
+                            {% if settings.get('f_col1_title') %}<h6 class="text-warning fw-bold mb-3">{{ settings.get('f_col1_title') }}</h6>{% endif %}
+                            <ul>
+                                <li><a href="{{ url_for('about') }}">Hakkımızda</a></li>
+                                <li><a href="{{ url_for('how_to_play') }}">Nasıl Oynanır</a></li>
+                                <li><a href="{{ url_for('teams') }}">Takım Oluşturma</a></li>
+                                <li><a href="{{ url_for('faq') }}">Sıkça Sorulan Sorular</a></li>
+                                <li><a href="{{ url_for('blog') }}">Blog</a></li>
+                                <li><a href="{{ url_for('dedektif_akademisi') }}">Dedektif Akademisi</a></li>
+                                <li><a href="{{ url_for('gift_cards') }}">Hediye Çekleri</a></li>
+                                <li><a href="{{ url_for('suggestion_box') }}">Öneri Kutusu</a></li>
+                                <li><a href="{{ url_for('redeem_code') }}">Kod Kullan</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="col-lg-4 col-md-4 footer-link-col">
+                            {% if settings.get('f_col2_title') %}<h6 class="text-warning fw-bold mb-3">{{ settings.get('f_col2_title') }}</h6>{% endif %}
+                            <ul>
+                                {% for case in cases[:10] if cases %}
+                                <li><a href="{{ url_for('case_detail', case_id=case.id) }}">{{ case.title }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+
+                        <div class="col-lg-4 col-md-4 footer-link-col">
+                            {% if settings.get('f_col3_title') %}<h6 class="text-warning fw-bold mb-3">{{ settings.get('f_col3_title') }}</h6>{% endif %}
+                            <ul>
+                                {% for p in custom_pages %}
+                                <li><a href="{{ url_for('view_page', slug=p.slug) }}">{{ p.title }}</a></li>
+                                {% endfor %}
+                                <li><a href="{{ url_for('contact') }}">Bize Ulaşın</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-payment py-3 mb-4" style="border-top: 1px solid rgba(255,255,255,0.1); border-bottom: 1px solid rgba(255,255,255,0.1);">
+                <div class="d-flex align-items-center justify-content-center flex-wrap" style="padding: 8px 0; gap: 30px;">
+                    <div class="d-flex align-items-center gap-2">
+                        <span style="color: #fff; font-size: 0.95rem; font-weight: 700; opacity: 0.9;">iyzico</span>
+                        <span style="color: rgba(255,255,255,0.6); font-size: 0.7rem;">ile Öde</span>
+                    </div>
+                    <i class="fab fa-cc-mastercard" style="color: rgba(255,255,255,0.85); font-size: 2rem;"></i>
+                    <i class="fab fa-cc-visa" style="color: rgba(255,255,255,0.85); font-size: 2rem;"></i>
+                    <span style="color: rgba(255,255,255,0.85); font-size: 0.6rem; font-weight: 800; letter-spacing: 1px; line-height: 1.2; text-align: center;">AMERICAN<br>EXPRESS</span>
+                    <span style="color: rgba(255,255,255,0.85); font-size: 1rem; font-weight: 700; letter-spacing: 2px; font-style: italic;">troy</span>
+                    <span style="color: rgba(255,255,255,0.85); font-size: 0.85rem; font-weight: 700;">Payn<span style="color: #2196F3;">Kolay</span></span>
+                    <img src="{{ url_for('static', filename='param-logo.svg') }}" alt="Param" style="height: 22px; opacity: 0.9; filter: brightness(1.2);">
+                </div>
+            </div>
+
+            <div style="text-align: center; margin: 20px 0;">
+                <a href="https://www.eticaret.gov.tr/siteprofil/bebdc557-5fc7-40d3-82dc-7229cd8b3f76" target="_blank" rel="noopener noreferrer">
+                    <img src="{{ url_for('static', filename='etbis-qr.png') }}" alt="ETBİS Kayıtlı Site" title="ETBİS Kayıtlı Site" style="width: 100px; height: 100px; background: #fff; padding: 6px; border-radius: 6px;" />
+                    <div style="color: rgba(255,255,255,0.7); font-size: 0.7rem; margin-top: 6px; letter-spacing: 1px;">ETBİS KAYITLI SİTE</div>
+                </a>
+            </div>
+
+            <div class="footer-bottom pt-3">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <p class="mb-0 small text-white">
+                            {{ settings.get('bottom_bar_text', '© 2025 Gizemli Vakalar • Tüm hakları saklıdır.') }}
+                        </p>
+                    </div>
+                    <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                        <div class="d-flex gap-3 justify-content-md-end">
+                            {% if settings.get('social_youtube') %}
+                            <a href="{{ settings.get('social_youtube') }}" target="_blank" class="text-white fs-5"><i class="fab fa-youtube"></i></a>
+                            {% endif %}
+                            {% if settings.get('social_facebook') %}
+                            <a href="{{ settings.get('social_facebook') }}" target="_blank" class="text-white fs-5"><i class="fab fa-facebook-f"></i></a>
+                            {% endif %}
+                            {% if settings.get('social_tiktok') %}
+                            <a href="{{ settings.get('social_tiktok') }}" target="_blank" class="text-white fs-5"><i class="fab fa-tiktok"></i></a>
+                            {% endif %}
+                            {% if settings.get('social_twitter') %}
+                            <a href="{{ settings.get('social_twitter') }}" target="_blank" class="text-white fs-5"><i class="fab fa-x-twitter"></i></a>
+                            {% endif %}
+                            {% if settings.get('social_instagram') %}
+                            <a href="{{ settings.get('social_instagram') }}" target="_blank" class="text-white fs-5"><i class="fab fa-instagram"></i></a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    {% if settings.get('whatsapp_number') %}
+    <a href="https://wa.me/{{ settings.get('whatsapp_number') }}{% if settings.get('whatsapp_message') %}?text={{ settings.get('whatsapp_message')|urlencode }}{% endif %}" target="_blank" id="whatsapp-float" style="position:fixed;bottom:25px;right:25px;z-index:9999;width:60px;height:60px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 15px rgba(37,211,102,0.4);transition:all 0.3s ease;text-decoration:none;">
+        <i class="fab fa-whatsapp" style="color:#fff;font-size:2rem;"></i>
+    </a>
+    <style>
+        #whatsapp-float:hover { transform: scale(1.1); box-shadow: 0 6px 25px rgba(37,211,102,0.6); }
+    </style>
+    {% endif %}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- AI DEDEKTIF ASISTANI -->
+<style>
+#ai-chat-btn {
+    position: fixed;
+    bottom: {% if settings.get('whatsapp_number') %}95px{% else %}25px{% endif %};
+    right: 25px;
+    z-index: 9998;
+    width: 60px; height: 60px;
+    background: linear-gradient(135deg, #FFD700, #f0a500);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 20px rgba(255,215,0,0.5);
+    cursor: pointer;
+    border: none;
+    transition: all 0.3s ease;
+    animation: aiPulse 3s infinite;
+}
+@keyframes aiPulse {
+    0%, 100% { box-shadow: 0 4px 20px rgba(255,215,0,0.5); }
+    50% { box-shadow: 0 4px 35px rgba(255,215,0,0.8); }
+}
+#ai-chat-btn:hover { transform: scale(1.1); }
+#ai-chat-btn .ai-badge {
+    position: absolute; top: -4px; right: -4px;
+    width: 18px; height: 18px;
+    background: #e74c3c; border-radius: 50%;
+    font-size: 10px; color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: bold;
+}
+#ai-chat-window {
+    position: fixed;
+    bottom: {% if settings.get('whatsapp_number') %}165px{% else %}95px{% endif %};
+    right: 20px;
+    z-index: 9997;
+    width: 360px;
+    max-height: 520px;
+    background: #0C1430;
+    border-radius: 18px;
+    border: 1px solid #FFD700;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,215,0,0.2);
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    animation: slideUp 0.3s ease;
+}
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+#ai-chat-window.open { display: flex; }
+.ai-chat-header {
+    background: linear-gradient(135deg, #0C1430, #162040);
+    padding: 14px 16px;
+    border-bottom: 2px solid #FFD700;
+    display: flex; align-items: center; gap: 10px;
+    flex-shrink: 0;
+}
+.ai-avatar {
+    width: 38px; height: 38px;
+    background: linear-gradient(135deg, #FFD700, #f0a500);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; flex-shrink: 0;
+}
+.ai-chat-header .ai-info { flex: 1; }
+.ai-chat-header .ai-name { color: #FFD700; font-weight: 700; font-size: 14px; line-height: 1; }
+.ai-chat-header .ai-status { color: #2ecc71; font-size: 11px; margin-top: 2px; }
+.ai-chat-header .ai-close {
+    background: none; border: none; color: #556688;
+    font-size: 18px; cursor: pointer; padding: 0;
+    transition: color 0.2s;
+}
+.ai-chat-header .ai-close:hover { color: #fff; }
+#ai-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    scrollbar-width: thin;
+    scrollbar-color: #1e2d5a transparent;
+}
+#ai-messages::-webkit-scrollbar { width: 4px; }
+#ai-messages::-webkit-scrollbar-track { background: transparent; }
+#ai-messages::-webkit-scrollbar-thumb { background: #1e2d5a; border-radius: 2px; }
+.ai-msg {
+    max-width: 88%;
+    padding: 10px 13px;
+    border-radius: 14px;
+    font-size: 13px;
+    line-height: 1.5;
+    word-break: break-word;
+}
+.ai-msg.bot {
+    background: linear-gradient(135deg, #111d3d, #162040);
+    border: 1px solid #1e2d5a;
+    color: #ccd6f0;
+    align-self: flex-start;
+    border-bottom-left-radius: 4px;
+}
+.ai-msg.user {
+    background: linear-gradient(135deg, #FFD700, #f0a500);
+    color: #0C1430;
+    align-self: flex-end;
+    font-weight: 500;
+    border-bottom-right-radius: 4px;
+}
+.ai-msg a {
+    color: #FFD700;
+    font-weight: 700;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(255,215,0,0.4);
+    transition: border-color 0.2s;
+}
+.ai-msg.user a { color: #0C1430; border-color: rgba(12,20,48,0.4); }
+.ai-msg a:hover { border-bottom-color: currentColor; }
+.ai-msg .ai-cta-btn {
+    display: inline-block;
+    margin-top: 8px;
+    background: linear-gradient(135deg, #FFD700, #f0a500);
+    color: #0C1430 !important;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 12px;
+    text-decoration: none !important;
+    border: none !important;
+}
+.ai-case-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 4px 6px 4px 0;
+    align-self: flex-start;
+    width: 100%;
+}
+.ai-case-card {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: linear-gradient(135deg, #111d3d, #162040);
+    border: 1px solid #2a3a6a;
+    border-radius: 12px;
+    padding: 8px;
+    transition: border-color 0.2s;
+}
+.ai-case-card:hover { border-color: #FFD700; }
+.ai-case-img {
+    width: 64px;
+    height: 64px;
+    object-fit: cover;
+    border-radius: 8px;
+    flex-shrink: 0;
+    border: 1px solid #2a3a6a;
+}
+.ai-case-body {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+    min-width: 0;
+}
+.ai-case-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: #e8e8ff;
+    line-height: 1.3;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.ai-case-meta {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+.ai-case-price { font-size: 11px; }
+.ai-case-btn {
+    display: inline-block;
+    background: linear-gradient(135deg, #FFD700, #f0a500);
+    color: #0C1430 !important;
+    padding: 4px 12px;
+    border-radius: 15px;
+    font-weight: 700;
+    font-size: 11px;
+    text-decoration: none !important;
+    border: none !important;
+    align-self: flex-start;
+    transition: opacity 0.2s;
+}
+.ai-case-btn:hover { opacity: 0.85; }
+.ai-quiz-card {
+    background: linear-gradient(135deg, #0e1a3a, #152040);
+    border: 1px solid #2a3a6a;
+    border-radius: 14px;
+    padding: 14px;
+    align-self: flex-start;
+    width: 100%;
+    box-sizing: border-box;
+}
+.ai-quiz-step-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: #FFD700;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+}
+.ai-quiz-question {
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 12px;
+    line-height: 1.4;
+}
+.ai-quiz-option {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 12px;
+    background: rgba(255,255,255,0.03);
+    border: 1.5px solid #2a3a6a;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-bottom: 7px;
+    transition: border-color 0.2s, background 0.2s;
+    user-select: none;
+}
+.ai-quiz-option:last-child { margin-bottom: 0; }
+.ai-quiz-option:hover { border-color: #FFD700; background: rgba(255,215,0,0.05); }
+.ai-quiz-option.selected { border-color: #FFD700; background: rgba(255,215,0,0.08); pointer-events: none; }
+.ai-quiz-option.disabled { opacity: 0.5; pointer-events: none; }
+.ai-quiz-dot {
+    width: 16px; height: 16px;
+    border: 2px solid #556688;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 2px;
+    transition: border-color 0.2s, background 0.2s;
+}
+.ai-quiz-option.selected .ai-quiz-dot { border-color: #FFD700; background: #FFD700; }
+.ai-quiz-option-text { flex: 1; }
+.ai-quiz-option-label { font-size: 13px; font-weight: 700; color: #e8e8ff; }
+.ai-quiz-option-desc { font-size: 11px; color: #7788aa; margin-top: 2px; line-height: 1.3; }
+.ai-typing {
+    display: flex; align-items: center; gap: 4px;
+    padding: 10px 13px;
+    background: linear-gradient(135deg, #111d3d, #162040);
+    border: 1px solid #1e2d5a;
+    border-radius: 14px; border-bottom-left-radius: 4px;
+    align-self: flex-start;
+}
+.ai-typing span {
+    width: 7px; height: 7px;
+    background: #FFD700; border-radius: 50%;
+    animation: typingBounce 1.2s infinite;
+    display: inline-block;
+}
+.ai-typing span:nth-child(2) { animation-delay: 0.2s; }
+.ai-typing span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes typingBounce {
+    0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+    30% { transform: translateY(-6px); opacity: 1; }
+}
+.ai-quick-btns {
+    padding: 8px 14px 0;
+    display: flex; gap: 6px; flex-wrap: wrap;
+    flex-shrink: 0;
+}
+.ai-quick-btn {
+    background: #111d3d;
+    border: 1px solid #2a3d6e;
+    color: #8899bb;
+    border-radius: 12px;
+    padding: 5px 10px;
+    font-size: 11px;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+.ai-quick-btn:hover { background: #1e2d5a; color: #FFD700; border-color: #FFD700; }
+.ai-chat-input {
+    padding: 12px;
+    border-top: 1px solid #1e2d5a;
+    display: flex; gap: 8px; align-items: flex-end;
+    flex-shrink: 0;
+    background: #080d1e;
+}
+#ai-input {
+    flex: 1;
+    background: #111d3d;
+    border: 1px solid #2a3d6e;
+    border-radius: 12px;
+    color: #fff;
+    padding: 9px 13px;
+    font-size: 13px;
+    resize: none;
+    outline: none;
+    min-height: 38px;
+    max-height: 90px;
+    line-height: 1.4;
+    transition: border-color 0.2s;
+    font-family: inherit;
+}
+#ai-input:focus { border-color: #FFD700; }
+#ai-input::placeholder { color: #556688; }
+#ai-send-btn {
+    width: 38px; height: 38px;
+    background: linear-gradient(135deg, #FFD700, #f0a500);
+    border: none; border-radius: 50%;
+    color: #0C1430;
+    font-size: 15px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    transition: transform 0.2s, opacity 0.2s;
+}
+#ai-send-btn:hover { transform: scale(1.1); }
+#ai-send-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+@media (max-width: 420px) {
+    #ai-chat-window { width: calc(100vw - 24px); right: 12px; }
+}
+</style>
+
+<button id="ai-chat-btn" onclick="toggleAiChat()" title="Dedektif AI Asistan">
+    <span style="font-size:26px;">🔍</span>
+    <span class="ai-badge" id="ai-notif-badge">1</span>
+</button>
+
+<div id="ai-chat-window">
+    <div class="ai-chat-header">
+        <div class="ai-avatar">🕵️</div>
+        <div class="ai-info">
+            <div class="ai-name">Dedektif AI</div>
+            <div class="ai-status">● {{ 'Çevrimiçi' if session.get('lang','tr') == 'tr' else 'Online' }}</div>
+        </div>
+        <button class="ai-close" onclick="toggleAiChat()">✕</button>
+    </div>
+
+    <div id="ai-messages"></div>
+
+    <div class="ai-quick-btns" id="ai-quick-btns" style="display:none;"></div>
+
+    <div class="ai-chat-input">
+        <textarea id="ai-input" placeholder="{{ 'Sorunuzu yazın...' if session.get('lang','tr') == 'tr' else 'Ask me anything...' }}" rows="1" onkeydown="aiInputKeydown(event)" oninput="aiInputResize(this)"></textarea>
+        <button id="ai-send-btn" onclick="aiSend()">
+            <i class="fas fa-paper-plane"></i>
+        </button>
+    </div>
+</div>
+
+<script>
+(function() {
+    const LANG = '{{ session.get("lang","tr") }}';
+
+    // --- Quiz tanımları ---
+    const QUIZ = LANG === 'tr' ? {
+        steps: [
+            {
+                key: 'experience',
+                stepLabel: '3 ADIMDAN 1. ADIM',
+                question: 'Dedektiflik deneyiminiz nedir?',
+                options: [
+                    { value: 'acemi',    label: 'Acemi',    desc: 'Dava dosyaları konusunda yeniyim, beni karşılayan bir şey istiyorum.' },
+                    { value: 'gundelik', label: 'Gündelik', desc: 'Gizem çözmekten hoşlanıyorum ama saçma sapan şeyler istemiyorum.' },
+                    { value: 'uzman',    label: 'Uzman',    desc: 'Katmanlı ipuçlarına, daha sağlam bir mantığa ve düzgün bir soruşturmaya ihtiyacım var.' }
+                ]
+            },
+            {
+                key: 'difficulty',
+                stepLabel: '3 ADIMDAN 2. ADIM',
+                question: 'Davanın ne kadar zorlu olmasını istiyorsunuz?',
+                options: [
+                    { value: 'Kolay', label: 'Kolay', desc: 'Daha hafif bir başlangıç noktası istiyorsanız, daha erişilebilir bir seçenek.' },
+                    { value: 'Orta',  label: 'Orta',  desc: 'İpuçları, zorluk ve ivme arasında sağlam bir denge.' },
+                    { value: 'Zor',   label: 'Zor',   desc: 'Daha derin düşünmeyi ve daha zorlu çözümler isteyen oyuncular için.' }
+                ]
+            },
+            {
+                key: 'caseType',
+                stepLabel: '3 ADIMDAN 3. ADIM',
+                question: 'Hangi dava türlerini çözmek istersiniz?',
+                options: [
+                    { value: 'cinayet',  label: '🔪 Cinayet',                    desc: 'Kim öldürdü? Şüpheliler, güdüler ve ipuçları...' },
+                    { value: 'hirsizlik',label: '💰 Hırsızlık & Dolandırıcılık', desc: 'Değerli şeyler çalındı, izleri sürmek size kalmış.' },
+                    { value: 'siber',    label: '💻 Siber Suç & Teknoloji',       desc: 'Dijital iz bırakmayan suçlular, kod karanlıkta gizlenir.' },
+                    { value: 'sanat',    label: '🎭 Sanat & Kültür',              desc: 'Müzeler, antikalar ve sanat dünyasının karanlık yüzü.' },
+                    { value: 'all',      label: '🌟 Hepsini göster',              desc: 'Tüm davalar arasından seçim yapmak istiyorum.' }
+                ]
+            }
+        ],
+        summaryLabel: (ans) => `Deneyim: ${ans.experience_label} • Zorluk: ${ans.difficulty} • Tür: ${ans.caseType_label}`,
+        apiMsg: 'Benim için en uygun davaları bul!'
+    } : {
+        steps: [
+            {
+                key: 'experience',
+                stepLabel: 'STEP 1 OF 3',
+                question: "What's your detective experience?",
+                options: [
+                    { value: 'beginner', label: 'Beginner', desc: "I'm new to case files and want something welcoming." },
+                    { value: 'casual',   label: 'Casual',   desc: 'I enjoy mysteries but nothing too convoluted.' },
+                    { value: 'expert',   label: 'Expert',   desc: 'I need layered clues and a solid investigation.' }
+                ]
+            },
+            {
+                key: 'difficulty',
+                stepLabel: 'STEP 2 OF 3',
+                question: 'How challenging should your case be?',
+                options: [
+                    { value: 'Kolay', label: 'Easy',   desc: 'A lighter starting point, more accessible.' },
+                    { value: 'Orta',  label: 'Medium', desc: 'A solid balance of clues, challenge and momentum.' },
+                    { value: 'Zor',   label: 'Hard',   desc: 'For players who want deeper thinking and tougher solutions.' }
+                ]
+            },
+            {
+                key: 'caseType',
+                stepLabel: 'STEP 3 OF 3',
+                question: 'What type of case do you want to solve?',
+                options: [
+                    { value: 'murder',  label: '🔪 Murder',              desc: 'Whodunit? Suspects, motives and clues...' },
+                    { value: 'theft',   label: '💰 Theft & Fraud',        desc: 'Valuables stolen — track down the culprit.' },
+                    { value: 'cyber',   label: '💻 Cyber Crime & Tech',   desc: 'Criminals who leave no digital fingerprints.' },
+                    { value: 'art',     label: '🎭 Art & Culture',        desc: 'Museums, antiques and the dark side of art.' },
+                    { value: 'all',     label: '🌟 Show all',             desc: 'Let me browse all available cases.' }
+                ]
+            }
+        ],
+        summaryLabel: (ans) => `Experience: ${ans.experience_label} • Difficulty: ${ans.difficulty_label} • Type: ${ans.caseType_label}`,
+        apiMsg: 'Find the best cases for me!'
+    };
+
+    let chatHistory = [];
+    let isOpen = false;
+    let initialized = false;
+    let quizAnswers = {};
+    let quizStep = 0; // 0=not started, 1/2/3=active
+
+    window.toggleAiChat = function() {
+        const win = document.getElementById('ai-chat-window');
+        const badge = document.getElementById('ai-notif-badge');
+        isOpen = !isOpen;
+        win.classList.toggle('open', isOpen);
+        if (badge) badge.style.display = 'none';
+        if (isOpen && !initialized) {
+            initialized = true;
+            startQuiz();
+        }
+        if (isOpen) {
+            setTimeout(() => {
+                const inp = document.getElementById('ai-input');
+                if (inp) inp.focus();
+            }, 300);
+        }
+    };
+
+    function startQuiz() {
+        const welcome = LANG === 'tr'
+            ? '🕵️ Merhaba! Ben Dedektif AI. Sana en uygun davayı bulmak için 3 kısa soru soracağım.'
+            : '🕵️ Hello! I\'m Detective AI. I\'ll ask you 3 quick questions to find your perfect case.';
+        appendBotMsg(welcome);
+        setTimeout(() => showQuizStep(1), 400);
+    }
+
+    function showQuizStep(step) {
+        quizStep = step;
+        const stepDef = QUIZ.steps[step - 1];
+        const card = document.createElement('div');
+        card.className = 'ai-quiz-card';
+        card.dataset.step = step;
+        card.innerHTML = `
+            <div class="ai-quiz-step-label">${stepDef.stepLabel}</div>
+            <div class="ai-quiz-question">${stepDef.question}</div>
+            ${stepDef.options.map((opt, i) => `
+                <div class="ai-quiz-option" onclick="selectQuizOption(${step}, '${opt.value}', this)" data-value="${opt.value}">
+                    <div class="ai-quiz-dot"></div>
+                    <div class="ai-quiz-option-text">
+                        <div class="ai-quiz-option-label">${opt.label}</div>
+                        <div class="ai-quiz-option-desc">${opt.desc}</div>
+                    </div>
+                </div>
+            `).join('')}
+        `;
+        getMessages().appendChild(card);
+        scrollMessages();
+    }
+
+    window.selectQuizOption = function(step, value, el) {
+        // Tüm seçenekleri devre dışı bırak, seçileni işaretle
+        const card = el.closest('.ai-quiz-card');
+        card.querySelectorAll('.ai-quiz-option').forEach(o => {
+            o.classList.add('disabled');
+            if (o !== el) o.classList.add('disabled');
+        });
+        el.classList.add('selected');
+        el.classList.remove('disabled');
+
+        // Seçimi kaydet
+        const stepDef = QUIZ.steps[step - 1];
+        const opt = stepDef.options.find(o => o.value === value);
+        quizAnswers[stepDef.key] = value;
+        quizAnswers[stepDef.key + '_label'] = opt ? opt.label : value;
+
+        // Kullanıcı balonu
+        setTimeout(() => {
+            appendUserMsg(opt ? opt.label : value);
+        }, 150);
+
+        // Sonraki adım veya sonuç
+        setTimeout(() => {
+            if (step < 3) {
+                showQuizStep(step + 1);
+            } else {
+                finishQuiz();
+            }
+        }, 500);
+    };
+
+    function finishQuiz() {
+        const typingEl = appendTyping();
+        const sendBtn = document.getElementById('ai-send-btn');
+        if (sendBtn) sendBtn.disabled = true;
+
+        const apiMessage = QUIZ.apiMsg;
+
+        fetch('/api/assistant-chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                message: apiMessage,
+                history: [],
+                quiz: quizAnswers
+            })
+        })
+        .then(r => r.json())
+        .then(data => {
+            typingEl.remove();
+            const reply = data.reply || (LANG === 'tr' ? 'Bir sorun oluştu.' : 'Something went wrong.');
+            appendBotMsg(reply);
+            chatHistory.push({ role: 'assistant', content: reply });
+            if (data.cases && data.cases.length > 0) {
+                appendCaseCards(data.cases);
+            }
+        })
+        .catch(() => {
+            typingEl.remove();
+            appendBotMsg(LANG === 'tr' ? '⚠️ Bağlantı hatası, lütfen tekrar deneyin.' : '⚠️ Connection error.');
+        })
+        .finally(() => {
+            if (sendBtn) sendBtn.disabled = false;
+        });
+    }
+
+    window.aiInputKeydown = function(e) {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            aiSend();
+        }
+    };
+
+    window.aiInputResize = function(el) {
+        el.style.height = 'auto';
+        el.style.height = Math.min(el.scrollHeight, 90) + 'px';
+    };
+
+    window.aiSend = function() {
+        const inp = document.getElementById('ai-input');
+        const text = inp ? inp.value.trim() : '';
+        if (!text) return;
+        inp.value = '';
+        inp.style.height = 'auto';
+        sendMessage(text);
+    };
+
+    function sendMessage(text) {
+        appendUserMsg(text);
+        chatHistory.push({ role: 'user', content: text });
+
+        const typingEl = appendTyping();
+        const sendBtn = document.getElementById('ai-send-btn');
+        if (sendBtn) sendBtn.disabled = true;
+
+        fetch('/api/assistant-chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: text, history: chatHistory.slice(-14) })
+        })
+        .then(r => r.json())
+        .then(data => {
+            typingEl.remove();
+            const reply = data.reply || (LANG === 'tr' ? 'Bir sorun oluştu.' : 'Something went wrong.');
+            appendBotMsg(reply);
+            chatHistory.push({ role: 'assistant', content: reply });
+            if (data.cases && data.cases.length > 0) {
+                appendCaseCards(data.cases);
+            }
+        })
+        .catch(() => {
+            typingEl.remove();
+            appendBotMsg(LANG === 'tr' ? '⚠️ Bağlantı hatası, lütfen tekrar deneyin.' : '⚠️ Connection error, please try again.');
+        })
+        .finally(() => {
+            if (sendBtn) sendBtn.disabled = false;
+        });
+    }
+
+    function appendUserMsg(text) {
+        const div = document.createElement('div');
+        div.className = 'ai-msg user';
+        div.textContent = text;
+        getMessages().appendChild(div);
+        scrollMessages();
+    }
+
+    function appendBotMsg(text) {
+        const div = document.createElement('div');
+        div.className = 'ai-msg bot';
+        div.innerHTML = formatBotText(text);
+        getMessages().appendChild(div);
+        scrollMessages();
+    }
+
+    function appendCaseCards(cases) {
+        const container = document.createElement('div');
+        container.className = 'ai-case-cards';
+        cases.forEach(c => {
+            const diffColors = { 'Kolay': '#2ecc71', 'Orta': '#3498db', 'Zor': '#e74c3c', 'Easy': '#2ecc71', 'Medium': '#3498db', 'Hard': '#e74c3c' };
+            const diffColor = diffColors[c.difficulty] || '#3498db';
+            const imgSrc = c.image ? `/static/uploads/${c.id}/${c.image}` : '';
+            const priceHtml = c.old_price
+                ? `<span style="text-decoration:line-through;color:#888;font-size:10px;">${c.old_price} TL</span> <strong style="color:#FFD700;">${c.price} TL</strong>`
+                : `<strong style="color:#FFD700;">${c.price} TL</strong>`;
+
+            const card = document.createElement('div');
+            card.className = 'ai-case-card';
+            card.innerHTML = `
+                ${imgSrc ? `<img src="${imgSrc}" alt="${c.title}" class="ai-case-img" onerror="this.style.display='none'">` : ''}
+                <div class="ai-case-body">
+                    <div class="ai-case-title">${c.title}</div>
+                    <div class="ai-case-meta">
+                        <span style="background:${diffColor};color:#fff;padding:1px 7px;border-radius:8px;font-size:10px;">${c.difficulty}</span>
+                        <span class="ai-case-price">${priceHtml}</span>
+                    </div>
+                    <a href="${c.url}" target="_blank" class="ai-case-btn">${LANG === 'tr' ? '🔍 Davayı İncele' : '🔍 View Case'}</a>
+                </div>`;
+            container.appendChild(card);
+        });
+        getMessages().appendChild(container);
+        scrollMessages();
+    }
+
+    function appendTyping() {
+        const div = document.createElement('div');
+        div.className = 'ai-typing';
+        div.innerHTML = '<span></span><span></span><span></span>';
+        getMessages().appendChild(div);
+        scrollMessages();
+        return div;
+    }
+
+    function formatBotText(text) {
+        // 1. Önce markdown linkleri placeholder'a al (çift işlemeyi önler)
+        const links = [];
+        text = text.replace(/\[([^\]]+)\]\((https?:\/\/[^\)]+)\)/g, (match, label, url) => {
+            const idx = links.length;
+            links.push({ label, url });
+            return `%%LNK${idx}%%`;
+        });
+
+        // 2. Bold ve italic
+        text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+        text = text.replace(/\*([^*\n]+)\*/g, '<em>$1</em>');
+
+        // 3. Kalan düz URL'ler (placeholder içinde olmayanlar)
+        text = text.replace(/(https?:\/\/[^\s<>"%%]+)/g, url => {
+            return `<a href="${url}" target="_blank" style="color:#FFD700;word-break:break-all;">${url}</a>`;
+        });
+
+        // 4. Placeholder'ları geri yükle
+        text = text.replace(/%%LNK(\d+)%%/g, (match, idx) => {
+            const { label, url } = links[parseInt(idx)];
+            return `<a href="${url}" target="_blank" style="color:#FFD700;">${label}</a>`;
+        });
+
+        // 5. Satır sonları
+        text = text.replace(/\n/g, '<br>');
+        return text;
+    }
+
+    function getMessages() {
+        return document.getElementById('ai-messages');
+    }
+
+    function scrollMessages() {
+        const el = getMessages();
+        if (el) el.scrollTop = el.scrollHeight;
+    }
+})();
+</script>
+
+<!-- POPUP SİSTEMİ -->
+<div id="sitePopupOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:9998;"></div>
+<div id="sitePopupBox" style="display:none;position:fixed;z-index:9999;left:50%;top:50%;transform:translate(-50%,-50%);background:#fff;border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,0.3);overflow:hidden;max-width:95vw;max-height:90vh;overflow-y:auto;"></div>
+
+<script>
+(function() {
+  function setCookie(name, val, days) {
+    const d = new Date(); d.setTime(d.getTime() + days*24*60*60*1000);
+    document.cookie = name+'='+val+';expires='+d.toUTCString()+';path=/';
+  }
+  function getCookie(name) {
+    const v = document.cookie.split(';').find(c => c.trim().startsWith(name+'='));
+    return v ? v.trim().split('=')[1] : null;
+  }
+
+  function showPopup(p) {
+    const box = document.getElementById('sitePopupBox');
+    const overlay = document.getElementById('sitePopupOverlay');
+    box.style.width = (p.width || 500) + 'px';
+    if (p.height) box.style.height = p.height + 'px';
+
+    let imgHtml = p.image_url ? `<img src="${p.image_url}" alt="${p.title || 'Gizemli Vaka Duyurusu'}" style="width:100%;max-height:220px;object-fit:cover;display:block;">` : '';
+    let btnHtml = (p.button_text && p.button_url)
+      ? `<div style="text-align:center;margin-top:20px;"><a href="${p.button_url}" target="${p.link_target||'_self'}" style="background:#FFD700;color:#0C1430;padding:12px 32px;border-radius:30px;text-decoration:none;font-weight:800;font-size:14px;display:inline-block;">${p.button_text}</a></div>`
+      : '';
+    let closeBtn = p.is_closeable
+      ? `<button onclick="closePopup(${p.id},${p.hide_duration||0})" style="position:absolute;top:10px;right:12px;background:rgba(0,0,0,0.15);border:none;border-radius:50%;width:28px;height:28px;cursor:pointer;font-size:16px;line-height:28px;text-align:center;color:#333;">&times;</button>`
+      : '';
+    let typeColors = {info:'#17a2b8',promotion:'#28a745',announcement:'#007bff',warning:'#ffc107'};
+    let barColor = typeColors[p.type] || '#17a2b8';
+
+    box.innerHTML = `
+      <div style="position:relative;">
+        <div style="height:4px;background:${barColor};"></div>
+        ${imgHtml}
+        ${closeBtn}
+        <div style="padding:24px;">
+          <h5 style="color:#0C1430;font-weight:800;margin:0 0 10px;">${p.title}</h5>
+          <div style="color:#555;line-height:1.7;font-size:14px;">${p.message}</div>
+          ${btnHtml}
+        </div>
+      </div>`;
+
+    overlay.style.opacity = p.overlay_opacity || 0.5;
+    overlay.style.display = 'block';
+    box.style.display = 'block';
+
+    if (p.is_closeable) {
+      overlay.onclick = function() { closePopup(p.id, p.hide_duration || 0); };
+    }
+  }
+
+  window.closePopup = function(id, hideDays) {
+    document.getElementById('sitePopupBox').style.display = 'none';
+    document.getElementById('sitePopupOverlay').style.display = 'none';
+    if (hideDays > 0) {
+      setCookie('popup_hidden_'+id, '1', hideDays);
+    } else if (hideDays === 0) {
+      sessionStorage.setItem('popup_closed_'+id, '1');
+    }
+  };
+
+  function loadPopup() {
+    fetch('/api/active-popup')
+      .then(r => r.json())
+      .then(data => {
+        if (!data || data.length === 0) return;
+        const p = data[0];
+        // Gizleme kontrolü
+        if (getCookie('popup_hidden_'+p.id)) return;
+        if (sessionStorage.getItem('popup_closed_'+p.id)) return;
+        setTimeout(function() { showPopup(p); }, 800);
+      })
+      .catch(function() {});
+  }
+
+  // Sadece admin panel dışında göster
+  if (!window.location.pathname.startsWith('/admin')) {
+    loadPopup();
+  }
+})();
+</script>
+
+</body>
+</html>

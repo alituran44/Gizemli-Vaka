@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="bg-dark min-vh-100 py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+                    <div class="card-header bg-warning py-4">
+                        <h4 class="mb-0 fw-bold text-dark text-center">
+                            <i class="fas fa-unlock me-2"></i>
+                            İpucunu Erken Aç
+                        </h4>
+                    </div>
+                    <div class="card-body p-4 bg-white">
+                        <div class="text-center mb-4">
+                            <div class="display-1 text-warning mb-3">
+                                <i class="fas fa-lightbulb"></i>
+                            </div>
+                            <h5 class="text-dark fw-bold">İpucu Açma</h5>
+                        </div>
+
+                        <div class="bg-light rounded-3 p-4 mb-4 text-center">
+                            <span class="text-muted">Ücret</span>
+                            <h2 class="text-success fw-bold mb-0">{{ "%.2f"|format(hint.unlock_price) }} TL</h2>
+                        </div>
+
+                        <form action="{{ url_for('payment_hint', hint_id=hint.id) }}" method="POST">
+                            <p class="text-muted small mb-3">Kart bilgileriniz seçtiğiniz ödeme sağlayıcısının güvenli sayfasında girilecektir.</p>
+
+                            <div class="d-grid gap-2">
+                                {% if iyzico_enabled %}
+                                <button type="submit" name="payment_provider" value="iyzico" class="btn btn-outline-danger btn-lg d-flex align-items-center justify-content-between px-4 py-3">
+                                    <div class="d-flex align-items-center">
+                                        <i class="fas fa-credit-card fa-lg me-3"></i>
+                                        <div class="text-start">
+                                            <span class="fw-bold">iyzico ile Öde - {{ "%.2f"|format(hint.unlock_price) }} TL</span>
+                                            <br><small class="text-muted">Kredi/Banka Kartı ile güvenli ödeme</small>
+                                        </div>
+                                    </div>
+                                    <i class="fas fa-chevron-right"></i>
+                                </button>
+                                {% endif %}
+                                {% if param_enabled %}
+                                <button type="submit" name="payment_provider" value="param" class="btn btn-lg d-flex align-items-center justify-content-between px-4 py-3" style="border: 2px solid #e64a19; color: #e64a19;">
+                                    <div class="d-flex align-items-center">
+                                        <i class="fas fa-credit-card fa-lg me-3"></i>
+                                        <div class="text-start">
+                                            <span class="fw-bold">Kredi/Banka Kartı - {{ "%.2f"|format(hint.unlock_price) }} TL</span>
+                                            <br><small class="text-muted">3D Güvenli Ödeme</small>
+                                        </div>
+                                    </div>
+                                    <i class="fas fa-chevron-right"></i>
+                                </button>
+                                {% endif %}
+                                {% if havale_enabled %}
+                                <button type="submit" name="payment_provider" value="havale" class="btn btn-lg d-flex align-items-center justify-content-between px-4 py-3" style="border: 2px solid #388e3c; color: #388e3c;">
+                                    <div class="d-flex align-items-center">
+                                        <i class="fas fa-university fa-lg me-3"></i>
+                                        <div class="text-start">
+                                            <span class="fw-bold">Banka Havalesi - {{ "%.2f"|format(hint.unlock_price) }} TL</span>
+                                            <br><small class="text-muted">Havale / EFT ile ödeme</small>
+                                        </div>
+                                    </div>
+                                    <i class="fas fa-chevron-right"></i>
+                                </button>
+                                {% endif %}
+                                {% if not iyzico_enabled and not param_enabled and not havale_enabled %}
+                                <div class="alert alert-warning text-center">
+                                    <i class="fas fa-exclamation-triangle me-2"></i>
+                                    Aktif ödeme yöntemi bulunmuyor
+                                </div>
+                                {% endif %}
+                            </div>
+                        </form>
+
+                        <div class="text-center mt-4">
+                            <a href="{{ url_for('play_case', case_id=hint.case_id) }}" class="text-muted">
+                                <i class="fas fa-arrow-left me-1"></i>Vakaya Dön
+                            </a>
+                        </div>
+
+                        <div class="text-center mt-3">
+                            <small class="text-muted">
+                                <i class="fas fa-lock me-1"></i>
+                                256-bit SSL ile güvenli ödeme
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

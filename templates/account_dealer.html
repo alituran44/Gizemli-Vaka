@@ -1,0 +1,283 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+    .partner-page { background: linear-gradient(135deg, #e8ecf1 0%, #f0f4f8 100%); min-height: 100vh; padding: 40px 0; }
+    .partner-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 30px; margin-bottom: 25px; box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
+    .partner-card h3 { color: #b8860b; font-size: 1.2rem; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #e2e8f0; }
+    .form-control, .form-select { background: #f8fafc; border: 1px solid #cbd5e1; color: #1e293b; border-radius: 8px; padding: 12px 15px; }
+    .form-control:focus, .form-select:focus { background: #fff; border-color: #b8860b; color: #1e293b; box-shadow: 0 0 0 0.2rem rgba(184,134,11,0.15); }
+    .form-control::placeholder { color: #94a3b8; }
+    .form-label { color: #4a5568; font-weight: 600; font-size: 0.85rem; margin-bottom: 8px; }
+    .btn-gold { background: linear-gradient(135deg, #ffc107 0%, #e0a800 100%); color: #000; font-weight: 700; border: none; padding: 12px 30px; border-radius: 8px; transition: all 0.3s; }
+    .btn-gold:hover { background: linear-gradient(135deg, #e0a800 0%, #c79100 100%); color: #000; transform: translateY(-2px); box-shadow: 0 5px 20px rgba(255,193,7,0.3); }
+    .stat-box { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+    .stat-box .value { font-size: 1.8rem; font-weight: 700; color: #b8860b; }
+    .stat-box .label { font-size: 0.8rem; color: #64748b; margin-top: 5px; }
+    .qr-item { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 15px; margin-bottom: 12px; }
+    .qr-token { font-family: monospace; font-size: 0.95rem; color: #b8860b; background: rgba(184,134,11,0.1); padding: 4px 12px; border-radius: 5px; }
+    .badge-status { padding: 5px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; }
+    .badge-approved { background: rgba(34,197,94,0.15); color: #15803d; }
+    .badge-rejected { background: rgba(239,68,68,0.15); color: #dc2626; }
+    .badge-general { background: rgba(59,130,246,0.15); color: #2563eb; }
+    .badge-table { background: rgba(168,85,247,0.15); color: #7c3aed; }
+    .pending-box { background: #fffbeb; border: 2px dashed #d4a017; border-radius: 16px; padding: 50px 30px; text-align: center; }
+    .pending-box i { font-size: 4rem; color: #b8860b; margin-bottom: 20px; }
+    .pending-box h4 { color: #92400e; margin-bottom: 15px; }
+    .pending-box p { color: #64748b; }
+    .back-link { color: #b8860b; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; margin-bottom: 25px; }
+    .back-link:hover { color: #92400e; }
+    @media (max-width: 768px) {
+        .partner-page { padding: 20px 0; }
+        .partner-card { padding: 20px; }
+        .stat-box .value { font-size: 1.4rem; }
+    }
+</style>
+
+<div class="partner-page">
+    <div class="container">
+        <a href="{{ url_for('account') }}" class="back-link">
+            <i class="fas fa-arrow-left"></i> Hesabıma Dön
+        </a>
+
+        <div class="d-flex align-items-center mb-4">
+            <i class="fas fa-store me-3" style="font-size: 2rem; color: #b8860b;"></i>
+            <div>
+                <h1 class="fw-bold mb-0" style="font-size: 1.8rem; color: #b8860b;">Bayilik Paneli</h1>
+                <p class="mb-0" style="color: #64748b;">Kafeniz/firmanız için QR ile oyun satın, komisyon kazanın</p>
+            </div>
+        </div>
+
+        {% if not dealer %}
+        <div class="partner-card">
+            <h3><i class="fas fa-file-alt me-2"></i>Bayilik Başvurusu</h3>
+            <p class="mb-4" style="color: #64748b;">Kafenizde veya firmanızda masalara özel QR kodları ya da genel QR kodu ile müşterilerinize dedektiflik oyunları sunun. Her satıştan komisyon kazanın.</p>
+
+            <form method="POST" action="{{ url_for('dealer_apply') }}">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Kafe / Firma Adı *</label>
+                        <input type="text" name="cafe_name" class="form-control" placeholder="Örn: Sherlock Cafe" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Yetkili Ad Soyad</label>
+                        <input type="text" name="contact_name" class="form-control" placeholder="Yetkili kişi">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Telefon</label>
+                        <input type="text" name="phone" class="form-control" placeholder="05xx xxx xx xx">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">E-posta</label>
+                        <input type="email" name="email" class="form-control" placeholder="ornek@firma.com">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Şehir</label>
+                        <input type="text" name="city" class="form-control" placeholder="İstanbul">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Adres</label>
+                        <input type="text" name="address" class="form-control" placeholder="Açık adres">
+                    </div>
+                </div>
+
+                <h5 class="mb-3" style="font-size: 1rem; color: #b8860b;"><i class="fas fa-university me-2"></i>Ödeme Bilgileri (İsteğe bağlı)</h5>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">IBAN</label>
+                        <input type="text" name="iban" class="form-control" placeholder="TR00 0000 0000 0000 0000 0000 00">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Hesap Sahibi Adı</label>
+                        <input type="text" name="iban_name" class="form-control" placeholder="Ad Soyad / Firma">
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-gold">
+                    <i class="fas fa-paper-plane me-2"></i>Başvuruyu Gönder
+                </button>
+            </form>
+        </div>
+
+        {% elif dealer.status == 'pending' %}
+        <div class="pending-box">
+            <i class="fas fa-hourglass-half"></i>
+            <h4>Başvurunuz İnceleniyor</h4>
+            <p>Bayilik başvurunuz alındı ve ekibimiz tarafından inceleniyor.<br>Onaylandığında panelinizden QR kodlarınızı oluşturabilirsiniz.</p>
+            <small style="color: #64748b;">Başvuru Tarihi: {{ dealer.created_at.strftime('%d.%m.%Y %H:%M') }}</small>
+        </div>
+
+        {% elif dealer.status == 'rejected' %}
+        <div class="pending-box" style="border-color: rgba(239,68,68,0.4);">
+            <i class="fas fa-times-circle" style="color: #ef4444;"></i>
+            <h4 style="color: #ef4444;">Başvurunuz Reddedildi</h4>
+            <p>Maalesef bayilik başvurunuz onaylanmadı.<br>Daha fazla bilgi için bizimle iletişime geçebilirsiniz.</p>
+        </div>
+
+        {% elif dealer.status == 'approved' %}
+        <div class="row mb-4">
+            <div class="col-md-3 col-6 mb-3">
+                <div class="stat-box">
+                    <div class="value">{{ "%.2f"|format(dealer.total_earnings) }} ₺</div>
+                    <div class="label">Toplam Kazanç</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6 mb-3">
+                <div class="stat-box">
+                    <div class="value">{{ "%.2f"|format(dealer.pending_earnings) }} ₺</div>
+                    <div class="label">Bekleyen Kazanç</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6 mb-3">
+                <div class="stat-box">
+                    <div class="value">{{ "%.2f"|format(dealer.withdrawn_earnings) }} ₺</div>
+                    <div class="label">Çekilen Tutar</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6 mb-3">
+                <div class="stat-box">
+                    <div class="value">%{{ dealer.commission_rate }}</div>
+                    <div class="label">Komisyon Oranı</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="partner-card">
+                    <h3><i class="fas fa-university me-2"></i>IBAN Bilgileri</h3>
+                    <form method="POST" action="{{ url_for('dealer_update_iban') }}">
+                        <div class="mb-3">
+                            <label class="form-label">Hesap Sahibi Adı</label>
+                            <input type="text" name="iban_name" class="form-control" value="{{ dealer.iban_name or '' }}" placeholder="Ad Soyad / Firma">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">IBAN</label>
+                            <input type="text" name="iban" class="form-control" value="{{ dealer.iban or '' }}" placeholder="TR00 0000 0000 0000 0000 0000 00">
+                        </div>
+                        <button type="submit" class="btn btn-gold btn-sm">
+                            <i class="fas fa-save me-1"></i>Kaydet
+                        </button>
+                    </form>
+                </div>
+
+                <div class="partner-card">
+                    <h3><i class="fas fa-money-bill-wave me-2"></i>Para Çekme</h3>
+                    {% if not dealer.iban %}
+                    <div class="alert alert-warning" style="background: #fffbeb; border: 1px solid #d4a017; color: #92400e;">
+                        <i class="fas fa-exclamation-triangle me-2"></i>Para çekmek için önce IBAN bilgilerinizi girin.
+                    </div>
+                    {% elif dealer.pending_earnings <= 0 %}
+                    <div class="alert alert-info" style="background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.3); color: #3b82f6;">
+                        <i class="fas fa-info-circle me-2"></i>Çekilecek bakiyeniz bulunmuyor.
+                    </div>
+                    {% else %}
+                    <form method="POST" action="{{ url_for('dealer_withdraw') }}">
+                        <div class="mb-3">
+                            <label class="form-label">Çekilecek Tutar (Maks: {{ "%.2f"|format(dealer.pending_earnings) }} ₺)</label>
+                            <input type="number" name="amount" class="form-control" step="0.01" min="1" max="{{ dealer.pending_earnings }}" placeholder="Tutar girin" required>
+                        </div>
+                        <button type="submit" class="btn btn-gold btn-sm">
+                            <i class="fas fa-paper-plane me-1"></i>Talep Oluştur
+                        </button>
+                    </form>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="partner-card">
+                    <h3><i class="fas fa-qrcode me-2"></i>Yeni QR Kodu Oluştur</h3>
+                    <form method="POST" action="{{ url_for('dealer_create_qr') }}">
+                        <div class="mb-3">
+                            <label class="form-label">QR Tipi *</label>
+                            <select name="qr_type" id="qr_type" class="form-select" onchange="toggleTable()">
+                                <option value="general">Genel QR (kafe geneli)</option>
+                                <option value="table">Masaya Özel QR</option>
+                            </select>
+                        </div>
+                        <div class="mb-3" id="table_number_wrap" style="display:none;">
+                            <label class="form-label">Masa Numarası</label>
+                            <input type="text" name="table_number" class="form-control" placeholder="Örn: 5">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">QR Adı</label>
+                            <input type="text" name="name" class="form-control" placeholder="Boş bırakılırsa otomatik oluşturulur">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Gösterilecek Vakalar</label>
+                            <small class="d-block mb-2" style="color:#94a3b8;">Hiçbiri seçilmezse tüm aktif vakalar gösterilir.</small>
+                            <div style="max-height:200px;overflow-y:auto;border:1px solid #e2e8f0;border-radius:8px;padding:10px;">
+                                {% for case in cases %}
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="case_ids" value="{{ case.id }}" id="case_{{ case.id }}">
+                                    <label class="form-check-label" for="case_{{ case.id }}" style="font-size:0.85rem;">
+                                        {{ case.title }} ({{ "%.2f"|format(case.price) }} ₺)
+                                    </label>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-gold btn-sm">
+                            <i class="fas fa-plus me-1"></i>QR Oluştur
+                        </button>
+                    </form>
+                </div>
+
+                <div class="partner-card">
+                    <h3><i class="fas fa-list me-2"></i>QR Kodlarım</h3>
+                    {% if templates %}
+                        {% for tpl in templates %}
+                        <div class="qr-item">
+                            <div class="d-flex align-items-center justify-content-between mb-2 flex-wrap gap-2">
+                                <div>
+                                    <strong style="color:#1e293b;">{{ tpl.name }}</strong>
+                                    {% if tpl.qr_type == 'table' %}
+                                    <span class="badge badge-status badge-table ms-1">Masa {{ tpl.table_number or '' }}</span>
+                                    {% else %}
+                                    <span class="badge badge-status badge-general ms-1">Genel</span>
+                                    {% endif %}
+                                </div>
+                                <div class="d-flex align-items-center gap-2">
+                                    <span style="color:#64748b;font-size:0.8rem;"><i class="fas fa-eye me-1"></i>{{ tpl.scan_count or 0 }} tarama</span>
+                                    <a href="{{ url_for('dealer_qr_download', template_id=tpl.id) }}" class="btn btn-sm" style="border:1px solid #b8860b;color:#b8860b;" title="QR İndir">
+                                        <i class="fas fa-download"></i>
+                                    </a>
+                                    <form method="POST" action="{{ url_for('dealer_delete_qr', template_id=tpl.id) }}" style="display:inline;" onsubmit="return confirm('Bu QR şablonunu silmek istediğinize emin misiniz?')">
+                                        <button type="submit" class="btn btn-sm" style="color:#dc2626;border:1px solid #dc2626;padding:2px 8px;" title="Sil">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                            {% set qr_link = request.url_root.rstrip('/') ~ '/b/' ~ tpl.token %}
+                            <div class="d-flex gap-2 mt-1">
+                                <input type="text" class="form-control form-control-sm" readonly value="{{ qr_link }}" id="qrlink_{{ tpl.id }}" style="font-size:0.8rem;">
+                                <button type="button" class="btn btn-sm" style="border:1px solid #b8860b;color:#b8860b;" onclick="copyQrLink('qrlink_{{ tpl.id }}')" title="Linki Kopyala">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <p style="color:#94a3b8;text-align:center;padding:20px;">Henüz QR kodu oluşturmadınız.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+function toggleTable() {
+    var type = document.getElementById('qr_type').value;
+    document.getElementById('table_number_wrap').style.display = (type === 'table') ? 'block' : 'none';
+}
+function copyQrLink(id) {
+    var el = document.getElementById(id);
+    el.select();
+    document.execCommand('copy');
+    alert('Link kopyalandı!');
+}
+</script>
+{% endblock %}

@@ -1,0 +1,506 @@
+{% extends "base.html" %}
+
+{% block title %}Gizemli Vaka - Online Dedektiflik Oyunu | Cinayet Gizemini Çöz{% endblock %}
+{% block meta_description %}Gizemli Vaka ile Türkiye'nin ilk online dedektiflik deneyimini yaşayın. Gerçekçi cinayet dosyalarını inceleyin, delilleri analiz edin, şüphelileri sorgulayın ve katili bulun.{% endblock %}
+
+{% block structured_data %}
+{{ super() }}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Gizemli Vaka",
+  "alternateName": "Gizemli Vakalar Online Dedektiflik",
+  "url": "https://gizemlivaka.com",
+  "applicationCategory": "GameApplication",
+  "applicationSubCategory": "MysteryGame",
+  "operatingSystem": "Web Browser",
+  "description": "Türkiye'nin ilk online dedektiflik oyunu. Gerçekçi cinayet dosyalarını inceleyin, delilleri analiz edin, şüphelileri sorgulayın ve katili bulun. Bireysel veya takım olarak oynayabilirsiniz.",
+  "inLanguage": ["tr-TR", "en-US"],
+  "keywords": "dedektiflik oyunu, cinayet gizemi, murder mystery, online dedektif, soruşturma oyunu, takım oyunu, kurumsal etkinlik",
+  "offers": {
+    "@type": "AggregateOffer",
+    "priceCurrency": "TRY",
+    "lowPrice": "149",
+    "offerCount": "6",
+    "availability": "https://schema.org/InStock"
+  },
+  "featureList": [
+    "Bireysel oyun modu",
+    "Takım oyunu modu (2-50+ kişi)",
+    "PDF ve multimedya kanıtlar",
+    "Türkçe ve İngilizce dil desteği",
+    "Yapay zeka destekli içerik",
+    "İpucu sistemi",
+    "Kurumsal team building"
+  ],
+  "screenshot": "https://gizemlivaka.com/static/davadosyasi.jpg",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Gizemli Vaka",
+    "url": "https://gizemlivaka.com"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "Gizemli Vaka Dava Dosyaları",
+  "description": "Online dedektiflik için çözülmemiş cinayet davaları",
+  "url": "https://gizemlivaka.com/cases",
+  "itemListElement": [
+    {% for case in cases[:6] %}
+    {
+      "@type": "ListItem",
+      "position": {{ loop.index }},
+      "name": "{{ case.title }}",
+      "url": "https://gizemlivaka.com/case/{{ case.id | urlencode }}"
+    }{% if not loop.last %},{% endif %}
+    {% endfor %}
+  ]
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<style>
+    @media (max-width: 768px) {
+        .hero-section h1 { font-size: 1.5rem !important; line-height: 1.3 !important; }
+        .hero-section p { font-size: 0.9rem !important; }
+        .hero-section .btn { font-size: 0.75rem !important; padding: 8px 16px !important; }
+        .breaking-news-container { height: 35px !important; }
+        .bn-title { font-size: 0.6rem !important; padding: 0 8px !important; }
+        .case-card { margin-bottom: 15px; }
+        .case-card img { height: 150px !important; }
+        .col-md-3, .col-lg-3 { padding: 8px !important; }
+        .py-5 { padding-top: 2rem !important; padding-bottom: 2rem !important; }
+        .py-4 { padding-top: 1rem !important; padding-bottom: 1rem !important; }
+        .container { padding-left: 15px !important; padding-right: 15px !important; }
+        h2 { font-size: 1.4rem !important; }
+        .col-lg-5, .col-lg-7 { margin-bottom: 20px; }
+        .row.g-5 { gap: 1.5rem !important; }
+        .col-md-4 { margin-bottom: 15px; }
+        .img-fluid { max-height: 250px !important; object-fit: cover; }
+        .form-control-lg { padding: 10px 12px !important; font-size: 0.9rem !important; }
+        .btn-warning, .btn-outline-warning { padding: 10px 20px !important; font-size: 0.8rem !important; }
+    }
+    @media (max-width: 576px) {
+        .hero-section h1 { font-size: 1.3rem !important; }
+        .d-flex.flex-wrap.gap-3 { gap: 8px !important; flex-direction: column; }
+        .d-flex.flex-wrap.gap-3 .btn { width: 100%; text-align: center; }
+        .col-md-3.d-flex { flex-direction: column !important; margin-bottom: 10px; }
+        .border-bottom.mb-5 { margin-bottom: 1.5rem !important; }
+        .col-lg-10 { padding: 0 10px; }
+        .case-card h3 { font-size: 0.9rem !important; }
+        .case-card p { font-size: 0.75rem !important; }
+        .case-card .h5 { font-size: 1rem !important; }
+    }
+</style>
+
+<div style="position: relative; overflow: hidden; min-height: 85vh; display: flex; align-items: center; background-color: #0C1430;">
+    <video autoplay muted loop playsinline preload="auto" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; opacity: 0.6;" id="hero-video">
+        <source src="{{ url_for('static', filename='background.mp4') }}?v=2" type="video/mp4">
+    </video>
+    <script>
+    (function(){
+        var v = document.getElementById('hero-video');
+        if(!v) return;
+        function tryPlay(){
+            var p = v.play();
+            if(p && p.catch) p.catch(function(){});
+        }
+        if(v.readyState >= 2){ tryPlay(); }
+        else { v.addEventListener('loadeddata', tryPlay); }
+        document.addEventListener('click', function once(){ tryPlay(); document.removeEventListener('click', once); }, {once:true});
+        document.addEventListener('scroll', function once(){ tryPlay(); document.removeEventListener('scroll', once); }, {once:true});
+        document.addEventListener('touchstart', function once(){ tryPlay(); document.removeEventListener('touchstart', once); }, {once:true});
+    })();
+    </script>
+
+    <div style="position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(12, 20, 48, 0.4); z-index: 2;"></div>
+
+    <div class="container position-relative py-5" style="z-index: 3;">
+        <div class="row">
+            <div class="col-lg-10">
+                <div class="mb-3">
+                    <span style="background-color: #FFD700; color: #000; padding: 2px 8px; font-weight: bold; font-size: 0.75rem; letter-spacing: 1px;">Dedektif Oyunları: Adalet Sizin Ellerinizde</span>
+                    <span class="ms-2 text-white-50 fw-bold d-none d-md-inline border-start border-secondary ps-3 small">Gerçekçi Çözülmemiş Dava Dosyaları</span>
+                </div>
+                <h1 class="fw-bold text-white mb-4" style="font-size: 2.3rem; line-height: 1.2; text-shadow: 0 4px 10px rgba(0,0,0,0.8);">
+                    Çevrimiçi Çözülmemiş Dava Dosyalarımızı Aydınlatmak İçin Gereken Soğukkanlılığa Ve Zekaya Sahip Misiniz?
+                </h1>
+                <p class="text-white mb-4" style="max-width: 800px; font-size: 1rem; line-height: 1.6; opacity: 0.95;">
+                    Süper dedektiflik becerilerinizi test edin ve ödüllü dijital kurgularımızla cinayet gizemlerini çevrimiçi olarak çözün. Telefonunuzda, tabletinizde veya bilgisayarınızda <span style="background-color: #FFD700; color: #000; padding: 0 4px; font-weight: bold;">Kurgusal polis bilgisayar sistemlerine</span> erişerek dünyanın herhangi bir yerinden anında dedektiflik oynayın. Gerçek bir dedektiflik deneyimi sizi bekliyor.
+                </p>
+                <div class="d-flex flex-wrap gap-3 align-items-center mb-4">
+                    <a href="{{ url_for('cases') }}" class="btn btn-warning px-4 py-2 shadow-sm text-decoration-none fw-bold" style="border-radius: 50px; background-color: #FFD700; color: #000; border: none; font-size: 0.85rem;">
+                        <i class="fas fa-folder-open me-2"></i>Çözülmemiş Dava Dosyaları
+                    </a>
+                    <a href="{{ url_for('leaderboard') }}" class="btn btn-outline-light px-4 py-2 shadow-sm text-decoration-none fw-bold" style="border-radius: 50px; font-size: 0.85rem; border: 2px solid #FFD700; color: #FFD700;">
+                        <i class="fas fa-trophy me-2 text-warning"></i>Dedektif Sıralaması
+                    </a>
+                    <a href="{{ url_for('redeem_code') }}" class="btn btn-outline-light px-4 py-2 shadow-sm text-decoration-none fw-bold" style="border-radius: 50px; font-size: 0.85rem; border: 2px solid #28a745; color: #28a745;">
+                        <i class="fas fa-key me-2"></i>Kodunuz mu Var?
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="breaking-news-container d-flex align-items-center" style="height: 45px; background-color: #0C1430; border-bottom: 2px solid #FFD700;">
+    <div class="bn-title d-flex align-items-center px-3 h-100" style="background-color: #020b1c; color: white; font-weight: bold; font-size: 0.7rem; text-transform: uppercase;">Son Dakika Haberleri</div>
+    <div class="bn-ticker flex-grow-1 h-100 d-flex align-items-center" style="background-color: #FFD700; color: #000;">
+        <marquee scrollamount="5" style="font-weight: 600; font-size: 0.8rem;">{{ settings.breaking_news }} | Yeni Vakalar Erişime Açıldı! | Dedektiflik Testini Çözdünüz Mü?</marquee>
+    </div>
+</div>
+
+<div class="py-5 bg-white text-dark border-bottom">
+    <div class="container py-4">
+        <div class="row g-5 align-items-start">
+            <div class="col-lg-5 text-start">
+                <span style="background-color: #FFD700; color: #000; padding: 2px 8px; font-weight: bold; font-size: 0.7rem;">Dijital Dedektiflik</span>
+                <h2 class="fw-bold mt-2 mb-3" style="font-size: 1.8rem; color: #050a14;">Dijital Vaka Dosyası Nedir?</h2>
+                <h4 class="fst-italic text-secondary mb-4 small">"Gerçeğin İzini Sürmeye Hazır Mısınız?"</h4>
+                <a href="{{ url_for('cases') }}" class="btn btn-outline-dark rounded-pill px-4 py-2 fw-bold text-decoration-none shadow-sm" style="font-size: 0.8rem;">Tüm Dosyalara Göz Atın <i class="fas fa-search ms-2 text-warning"></i></a>
+            </div>
+            <div class="col-lg-7 text-start">
+                <p class="mb-3" style="line-height: 1.6; font-size: 0.95rem; color: #1e293b;">
+                    <strong>Çevrimiçi Çözülmemiş Dava Dosyaları;</strong> delilleri incelediğiniz, ifadeleri analiz ettiğiniz, güvenlik kameralarını gözden geçirdiğiniz ve kurgusal suçların ardındaki gerçeği yeniden oluşturduğunuz etkileşimli dedektif oyunlarıdır.
+                </p>
+                <p style="line-height: 1.6; font-size: 0.9rem; color: #475569;">
+                    <strong>Gizemli Vaka</strong>'da, dijital dava dosyalarımız gerçekçi polis prosedürleri ve multimedya kanıtları etrafında oluşturulmuştur; bu sayede, teslimatı beklemek zorunda kalmadan gerçek bir soruşturmayı çözme deneyimi yaşarsınız.
+                </p>
+            </div>
+        </div>
+        <div class="row mt-5 pt-4 text-center g-4 border-top">
+            <div class="col-md-3 d-flex align-items-center justify-content-center gap-2"><i class="fas fa-gamepad"></i> <span style="background-color: #FFD700; padding: 2px 6px; font-weight: bold; font-size: 0.75rem;">Anında Çevrimiçi Oynayın</span></div>
+            <div class="col-md-3 d-flex align-items-center justify-content-center gap-2"><i class="fas fa-globe"></i> <span style="background-color: #FFD700; padding: 2px 6px; font-weight: bold; font-size: 0.75rem;">Dünya Çapında Mevcut</span></div>
+            <div class="col-md-3 d-flex align-items-center justify-content-center gap-2"><i class="fas fa-download"></i> <span style="background-color: #FFD700; padding: 2px 6px; font-weight: bold; font-size: 0.75rem;">İndirme Gerekmiyor</span></div>
+            <div class="col-md-3 d-flex align-items-center justify-content-center gap-2"><i class="fas fa-award"></i> <span style="background-color: #FFD700; padding: 2px 6px; font-weight: bold; font-size: 0.75rem;">Ödüllü Geliştirme</span></div>
+        </div>
+    </div>
+</div>
+
+<div class="py-5" style="background-color: #0C1430;">
+    <div class="container py-4 text-center">
+        <h2 class="fw-bold text-white mb-3" style="font-size: 2.2rem;">En Popüler Dava Dosyalarımız</h2>
+        <p class="text-white-50 mx-auto mb-5" style="max-width: 950px; line-height: 1.7; font-size: 1rem; opacity: 0.9;">
+            Dünya çapında binlerce oyuncunun Gizemli Vaka'nın gerçekçi dosyalarına neden doyamadığını deneyimleyin.
+        </p>
+
+        <div class="row g-4 text-start justify-content-center">
+            {% for case in cases[:4] %}
+            <div class="col-lg-3 col-md-6"> <div class="case-card h-100 p-3" style="background-color: #16213e; border: 1px solid rgba(255,215,0,0.1); border-radius: 12px; transition: 0.3s;">
+                    <div style="position: relative;">
+                        {% if case.image %}<img src="{{ url_for('static', filename='uploads/' + case.id + '/' + case.image) }}" loading="lazy" class="img-fluid rounded mb-3 shadow" alt="{{ case.title }}" style="height: 200px; width: 100%; object-fit: cover;" onerror="this.src='{{ url_for('static', filename='dedektif.jpg') }}'">{% else %}<img src="{{ url_for('static', filename='dedektif.jpg') }}" loading="lazy" class="img-fluid rounded mb-3 shadow" alt="{{ case.title }}" style="height: 200px; width: 100%; object-fit: cover;">{% endif %}
+                        <span style="position: absolute; top: 8px; left: 8px; font-size: 0.65rem; font-weight: 700; padding: 3px 8px; border-radius: 5px;
+                            {% if case.game_type == 'both' %}background: linear-gradient(135deg, #ffc107, #ff9800); color: #000;
+                            {% elif case.game_type == 'team' %}background: linear-gradient(135deg, #00bcd4, #0097a7); color: #fff;
+                            {% else %}background: linear-gradient(135deg, #8bc34a, #689f38); color: #fff;{% endif %}
+                        ">{% if case.game_type == 'both' %}<i class="fas fa-user me-1"></i><i class="fas fa-users"></i> Bireysel & Takım{% elif case.game_type == 'team' %}<i class="fas fa-users me-1"></i> Takım{% else %}<i class="fas fa-user me-1"></i> Bireysel{% endif %}</span>
+                    </div>
+                    <h3 class="h6 fw-bold text-warning mb-2">{{ case.title }}</h3>
+                    <p class="text-white-50 small mb-3" style="height: 60px; overflow: hidden;">{{ case.description }}</p>
+                    <div class="h5 fw-bold text-warning mb-3">{{ case.price }} TL</div>
+                    <a href="{{ url_for('case_detail', case_id=case.id) }}" class="btn btn-warning w-100 py-2 fw-bold text-uppercase small" style="background-color: #FFD700; color: #000; border: none;">Oynayın!</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="mt-5">
+            <a href="{{ url_for('cases') }}" class="btn btn-outline-warning px-5 py-3 fw-bold rounded-pill shadow-sm" style="border-width: 2px; transition: 0.3s; color: #FFD700; border-color: #FFD700;">
+                Daha Fazla
+            </a>
+        </div>
+    </div>
+</div>
+
+{% if settings.get('promo_video') %}
+<div class="py-5" style="background: #ffffff;">
+    <div class="container py-4 text-center">
+        {% if settings.get('promo_title') %}
+        <h2 class="fw-bold mb-2" style="font-size: 1.8rem; color: #0a1929;">{{ settings.get('promo_title') }}</h2>
+        {% endif %}
+        {% if settings.get('promo_description') %}
+        <p class="text-muted mb-4 mx-auto" style="max-width: 600px;">{{ settings.get('promo_description') }}</p>
+        {% endif %}
+        <div class="mx-auto" style="max-width: 800px;">
+            <div id="promoVideoWrap" style="position: relative; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.1); cursor: pointer;">
+                <video id="promoVideo" preload="metadata" {% if settings.get('promo_cover') %}poster="{{ url_for('serve_media', filepath=settings.get('promo_cover', '')) }}"{% endif %} style="width: 100%; display: block;">
+                    <source src="{{ url_for('serve_media', filepath=settings.get('promo_video', '')) }}" type="video/mp4">
+                </video>
+                <div id="promoPlayBtn" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 3; pointer-events: none;">
+                    <div style="width: 80px; height: 80px; background: rgba(255,193,7,0.9); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 20px rgba(0,0,0,0.3); transition: transform 0.3s;">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="#0a1929"><polygon points="6,3 20,12 6,21"/></svg>
+                    </div>
+                </div>
+                <div id="promoControls" style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(0,0,0,0.7)); padding: 12px 16px; display: flex; align-items: center; gap: 12px; opacity: 0; transition: opacity 0.3s; z-index: 2;">
+                    <button id="promoPlayPause" style="background: none; border: none; color: #fff; cursor: pointer; padding: 0;">
+                        <svg id="promoPPIcon" width="20" height="20" viewBox="0 0 24 24" fill="white"><polygon points="6,3 20,12 6,21"/></svg>
+                    </button>
+                    <input id="promoSeek" type="range" min="0" max="100" value="0" style="flex: 1; height: 4px; accent-color: #ffc107; cursor: pointer;">
+                    <span id="promoTime" style="color: #fff; font-size: 12px; min-width: 80px; text-align: center;">0:00 / 0:00</span>
+                    <button id="promoMute" style="background: none; border: none; color: #fff; cursor: pointer; padding: 0;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+                    </button>
+                    <input id="promoVol" type="range" min="0" max="100" value="100" style="width: 60px; height: 4px; accent-color: #ffc107; cursor: pointer;">
+                    <button id="promoFS" style="background: none; border: none; color: #fff; cursor: pointer; padding: 0;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+(function(){
+    var wrap = document.getElementById('promoVideoWrap');
+    var vid = document.getElementById('promoVideo');
+    var playBtn = document.getElementById('promoPlayBtn');
+    var controls = document.getElementById('promoControls');
+    var ppBtn = document.getElementById('promoPlayPause');
+    var ppIcon = document.getElementById('promoPPIcon');
+    var seek = document.getElementById('promoSeek');
+    var timeEl = document.getElementById('promoTime');
+    var muteBtn = document.getElementById('promoMute');
+    var volSlider = document.getElementById('promoVol');
+    var fsBtn = document.getElementById('promoFS');
+    if(!vid) return;
+
+    function fmt(s){var m=Math.floor(s/60);s=Math.floor(s%60);return m+':'+(s<10?'0':'')+s;}
+
+    wrap.addEventListener('click', function(e){
+        if(e.target===seek||e.target===volSlider||e.target.closest('button')) return;
+        if(vid.paused){vid.play();}else{vid.pause();}
+    });
+
+    vid.addEventListener('play', function(){
+        playBtn.style.display='none';
+        ppIcon.innerHTML='<rect x="6" y="4" width="4" height="16" fill="white"/><rect x="14" y="4" width="4" height="16" fill="white"/>';
+    });
+    vid.addEventListener('pause', function(){
+        if(!vid.ended) playBtn.style.display='block';
+        ppIcon.innerHTML='<polygon points="6,3 20,12 6,21" fill="white"/>';
+    });
+    vid.addEventListener('ended', function(){
+        playBtn.style.display='block';
+        ppIcon.innerHTML='<polygon points="6,3 20,12 6,21" fill="white"/>';
+    });
+    vid.addEventListener('timeupdate', function(){
+        if(vid.duration){
+            seek.value=(vid.currentTime/vid.duration)*100;
+            timeEl.textContent=fmt(vid.currentTime)+' / '+fmt(vid.duration);
+        }
+    });
+
+    ppBtn.addEventListener('click', function(e){e.stopPropagation();if(vid.paused){vid.play();}else{vid.pause();}});
+    seek.addEventListener('input', function(){vid.currentTime=(seek.value/100)*vid.duration;});
+    muteBtn.addEventListener('click', function(e){e.stopPropagation();vid.muted=!vid.muted;volSlider.value=vid.muted?0:vid.volume*100;});
+    volSlider.addEventListener('input', function(){vid.volume=volSlider.value/100;vid.muted=vid.volume===0;});
+    fsBtn.addEventListener('click', function(e){e.stopPropagation();if(vid.requestFullscreen)vid.requestFullscreen();else if(vid.webkitRequestFullscreen)vid.webkitRequestFullscreen();});
+
+    wrap.addEventListener('mouseenter', function(){controls.style.opacity='1';});
+    wrap.addEventListener('mouseleave', function(){if(!vid.paused)controls.style.opacity='0';});
+})();
+</script>
+{% endif %}
+
+
+<div class="py-5" style="background-color: #0C1430; color: #ffffff;">
+    <div class="container py-4">
+        <div class="row g-5 align-items-center mb-5 pb-5 border-bottom border-secondary">
+            <div class="col-lg-7 text-start">
+                <h2 class="fw-bold mb-4" style="color: #FFD700; font-size: 1.8rem;">Etkileyici Hikâye Anlatımı</h2>
+                <p class="mb-4" style="line-height: 1.7; font-size: 0.95rem; opacity: 0.9;">
+                    Çevrimiçi cinayet gizemi oyunlarımızda bir dedektifin yerine geçin. Her çözülmemiş dava dosyası, sizi sürükleyici ve derin bir anlatının içine çeker. Davalarımız yalnızca birer bulmaca değil; gerçekçilik, gerilim ve keşif unsurlarıyla örülmüş bütüncül hikâyelerdir.
+                </p>
+                <p class="fw-bold small mb-3 text-warning">Sizi Bekleyen Deneyimler:</p>
+                <ul class="list-unstyled small text-start" style="line-height: 2; opacity: 0.85;">
+                    <li><i class="fas fa-chevron-right text-warning me-2"></i>Beklenmedik dönemeçler, sürpriz gelişmeler ve çok katmanlı ipuçları.</li>
+                    <li><i class="fas fa-chevron-right text-warning me-2"></i>Gizemli geçmişlere ve inandırıcı motivasyonlara sahip karakterler.</li>
+                    <li><i class="fas fa-chevron-right text-warning me-2"></i>Merakı, dikkatli gözlemi ve çıkarım gücünü ödüllendiren bir anlatım.</li>
+                    <li><i class="fas fa-chevron-right text-warning me-2"></i>Gerçeği adım adım ortaya çıkarırken bir dedektif gibi düşünmenizi sağlamak için her ayrıntı titizlikle kurgulanmıştır.</li>
+                </ul>
+            </div>
+            <div class="col-lg-5 text-center">
+                <img src="{{ url_for('static', filename='unnamed.jpg') }}" loading="lazy" class="img-fluid rounded shadow-lg" style="height: 320px; width: 100%; object-fit: cover;" alt="Gizemli Vaka - Etkileyici Hikâye Anlatımı ile Dedektiflik Oyunu" width="600" height="320">
+            </div>
+        </div>
+
+        <div class="row g-5 align-items-center mb-5 pb-5 border-bottom border-secondary">
+            <div class="col-lg-5 order-2 order-lg-1 text-center">
+                <img src="{{ url_for('static', filename='unnamed (1).jpg') }}" loading="lazy" class="img-fluid rounded shadow-lg" style="height: 320px; width: 100%; object-fit: cover;" alt="Gizemli Vaka - Gerçekçi Çözülmemiş Dava Dosyaları" width="600" height="320">
+            </div>
+            <div class="col-lg-7 order-1 order-lg-2 text-start">
+                <h2 class="fw-bold mb-4" style="color: #FFD700; font-size: 1.8rem;">Gerçekçi Çözülmemiş Dava Dosyaları</h2>
+                <p class="mb-4" style="line-height: 1.7; font-size: 0.95rem; opacity: 0.9;">
+                    Gerçekçi çevrimiçi çözülmemiş dava dosyalarımızla dedektiflik dünyasına adım atın. Her dava, gerçek bir soruşturmanın mantığını, yapısını ve ilerleyişini yansıtacak şekilde kurgulanır.
+                </p>
+                <p class="small mb-3 text-warning fw-bold">Her Gizemi Hayata Geçirmek İçin Kullanılan Kanıtlar:</p>
+                <ul class="list-unstyled small text-start" style="line-height: 2; opacity: 0.85;">
+                    <li><i class="fas fa-check text-warning me-2"></i>Adli tıp hassasiyetiyle hazırlanmış kurgusal olay yeri fotoğrafları.</li>
+                    <li><i class="fas fa-check text-warning me-2"></i>Gerçek tanık psikolojisinden ilham alan röportajlar.</li>
+                    <li><i class="fas fa-check text-warning me-2"></i>Meta veriler, güvenlik kamerası kayıtları ve dijital izlerin bir araştırmacı gözüyle incelenmesi.</li>
+                    <li><i class="fas fa-check text-warning me-2"></i>Zaman çizelgeleri, çelişkiler ve çok katmanlı ipuçlarıyla desteklenen analitik süreçler.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="row g-5 align-items-center mb-5 pb-5 border-bottom border-secondary">
+            <div class="col-lg-7 text-start">
+                <h2 class="fw-bold mb-4" style="color: #FFD700; font-size: 1.8rem;">Son Teknoloji Multimedya Deneyimi</h2>
+                <p class="mb-4" style="line-height: 1.7; font-size: 0.95rem; opacity: 0.9;">
+                    Gelişmiş multimedya kanıtlarıyla her soruşturmayı bir adım öteye taşıyoruz. Soruşturma sürecinde şu materyallerle çalışırsınız:
+                </p>
+                <ul class="list-unstyled small mb-4 text-start" style="line-height: 2; opacity: 0.85;">
+                    <li><i class="fas fa-video text-warning me-2"></i>Yüksek çözünürlüklü CCTV görüntüleri.</li>
+                    <li><i class="fas fa-volume-up text-warning me-2"></i>Kristal netliğinde ses kayıtları.</li>
+                    <li><i class="fas fa-file-alt text-warning me-2"></i>Etkileşimli dijital belgeler.</li>
+                    <li><i class="fas fa-hashtag text-warning me-2"></i>Meta veri izleri, mesaj dizileri ve gizli dijital ipuçları.</li>
+                </ul>
+            </div>
+            <div class="col-lg-5 text-center">
+                <img src="{{ url_for('static', filename='unnamed (2).jpg') }}" loading="lazy" class="img-fluid rounded shadow-lg" style="height: 320px; width: 100%; object-fit: cover;" alt="Gizemli Vaka - Video, Ses ve PDF Destekli Multimedya Deneyimi" width="600" height="320">
+            </div>
+        </div>
+
+        <div class="row g-5 align-items-center">
+            <div class="col-lg-5 order-2 order-lg-1 text-center">
+                <img src="{{ url_for('static', filename='unnamed (3).jpg') }}" loading="lazy" class="img-fluid rounded shadow-lg" style="height: 320px; width: 100%; object-fit: cover;" alt="Gizemli Vaka - Zihninizi Zorlayan Online Dedektiflik Oyunu" width="600" height="320">
+            </div>
+            <div class="col-lg-7 order-1 order-lg-2 text-start">
+                <h2 class="fw-bold mb-4" style="color: #FFD700; font-size: 1.8rem;">Zihninizi Zorlayın</h2>
+                <p class="mb-4" style="line-height: 1.7; font-size: 0.95rem; opacity: 0.9;">
+                    Serideki her gizem, mantığınızı, hafızanızı ve tümdengelimsel düşünme becerilerinizi geliştirmek üzere kurgulanmıştır.
+                </p>
+                <ul class="list-unstyled small text-start" style="line-height: 2; opacity: 0.85;">
+                    <li><i class="fas fa-brain text-warning me-2"></i>İfadelerdeki tutarsızlıkları ve çelişkileri yakalamak.</li>
+                    <li><i class="fas fa-brain text-warning me-2"></i>Olayların zaman çizelgesini yeniden inşa etmek.</li>
+                    <li><i class="fas fa-brain text-warning me-2"></i>Motivasyon ve fırsatları değerlendirmek.</li>
+                    <li><i class="fas fa-brain text-warning me-2"></i>Dağınık hâlde sunulan dijital kanıtları anlamlı bir bütüne dönüştürmek.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="py-5" style="background-color: #ffffff; color: #050a14; border-top: 1px solid #dee2e6;">
+    <div class="container py-5">
+        <div class="row g-5 align-items-start">
+            <div class="col-lg-7 text-start">
+                <span class="fw-bold small text-uppercase px-3 py-1" style="background-color: #FFD700; color: #000; letter-spacing: 1px; font-size: 0.7rem;">NASIL ÇALIŞIR</span>
+                <h2 class="fw-bold mt-3 mb-5" style="font-size: 2rem; color: #050a14;">Çevrimiçi çözülmemiş dava dosyalarımız nasıl çalışıyor?</h2>
+                
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <h5 class="fw-bold mb-2" style="font-size: 1rem; color: #0C1430;">1. Dosyanızı Arşivden Seçin</h5>
+                        <p class="small mb-0" style="color: #444; line-height: 1.6;">
+                            Çözülmemiş Vakalar Kitaplığına göz atın ve sizi en çok cezbeden gizemi seçin. Her dava; kendine has kurbanı, derinlikli şüphelileri ve ancak keskin bir zekanın ortaya çıkarabileceği sırlarıyla eksiksiz bir soruşturma dosyasıdır.
+                        </p>
+                    </div>
+                    <div class="col-md-6">
+                        <h5 class="fw-bold mb-2" style="font-size: 1rem; color: #0C1430;">2. Emniyet Veritabanına Bağlanın</h5>
+                        <p class="small mb-0" style="color: #444; line-height: 1.6;">
+                            Vakayı edindiğiniz anda, tarayıcınız özel bir "Dijital Suç Araştırma Paneli"ne dönüşür. Hiçbir indirme veya kurulum gerektirmeden; ister bilgisayarınızdan ister tabletinizden giriş yapın ve mühürlü dosyalara, gizli raporlara saniyeler içinde ulaşın.
+                        </p>
+                    </div>
+                    <div class="col-md-6">
+                        <h5 class="fw-bold mb-2" style="font-size: 1rem; color: #0C1430;">3. Kanıtları Masaya Yatırın</h5>
+                        <p class="small mb-0" style="color: #444; line-height: 1.6;">
+                            Olay yeri fotoğraflarını inceleyin, tanık ifadelerini karşılaştırın, ses kayıtlarını dinleyin ve dijital izleri takip edin. Her ipucu sizi gerçeğe bir adım daha yaklaştırır.
+                        </p>
+                    </div>
+                    <div class="col-md-6">
+                        <h5 class="fw-bold mb-2" style="font-size: 1rem; color: #0C1430;">4. Raporunuzu Şefe İletin</h5>
+                        <p class="small mb-0" style="color: #444; line-height: 1.6;">
+                            Şüphelinizi belirlediğinizde raporunuzu gönderin ve doğru mu yanlış mı olduğunuzu öğrenin. Başarılı dedektifler sıralama tablosunda yerlerini alır!
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-5 text-center">
+                <img src="{{ url_for('static', filename='davadosyasi.jpg') }}" loading="lazy" class="img-fluid rounded shadow-lg" style="height: 400px; width: 100%; object-fit: cover;" alt="Gizemli Vaka Dava Dosyası - Adım Adım Soruşturma Rehberi" width="800" height="400">
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if posts %}
+<div class="py-5" style="background-color: #f8f9fa; border-top: 1px solid #dee2e6;">
+    <div class="container py-4">
+        <div class="text-center mb-5">
+            <span class="fw-bold small text-uppercase px-3 py-1" style="background-color: #FFD700; color: #000; letter-spacing: 1px; font-size: 0.7rem;">DEDEKTİF GÜNLÜĞÜ</span>
+            <h2 class="fw-bold mt-3" style="font-size: 1.8rem; color: #050a14;">Blog & İpuçları</h2>
+            <p class="text-muted small">Dedektiflik dünyasından yazılar, ipuçları ve stratejiler.</p>
+        </div>
+        <div class="row g-4">
+            {% for post in posts[:3] %}
+            <div class="col-md-4">
+                <a href="{{ url_for('post_detail', post_id=post.id) }}" class="text-decoration-none">
+                    <div class="card h-100 border-0 shadow-sm" style="border-radius: 12px; overflow: hidden; transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 12px 30px rgba(0,0,0,0.12)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+                        {% if post.image %}
+                        <img loading="lazy" src="{{ url_for('static', filename='uploads/' + post.image) }}" class="card-img-top" alt="{{ post.title }}" style="height: 200px; object-fit: cover;">
+                        {% else %}
+                        <div style="height: 200px; background: linear-gradient(135deg, #0C1430, #1a2a5e); display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-newspaper fa-3x" style="color: #FFD700; opacity: 0.6;"></i>
+                        </div>
+                        {% endif %}
+                        <div class="card-body p-4">
+                            <p class="small text-muted mb-2"><i class="fas fa-calendar-alt me-1" style="color: #FFD700;"></i>{{ post.date_posted|tr_date }}</p>
+                            <h5 class="card-title fw-bold mb-3" style="font-size: 1rem; color: #050a14; line-height: 1.4;">{{ post.title }}</h5>
+                            <p class="card-text text-muted small" style="line-height: 1.6;">{{ post.content | striptags | truncate(100) }}</p>
+                        </div>
+                        <div class="card-footer bg-white border-0 pt-0 pb-4 px-4">
+                            <span class="fw-bold small" style="color: #0C1430;">Devamını Oku <i class="fas fa-arrow-right ms-1" style="color: #FFD700;"></i></span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-5">
+            <a href="{{ url_for('blog') }}" class="btn fw-bold px-5 py-2 rounded-pill shadow-sm" style="background-color: #0C1430; color: #FFD700; border: 2px solid #0C1430; font-size: 0.85rem;">Tüm Yazıları Gör <i class="fas fa-arrow-right ms-2"></i></a>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{# GEO: AI arama motorları için yapılandırılmış özet içerik — görsel olarak gizlidir ama tarayıcılar tarafından okunur #}
+<div style="position:absolute;left:-9999px;top:-9999px;width:1px;height:1px;overflow:hidden;" aria-hidden="true">
+  <article>
+    <h2>Gizemli Vaka Nedir?</h2>
+    <p>Gizemli Vaka, Türkiye'nin ilk online dedektiflik oyun platformudur. 2024 yılında kurulan platform, kullanıcıların gerçekçi kurgu cinayet davalarını web tarayıcısı üzerinden çözmesini sağlar. Kurulum gerektirmez; telefon, tablet veya bilgisayardan erişilebilir. Platform hem Türkçe hem İngilizce hizmet vermektedir.</p>
+    <h3>Gizemli Vaka'da nasıl oynanır?</h3>
+    <p>Oyuncu bir dava dosyası satın alır, kurgusal polis sistemine erişir, PDF belgeler ile ses ve video kanıtlarını inceler, şüphelileri değerlendirir ve suçluyu bildiren yazılı raporunu gönderir. Doğru tahminde puan kazanılır; iki tahmin hakkı tanınır.</p>
+    <h3>Gizemli Vaka fiyatları ne kadar?</h3>
+    <p>Bireysel dava fiyatları 149 TL ile 299 TL arasında değişmektedir. Takım oyunları kişi başı fiyatlandırmayla sunulur ve toplu indirimler uygulanır. Ödeme iyzico, PaynKolay ve Param POS aracılığıyla yapılır.</p>
+    <h3>Gizemli Vaka takım oyunu için uygun mu?</h3>
+    <p>Evet. Gizemli Vaka'nın özel Takım Oyunu modu 2 ile 50'den fazla kişiye kadar destekler. Her katılımcı kendi cihazından benzersiz bir bağlantı linki üzerinden aynı anda oyuna erişir. Şirket etkinlikleri, kurumsal team building, doğum günü partileri ve arkadaş grupları için idealdir.</p>
+    <h3>Gizemli Vaka sertifikası var mı?</h3>
+    <p>Evet. Davayı tamamlayan bireysel oyunculara ve takım üyelerine indirilebilir PDF sertifikası verilmektedir.</p>
+    <h3>Gizemli Vaka'da kaç zorluk seviyesi var?</h3>
+    <p>Üç zorluk seviyesi mevcuttur: Kolay (150 puan), Orta (200 puan) ve Zor (300 puan). Zorluk arttıkça delil ağı karmaşıklaşır ve daha derin analiz gerekir.</p>
+    <h3>Gizemli Vaka gerçek olayları mı kullanıyor?</h3>
+    <p>Hayır. Gizemli Vaka'daki tüm davalar tamamen kurgusaldır. Gerçek kişiler, olaylar veya konumlarla hiçbir bağlantısı yoktur. İçerikler 16+ yaş için uygundur.</p>
+    <h3>Dedektif Akademisi nedir?</h3>
+    <p>Dedektif Akademisi, Gizemli Vaka bünyesinde sunulan ücretsiz bir eğitim bölümüdür. Soruşturma düşüncesi, delil zinciri, ifade analizi, dijital metadata, CCTV analizi, telefon kayıtları, finansal adli tıp, ağ analizi, alibi denetimi ve mağdurbilim konularında Türkçe makaleler yayımlanmaktadır.</p>
+  </article>
+</div>
+
+{% block breadcrumb_schema %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "Ana Sayfa", "item": "https://gizemlivaka.com"}
+  ]
+}
+</script>
+{% endblock %}
+
+{% endblock %}

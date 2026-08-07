@@ -1,0 +1,219 @@
+{% extends "base.html" %}
+
+{% block title %}{{ post.title }} - Gizemli Vaka Blog{% endblock %}
+{% block meta_description %}{{ post.content | striptags | truncate(160) }}{% endblock %}
+{% block og_description %}{{ post.content | striptags | truncate(150) }}{% endblock %}
+
+{% block og_image %}
+{% if post.image %}
+<meta property="og:image" content="{{ request.url_root }}static/uploads/{{ post.image }}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="{{ post.title }}">
+{% elif settings.get('logo_img') %}
+<meta property="og:image" content="{{ request.url_root }}static/uploads/{{ settings.get('logo_img') }}">
+<meta property="og:image:alt" content="{{ post.title }}">
+{% endif %}
+<meta property="og:type" content="article">
+{% endblock %}
+
+{% block twitter_image %}
+{% if post.image %}
+<meta name="twitter:image" content="{{ request.url_root }}static/uploads/{{ post.image }}">
+<meta name="twitter:image:alt" content="{{ post.title }}">
+{% elif settings.get('logo_img') %}
+<meta name="twitter:image" content="{{ request.url_root }}static/uploads/{{ settings.get('logo_img') }}">
+{% endif %}
+{% endblock %}
+
+{% block structured_data %}
+{{ super() }}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "{{ post.title | replace('"', '') | replace("'", '') }}",
+  "description": "{{ post.content | striptags | truncate(200) | replace('"', '') | replace('\n', ' ') }}",
+  {% if post.image %}
+  "image": {
+    "@type": "ImageObject",
+    "url": "{{ request.url_root }}static/uploads/{{ post.image }}",
+    "width": 1200,
+    "height": 630
+  },
+  {% endif %}
+  "datePublished": "{{ post.date_posted.strftime('%Y-%m-%dT%H:%M:%S') if post.date_posted else '' }}",
+  "dateModified": "{{ post.date_posted.strftime('%Y-%m-%dT%H:%M:%S') if post.date_posted else '' }}",
+  "inLanguage": "tr-TR",
+  "author": {
+    "@type": "Organization",
+    "name": "Gizemli Vaka",
+    "url": "https://gizemlivaka.com"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Gizemli Vaka",
+    "url": "https://gizemlivaka.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://gizemlivaka.com/static/uploads/{{ settings.get('logo_img', '') }}"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://gizemlivaka.com/blog/{{ post.id }}"
+  },
+  "about": {
+    "@type": "Thing",
+    "name": "Dedektiflik Oyunu"
+  }
+}
+</script>
+{% endblock %}
+
+{% block breadcrumb_schema %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "Ana Sayfa", "item": "https://gizemlivaka.com"},
+    {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://gizemlivaka.com/blog"},
+    {"@type": "ListItem", "position": 3, "name": "{{ post.title | replace('"','') }}", "item": "https://gizemlivaka.com/blog/{{ post.id }}"}
+  ]
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="py-5" style="background-color: #ffffff; min-height: 80vh;">
+    <div class="container py-4">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <a href="{{ url_for('blog') }}" class="btn btn-outline-dark mb-4">
+                    <i class="fas fa-arrow-left me-2"></i>Blog'a Dön
+                </a>
+                
+                {% if post.image %}
+                <div class="mb-4 overflow-hidden shadow-lg" style="border-radius: 15px;">
+                    <img src="{{ url_for('static', filename='uploads/' + post.image) }}" class="img-fluid w-100" alt="{{ post.title }}" style="max-height: 450px; object-fit: cover;">
+                </div>
+                {% endif %}
+                
+                <div class="mb-4">
+                    <span class="badge bg-warning text-dark px-3 py-2">
+                        <i class="far fa-calendar-alt me-1"></i> {{ post.date_posted|tr_date }}
+                    </span>
+                </div>
+                
+                <h1 class="fw-bold mb-4" style="color: #0a1929;">{{ post.title }}</h1>
+                
+                <div class="post-content" style="color: #333; line-height: 1.8; font-size: 1.1rem;">
+                    {{ post.content|safe }}
+                </div>
+                
+                <hr class="my-5">
+                
+                <div class="card border-0 shadow-sm mb-5" style="background: #f8f9fa;">
+                    <div class="card-body p-4">
+                        <h5 class="fw-bold mb-3" style="color: #0a1929;"><i class="fas fa-share-alt me-2 text-warning"></i>Bu Yazıyı Paylaş</h5>
+                        <div class="d-flex flex-wrap gap-2">
+                            <a href="https://wa.me/?text={{ post.title|urlencode }}%20-%20{{ request.url|urlencode }}" target="_blank" class="btn btn-success">
+                                <i class="fab fa-whatsapp me-2"></i>WhatsApp
+                            </a>
+                            <a href="https://twitter.com/intent/tweet?text={{ post.title|urlencode }}&url={{ request.url|urlencode }}" target="_blank" class="btn" style="background-color: #000; color: white;">
+                                <i class="fab fa-x-twitter me-2"></i>X
+                            </a>
+                            <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.url|urlencode }}" target="_blank" class="btn btn-primary">
+                                <i class="fab fa-facebook-f me-2"></i>Facebook
+                            </a>
+                            <a href="https://www.instagram.com/" target="_blank" class="btn" style="background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); color: white;">
+                                <i class="fab fa-instagram me-2"></i>Instagram
+                            </a>
+                            <a href="mailto:?subject={{ post.title|urlencode }}&body=Bu%20yazıyı%20okumanı%20öneririm:%20{{ request.url|urlencode }}" class="btn btn-secondary">
+                                <i class="fas fa-envelope me-2"></i>E-posta
+                            </a>
+                            <button onclick="copyPostLink()" class="btn btn-outline-dark">
+                                <i class="fas fa-link me-2"></i>Linki Kopyala
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card border-0 shadow-sm mb-5">
+                    <div class="card-header bg-dark text-white py-3">
+                        <h5 class="mb-0"><i class="fas fa-comments me-2"></i>Yorum Yaz</h5>
+                    </div>
+                    <div class="card-body p-4">
+                        <form action="{{ url_for('add_blog_comment', post_id=post.id) }}" method="POST">
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Adınız</label>
+                                <input type="text" name="name" class="form-control" placeholder="Adınızı girin" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Yorumunuz</label>
+                                <textarea name="comment" class="form-control" rows="4" placeholder="Düşüncelerinizi paylaşın..." required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-warning fw-bold px-4">
+                                <i class="fas fa-paper-plane me-2"></i>Yorum Gönder
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                
+                {% if post.blog_comments %}
+                <div class="card border-0 shadow-sm mb-5">
+                    <div class="card-header bg-light py-3">
+                        <h5 class="mb-0"><i class="fas fa-comment-dots me-2 text-warning"></i>Yorumlar ({{ post.blog_comments|length }})</h5>
+                    </div>
+                    <div class="card-body p-0">
+                        {% for comment in post.blog_comments %}
+                        {% if comment.approved %}
+                        <div class="p-4 {% if not loop.last %}border-bottom{% endif %}">
+                            <div class="d-flex align-items-center mb-2">
+                                <div class="bg-warning text-dark rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px; font-weight: bold;">
+                                    {{ comment.name[0]|upper }}
+                                </div>
+                                <div>
+                                    <strong>{{ comment.name }}</strong>
+                                    <br><small class="text-muted">{{ comment.created_at.strftime('%d.%m.%Y %H:%M') }}</small>
+                                </div>
+                            </div>
+                            <p class="mb-0 ms-5 ps-3">{{ comment.content }}</p>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+                
+                <div class="text-center">
+                    <p class="text-muted mb-3">Bu yazıyı beğendiniz mi? Daha fazlası için blog sayfamızı ziyaret edin.</p>
+                    <a href="{{ url_for('blog') }}" class="btn btn-warning fw-bold px-4 py-2">
+                        <i class="fas fa-newspaper me-2"></i>Tüm Yazılar
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function copyPostLink() {
+    navigator.clipboard.writeText(window.location.href);
+    alert('Link kopyalandı!');
+}
+</script>
+
+<style>
+.post-content h4 {
+    color: #0a1929;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+.post-content p {
+    margin-bottom: 1.5rem;
+}
+</style>
+{% endblock %}

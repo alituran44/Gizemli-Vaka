@@ -1,0 +1,259 @@
+{% extends "base.html" %}
+{% block robots_meta %}<meta name="robots" content="noindex, nofollow">{% endblock %}
+
+{% block content %}
+<style>
+    .param-page { background: linear-gradient(135deg, #fff8f0 0%, #fff3e0 50%, #fff8f0 100%); min-height: 100vh; }
+    .payment-card-preview {
+        width: 340px; height: 200px; border-radius: 16px; padding: 24px;
+        background: linear-gradient(135deg, #bf360c 0%, #d84315 40%, #e64a19 100%);
+        color: #fff; position: relative; overflow: hidden; margin: 0 auto 24px;
+        box-shadow: 0 12px 40px rgba(191, 54, 12, 0.35);
+        transition: transform 0.3s ease;
+    }
+    .payment-card-preview:hover { transform: translateY(-4px) scale(1.02); }
+    .payment-card-preview::before {
+        content: ''; position: absolute; top: -50%; right: -30%; width: 200px; height: 200px;
+        background: radial-gradient(circle, rgba(255,255,255,0.12) 0%, transparent 70%);
+        border-radius: 50%;
+    }
+    .payment-card-preview::after {
+        content: ''; position: absolute; bottom: -40%; left: -20%; width: 180px; height: 180px;
+        background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
+        border-radius: 50%;
+    }
+    .card-chip { width: 40px; height: 30px; background: linear-gradient(135deg, #e6c84d 0%, #d4a12a 100%); border-radius: 6px; margin-bottom: 16px; position: relative; }
+    .card-chip::after { content: ''; position: absolute; top: 8px; left: 6px; width: 28px; height: 14px; border: 1.5px solid rgba(0,0,0,0.15); border-radius: 3px; }
+    .card-number-display { font-size: 18px; letter-spacing: 3px; font-family: 'Courier New', monospace; margin-bottom: 14px; text-shadow: 0 1px 2px rgba(0,0,0,0.3); }
+    .card-holder-display { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; opacity: 0.85; }
+    .card-expiry-display { font-size: 11px; letter-spacing: 1px; opacity: 0.85; text-align: right; }
+    .card-brand-icon { position: absolute; top: 20px; right: 24px; font-size: 28px; opacity: 0.9; }
+    .param-form-card {
+        background: #fff; border-radius: 20px; border: none;
+        box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    }
+    .param-form-card .card-header {
+        background: linear-gradient(90deg, #bf360c, #e64a19);
+        border-radius: 20px 20px 0 0 !important; border: none;
+    }
+    .form-floating > .form-control, .form-floating > .form-select {
+        border: 2px solid #e0e6ed; border-radius: 12px; height: 56px;
+        background: #fafbfc; color: #1a1a2e; font-size: 15px; transition: all 0.3s ease;
+    }
+    .form-floating > .form-control:focus, .form-floating > .form-select:focus {
+        border-color: #e64a19; box-shadow: 0 0 0 3px rgba(230,74,25,0.15); background: #fff;
+    }
+    .form-floating > label { color: #7b8a9e; font-size: 14px; }
+    .form-floating > .form-control:focus ~ label,
+    .form-floating > .form-control:not(:placeholder-shown) ~ label { color: #e64a19; }
+    .pay-btn {
+        background: linear-gradient(90deg, #bf360c, #e64a19); border: none;
+        border-radius: 14px; font-size: 17px; letter-spacing: 0.5px;
+        box-shadow: 0 6px 20px rgba(230,74,25,0.3); transition: all 0.3s ease;
+    }
+    .pay-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(230,74,25,0.4); background: linear-gradient(90deg, #a52714, #d84315); }
+    .pay-btn:active { transform: translateY(0); }
+    .security-badges { display: flex; gap: 20px; justify-content: center; align-items: center; flex-wrap: wrap; }
+    .security-badge { display: flex; align-items: center; gap: 6px; color: #7b8a9e; font-size: 12px; }
+    .amount-tag { background: linear-gradient(135deg, #fbe9e7, #ffccbc); color: #bf360c; border-radius: 12px; padding: 10px 20px; display: inline-block; font-weight: 700; font-size: 22px; }
+    .form-select option { background: #fff; color: #1a1a2e; }
+</style>
+
+<div class="param-page py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 col-md-8">
+
+                <div class="payment-card-preview" id="cardPreview">
+                    <div class="card-brand-icon"><i class="fas fa-wifi fa-rotate-90"></i></div>
+                    <div class="card-chip"></div>
+                    <div class="card-number-display" id="previewNumber">•••• •••• •••• ••••</div>
+                    <div class="d-flex justify-content-between align-items-end">
+                        <div>
+                            <div style="font-size: 9px; opacity: 0.6; letter-spacing: 1px; margin-bottom: 2px;">KART SAHİBİ</div>
+                            <div class="card-holder-display" id="previewHolder">AD SOYAD</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 9px; opacity: 0.6; letter-spacing: 1px; margin-bottom: 2px;">SON KULLANMA</div>
+                            <div class="card-expiry-display" id="previewExpiry">••/••</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card param-form-card">
+                    <div class="card-header py-3 px-4 text-white d-flex align-items-center justify-content-between">
+                        <h5 class="mb-0 fw-bold"><i class="fas fa-shield-alt me-2"></i>Güvenli Ödeme</h5>
+                        <span class="fw-bold" style="font-size: 14px;">Param<span style="opacity: 0.8;"> POS</span></span>
+                    </div>
+
+                    <div class="card-body p-4" style="background: #fff;">
+
+                        {% if case %}
+                        <div class="d-flex align-items-center mb-4 p-3 rounded-3" style="background: #f8f9fa;">
+                            <img src="{{ url_for('static', filename='uploads/' + case.id + '/' + case.image) }}" class="rounded-3 shadow-sm me-3" style="width: 70px; height: 70px; object-fit: cover;" onerror="this.src='{{ url_for('static', filename='default.jpg') }}'" alt="{{ case.title }}">
+                            <div class="flex-grow-1">
+                                <h6 class="fw-bold mb-1" style="color: #1a1a2e;">{{ case.title }}</h6>
+                                <small class="text-muted">Dijital Ürün</small>
+                            </div>
+                            <div class="amount-tag">{{ "%.2f"|format(case.price) }} ₺</div>
+                        </div>
+                        {% elif cart_total %}
+                        <div class="text-center mb-4 p-3 rounded-3" style="background: #f8f9fa;">
+                            <i class="fas fa-shopping-cart mb-2" style="font-size: 28px; color: #e64a19;"></i>
+                            <h6 class="fw-bold mb-2" style="color: #1a1a2e;">Sepet Ödemesi</h6>
+                            <div class="amount-tag">{{ "%.2f"|format(cart_total) }} ₺</div>
+                        </div>
+                        {% elif hint %}
+                        <div class="text-center mb-4 p-3 rounded-3" style="background: #f8f9fa;">
+                            <i class="fas fa-lightbulb mb-2" style="font-size: 28px; color: #ffc107;"></i>
+                            <h6 class="fw-bold mb-2" style="color: #1a1a2e;">İpucu Açma</h6>
+                            <div class="amount-tag">{{ "%.2f"|format(hint.unlock_price if hint.unlock_price is defined else cart_total) }} ₺</div>
+                        </div>
+                        {% endif %}
+
+                        <form method="POST" action="{{ form_action }}" id="paramForm">
+
+                            <div class="form-floating mb-3">
+                                <input type="text" name="card_holder" id="cardHolder" class="form-control" placeholder="Kart Üzerindeki İsim" required autocomplete="cc-name">
+                                <label><i class="fas fa-user me-2" style="color: #e64a19;"></i>Kart Üzerindeki İsim</label>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <input type="text" name="card_number" id="cardNumber" class="form-control" placeholder="Kart Numarası" maxlength="19" required autocomplete="cc-number" inputmode="numeric">
+                                <label><i class="fas fa-credit-card me-2" style="color: #e64a19;"></i>Kart Numarası</label>
+                            </div>
+
+                            <div class="row g-3 mb-4">
+                                <div class="col-4">
+                                    <div class="form-floating">
+                                        <select name="expire_month" id="expireMonth" class="form-select" required>
+                                            <option value="">--</option>
+                                            {% for m in range(1, 13) %}
+                                            <option value="{{ '%02d'|format(m) }}">{{ '%02d'|format(m) }}</option>
+                                            {% endfor %}
+                                        </select>
+                                        <label>Ay</label>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-floating">
+                                        <select name="expire_year" id="expireYear" class="form-select" required>
+                                            <option value="">--</option>
+                                            {% for y in range(2025, 2036) %}
+                                            <option value="{{ y }}">{{ y }}</option>
+                                            {% endfor %}
+                                        </select>
+                                        <label>Yıl</label>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-floating">
+                                        <input type="text" name="cvv" id="cvvInput" class="form-control" placeholder="CVV" maxlength="4" required autocomplete="cc-csc" inputmode="numeric">
+                                        <label><i class="fas fa-lock me-1" style="color: #e64a19;"></i>CVV</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-lg text-white fw-bold py-3 pay-btn" id="payBtn">
+                                    <i class="fas fa-lock me-2"></i>
+                                    {% if case %}
+                                    {{ "%.2f"|format(case.price) }} TL Öde
+                                    {% elif cart_total %}
+                                    {{ "%.2f"|format(cart_total) }} TL Öde
+                                    {% elif hint %}
+                                    İpucu Öde
+                                    {% endif %}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="text-center mt-4">
+                    {% if case %}
+                    <a href="{{ url_for('payment_select', case_id=case.id) }}" class="btn btn-outline-secondary rounded-pill px-4">
+                        <i class="fas fa-arrow-left me-2"></i>Ödeme Seçeneklerine Dön
+                    </a>
+                    {% elif hint %}
+                    <a href="{{ url_for('play_case', case_id=hint.case_id) }}" class="btn btn-outline-secondary rounded-pill px-4">
+                        <i class="fas fa-arrow-left me-2"></i>Vakaya Dön
+                    </a>
+                    {% else %}
+                    <a href="{{ url_for('checkout') }}" class="btn btn-outline-secondary rounded-pill px-4">
+                        <i class="fas fa-arrow-left me-2"></i>Sepete Dön
+                    </a>
+                    {% endif %}
+                </div>
+
+                <div class="security-badges mt-4">
+                    <div class="security-badge"><i class="fas fa-lock"></i> 256-bit SSL</div>
+                    <div class="security-badge"><i class="fas fa-shield-alt"></i> 3D Secure</div>
+                    <div class="security-badge"><i class="fas fa-check-circle"></i> Güvenli Ödeme</div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+const cardNumber = document.getElementById('cardNumber');
+const cardHolder = document.getElementById('cardHolder');
+const expireMonth = document.getElementById('expireMonth');
+const expireYear = document.getElementById('expireYear');
+const previewNumber = document.getElementById('previewNumber');
+const previewHolder = document.getElementById('previewHolder');
+const previewExpiry = document.getElementById('previewExpiry');
+const cardPreview = document.getElementById('cardPreview');
+
+cardNumber.addEventListener('input', function(e) {
+    let value = e.target.value.replace(/\D/g, '');
+    let formatted = '';
+    for (let i = 0; i < value.length && i < 16; i++) {
+        if (i > 0 && i % 4 === 0) formatted += ' ';
+        formatted += value[i];
+    }
+    e.target.value = formatted;
+
+    let display = '';
+    let digits = value.padEnd(16, '•');
+    for (let i = 0; i < 16; i++) {
+        if (i > 0 && i % 4 === 0) display += ' ';
+        display += digits[i];
+    }
+    previewNumber.textContent = display;
+
+    if (value.startsWith('4')) {
+        cardPreview.style.background = 'linear-gradient(135deg, #bf360c 0%, #d84315 40%, #e64a19 100%)';
+    } else if (value.startsWith('5')) {
+        cardPreview.style.background = 'linear-gradient(135deg, #4a148c 0%, #6a1b9a 40%, #7b1fa2 100%)';
+    } else if (value.startsWith('9')) {
+        cardPreview.style.background = 'linear-gradient(135deg, #004d40 0%, #00695c 40%, #00897b 100%)';
+    } else if (value.startsWith('3')) {
+        cardPreview.style.background = 'linear-gradient(135deg, #1b5e20 0%, #2e7d32 40%, #43a047 100%)';
+    } else {
+        cardPreview.style.background = 'linear-gradient(135deg, #bf360c 0%, #d84315 40%, #e64a19 100%)';
+    }
+});
+
+cardHolder.addEventListener('input', function(e) {
+    let val = e.target.value.toUpperCase();
+    previewHolder.textContent = val || 'AD SOYAD';
+});
+
+function updateExpiry() {
+    let m = expireMonth.value || '••';
+    let y = expireYear.value ? expireYear.value.toString().slice(-2) : '••';
+    previewExpiry.textContent = m + '/' + y;
+}
+expireMonth.addEventListener('change', updateExpiry);
+expireYear.addEventListener('change', updateExpiry);
+
+document.getElementById('paramForm').addEventListener('submit', function(e) {
+    var btn = document.getElementById('payBtn');
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>İşleniyor...';
+});
+</script>
+{% endblock %}

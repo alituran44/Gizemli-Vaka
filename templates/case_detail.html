@@ -1,0 +1,602 @@
+{% extends "base.html" %}
+
+{% block title %}{{ case.title }} | Online Dedektiflik Oyunu - Gizemli Vaka{% endblock %}
+{% block meta_description %}{{ case.description[:160] | replace('\n', ' ') | replace('\r', ' ') }}{% endblock %}
+{% block meta_keywords %}{{ case.title }}, dedektiflik oyunu, cinayet gizemi, online dedektif, soruşturma oyunu, gizemli vaka{% endblock %}
+{% block og_description %}{{ case.description[:150] | replace('\n', ' ') | replace('\r', ' ') }}{% endblock %}
+
+{% block og_image %}
+{% if case.image %}
+<meta property="og:image" content="{{ request.url_root }}static/uploads/{{ case.id }}/{{ case.image }}">
+<meta property="og:image:alt" content="{{ case.title }} - Gizemli Vaka">
+{% elif settings.get('logo_img') %}
+<meta property="og:image" content="{{ request.url_root }}static/uploads/{{ settings.get('logo_img') }}">
+<meta property="og:image:alt" content="{{ case.title }} - Gizemli Vaka">
+{% endif %}
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:type" content="product">
+{% endblock %}
+
+{% block twitter_image %}
+{% if case.image %}
+<meta name="twitter:image" content="{{ request.url_root }}static/uploads/{{ case.id }}/{{ case.image }}">
+<meta name="twitter:image:alt" content="{{ case.title }} - Gizemli Vaka">
+{% elif settings.get('logo_img') %}
+<meta name="twitter:image" content="{{ request.url_root }}static/uploads/{{ settings.get('logo_img') }}">
+<meta name="twitter:image:alt" content="{{ case.title }} - Gizemli Vaka">
+{% endif %}
+{% endblock %}
+
+{% block structured_data %}
+{{ super() }}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "{{ case.title }}",
+  "description": "{{ case.description[:200] | replace('\n', ' ') | replace('\r', ' ') | replace('"', '') }}",
+  {% if case.image %}
+  "image": "{{ request.url_root }}static/uploads/{{ case.id }}/{{ case.image }}",
+  {% endif %}
+  "brand": {"@type": "Brand", "name": "Gizemli Vaka"},
+  "category": "Online Dedektiflik Oyunu",
+  "offers": {
+    "@type": "Offer",
+    "price": "{{ case.price }}",
+    "priceCurrency": "TRY",
+    "availability": "https://schema.org/InStock",
+    "url": "https://gizemlivaka.com/case/{{ case.id }}"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "VideoGame",
+  "name": "{{ case.title }}",
+  "description": "{{ case.description[:300] | replace('\n', ' ') | replace('\r', ' ') | replace('"', '') }}",
+  "genre": ["Murder Mystery", "Detective Game", "Puzzle", "Dedektiflik Oyunu"],
+  "gamePlatform": "Web Browser",
+  "playMode": ["SinglePlayer", "MultiPlayer"],
+  "inLanguage": ["tr-TR", "en-US"],
+  "numberOfPlayers": {"@type": "QuantitativeValue", "minValue": 1, "maxValue": 50},
+  {% if case.image %}
+  "image": "{{ request.url_root }}static/uploads/{{ case.id }}/{{ case.image }}",
+  {% endif %}
+  "publisher": {
+    "@type": "Organization",
+    "name": "Gizemli Vaka",
+    "url": "https://gizemlivaka.com"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "{{ case.price }}",
+    "priceCurrency": "TRY",
+    "availability": "https://schema.org/InStock",
+    "url": "https://gizemlivaka.com/case/{{ case.id }}"
+  }
+}
+</script>
+{% endblock %}
+
+{% block breadcrumb_schema %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "Ana Sayfa", "item": "https://gizemlivaka.com"},
+    {"@type": "ListItem", "position": 2, "name": "Dava Dosyaları", "item": "https://gizemlivaka.com/cases"},
+    {"@type": "ListItem", "position": 3, "name": "{{ case.title }}", "item": "https://gizemlivaka.com/case/{{ case.id }}"}
+  ]
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<style>
+    .case-hero-new {
+        background: linear-gradient(rgba(12, 20, 48, 0.8), rgba(12, 20, 48, 0.8)), 
+                    url('{{ url_for("static", filename="uploads/" + case.id + "/" + case.image) }}');
+        background-size: cover; background-position: center;
+        height: 350px; display: flex; align-items: center; justify-content: center;
+    }
+    .case-hero-new h1 { font-size: 3.5rem; color: white; font-weight: 800; text-align: center; }
+
+    .case-container { background: white; color: #333; padding-bottom: 60px; }
+    .product-img { border-radius: 12px; width: 100%; box-shadow: 0 10px 30px rgba(0,0,0,0.15); }
+
+    .currency-selector { display: flex; gap: 15px; margin: 20px 0; }
+    .currency-btn { border: 1px solid #ddd; padding: 5px 12px; border-radius: 4px; text-decoration: none; color: #666; font-size: 0.8rem; }
+    .currency-btn.active { border-color: #0C1430; background: #f8f9fa; color: #000; font-weight: 700; }
+    .price-box { margin: 20px 0; display: flex; align-items: center; gap: 15px; flex-wrap: wrap; }
+    .original-price { font-size: 1.3rem; font-weight: 600; color: #999; text-decoration: line-through; }
+    .current-price { font-size: 2.2rem; font-weight: 800; color: #0C1430; }
+    .btn-buy { background: #FFD700; color: #000; font-weight: 800; width: 100%; padding: 15px; border-radius: 50px; border: none; margin-bottom: 15px; transition: 0.3s; }
+
+    .description-section {
+        background-color: #0C1430; 
+        padding: 80px 0;
+        color: white;
+        border-top: 1px solid rgba(255, 215, 0, 0.1);
+    }
+    .description-title { font-size: 2rem; font-weight: 800; margin-bottom: 25px; color: white; }
+    .description-text { font-size: 1.05rem; line-height: 1.8; color: #e2e8f0; white-space: pre-line; }
+    .video-wrapper { border-radius: 15px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.5); border: 1px solid rgba(255, 255, 255, 0.1); }
+
+    .extra-info-section { background-color: #ffffff; padding: 80px 0; border-top: 1px solid #eee; }
+    .case-folder-wrapper img { transition: transform 0.3s ease; max-width: 85%; transform: rotate(-2deg); }
+    .case-folder-wrapper:hover img { transform: rotate(0deg) scale(1.03); }
+
+    .features-section { background-color: #f8f9fa; padding: 80px 0; border-top: 1px solid #eee; }
+    .feature-card {
+        background-color: #0C1430; 
+        border-radius: 12px; 
+        border-bottom: 4px solid #FFD700;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .feature-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.2) !important;
+    }
+
+    .comments-section { background-color: #ffffff; padding: 80px 0; border-top: 1px solid #eee; }
+    .comment-card { border-radius: 12px; transition: 0.3s; }
+    .star-rating-btn { border: 1px solid #eee; padding: 10px 15px; border-radius: 4px; cursor: pointer; transition: 0.3s; background: #fdfdfd; }
+    .btn-check:checked + .star-rating-btn { background-color: #FFD700; border-color: #FFD700; color: #000; font-weight: bold; }
+
+    @media (max-width: 768px) {
+        .case-hero-new { height: 200px; padding: 20px; }
+        .case-hero-new h1 { font-size: 1.6rem; line-height: 1.3; padding: 0 10px; }
+        .case-container { padding-bottom: 30px; }
+        .case-container .container { padding: 0 15px; }
+        .social-share-bar { padding: 15px 10px !important; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+        .social-share-bar a { margin: 0 !important; font-size: 0.75rem; }
+        .row.g-5 { gap: 1.5rem !important; }
+        .col-md-5, .col-md-7 { flex: 0 0 100%; max-width: 100%; }
+        .product-img { max-height: 280px !important; }
+        .currency-selector { gap: 8px; flex-wrap: wrap; }
+        .currency-btn { padding: 4px 10px; font-size: 0.75rem; }
+        .price-box { gap: 10px; }
+        .original-price { font-size: 1rem; }
+        .current-price { font-size: 1.6rem; }
+        .btn-buy { padding: 12px; font-size: 0.9rem; }
+        .description-section { padding: 40px 0; }
+        .description-title { font-size: 1.4rem; margin-bottom: 15px; }
+        .description-text { font-size: 0.9rem; line-height: 1.6; }
+        .col-lg-5, .col-lg-7 { flex: 0 0 100%; max-width: 100%; }
+        .extra-info-section { padding: 40px 0; }
+        .extra-info-section h2 { font-size: 1.5rem; }
+        .case-folder-wrapper img { max-width: 100%; }
+        .features-section { padding: 40px 0; }
+        .features-section h2 { font-size: 1.5rem; margin-bottom: 25px; }
+        .feature-card { padding: 20px !important; margin-bottom: 15px; }
+        .feature-card h5 { font-size: 1rem; }
+        .feature-card p { font-size: 0.8rem; }
+        .col-md-4 { flex: 0 0 100%; max-width: 100%; }
+        .comments-section { padding: 40px 0; }
+        .comments-section h3 { font-size: 1.3rem; }
+        .comment-card { padding: 15px !important; }
+        .instructions-section .col-lg-6 { flex: 0 0 100%; max-width: 100%; }
+        .instruction-item { padding: 12px 15px !important; font-size: 0.85rem; }
+        .instruction-item span { font-size: 0.8rem !important; }
+        .letter-card { padding: 25px !important; }
+    }
+    @media (max-width: 576px) {
+        .case-hero-new { height: 160px; }
+        .case-hero-new h1 { font-size: 1.3rem; }
+        .social-share-bar a { font-size: 0.7rem; }
+        .current-price { font-size: 1.4rem; }
+        .video-wrapper { border-radius: 10px; }
+        .feature-card h5 { font-size: 0.9rem; }
+    }
+</style>
+
+<div class="case-hero-new">
+    <div class="container">
+        <h1>{{ case.title }}'ı Kim Öldürdü?</h1>
+    </div>
+</div>
+
+<div class="case-container">
+    <div class="container">
+        <div class="social-share-bar text-center py-4 border-bottom mb-5">
+            <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.url }}" target="_blank" class="me-3 text-muted small text-decoration-none"><i class="fab fa-facebook-f me-2"></i> Bunu paylaş</a>
+            <a href="https://twitter.com/intent/tweet?url={{ request.url }}&text=Bu vakaya göz atın!" target="_blank" class="me-3 text-muted small text-decoration-none"><i class="fa-brands fa-square-x-twitter me-2"></i> Paylaş</a>
+            <a href="https://www.instagram.com/" target="_blank" class="me-3 text-muted small text-decoration-none"><i class="fab fa-instagram me-2"></i> Instagram</a>
+            <a href="https://api.whatsapp.com/send?text=Bu vakaya göz atın! {{ request.url }}" target="_blank" class="me-3 text-muted small text-decoration-none"><i class="fab fa-whatsapp me-2"></i> Gönder</a>
+            <a href="mailto:?subject=Bu vakaya göz atın&body={{ request.url }}" class="me-3 text-muted small text-decoration-none"><i class="fas fa-envelope me-2"></i> E-posta</a>
+        </div>
+
+        <div class="row g-5 align-items-start">
+            <div class="col-md-5">
+                <img loading="lazy" src="{{ url_for('static', filename='uploads/' + case.id + '/' + case.image) }}" class="product-img" style="width: 100%; height: auto; max-height: 380px; object-fit: contain; border-radius: 12px;" alt="{{ case.title }} - Gizemli Vaka Dava Dosyası">
+            </div>
+
+            <div class="col-md-7">
+                <div class="badge bg-warning text-dark mb-2">Dünyanın Her Yerinde, Anında Oynayın</div>
+                <div class="mb-2">
+                    <span class="text-warning"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></span>
+                </div>
+                <h2 class="fw-bold mb-3">{{ case.title }}</h2>
+                
+                {% if case.demo_summary %}
+                <p class="text-muted mb-3" style="font-size: 0.95rem; line-height: 1.6;">
+                    {{ case.demo_summary }}
+                </p>
+                {% endif %}
+
+                {% if case.game_type == 'both' %}
+                <div class="mb-3">
+                    <p class="text-muted small mb-2 fw-bold">Oyun türünü seçin:</p>
+                    <div class="d-flex gap-2">
+                        <button type="button" class="btn game-type-btn active" data-type="individual" onclick="selectGameType('individual')" style="flex: 1; padding: 12px; border-radius: 10px; font-weight: 700; font-size: 0.85rem; border: 2px solid #0C1430; background: #0C1430; color: #FFD700; transition: 0.3s;">
+                            <i class="fas fa-user me-2"></i>Bireysel Oyna
+                        </button>
+                        <button type="button" class="btn game-type-btn" data-type="team" onclick="selectGameType('team')" style="flex: 1; padding: 12px; border-radius: 10px; font-weight: 700; font-size: 0.85rem; border: 2px solid #ddd; background: #fff; color: #666; transition: 0.3s;">
+                            <i class="fas fa-users me-2"></i>Takım Olarak Oyna
+                        </button>
+                    </div>
+                </div>
+                {% endif %}
+
+                <div id="individual-section" {% if case.game_type == 'team' %}style="display:none;"{% endif %}>
+                    <p class="text-muted small mb-2">Tercih ettiğiniz para birimini seçin.</p>
+                    <div class="currency-selector">
+                        <a href="{{ url_for('set_currency', code='TRY') }}" class="currency-btn {% if current_currency == 'TRY' %}active{% endif %}">🇹🇷 TRY</a>
+                        <a href="{{ url_for('set_currency', code='EUR') }}" class="currency-btn {% if current_currency == 'EUR' %}active{% endif %}">🇪🇺 EUR</a>
+                        <a href="{{ url_for('set_currency', code='USD') }}" class="currency-btn {% if current_currency == 'USD' %}active{% endif %}">🇺🇸 USD</a>
+                    </div>
+
+                    <div class="price-box">
+                        <div class="original-price">{{ ((case.price * currency_rate) / 0.75) | round(0) }} {{ currency_symbol }}</div>
+                        <div class="current-price">{{ (case.price * currency_rate) | round(0) }} {{ currency_symbol }}</div>
+                        <div class="discount-tag bg-warning px-2 rounded fw-bold small">%25 İndirim</div>
+                    </div>
+
+                    <form action="{{ url_for('add_to_cart', case_id=case.id) }}">
+                        <button class="btn btn-buy shadow-sm mb-3">
+                            <i class="fas fa-shopping-cart me-2"></i> {{ t.add_to_cart }}
+                        </button>
+                    </form>
+                    <a href="{{ url_for('gift_cards') }}?case_id={{ case.id }}" class="btn btn-dark w-100 rounded-pill py-3 fw-bold"><i class="fas fa-gift me-2"></i>Bu Dosyayı Hediye Edin</a>
+                    
+                    {% if case.demo_enabled %}
+                    <a href="{{ url_for('demo_case', case_id=case.id) }}" class="btn w-100 rounded-pill py-3 fw-bold mt-3" style="background: linear-gradient(145deg, #22c55e 0%, #16a34a 100%); color: white; border: none;">
+                        <i class="fas fa-play-circle me-2"></i>Ücretsiz Demo Oynayın
+                    </a>
+                    {% endif %}
+                </div>
+
+                <div id="team-section" style="display:none;">
+                    <div class="p-4 rounded-3 mb-3" style="background: linear-gradient(135deg, #f0f7ff 0%, #e8f4fd 100%); border: 1px solid #bee3f8;">
+                        <div class="d-flex align-items-center mb-3">
+                            <div style="width: 45px; height: 45px; background: #0C1430; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px;">
+                                <i class="fas fa-users" style="color: #FFD700;"></i>
+                            </div>
+                            <div>
+                                <h6 class="mb-0 fw-bold" style="color: #0C1430;">Takım Paketi</h6>
+                                <small class="text-muted">Ekibinizle birlikte oynayın</small>
+                            </div>
+                        </div>
+                        <ul class="list-unstyled mb-3 small" style="color: #495057;">
+                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Takım üyeleri için özel erişim</li>
+                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Kurumsal etkinlikler için ideal</li>
+                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Esnek katılımcı sayısı</li>
+                        </ul>
+                    </div>
+                    <a href="{{ url_for('team_purchase') }}?case_id={{ case.id }}" class="btn w-100 rounded-pill py-3 fw-bold mb-3" style="background: linear-gradient(135deg, #0C1430 0%, #1a2d50 100%); color: #FFD700; border: none; font-size: 1rem;">
+                        <i class="fas fa-users me-2"></i>Takım Paketi Satın Al
+                    </a>
+                    {% if case.demo_enabled %}
+                    <a href="{{ url_for('demo_case', case_id=case.id) }}" class="btn w-100 rounded-pill py-3 fw-bold" style="background: linear-gradient(145deg, #22c55e 0%, #16a34a 100%); color: white; border: none;">
+                        <i class="fas fa-play-circle me-2"></i>Ücretsiz Demo Oynayın
+                    </a>
+                    {% endif %}
+                </div>
+
+                {% if case.game_type == 'team' %}
+                <div class="p-4 rounded-3 mb-3" style="background: linear-gradient(135deg, #f0f7ff 0%, #e8f4fd 100%); border: 1px solid #bee3f8;">
+                    <div class="d-flex align-items-center mb-3">
+                        <div style="width: 45px; height: 45px; background: #0C1430; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px;">
+                            <i class="fas fa-users" style="color: #FFD700;"></i>
+                        </div>
+                        <div>
+                            <h6 class="mb-0 fw-bold" style="color: #0C1430;">Takım Paketi</h6>
+                            <small class="text-muted">Bu vaka sadece takım olarak oynanabilir</small>
+                        </div>
+                    </div>
+                    <ul class="list-unstyled mb-3 small" style="color: #495057;">
+                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Takım üyeleri için özel erişim</li>
+                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Kurumsal etkinlikler için ideal</li>
+                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Esnek katılımcı sayısı</li>
+                    </ul>
+                </div>
+                <a href="{{ url_for('team_purchase') }}?case_id={{ case.id }}" class="btn w-100 rounded-pill py-3 fw-bold mb-3" style="background: linear-gradient(135deg, #0C1430 0%, #1a2d50 100%); color: #FFD700; border: none; font-size: 1rem;">
+                    <i class="fas fa-users me-2"></i>Takım Paketi Satın Al
+                </a>
+                {% if case.demo_enabled %}
+                <a href="{{ url_for('demo_case', case_id=case.id) }}" class="btn w-100 rounded-pill py-3 fw-bold" style="background: linear-gradient(145deg, #22c55e 0%, #16a34a 100%); color: white; border: none;">
+                    <i class="fas fa-play-circle me-2"></i>Ücretsiz Demo Oynayın
+                </a>
+                {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="description-section">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-5">
+                <h2 class="description-title">Dava Hakkında</h2>
+                <div class="description-text" style="white-space: pre-line;">
+                    {{ case.description }}
+                </div>
+            </div>
+
+            <div class="col-lg-7">
+                {% if case.video and case.video != '#' and case.video != '' %}
+                <div class="video-wrapper">
+                    <div class="ratio ratio-16x9">
+                        <iframe src="{{ case.video.replace('watch?v=', 'embed/') }}" 
+                                title="Vaka Tanıtım Videosu" 
+                                allowfullscreen></iframe>
+                    </div>
+                </div>
+                {% else %}
+                <div class="video-wrapper">
+                    <div class="ratio ratio-16x9 d-flex align-items-center justify-content-center" style="background: #1a2a4a; border-radius: 15px;">
+                        <div class="text-center p-4">
+                            <div class="mb-3" style="background: #0C1430; border-radius: 10px; padding: 20px; display: inline-block;">
+                                <div class="d-flex align-items-center gap-2 mb-2">
+                                    <span style="font-size: 1.2rem; font-weight: bold; color: white;">GİZEMLİ</span>
+                                    <span class="text-white-50" style="font-size: 0.7rem;">≡</span>
+                                    <i class="fas fa-user text-warning"></i>
+                                    <i class="fas fa-shopping-cart text-warning"></i>
+                                </div>
+                                <small class="text-white-50" style="letter-spacing: 2px;">VAKALAR</small>
+                            </div>
+                            <h3 class="text-white fw-bold mt-3" style="font-size: 1.8rem; line-height: 1.3;">{{ case.title }}'ı Kim Öldürdü?</h3>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="extra-info-section">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-5 text-center">
+                <div class="case-folder-wrapper">
+                    <img loading="lazy" src="{{ url_for('static', filename='uploads/' + case.id + '/' + case.image) }}" 
+                         class="img-fluid shadow-lg rounded" 
+                         alt="{{ case.title }}"
+                         style="border-radius: 15px;">
+                </div>
+            </div>
+            <div class="col-lg-7">
+                <h2 class="fw-bold mb-4" style="color: #0C1430; font-size: 2.2rem;">Bu dava dosyası hakkında daha fazla bilgi</h2>
+                <p class="text-muted" style="line-height: 1.8; font-size: 1.1rem; white-space: pre-line;">
+                    {{ case.description }}
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="features-section">
+    <div class="container">
+        <h2 class="fw-bold mb-5" style="color: #0C1430; font-size: 2.2rem;">Başlıca Özellikler</h2>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="feature-card h-100 p-4 shadow-sm">
+                    <h5 class="fw-bold mb-3" style="color: #FFD700;">Sürükleyici Hikâye</h5>
+                    <p class="small text-white-50 mb-0" style="line-height: 1.6;">Beklenmedik olaylar, yanıltıcı ipuçları ve zekice kurgulanmış sürprizlerle dolu derin bir anlatının içine adım atın. Her karakter; geçmişi, sırları ve olası motivasyonlarıyla titizlikle inşa edilmiştir.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card h-100 p-4 shadow-sm">
+                    <h5 class="fw-bold mb-3" style="color: #FFD700;">Gerçekçi Kanıt Deneyimi</h5>
+                    <p class="small text-white-50 mb-0" style="line-height: 1.6;">Resmî belgeler, adli raporlar, kişisel notlar, günlükler ve dijital kayıtlar… Tüm kanıtlar gerçek hayattaki dava dosyalarını aratmayacak detaylarla tasarlandı.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card h-100 p-4 shadow-sm">
+                    <h5 class="fw-bold mb-3" style="color: #FFD700;">Zorlu ve Tatmin Edici Gizem</h5>
+                    <p class="small text-white-50 mb-0" style="line-height: 1.6;">İster tek başınıza, ister arkadaşlarınızla birlikte oynayın; bu oyun eleştirel düşünme, analiz ve çıkarım yapma becerilerinizi ciddi şekilde sınar.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card h-100 p-4 shadow-sm">
+                    <h5 class="fw-bold mb-3" style="color: #FFD700;">Çoklu Soruşturma Rolleri</h5>
+                    <p class="small text-white-50 mb-0" style="line-height: 1.6;">Adli analiz uzmanı, sorgucu, olay yeri inceleme sorumlusu veya stratejik analizci… Farklı roller üstlenerek davaya çeşitli açılardan yaklaşın.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card h-100 p-4 shadow-sm">
+                    <h5 class="fw-bold mb-3" style="color: #FFD700;">Doğrusal Olmayan Keşif</h5>
+                    <p class="small text-white-50 mb-0" style="line-height: 1.6;">Gerçek bir faili meçhul dosyası gibi, en başından itibaren tüm kanıtlara erişebilirsiniz. Hangi ipucunu ne zaman inceleyeceğiniz size bağlıdır.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card h-100 p-4 shadow-sm">
+                    <h5 class="fw-bold mb-3" style="color: #FFD700;">Erişilebilir ve Esnek Oynanış</h5>
+                    <p class="small text-white-50 mb-0" style="line-height: 1.6;">Tamamen dijital formatta sunulan içerik sayesinde oyunu dilediğiniz platformda oynayabilirsiniz. İster evde, ister yolda; her ortamda akıcı bir deneyim.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="comments-section">
+    <div class="container">
+        <h2 class="fw-bold mb-2" style="color: #0C1430; font-size: 2rem;">Oyuncu Yorumları</h2>
+        <p class="text-muted mb-5">Bu vakayı oynayan dedektiflerin deneyimleri.</p>
+
+        {% if comments %}
+        <div class="row g-4 mb-5">
+            {% for comment in comments %}
+            <div class="col-md-6 col-lg-4">
+                <div class="comment-card card h-100 border-0 shadow-sm p-4" style="border-top: 4px solid #FFD700;">
+                    <div class="d-flex align-items-center mb-2">
+                        <div style="width: 38px; height: 38px; background: #0C1430; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 10px; flex-shrink: 0;">
+                            <i class="fas fa-user" style="color: #FFD700; font-size: 0.85rem;"></i>
+                        </div>
+                        <div>
+                            <h6 class="mb-0 fw-bold text-dark" style="font-size: 0.95rem;">{{ comment.user.username }}</h6>
+                            <small class="text-muted">{{ comment.date_posted.strftime('%d.%m.%Y') }}</small>
+                        </div>
+                    </div>
+                    <div class="text-warning mb-2" style="font-size: 0.8rem;">
+                        {% for i in range(comment.rating) %}<i class="fas fa-star"></i>{% endfor %}
+                        {% for i in range(5 - comment.rating) %}<i class="far fa-star"></i>{% endfor %}
+                    </div>
+                    <p class="text-secondary mb-0" style="font-size: 0.88rem; line-height: 1.6;">"{{ comment.content }}"</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="text-center py-4 mb-5" style="background: #f8f9fa; border-radius: 10px;">
+            <i class="fas fa-comments fa-3x text-muted mb-3 d-block mt-3"></i>
+            <p class="text-muted mb-3">Henüz bu vaka için yorum yapılmamış. İlk yorumu siz yapın!</p>
+        </div>
+        {% endif %}
+
+        {% if current_user %}
+            {% if user_already_commented %}
+            <div class="alert alert-info text-center" style="border-radius: 10px;">
+                <i class="fas fa-check-circle me-2"></i>Bu vaka için zaten bir yorum yaptınız. Teşekkürler!
+            </div>
+            {% else %}
+            <div class="card border-0 shadow-sm p-4 p-md-5" style="border-radius: 14px; max-width: 700px; margin: 0 auto;">
+                <h4 class="fw-bold mb-4" style="color: #0C1430;"><i class="fas fa-star me-2 text-warning"></i>Yorum Yaz</h4>
+                <form method="POST" action="{{ url_for('add_comment', case_id=case.id) }}">
+                    <div class="mb-4">
+                        <label class="form-label fw-semibold text-dark mb-2">Puanınız</label>
+                        <div class="d-flex gap-2 flex-wrap">
+                            {% for star in [1,2,3,4,5] %}
+                            <input type="radio" class="btn-check" name="rating" id="star{{ star }}" value="{{ star }}" {% if star == 5 %}checked{% endif %}>
+                            <label class="star-rating-btn" for="star{{ star }}">
+                                {% for i in range(star) %}<i class="fas fa-star text-warning"></i>{% endfor %}
+                                <span class="ms-1 small">{{ star }}</span>
+                            </label>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label fw-semibold text-dark">Yorumunuz</label>
+                        <textarea name="content" class="form-control" rows="4" placeholder="Vaka hakkındaki düşüncelerinizi paylaşın..." required style="border-radius: 8px; resize: none;"></textarea>
+                    </div>
+                    <button type="submit" class="btn w-100 fw-bold py-3" style="background: #FFD700; color: #0C1430; border-radius: 30px; font-size: 1rem;">
+                        <i class="fas fa-paper-plane me-2"></i>Yorumu Gönder
+                    </button>
+                    <p class="text-muted text-center mt-3 mb-0" style="font-size: 0.8rem;">
+                        <i class="fas fa-info-circle me-1"></i>Yorumunuz incelendikten sonra yayınlanacaktır.
+    </p>
+                </form>
+            </div>
+            {% endif %}
+        {% else %}
+        <div class="text-center py-4" style="background: #f8f9fa; border-radius: 10px; max-width: 500px; margin: 0 auto;">
+            <i class="fas fa-lock fa-2x text-muted mb-3 d-block mt-3"></i>
+            <p class="text-muted mb-3">Yorum yapmak için giriş yapmanız gerekmektedir.</p>
+            <a href="{{ url_for('login') }}" class="btn fw-bold px-4" style="background: #FFD700; color: #0C1430; border-radius: 25px;">
+                <i class="fas fa-sign-in-alt me-2"></i>Giriş Yap
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="instructions-section py-5" style="background: #0a1929;">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-lg-6">
+                <h3 style="color: #ffc107; font-weight: 700; margin-bottom: 25px;"><i class="fas fa-list-check me-2"></i>Nasıl Oynanır</h3>
+                <div class="instructions-list">
+                    <div class="instruction-item" style="background: rgba(255,193,7,0.15); border-left: 4px solid #ffc107; padding: 15px 20px; border-radius: 0 10px 10px 0; margin-bottom: 12px; display: flex; align-items: flex-start; gap: 12px;">
+                        <i class="fas fa-broadcast-tower" style="color: #ffc107; margin-top: 4px;"></i>
+                        <span style="color: #e2e8f0;">Cinayet dava dosyasına çevrimiçi erişim satın almak için web sitemizi ziyaret edin.</span>
+                    </div>
+                    <div class="instruction-item" style="background: rgba(255,193,7,0.15); border-left: 4px solid #ffc107; padding: 15px 20px; border-radius: 0 10px 10px 0; margin-bottom: 12px; display: flex; align-items: flex-start; gap: 12px;">
+                        <i class="fas fa-user-injured" style="color: #ffc107; margin-top: 4px;"></i>
+                        <span style="color: #e2e8f0;">Mağdur hakkındaki bilgileri okuyun ve tüm şüpheli profillerini dikkatlice inceleyin.</span>
+                    </div>
+                    <div class="instruction-item" style="background: rgba(255,193,7,0.15); border-left: 4px solid #ffc107; padding: 15px 20px; border-radius: 0 10px 10px 0; margin-bottom: 12px; display: flex; align-items: flex-start; gap: 12px;">
+                        <i class="fas fa-microphone-alt" style="color: #ffc107; margin-top: 4px;"></i>
+                        <span style="color: #e2e8f0;">Röportaj kayıtlarını ve ses kanıtlarını inceleyin.</span>
+                    </div>
+                    <div class="instruction-item" style="background: rgba(255,193,7,0.15); border-left: 4px solid #ffc107; padding: 15px 20px; border-radius: 0 10px 10px 0; margin-bottom: 12px; display: flex; align-items: flex-start; gap: 12px;">
+                        <i class="fas fa-video" style="color: #ffc107; margin-top: 4px;"></i>
+                        <span style="color: #e2e8f0;">Güvenlik kamerası görüntülerini ve video kanıtlarını analiz edin.</span>
+                    </div>
+                    <div class="instruction-item" style="background: rgba(255,193,7,0.15); border-left: 4px solid #ffc107; padding: 15px 20px; border-radius: 0 10px 10px 0; margin-bottom: 12px; display: flex; align-items: flex-start; gap: 12px;">
+                        <i class="fas fa-file-alt" style="color: #ffc107; margin-top: 4px;"></i>
+                        <span style="color: #e2e8f0;">Belgeleri, raporları ve diğer kanıtları gözden geçirin.</span>
+                    </div>
+                    <div class="instruction-item" style="background: rgba(255,193,7,0.15); border-left: 4px solid #ffc107; padding: 15px 20px; border-radius: 0 10px 10px 0; margin-bottom: 12px; display: flex; align-items: flex-start; gap: 12px;">
+                        <i class="fas fa-gavel" style="color: #ffc107; margin-top: 4px;"></i>
+                        <span style="color: #e2e8f0;">Katilin kim olduğunu belirleyin ve raporunuzu gönderin.</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="letter-card p-5" style="background: linear-gradient(to bottom, #fffef5 0%, #f5f3e8 100%); border-radius: 8px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); position: relative;">
+                    <div style="position: absolute; top: 0; left: 0; right: 0; height: 6px; background: linear-gradient(90deg, #0a1929 0%, #ffc107 50%, #0a1929 100%);"></div>
+                    <div style="position: absolute; top: 20px; right: 20px; width: 60px; height: 60px; border: 3px solid #0a1929; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-direction: column;">
+                        <i class="fas fa-shield-halved" style="font-size: 1.2rem; color: #0a1929;"></i>
+                        <span style="font-size: 0.4rem; color: #0a1929; font-weight: bold;">RESMİ</span>
+                    </div>
+                    <h5 style="color: #0a1929; font-weight: 700; border-bottom: 2px solid #0a1929; padding-bottom: 10px; margin-bottom: 20px;">EMNİYET MÜDÜRLÜĞÜ</h5>
+                    <p style="color: #333; line-height: 1.8; font-size: 0.95rem;">
+                        Sayın Dedektif,<br><br>
+                        Bu dava, en yetenekli soruşturmacılarımızı bile zorladı. Şimdi sizin uzmanlığınıza ihtiyacımız var. Tüm kanıtları dikkatle inceleyin, hiçbir detayı gözden kaçırmayın. Adalet sizin ellerinizde.<br><br>
+                        <strong>Lütfen cevabı diğer oyuncularla paylaşmayın.</strong>
+                    </p>
+                    <div style="margin-top: 25px; padding-top: 15px; border-top: 1px solid #ccc; width: 180px;">
+                        <p style="margin: 0; color: #333;">İyi şanslar,<br><strong>Emniyet Müdürü</strong></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function selectGameType(type) {
+    var btns = document.querySelectorAll('.game-type-btn');
+    btns.forEach(function(btn) {
+        if (btn.getAttribute('data-type') === type) {
+            btn.style.background = '#0C1430';
+            btn.style.color = '#FFD700';
+            btn.style.borderColor = '#0C1430';
+            btn.classList.add('active');
+        } else {
+            btn.style.background = '#fff';
+            btn.style.color = '#666';
+            btn.style.borderColor = '#ddd';
+            btn.classList.remove('active');
+        }
+    });
+    var indSection = document.getElementById('individual-section');
+    var teamSection = document.getElementById('team-section');
+    if (type === 'team') {
+        indSection.style.display = 'none';
+        teamSection.style.display = 'block';
+    } else {
+        indSection.style.display = 'block';
+        teamSection.style.display = 'none';
+    }
+}
+</script>
+
+{% endblock %}

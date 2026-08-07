@@ -1,0 +1,3539 @@
+{
+  "settings": [
+    {
+      "id": 33,
+      "key": "nav3_url",
+      "value": "/teams"
+    },
+    {
+      "id": 40,
+      "key": "nav4_text",
+      "value": "Daha"
+    },
+    {
+      "id": 41,
+      "key": "nav4_url",
+      "value": "#"
+    },
+    {
+      "id": 318,
+      "key": "footer_text",
+      "value": "© 2026 Gizemli Vakalar. Tüm hakları saklıdır."
+    },
+    {
+      "id": 319,
+      "key": "footer_address",
+      "value": ""
+    },
+    {
+      "id": 320,
+      "key": "footer_phone",
+      "value": ""
+    },
+    {
+      "id": 321,
+      "key": "footer_email",
+      "value": ""
+    },
+    {
+      "id": 48,
+      "key": "logo_img",
+      "value": "Gizemli_Vaka_Logo_transparent.png"
+    },
+    {
+      "id": 329,
+      "key": "whatsapp_number",
+      "value": "905437360660"
+    },
+    {
+      "id": 330,
+      "key": "whatsapp_message",
+      "value": "Merhaba, Gizemli Vaka hakkında bilgi almak istiyorum."
+    },
+    {
+      "id": 332,
+      "key": "promo_cover",
+      "value": "thumbnail_youtube_optimized.jpg"
+    },
+    {
+      "id": 333,
+      "key": "promo_title",
+      "value": "Gizemli Vaka – Dijital Deliller ve Çözülmeyi Bekleyen Dosyalar"
+    },
+    {
+      "id": 334,
+      "key": "promo_description",
+      "value": "Gizemli Vaka, dijital deliller, şüpheli profilleri ve gerçekçi senaryolarla hazırlanmış vaka dosyalarını keşfedebileceğiniz bir platformdur.\r\n\r\nHer dosya, çözülmeyi bekleyen bir sır saklar.\r\nHer ipucu, gerçeğe bir adım daha yaklaştırır.\r\n\r\nDosyayı açmaya hazır mısın?\r\n"
+    },
+    {
+      "id": 335,
+      "key": "paynkolay_token",
+      "value": "189064897|wYYIp9Y5cO0m3FyN21m9KZWyEjpUfubziIRxkgZTvWUWYxa2wNIuICXhvnKPoGVLxk1uuKzj2PN14sZnb3FVNOe83y1X/DdqtPtNq8BlnK8wJZZhUq+DuVmdDNQEcfZH+N8INw=="
+    },
+    {
+      "id": 351,
+      "key": "smtp_use_tls",
+      "value": "1"
+    },
+    {
+      "id": 352,
+      "key": "smtp_use_ssl",
+      "value": "0"
+    },
+    {
+      "id": 6,
+      "key": "iyzico_api_key",
+      "value": ""
+    },
+    {
+      "id": 7,
+      "key": "iyzico_secret_key",
+      "value": ""
+    },
+    {
+      "id": 8,
+      "key": "iyzico_base_url",
+      "value": "https://sandbox-api.iyzipay.com"
+    },
+    {
+      "id": 9,
+      "key": "iyzico_enabled",
+      "value": "0"
+    },
+    {
+      "id": 29,
+      "key": "nav2_sub2_url",
+      "value": ""
+    },
+    {
+      "id": 30,
+      "key": "nav2_sub3_text",
+      "value": ""
+    },
+    {
+      "id": 31,
+      "key": "nav2_sub3_url",
+      "value": ""
+    },
+    {
+      "id": 34,
+      "key": "nav3_sub1_text",
+      "value": ""
+    },
+    {
+      "id": 35,
+      "key": "nav3_sub1_url",
+      "value": ""
+    },
+    {
+      "id": 36,
+      "key": "nav3_sub2_text",
+      "value": ""
+    },
+    {
+      "id": 37,
+      "key": "nav3_sub2_url",
+      "value": ""
+    },
+    {
+      "id": 38,
+      "key": "nav3_sub3_text",
+      "value": ""
+    },
+    {
+      "id": 39,
+      "key": "nav3_sub3_url",
+      "value": ""
+    },
+    {
+      "id": 42,
+      "key": "nav4_sub1_text",
+      "value": ""
+    },
+    {
+      "id": 43,
+      "key": "nav4_sub1_url",
+      "value": ""
+    },
+    {
+      "id": 44,
+      "key": "nav4_sub2_text",
+      "value": ""
+    },
+    {
+      "id": 45,
+      "key": "nav4_sub2_url",
+      "value": ""
+    },
+    {
+      "id": 46,
+      "key": "nav4_sub3_text",
+      "value": ""
+    },
+    {
+      "id": 47,
+      "key": "nav4_sub3_url",
+      "value": ""
+    },
+    {
+      "id": 53,
+      "key": "partner_commission",
+      "value": "%20"
+    },
+    {
+      "id": 10,
+      "key": "havale_banka_adi",
+      "value": "Akbank"
+    },
+    {
+      "id": 11,
+      "key": "havale_alici_adi",
+      "value": "Ahmet Ahmet"
+    },
+    {
+      "id": 12,
+      "key": "havale_iban",
+      "value": "000000000000000000000000000000"
+    },
+    {
+      "id": 13,
+      "key": "havale_enabled",
+      "value": "1"
+    },
+    {
+      "id": 71,
+      "key": "content",
+      "value": "<p>Bu politika, <strong>[www.gizemlivaka.com]</strong> (&quot;Biz&quot;) tarafından işletilen gizemli vakalar platformunda, kullanıcılarımızın (&quot;Siz&quot;) verilerinin nasıl işlendiğini ve &ccedil;erezlerin nasıl kullanıldığını a&ccedil;ıklar. Gizliliğinizi korumak, &ccedil;&ouml;z&uuml;lmesi gereken en &ouml;nemli vakadır.</p>\r\n\r\n<h3>1. Toplanan Veriler ve Toplanma Y&ouml;ntemleri</h3>\r\n\r\n<p>Sitemizi ziyaret ettiğinizde veya vakalara dahil olduğunuzda aşağıdaki verileri toplayabiliriz:</p>\r\n\r\n<ul>\r\n\t<li>\r\n\t<p><strong>Kimlik ve İletişim Bilgileri:</strong> Kayıt sırasında verdiğiniz kullanıcı adı, e-posta adresi.</p>\r\n\t</li>\r\n\t<li>\r\n\t<p><strong>Kullanım Verileri:</strong> &Ccedil;&ouml;z&uuml;len vakalar, oyun i&ccedil;i ilerleme, ipucu kullanım ge&ccedil;mişi ve site i&ccedil;i etkileşimleriniz.</p>\r\n\t</li>\r\n\t<li>\r\n\t<p><strong>Teknik Veriler:</strong> IP adresiniz, tarayıcı t&uuml;r&uuml;n&uuml;z, cihaz bilgileriniz ve giriş kayıtlarınız (Log kayıtları).</p>\r\n\t</li>\r\n</ul>\r\n\r\n<h3>2. Verilerin İşlenme Ama&ccedil;ları</h3>\r\n\r\n<p>Topladığımız veriler, yalnızca aşağıdaki &quot;soruşturma&quot; s&uuml;re&ccedil;leri i&ccedil;in kullanılır:</p>\r\n\r\n<ol>\r\n\t<li>\r\n\t<p><strong>Hizmet Sağlanması:</strong> Oyun ilerlemenizin kaydedilmesi ve kullanıcı hesabınızın y&ouml;netilmesi.</p>\r\n\t</li>\r\n\t<li>\r\n\t<p><strong>Deneyim İyileştirme:</strong> Sitedeki teknik hataların tespiti ve kullanıcı deneyiminin geliştirilmesi.</p>\r\n\t</li>\r\n\t<li>\r\n\t<p><strong>G&uuml;venlik:</strong> Platformun k&ouml;t&uuml;ye kullanımını &ouml;nlemek ve siber g&uuml;venliği sağlamak.</p>\r\n\t</li>\r\n\t<li>\r\n\t<p><strong>İletişim:</strong> &Ouml;nemli g&uuml;ncellemeler veya yeni vaka duyuruları hakkında sizi bilgilendirmek.</p>\r\n\t</li>\r\n</ol>\r\n\r\n<hr />\r\n<h3>3. &Ccedil;erez (Cookie) Politikası</h3>\r\n\r\n<p>Sitemizde, size daha iyi bir &quot;dedektiflik&quot; deneyimi sunmak i&ccedil;in &ccedil;erezler kullanıyoruz.</p>\r\n\r\n<table>\r\n\t<thead>\r\n\t\t<tr>\r\n\t\t\t<td><strong>&Ccedil;erez T&uuml;r&uuml;</strong></td>\r\n\t\t\t<td><strong>A&ccedil;ıklama</strong></td>\r\n\t\t\t<td><strong>S&uuml;re</strong></td>\r\n\t\t</tr>\r\n\t</thead>\r\n\t<tbody>\r\n\t\t<tr>\r\n\t\t\t<td><strong>Zorunlu &Ccedil;erezler</strong></td>\r\n\t\t\t<td>Oturum a&ccedil;manızı ve sitenin g&uuml;venli alanlarında gezinmenizi sağlar.</td>\r\n\t\t\t<td>Oturum S&uuml;resince</td>\r\n\t\t</tr>\r\n\t\t<tr>\r\n\t\t\t<td><strong>Performans &Ccedil;erezleri</strong></td>\r\n\t\t\t<td>Hangi vakaların daha &ccedil;ok ilgi g&ouml;rd&uuml;ğ&uuml;n&uuml; anlamamıza yardımcı olur.</td>\r\n\t\t\t<td>1 Yıl</td>\r\n\t\t</tr>\r\n\t\t<tr>\r\n\t\t\t<td><strong>İşlevsel &Ccedil;erezler</strong></td>\r\n\t\t\t<td>Dil tercihinizi veya karanlık mod se&ccedil;imlerinizi hatırlar.</td>\r\n\t\t\t<td>6 Ay</td>\r\n\t\t</tr>\r\n\t</tbody>\r\n</table>\r\n\r\n<blockquote>\r\n<p><strong>Not:</strong> Tarayıcı ayarlarınızdan &ccedil;erezleri engelleyebilirsiniz; ancak bu durumda sitenin bazı interaktif &ouml;zellikleri (&ouml;rneğin vaka ilerleme kaydı) d&uuml;zg&uuml;n &ccedil;alışmayabilir.</p>\r\n</blockquote>\r\n\r\n<hr />\r\n<h3>4. Verilerin &Uuml;&ccedil;&uuml;nc&uuml; Şahıslarla Paylaşımı</h3>\r\n\r\n<p>Kişisel verileriniz asla &quot;ş&uuml;pheli&quot; &uuml;&ccedil;&uuml;nc&uuml; şahıslara satılmaz. Verileriniz sadece yasal zorunluluk hallerinde (adli makamlarca talep edilmesi durumunda) veya bulut sunucu hizmeti gibi teknik iş ortaklarımızla gizlilik s&ouml;zleşmeleri dahilinde paylaşılabilir.</p>\r\n\r\n<h3>5. Kullanıcı Haklarınız (KVKK ve GDPR)</h3>\r\n\r\n<p>Bir &quot;vaka dosyası&quot; sahibi olarak aşağıdaki haklara sahipsiniz:</p>\r\n\r\n<ul>\r\n\t<li>\r\n\t<p>Hakkınızda hangi verilerin tutulduğunu &ouml;ğrenme.</p>\r\n\t</li>\r\n\t<li>\r\n\t<p>Hatalı verilerin d&uuml;zeltilmesini talep etme.</p>\r\n\t</li>\r\n\t<li>\r\n\t<p>Verilerinizin tamamen silinmesini (&quot;Unutulma Hakkı&quot;) isteme.</p>\r\n\t</li>\r\n</ul>\r\n\r\n<hr />\r\n<h3>6. İletişim</h3>\r\n\r\n<p>Gizlilik politikamız hakkında bir ipucuna ihtiyacınız varsa veya haklarınızı kullanmak isterseniz bizimle iletişime ge&ccedil;ebilirsiniz:</p>\r\n\r\n<ul>\r\n\t<li>\r\n\t<p><strong>E-posta:</strong> info@gizemlivaka.com</p>\r\n\t</li>\r\n\t<li>\r\n\t<p><strong>Adres:</strong> &Ccedil;anakkale/Turkey</p>\r\n\t</li>\r\n</ul>\r\n"
+    },
+    {
+      "id": 340,
+      "key": "param_client_code",
+      "value": "90049"
+    },
+    {
+      "id": 341,
+      "key": "param_username",
+      "value": "TP10114645"
+    },
+    {
+      "id": 342,
+      "key": "param_password",
+      "value": "ABC5EB1FECA7E476"
+    },
+    {
+      "id": 18,
+      "key": "nav1_sub1_text",
+      "value": ""
+    },
+    {
+      "id": 19,
+      "key": "nav1_sub1_url",
+      "value": ""
+    },
+    {
+      "id": 20,
+      "key": "nav1_sub2_text",
+      "value": ""
+    },
+    {
+      "id": 21,
+      "key": "nav1_sub2_url",
+      "value": ""
+    },
+    {
+      "id": 22,
+      "key": "nav1_sub3_text",
+      "value": ""
+    },
+    {
+      "id": 23,
+      "key": "nav1_sub3_url",
+      "value": ""
+    },
+    {
+      "id": 343,
+      "key": "param_guid",
+      "value": "7F05DF33-8637-4C99-B0F9-1F70A0DC906F"
+    },
+    {
+      "id": 344,
+      "key": "param_env",
+      "value": "test"
+    },
+    {
+      "id": 26,
+      "key": "nav2_sub1_text",
+      "value": ""
+    },
+    {
+      "id": 27,
+      "key": "nav2_sub1_url",
+      "value": ""
+    },
+    {
+      "id": 28,
+      "key": "nav2_sub2_text",
+      "value": ""
+    },
+    {
+      "id": 345,
+      "key": "param_enabled",
+      "value": "1"
+    },
+    {
+      "id": 49,
+      "key": "partner_title",
+      "value": "Ortaklık Programımıza Katılın"
+    },
+    {
+      "id": 50,
+      "key": "partner_title_en",
+      "value": "Join Our Partnership Program"
+    },
+    {
+      "id": 51,
+      "key": "partner_description",
+      "value": "Gizem ve gerçek suç öykülerine olan tutkumuzu paylaşan yayıncılarla ortaklık kurmaktan heyecan duyuyoruz. Ortaklık programımız kapsamında, çevrimiçi cinayet gizemi oyunlarımızı web sitenizde veya sosyal medya kanallarınızda tanıtarak komisyon kazanabilirsiniz."
+    },
+    {
+      "id": 52,
+      "key": "partner_description_en",
+      "value": "We are excited to partner with publishers who share our passion for mystery and true crime stories. Through our partnership program, you can earn commission by promoting our online murder mystery games on your website or social media channels."
+    },
+    {
+      "id": 54,
+      "key": "partner_cookie_days",
+      "value": "30"
+    },
+    {
+      "id": 55,
+      "key": "partner_signup_url",
+      "value": ""
+    },
+    {
+      "id": 56,
+      "key": "partner_button_text",
+      "value": "Hemen Kayıt Olun!"
+    },
+    {
+      "id": 57,
+      "key": "partner_button_text_en",
+      "value": "Sign Up Now!"
+    },
+    {
+      "id": 58,
+      "key": "partner_faq1_tr",
+      "value": "Kitlenize benzersiz dedektiflik oyunları tanıtırken her satıştan komisyon kazanın."
+    },
+    {
+      "id": 59,
+      "key": "partner_faq1_en",
+      "value": "Earn commission on every sale while promoting unique detective games to your audience."
+    },
+    {
+      "id": 60,
+      "key": "partner_faq2_tr",
+      "value": "Kayıt olun, benzersiz linkinizi alın, paylaşın ve linkiniz üzerinden yapılan her satın almadan komisyon kazanın."
+    },
+    {
+      "id": 61,
+      "key": "partner_faq2_en",
+      "value": "Sign up, get your unique link, share it, and earn commission on every purchase made through your link."
+    },
+    {
+      "id": 62,
+      "key": "partner_faq3_tr",
+      "value": "Her satışın komisyon oranı kadarını kazanırsınız. Ne kadar çok tanıtırsanız, o kadar çok kazanırsınız!"
+    },
+    {
+      "id": 63,
+      "key": "partner_faq3_en",
+      "value": "You earn the commission rate of every sale. The more you promote, the more you earn!"
+    },
+    {
+      "id": 64,
+      "key": "partner_faq4_tr",
+      "value": "Ödemeler, iş ortağı platformumuz aracılığıyla ayın başında ve ortasında 2 defa  olarak yapılır."
+    },
+    {
+      "id": 65,
+      "key": "partner_faq4_en",
+      "value": "Payments are made monthly through our partner platform."
+    },
+    {
+      "id": 66,
+      "key": "partner_faq5_tr",
+      "value": "Minimum ödeme yoktur. Ne kadar komisyonunuz varsa alacaksınız. "
+    },
+    {
+      "id": 67,
+      "key": "partner_faq5_en",
+      "value": "Please check our partner platform for minimum payout thresholds."
+    },
+    {
+      "id": 68,
+      "key": "partner_faq6_tr",
+      "value": "Evet! Gizem oyunları, gerçek suç hikayeleri veya eğlenceyle ilgilenen bir kitleye sahip herkes katılabilir."
+    },
+    {
+      "id": 69,
+      "key": "partner_faq6_en",
+      "value": "Yes! Anyone with an audience interested in mystery games, true crime, or entertainment can join."
+    },
+    {
+      "id": 70,
+      "key": "title",
+      "value": "Gizlilik ve Çerez Politikası"
+    },
+    {
+      "id": 72,
+      "key": "page_title",
+      "value": "Gizlilik ve Çerez Politikası"
+    },
+    {
+      "id": 74,
+      "key": "legal_text",
+      "value": "Çevrimiçi çözülmemiş dava dosyaları oyunlarımızın tamamı kurgusal eserlerdir. İsimler, karakterler, yerler ve olaylar ya yaratıcının hayal ürünüdür ya da kurgusal olarak kullanılmıştır. Gerçek olaylara, mekanlara veya kişilere (yaşayan veya ölü) herhangi bir benzerlik tamamen tesadüfidir."
+    },
+    {
+      "id": 75,
+      "key": "bottom_bar_text",
+      "value": "© 2026 Gizemli Vakalar• Tüm hakları saklıdır. •"
+    },
+    {
+      "id": 76,
+      "key": "f_col1_title",
+      "value": ""
+    },
+    {
+      "id": 77,
+      "key": "f_col1_l1_text",
+      "value": ""
+    },
+    {
+      "id": 78,
+      "key": "f_col1_l1_url",
+      "value": ""
+    },
+    {
+      "id": 79,
+      "key": "f_col1_l2_text",
+      "value": ""
+    },
+    {
+      "id": 80,
+      "key": "f_col1_l2_url",
+      "value": ""
+    },
+    {
+      "id": 81,
+      "key": "f_col1_l3_text",
+      "value": ""
+    },
+    {
+      "id": 82,
+      "key": "f_col1_l3_url",
+      "value": ""
+    },
+    {
+      "id": 83,
+      "key": "f_col2_title",
+      "value": ""
+    },
+    {
+      "id": 84,
+      "key": "f_col2_l1_text",
+      "value": ""
+    },
+    {
+      "id": 85,
+      "key": "f_col2_l1_url",
+      "value": ""
+    },
+    {
+      "id": 86,
+      "key": "f_col2_l2_text",
+      "value": ""
+    },
+    {
+      "id": 87,
+      "key": "f_col2_l2_url",
+      "value": ""
+    },
+    {
+      "id": 88,
+      "key": "f_col2_l3_text",
+      "value": ""
+    },
+    {
+      "id": 89,
+      "key": "f_col2_l3_url",
+      "value": ""
+    },
+    {
+      "id": 90,
+      "key": "f_col3_title",
+      "value": ""
+    },
+    {
+      "id": 91,
+      "key": "f_col3_l1_text",
+      "value": ""
+    },
+    {
+      "id": 92,
+      "key": "f_col3_l1_url",
+      "value": ""
+    },
+    {
+      "id": 93,
+      "key": "f_col3_l2_text",
+      "value": ""
+    },
+    {
+      "id": 94,
+      "key": "f_col3_l2_url",
+      "value": ""
+    },
+    {
+      "id": 95,
+      "key": "f_col3_l3_text",
+      "value": ""
+    },
+    {
+      "id": 96,
+      "key": "f_col3_l3_url",
+      "value": ""
+    },
+    {
+      "id": 102,
+      "key": "breaking_news",
+      "value": "Yeni dava dosyası eklendi. İnceleme için bekleniyorsunuz."
+    },
+    {
+      "id": 14,
+      "key": "logo_bold",
+      "value": "GİZEMLİ"
+    },
+    {
+      "id": 15,
+      "key": "logo_sub",
+      "value": "VAKALAR"
+    },
+    {
+      "id": 16,
+      "key": "nav1_text",
+      "value": "Nasıl Oynanır"
+    },
+    {
+      "id": 17,
+      "key": "nav1_url",
+      "value": "/how-to-play"
+    },
+    {
+      "id": 24,
+      "key": "nav2_text",
+      "value": "Çözülmemiş Vakalar"
+    },
+    {
+      "id": 25,
+      "key": "nav2_url",
+      "value": "/cases"
+    },
+    {
+      "id": 32,
+      "key": "nav3_text",
+      "value": "Takımlar"
+    },
+    {
+      "id": 98,
+      "key": "social_facebook",
+      "value": ""
+    },
+    {
+      "id": 97,
+      "key": "social_instagram",
+      "value": ""
+    },
+    {
+      "id": 99,
+      "key": "social_twitter",
+      "value": ""
+    },
+    {
+      "id": 100,
+      "key": "social_youtube",
+      "value": ""
+    },
+    {
+      "id": 101,
+      "key": "social_tiktok",
+      "value": ""
+    },
+    {
+      "id": 327,
+      "key": "site_email",
+      "value": "info@gizemlivaka.com"
+    },
+    {
+      "id": 328,
+      "key": "site_phone",
+      "value": "+905437360660"
+    },
+    {
+      "id": 331,
+      "key": "promo_video",
+      "value": "Gizemli_Vaka.mp4"
+    },
+    {
+      "id": 346,
+      "key": "smtp_host",
+      "value": "mail.inbox.eu"
+    },
+    {
+      "id": 73,
+      "key": "page_content",
+      "value": "<p>Bu politika, <strong>www.gizemlivaka.com</strong> (&quot;Biz&quot;) tarafından işletilen gizemli vakalar platformunda, kullanıcılarımızın (&quot;Siz&quot;) verilerinin nasıl işlendiğini ve &ccedil;erezlerin nasıl kullanıldığını a&ccedil;ıklar. Gizliliğinizi korumak, &ccedil;&ouml;z&uuml;lmesi gereken en &ouml;nemli vakadır.</p>\r\n\r\n<h3>1. Toplanan Veriler ve Toplanma Y&ouml;ntemleri</h3>\r\n\r\n<p>Sitemizi ziyaret ettiğinizde veya vakalara dahil olduğunuzda aşağıdaki verileri toplayabiliriz:</p>\r\n\r\n<ul>\r\n\t<li>\r\n\t<p><strong>Kimlik ve İletişim Bilgileri:</strong> Kayıt sırasında verdiğiniz kullanıcı adı, e-posta adresi.</p>\r\n\t</li>\r\n\t<li>\r\n\t<p><strong>Kullanım Verileri:</strong> &Ccedil;&ouml;z&uuml;len vakalar, oyun i&ccedil;i ilerleme, ipucu kullanım ge&ccedil;mişi ve site i&ccedil;i etkileşimleriniz.</p>\r\n\t</li>\r\n\t<li>\r\n\t<p><strong>Teknik Veriler:</strong> IP adresiniz, tarayıcı t&uuml;r&uuml;n&uuml;z, cihaz bilgileriniz ve giriş kayıtlarınız (Log kayıtları).</p>\r\n\t</li>\r\n</ul>\r\n\r\n<h3>2. Verilerin İşlenme Ama&ccedil;ları</h3>\r\n\r\n<p>Topladığımız veriler, yalnızca aşağıdaki &quot;soruşturma&quot; s&uuml;re&ccedil;leri i&ccedil;in kullanılır:</p>\r\n\r\n<ol>\r\n\t<li>\r\n\t<p><strong>Hizmet Sağlanması:</strong> Oyun ilerlemenizin kaydedilmesi ve kullanıcı hesabınızın y&ouml;netilmesi.</p>\r\n\t</li>\r\n\t<li>\r\n\t<p><strong>Deneyim İyileştirme:</strong> Sitedeki teknik hataların tespiti ve kullanıcı deneyiminin geliştirilmesi.</p>\r\n\t</li>\r\n\t<li>\r\n\t<p><strong>G&uuml;venlik:</strong> Platformun k&ouml;t&uuml;ye kullanımını &ouml;nlemek ve siber g&uuml;venliği sağlamak.</p>\r\n\t</li>\r\n\t<li>\r\n\t<p><strong>İletişim:</strong> &Ouml;nemli g&uuml;ncellemeler veya yeni vaka duyuruları hakkında sizi bilgilendirmek.</p>\r\n\t</li>\r\n</ol>\r\n\r\n<hr />\r\n<h3>3. &Ccedil;erez (Cookie) Politikası</h3>\r\n\r\n<p>Sitemizde, size daha iyi bir &quot;dedektiflik&quot; deneyimi sunmak i&ccedil;in &ccedil;erezler kullanıyoruz.</p>\r\n\r\n<table>\r\n\t<thead>\r\n\t\t<tr>\r\n\t\t\t<td><strong>&Ccedil;erez T&uuml;r&uuml;</strong></td>\r\n\t\t\t<td><strong>A&ccedil;ıklama</strong></td>\r\n\t\t\t<td><strong>S&uuml;re</strong></td>\r\n\t\t</tr>\r\n\t</thead>\r\n\t<tbody>\r\n\t\t<tr>\r\n\t\t\t<td><strong>Zorunlu &Ccedil;erezler</strong></td>\r\n\t\t\t<td>Oturum a&ccedil;manızı ve sitenin g&uuml;venli alanlarında gezinmenizi sağlar.</td>\r\n\t\t\t<td>Oturum S&uuml;resince</td>\r\n\t\t</tr>\r\n\t\t<tr>\r\n\t\t\t<td><strong>Performans &Ccedil;erezleri</strong></td>\r\n\t\t\t<td>Hangi vakaların daha &ccedil;ok ilgi g&ouml;rd&uuml;ğ&uuml;n&uuml; anlamamıza yardımcı olur.</td>\r\n\t\t\t<td>1 Yıl</td>\r\n\t\t</tr>\r\n\t\t<tr>\r\n\t\t\t<td><strong>İşlevsel &Ccedil;erezler</strong></td>\r\n\t\t\t<td>Dil tercihinizi veya karanlık mod se&ccedil;imlerinizi hatırlar.</td>\r\n\t\t\t<td>6 Ay</td>\r\n\t\t</tr>\r\n\t</tbody>\r\n</table>\r\n\r\n<blockquote>\r\n<p><strong>Not:</strong> Tarayıcı ayarlarınızdan &ccedil;erezleri engelleyebilirsiniz; ancak bu durumda sitenin bazı interaktif &ouml;zellikleri (&ouml;rneğin vaka ilerleme kaydı) d&uuml;zg&uuml;n &ccedil;alışmayabilir.</p>\r\n</blockquote>\r\n\r\n<hr />\r\n<h3>4. Verilerin &Uuml;&ccedil;&uuml;nc&uuml; Şahıslarla Paylaşımı</h3>\r\n\r\n<p>Kişisel verileriniz asla &quot;ş&uuml;pheli&quot; &uuml;&ccedil;&uuml;nc&uuml; şahıslara satılmaz. Verileriniz sadece yasal zorunluluk hallerinde (adli makamlarca talep edilmesi durumunda) veya bulut sunucu hizmeti gibi teknik iş ortaklarımızla gizlilik s&ouml;zleşmeleri dahilinde paylaşılabilir.</p>\r\n\r\n<h3>5. Kullanıcı Haklarınız (KVKK ve GDPR)</h3>\r\n\r\n<p>Bir &quot;vaka dosyası&quot; sahibi olarak aşağıdaki haklara sahipsiniz:</p>\r\n\r\n<ul>\r\n\t<li>\r\n\t<p>Hakkınızda hangi verilerin tutulduğunu &ouml;ğrenme.</p>\r\n\t</li>\r\n\t<li>\r\n\t<p>Hatalı verilerin d&uuml;zeltilmesini talep etme.</p>\r\n\t</li>\r\n\t<li>\r\n\t<p>Verilerinizin tamamen silinmesini (&quot;Unutulma Hakkı&quot;) isteme.</p>\r\n\t</li>\r\n</ul>\r\n\r\n<hr />\r\n<h3>6. İletişim</h3>\r\n\r\n<p>Gizlilik politikamız hakkında bir ipucuna ihtiyacınız varsa veya haklarınızı kullanmak isterseniz bizimle iletişime ge&ccedil;ebilirsiniz:</p>\r\n\r\n<ul>\r\n\t<li>\r\n\t<p><strong>E-posta:</strong> info@gizemlivaka.com</p>\r\n\t</li>\r\n\t<li>\r\n\t<p><strong>Adres:</strong> &Ccedil;anakkale/T&uuml;rkiye</p>\r\n\t</li>\r\n</ul>\r\n"
+    },
+    {
+      "id": 348,
+      "key": "smtp_user",
+      "value": "info@gizemlivaka.com"
+    },
+    {
+      "id": 336,
+      "key": "paynkolay_iptal",
+      "value": "189064897|wYYIp9Y5cO0m3FyN21m9KZWyEjpUfubziIRxkgZTvWUWYxa2wNIuICXhvnKPoGVLxk1uuKzj2PN14sZnb3FVNOe83y1X/DdqtPtNq8BlnK8wJZZhUq+DuVmdDNQEcfZH+N8INw==|GYlbtzOi8mQHZJWI3d471A/+TJA7C81X"
+    },
+    {
+      "id": 350,
+      "key": "smtp_from_email",
+      "value": "info@gizemlivaka.com"
+    },
+    {
+      "id": 347,
+      "key": "smtp_port",
+      "value": "587"
+    },
+    {
+      "id": 337,
+      "key": "paynkolay_listeleme",
+      "value": "189064897|wYYIp9Y5cO0m3FyN21m9KZWyEjpUfubziIRxkgZTvWUWYxa2wNIuICXhvnKPoGVLxk1uuKzj2PN14sZnb3FVNOe83y1X/DdqtPtNq8BlnK8wJZZhUq+DuVmdDNQEcfZH+N8INw==|pM2y9bvyOJfcCZ4q6F7rcA=="
+    },
+    {
+      "id": 338,
+      "key": "paynkolay_secret_key",
+      "value": "_PG2qaf5kfrLZQYwrDP3Z"
+    },
+    {
+      "id": 339,
+      "key": "paynkolay_enabled",
+      "value": "1"
+    },
+    {
+      "id": 349,
+      "key": "smtp_pass",
+      "value": "31P8zsmNAK"
+    }
+  ],
+  "pages": [
+    {
+      "id": 1,
+      "title": "Gizlilik ve Çerez Politikası",
+      "slug": "gizlilik-ve-cerez-politikasi",
+      "content": "<h3>1. Toplanan Veriler ve Toplanma Yöntemleri</h3>\n<p>Bu politika, <strong>www.gizemlivaka.com</strong> (Platform) tarafından kullanıcılarımızın kişisel verilerinin nasıl işlendiğini ve çerezlerin nasıl kullanıldığını açıklar. Gizliliğinizi korumak en öncelikli taahhüdümüzdür.</p>\n<p>Sitemizi ziyaret ettiğinizde veya vakalara katıldığınızda aşağıdaki veriler toplanabilir:</p>\n<ul>\n<li><strong>Kimlik ve İletişim Bilgileri:</strong> Kayıt sırasında sağlanan kullanıcı adı ve e-posta adresi.</li>\n<li><strong>Kullanım Verileri:</strong> Çözülen vakalar, oyun içi ilerleme ve ipucu kullanım geçmişi.</li>\n<li><strong>Teknik Veriler:</strong> IP adresi, tarayıcı türü, cihaz bilgileri ve giriş kayıtları.</li>\n</ul>\n<h3>2. Verilerin İşlenme Amaçları</h3>\n<ol>\n<li><strong>Hizmet Sunumu:</strong> Hesabınızın yönetilmesi ve oyun ilerlemenizin kaydedilmesi.</li>\n<li><strong>Deneyim İyileştirme:</strong> Teknik hataların tespiti ve kullanıcı deneyiminin geliştirilmesi.</li>\n<li><strong>Güvenlik:</strong> Platformun kötüye kullanımının önlenmesi.</li>\n<li><strong>İletişim:</strong> Güncellemeler ve yeni vaka duyuruları hakkında bilgilendirme.</li>\n</ol>\n<h3>3. Çerez (Cookie) Politikası</h3>\n<p>Platformumuzda daha iyi bir deneyim sunmak amacıyla çerezler kullanılmaktadır.</p>\n<table class=\"table table-bordered table-sm\">\n<thead><tr><th>Çerez Türü</th><th>Açıklama</th><th>Süre</th></tr></thead>\n<tbody>\n<tr><td><strong>Zorunlu Çerezler</strong></td><td>Oturum açmanızı ve güvenli gezinmenizi sağlar.</td><td>Oturum süresince</td></tr>\n<tr><td><strong>Performans Çerezleri</strong></td><td>Hangi içeriklerin daha çok ilgi gördüğünü anlamamıza yardımcı olur.</td><td>1 Yıl</td></tr>\n<tr><td><strong>İşlevsel Çerezler</strong></td><td>Dil tercihinizi ve oturum bilgilerinizi hatırlar.</td><td>6 Ay</td></tr>\n</tbody>\n</table>\n<p><em>Tarayıcı ayarlarınızdan çerezleri engelleyebilirsiniz; ancak bu durumda sitenin bazı özellikleri düzgün çalışmayabilir.</em></p>\n<h3>4. Verilerin Üçüncü Şahıslarla Paylaşımı</h3>\n<p>Kişisel verileriniz hiçbir koşulda üçüncü şahıslara satılmaz. Yalnızca yasal zorunluluk hallerinde veya gizlilik sözleşmesi imzalanmış teknik iş ortakları ile sınırlı ölçüde paylaşılabilir.</p>\n<h3>5. Kullanıcı Haklarınız</h3>\n<ul>\n<li>Hakkınızda hangi verilerin tutulduğunu öğrenme hakkı.</li>\n<li>Hatalı verilerin düzeltilmesini talep etme hakkı.</li>\n<li>Verilerinizin silinmesini (Unutulma Hakkı) isteme hakkı.</li>\n<li>Veri işlemeye itiraz etme hakkı.</li>\n</ul>\n<h3>6. İletişim</h3>\n<ul>\n<li><strong>E-posta:</strong> info@gizemlivaka.com</li>\n<li><strong>Web Sitesi:</strong> www.gizemlivaka.com</li>\n</ul>"
+    },
+    {
+      "id": 2,
+      "title": "Kullanım Şartları ve Koşulları",
+      "slug": "kullanim-sartlari-ve-kosullari",
+      "content": "<p><strong>www.gizemlivaka.com</strong> platformuna hoş geldiniz. Bu siteye erişerek veya vaka çözmeye başlayarak aşağıdaki kullanım şartlarını kabul etmiş sayılırsınız.</p>\n<h3>1. Hizmetin Tanımı</h3>\n<p><strong>www.gizemlivaka.com</strong>, kullanıcılarına kurgusal cinayet vakaları, bulmacalar ve interaktif hikayeler sunan bir eğlence platformudur. Sitede yer alan tüm olaylar, karakterler ve kanıtlar <strong>tamamen kurgusaldır.</strong></p>\n<h3>2. Kullanıcı Hesapları ve Güvenlik</h3>\n<ul>\n<li>Platformdaki ilerlemenizi kaydetmek için bir hesap oluşturmanız gerekebilir.</li>\n<li>Hesap bilgilerinizin güvenliğinden tamamen siz sorumlusunuz.</li>\n<li>Hesabınızın yetkisiz kullanımını fark ettiğinizde derhal <strong>info@gizemlivaka.com</strong> adresine bildirmelisiniz.</li>\n</ul>\n<h3>3. Fikri Mülkiyet Hakları</h3>\n<p>Platformda yer alan tüm içerikler <strong>www.gizemlivaka.com</strong>a aittir veya lisanslıdır.</p>\n<ul>\n<li><strong>Spoiler Yasağı:</strong> Vakaların çözümlerini veya kritik ipuçlarını üçüncü taraf platformlarda izinsiz paylaşmak yasaktır.</li>\n<li><strong>İzinsiz Kullanım:</strong> İçeriklerin ticari amaçla kopyalanması kesinlikle yasaktır.</li>\n</ul>\n<h3>4. Yasaklı Davranışlar</h3>\n<ul>\n<li>Sitenin teknik altyapısına zarar verecek girişimlerde bulunmak.</li>\n<li>Oyun içindeki açıkları kötüye kullanarak haksız ilerleme sağlamak.</li>\n<li>Diğer kullanıcılara karşı hakaret, tehdit veya taciz içeren davranışlarda bulunmak.</li>\n</ul>\n<h3>5. Sorumluluk Sınırlandırması</h3>\n<p><strong>www.gizemlivaka.com</strong>, platformun kesintisiz çalışacağını garanti etmez. Platformun kullanımından doğabilecek dolaylı zararlardan sorumluluk kabul edilmez.</p>\n<h3>6. Ücretlendirme ve İadeler</h3>\n<ul>\n<li>Bazı özel vakalar ve ipucu paketleri ücrete tabidir.</li>\n<li>Dijital içeriklerin anında iletilmesi nedeniyle, satın alınan vakalar için (yasal istisnalar hariç) iade yapılmamaktadır.</li>\n</ul>\n<h3>7. Uygulanacak Hukuk</h3>\n<p>Bu şartlardan doğan uyuşmazlıklarda Türkiye Cumhuriyeti kanunları geçerlidir.</p>\n<p><strong>İletişim:</strong> info@gizemlivaka.com</p>"
+    },
+    {
+      "id": 3,
+      "title": "Mesafeli Satış Sözleşmesi",
+      "slug": "mesafeli-satis-sozlesmesi",
+      "content": "<h3>1. TARAFLAR</h3>\n<p><strong>1.1. SATICI:</strong></p>\n<ul>\n<li><strong>Ticari Unvan:</strong> Gizemli Vaka</li>\n<li><strong>Web Sitesi:</strong> www.gizemlivaka.com</li>\n<li><strong>E-posta:</strong> info@gizemlivaka.com</li>\n</ul>\n<p><strong>1.2. ALICI (TÜKETİCİ):</strong> www.gizemlivaka.com web sitesine üye olan veya sipariş veren kişi.</p>\n<h3>2. SÖZLEŞMENİN KONUSU</h3>\n<p>İşbu Sözleşmenin konusu, Alıcının Satıcıya ait web sitesi üzerinden elektronik ortamda satın aldığı dijital ürün/hizmetin satışı ve teslimatına ilişkin 6502 sayılı Tüketicinin Korunması Hakkında Kanun ve Mesafeli Sözleşmeler Yönetmeliği hükümleri uyarınca tarafların hak ve yükümlülüklerinin belirlenmesidir.</p>\n<h3>3. ÜRÜN VE ÖDEME BİLGİLERİ</h3>\n<ul>\n<li><strong>Ürün Türü:</strong> Dijital Vaka Dosyası / İnteraktif Oyun İçeriği / Dijital İpucu Paketi.</li>\n<li><strong>Teslimat Şekli:</strong> Ödemenin onaylanmasının ardından Alıcının hesap paneline dijital ortamda anında erişim sağlanır. Fiziksel kargo yapılmaz.</li>\n<li><strong>Ödeme Yöntemi:</strong> Kredi Kartı / Banka Kartı / Havale / EFT.</li>\n</ul>\n<h3>4. GENEL HÜKÜMLER</h3>\n<ol>\n<li>Alıcı, web sitesinde ürünün temel nitelikleri, satış fiyatı ve ödeme şekline ilişkin ön bilgileri okuyup bilgi sahibi olduğunu kabul eder.</li>\n<li>Dijital içeriklerin mahiyeti gereği ürünün teslimi, ödeme onaylandığı anda içeriğin erişime açılmasıyla gerçekleşmiş sayılır.</li>\n<li>Satıcı, sözleşme konusu ürünün belirtilen niteliklere uygun ve eksiksiz teslim edilmesinden sorumludur.</li>\n</ol>\n<h3>5. CAYMA HAKKI VE İSTİSNALARI</h3>\n<p><strong>ÖNEMLİ:</strong> 29188 sayılı Resmi Gazetede yayımlanan Mesafeli Sözleşmeler Yönetmeliğinin 15. maddesinin (ğ) bendi uyarınca; <em>Elektronik ortamda anında ifa edilen hizmetler veya tüketiciye anında teslim edilen gayrimaddi mallara ilişkin sözleşmelerde</em> cayma hakkı kullanılamaz.</p>\n<ul>\n<li>Alıcı, satın aldığı dijital içeriğin kendisine sunulduğu andan itibaren cayma hakkını kullanamayacağını kabul eder.</li>\n<li>Teknik bir hata nedeniyle erişilemeyen içerikler için Alıcı, <strong>info@gizemlivaka.com</strong> adresi üzerinden destek talep edebilir.</li>\n</ul>\n<h3>6. YETKİLİ MAHKEME</h3>\n<p>İşbu Sözleşmeden doğan uyuşmazlıklarda T.C. Ticaret Bakanlığı tarafından her yıl ilan edilen değere kadar Alıcının yerleşim yerindeki Tüketici Hakem Heyetleri veya Tüketici Mahkemeleri yetkilidir.</p>\n<h3>7. YÜRÜRLÜK</h3>\n<p>Alıcı, sipariş bedelini ödediği anda işbu Sözleşmenin tüm şartlarını kabul etmiş sayılır.</p>"
+    },
+    {
+      "id": 4,
+      "title": "KVKK Aydınlatma Metni",
+      "slug": "kvkk-aydinlatma-metni",
+      "content": "<p><strong>www.gizemlivaka.com</strong> (Platform) olarak, 6698 sayılı Kişisel Verilerin Korunması Kanunu (KVKK) kapsamında veri sorumlusu sıfatıyla kişisel verilerinizin işlenmesine ilişkin sizi aydınlatmak istiyoruz.</p>\n<h3>1. Veri Sorumlusunun Kimliği</h3>\n<ul>\n<li><strong>İnternet Sitesi:</strong> www.gizemlivaka.com</li>\n<li><strong>E-posta:</strong> info@gizemlivaka.com</li>\n</ul>\n<h3>2. İşlenen Kişisel Verileriniz</h3>\n<ul>\n<li><strong>Kimlik Bilgileri:</strong> Kullanıcı adı, ad-soyad (varsa).</li>\n<li><strong>İletişim Bilgileri:</strong> E-posta adresi.</li>\n<li><strong>İşlem Güvenliği Bilgileri:</strong> IP adresi, giriş-çıkış kayıtları.</li>\n<li><strong>Müşteri İşlem Bilgileri:</strong> Satın alınan vaka dosyaları, oyun içi ilerleme kayıtları ve ödeme onay bilgileri. Kart bilgileriniz tarafımızca tutulmaz.</li>\n</ul>\n<h3>3. Kişisel Verilerin İşlenme Amaçları</h3>\n<table class=\"table table-bordered table-sm\">\n<thead><tr><th>Amaç</th><th>Hukuki Dayanak (KVKK Md. 5)</th></tr></thead>\n<tbody>\n<tr><td>Üyelik ve hesap yönetimi</td><td>Sözleşmenin ifası</td></tr>\n<tr><td>Ödeme işlemlerinin yürütülmesi</td><td>Sözleşmenin ifası / Yasal yükümlülük</td></tr>\n<tr><td>Oyun içi ilerleme ve ipucu kayıtları</td><td>Sözleşmenin ifası</td></tr>\n<tr><td>Güvenlik ve dolandırıcılık önleme</td><td>Meşru menfaat</td></tr>\n<tr><td>Yasal yükümlülüklerin yerine getirilmesi</td><td>Yasal yükümlülük</td></tr>\n</tbody>\n</table>\n<h3>4. Kişisel Verilerin Aktarımı</h3>\n<p>Kişisel verileriniz; ödeme altyapısı sağlayıcıları (iyzico, PaynKolay, Param POS), sunucu hizmet sağlayıcıları ile yasal zorunluluk halinde yetkili kamu kurum ve kuruluşlarıyla KVKK kapsamında paylaşılabilir.</p>\n<h3>5. Saklama Süresi</h3>\n<p>Kişisel verileriniz, hizmet ilişkisinin sona ermesinden itibaren yasal yükümlülükler gereği en fazla 10 yıl süreyle saklanır.</p>\n<h3>6. KVKK Kapsamındaki Haklarınız</h3>\n<ul>\n<li>Kişisel verilerinizin işlenip işlenmediğini öğrenme,</li>\n<li>İşlenmişse buna ilişkin bilgi talep etme,</li>\n<li>Eksik veya yanlış işlenen verilerin düzeltilmesini isteme,</li>\n<li>Verilerin silinmesini veya yok edilmesini isteme,</li>\n<li>Kanuna aykırı işleme sebebiyle zarara uğramanız halinde zararın giderilmesini talep etme.</li>\n</ul>\n<h3>7. Başvuru Yöntemi</h3>\n<p>Haklarınızı kullanmak için <strong>info@gizemlivaka.com</strong> adresine e-posta gönderebilirsiniz. Başvurunuz en geç <strong>30 gün</strong> içinde yanıtlanacaktır.</p>"
+    }
+  ],
+  "how_to_play_steps": [
+    {
+      "id": 1,
+      "order_num": 1,
+      "badge": "ADIM 1",
+      "badge_en": "STEP 1",
+      "title": "Davanızı Seçin",
+      "title_en": "Choose Your Case",
+      "content": "<p><a href=\"/cases\">Çözülmemiş dava dosyalarımıza</a> göz atın - her soruşturmamız bir <strong>cinayet davasıdır</strong>.</p><ul><li><strong>Anında erişim:</strong> sepete ekleyin ve ödeme yapın; kargo yok, bekleme yok.</li><li><strong>Çevrimiçi dava dosyaları:</strong> Tarayıcınızda hemen başlayın; isteğe bağlı PDF kanıt paketi mevcuttur.</li></ul>",
+      "content_en": "<p><a href=\"/cases\">Browse our unsolved case files</a> - every investigation is a <strong>murder case</strong>.</p><ul><li><strong>Instant access:</strong> add to cart and checkout; no shipping, no waiting.</li><li><strong>Online case files:</strong> Start immediately in your browser; optional PDF evidence pack available.</li></ul>",
+      "image": "detectives_analyzing_case_files.png",
+      "is_active": true
+    },
+    {
+      "id": 2,
+      "order_num": 2,
+      "badge": "ADIM 2",
+      "badge_en": "STEP 2",
+      "title": "Dedektif Girişinizi Oluşturun",
+      "title_en": "Create Your Detective Login",
+      "content": "<p>Yeni müşteriler, sipariş verdikten sonra şifre belirlemek için bir e-posta alırlar. Giriş yaptıktan sonra, sahip olduğunuz tüm davaları görüntülemek için ana menüdeki <strong>\"Aktif Oyunlarım\"</strong> seçeneğine tıklayın.</p><ul><li><strong>Cihazlar arası süreklilik:</strong> Masaüstü, dizüstü veya tabletinizde kaldığınız yerden devam edin.</li><li><strong>Güvenlik:</strong> Dosyalarınıza özel erişim sağlayan şifrelenmiş giriş.</li></ul>",
+      "content_en": "<p>New customers receive an email to set their password after ordering. Once logged in, click <strong>\"My Active Games\"</strong> in the main menu to view all your cases.</p><ul><li><strong>Cross-device continuity:</strong> Continue where you left off on desktop, laptop or tablet.</li><li><strong>Security:</strong> Encrypted login providing private access to your files.</li></ul>",
+      "image": "case_dashboard_on_devices.png",
+      "is_active": true
+    },
+    {
+      "id": 3,
+      "order_num": 3,
+      "badge": "ADIM 3",
+      "badge_en": "STEP 3",
+      "title": "Polis Bilgisayarına Girin",
+      "title_en": "Enter the Police Computer",
+      "content": "<p><strong>\"Şimdi Oynat\"</strong>'a tıkladığınızda, tarayıcınız kurgusal bir polis bilgisayar sistemine dönüşür.</p><ul><li><strong>Kurulum gerektirmez:</strong> Chrome, Safari, Firefox veya Edge'de saniyeler içinde başlar.</li><li><strong>Erişilebilirlik:</strong> Okunabilir metin, yakınlaştırılabilir medya ve klavyeyle uyumlu gezinme.</li></ul>",
+      "content_en": "<p>When you click <strong>\"Play Now\"</strong>, your browser transforms into a fictional police computer system.</p><ul><li><strong>No setup required:</strong> Starts in seconds on Chrome, Safari, Firefox or Edge.</li><li><strong>Accessibility:</strong> Readable text, zoomable media and keyboard-compatible navigation.</li></ul>",
+      "image": "police_computer_terminal.png",
+      "is_active": true
+    },
+    {
+      "id": 4,
+      "order_num": 4,
+      "badge": "ADIM 4",
+      "badge_en": "STEP 4",
+      "title": "Kanıtları Analiz Edin",
+      "title_en": "Analyze the Evidence",
+      "content": "<p>Vakalarımız kasıtlı olarak ucu açık bırakılmıştır: belgeleri inceleyin, zaman damgalarını karşılaştırın, fotoğrafları inceleyin ve güvenlik kameralarını izleyin.</p><ul><li><strong>Gerçekçi metodoloji:</strong> Bir zaman çizelgesi oluşturun, güdüleri test edin, çelişkileri sorgulayın.</li><li><strong>Kendi tarzınızda ilerleyin:</strong> Şüpheliler arasında geçiş yapın veya adli tıp incelemelerine odaklanın.</li></ul>",
+      "content_en": "<p>Our cases are intentionally left open-ended: examine documents, compare timestamps, study photographs and watch CCTV footage.</p><ul><li><strong>Realistic methodology:</strong> Build a timeline, test motives, question contradictions.</li><li><strong>Progress at your own pace:</strong> Switch between suspects or focus on forensic examinations.</li></ul>",
+      "image": "detectives_analyzing_evidence.png",
+      "is_active": true
+    },
+    {
+      "id": 5,
+      "order_num": 5,
+      "badge": "ADIM 5",
+      "badge_en": "STEP 5",
+      "title": "Dedektif Raporunuzu Gönderin",
+      "title_en": "Submit Your Detective Report",
+      "content": "<p>Emin bir sonuca ulaştığınızda, <strong>raporunuzu Şefe gönderin</strong>. Sistem anında yanıt verir.</p><ul><li><strong>Anında sonuç:</strong> Mantığınızın geçerli olup olmadığını hemen öğrenin.</li><li><strong>Öğrenme döngüsü:</strong> Teorilerinizi geliştirin ve hazır olduğunuzda tekrar gönderin.</li></ul>",
+      "content_en": "<p>When you reach a confident conclusion, <strong>submit your report to the Chief</strong>. The system responds instantly.</p><ul><li><strong>Instant result:</strong> Learn immediately whether your logic is valid.</li><li><strong>Learning loop:</strong> Refine your theories and resubmit when ready.</li></ul>",
+      "image": "detective_team_meeting.png",
+      "is_active": true
+    },
+    {
+      "id": 6,
+      "order_num": 6,
+      "badge": "ADIM 6",
+      "badge_en": "STEP 6",
+      "title": "Dava Kapandı - Tüm Detaylar Ortaya Çıktı",
+      "title_en": "Case Closed - All Details Revealed",
+      "content": "<p><strong>Doğru çözümü</strong> gönderdiğinizde, son sürprizi açacaksınız: dava hakkında bir <strong>haber raporu</strong> ve ayrıntılı bir özet.</p><ul><li><strong>Haber raporu:</strong> Adalet yerini bulduktan sonra olayın nasıl geliştiğini deneyimleyin.</li><li><strong>Ayrıntılı analiz:</strong> Güdüler, mazeretler, çelişkiler ve gerçeğe ulaşmanın kesin yolu.</li></ul>",
+      "content_en": "<p>When you submit the <strong>correct solution</strong>, you will unlock the final surprise: a <strong>news report</strong> about the case and a detailed summary.</p><ul><li><strong>News report:</strong> Experience how events unfolded after justice was served.</li><li><strong>Detailed analysis:</strong> Motives, alibis, contradictions and the definitive path to truth.</li></ul>",
+      "image": "case_solved_celebration.png",
+      "is_active": true
+    }
+  ],
+  "posts": [
+    {
+      "id": 1,
+      "title": "İlk Vaka Dosyanız Masanızda: Soruşturmaya Nereden Başlamalısınız?",
+      "content": "Masaya yeni bir dosya bırakıldı. İçinde otopsi raporları, şüpheli ifadeleri, bulanık güvenlik kamerası görüntüleri ve olay yeri fotoğrafları var. Her şey karmaşık, herkes yalan söylüyor gibi ve zaman daralıyor. Çoğu çaylak dedektif bu noktada hata yapar: Hemen bir şüpheliye odaklanmak. Usta bir dedektif ise önce derin bir nefes alır ve metodik yaklaşır. İşte ilk dosyanızı açtığınızda izlemeniz gereken yol haritası.\n\n<h4>1. Sessiz Okuma (The Quiet Read)</h4>\nBir teoriniz olmadan önce, tüm verilere sahip olmalısınız. İlk 20 dakikayı sadece okumaya ve izlemeye ayırın. Not almayın, bağlantı kurmaya çalışmayın. Sadece olay örgüsünün zihninize oturmasına izin verin. Kim nerede, ne zaman, ne yapıyordu?\n\n<h4>2. Zaman Çizelgesinin Kutsallığı</h4>\nBir cinayet soruşturmasının omurgası zaman çizelgesidir (Timeline). Olayın gerçekleştiği tahmin edilen saatten geriye ve ileriye doğru bir çizelge oluşturun. Şüphelilerin ifadelerindeki saatleri bu çizelgeye yerleştirin. Kimin ifadesi zaman akışıyla çelişiyor? İşte ilk çatlağı buldunuz.\n\n<h4>3. \"Gürültüyü\" Ayırt Etmek</h4>\nHer vaka dosyasında, sizi yanlış yönlendirmek için oraya konulmuş \"gürültüler\" (irrelevant facts) vardır. Şüphelinin olayla ilgisi olmayan geçmiş bir suçu veya kurbanın karmaşık aşk hayatı bazen sadece dikkat dağıtıcıdır. Kendinize şu soruyu sorun: \"Bu bilgi, cinayetin nasıl veya neden işlendiğini doğrudan etkiliyor mu?\" Etkilemiyorsa, onu şimdilik bir kenara bırakın.\n\n<h4>Sonuç</h4>\nBir vakayı çözmek, bin parçalık bir yapbozu tamamlamak gibidir. Köşelerden başlayın, çerçeveyi oluşturun ve sabırlı olun. Şimdi, rozetinizi takın ve arşivimizdeki ilk dosyanızı seçin. Bakalım teoriniz ne kadar sağlam?",
+      "image": "blog_post_1.png",
+      "date_posted": "2026-02-01 09:32:34.170536"
+    },
+    {
+      "id": 2,
+      "title": "Bakmak ile Görmek Arasındaki Fark: Bir Dedektifin En Büyük Silahı",
+      "content": "Olay yerine gelen polis memurları cesedi, kanı ve kırık camı görür. Bir dedektif ise cesedin kolundaki saatin durduğu dakikayı, kanın sıçrama açısını ve kırık camın dışarıdan mı içeriden mi kırıldığını görür. Gizemli Vakalar platformunda başarılı olmanın sırrı, size sunulan kanıtlara sadece bakmak değil, onları gerçekten görmektir.\n\n<h4>Bağlam Her Şeydir</h4>\nÇamurlu bir ayakkabı izi tek başına bir anlam ifade etmez. Ancak o iz, son üç gündür yağmur yağmamış bir şehirdeki bir evin salonundaysa, işte o zaman bir hikaye anlatmaya başlar. Kanıtları asla içinde bulundukları ortamdan bağımsız değerlendirmeyin. Bir ipucu, sadece doğru bağlama oturtulduğunda bir delile dönüşür.\n\n<h4>\"Negatif Kanıt\" Kavramı</h4>\nBazen en önemli ipucu, orada olmayan şeydir. Sherlock Holmes'un ünlü \"Gümüş Şimşek\" hikayesindeki gibi; önemli olan köpeğin havlaması değil, hırsızlık sırasında havlamamış olmasıdır. Bu, hırsızın tanıdık biri olduğunu gösterir. Dosyalarımızı incelerken kendinize sorun: \"Burada olması gereken ama olmayan ne var?\" Bir boğuşma izi yoksa, kurban katili tanıyor muydu? Zorlama yoksa, katilde anahtar mı vardı?\n\n<h4>Sonuç</h4>\nBir sonraki vaka dosyanızı açtığınızda, yüzeysel detayların ötesine geçmeye çalışın. Şüphelilerin ne söylediğine değil, neyi söylemekten kaçındığına odaklanın. Çünkü gerçek, her zaman en küçük ve en sessiz detayda saklıdır.",
+      "image": "blog_post_2.png",
+      "date_posted": "2026-02-01 09:32:34.172620"
+    },
+    {
+      "id": 3,
+      "title": "Usta Bir Dedektifin Çantasında (ve Zihninde) Bulunması Gereken 5 Araç",
+      "content": "Filmlerde dedektiflerin en önemli araçları silahları veya hızlı arabalarıdır. Ancak gerçek (veya bizimki gibi kurgusal ama gerçekçi) bir soruşturmada, asıl işi yapan zihinsel araçlarınızdır. \"Gizemli Vakalar\" arşivindeki en zorlu dosyaları çözen dedektiflerin ortak özelliklerini inceledik. İşte o 5 zihinsel araç:\n\n<h4>1. Sağlıklı Bir Şüphecilik Dozu</h4>\nVerilen hiçbir bilgiyi, ilk anda göründüğü gibi kabul etmeyin. Bir tanık \"Saat 10:00'da evdeydim\" diyorsa, bu onun doğru söylediği anlamına gelmez; sadece onun iddiasının bu olduğu anlamına gelir. Her şeyi doğrulayana kadar herkes yalan söylüyordur.\n\n<h4>2. Empati Yeteneği</h4>\nKulağa tuhaf gelebilir ama iyi bir dedektif, katil gibi düşünebilmelidir. \"Ben olsam bu cesedi nasıl saklardım?\", \"Yakalanmamak için hangi yalanı söylerdim?\" Katilin motivasyonunu ve psikolojisini anlamak, sizi onun bir sonraki adımına götürür.\n\n<h4>3. Obsesif Bir Düzen</h4>\nKaos, gerçeğin düşmanıdır. Notlarınız dağınık, zaman çizelgeniz hatalıysa, ipuçları arasındaki bağlantıyı asla göremezsiniz. Dijital veya fiziksel bir \"mantar pano\" oluşturun. İsimleri, olayları ve kanıtları görselleştirin.\n\n<h4>4. Sabır</h4>\nDizilerde cinayetler 45 dakikada çözülür. Bizim vakalarımızda ise bazen tek bir ses kaydını beş kez dinlemeniz, bir fotoğrafı piksellerine kadar incelemeniz gerekebilir. Hızlı sonuca varmak yerine, doğru sonuca varmayı hedefleyin.\n\n<h4>5. Hayal Gücü</h4>\nSon olarak, bazen eldeki kanıtlar yetersiz kalır. İşte o noktada noktaları birleştirmek için hayal gücünüzü kullanmanız gerekir. \"Ya şöyle olduysa?\" sorusunu sormaktan korkmayın. En çılgın teoriler bazen gerçeğin ta kendisidir.\n\n<h4>Sonuç</h4>\nBu araçlara sahip olduğunuzu düşünüyor musunuz? O halde çantanızı hazırlayın. Merkezde sizi bekleyen çözülmemiş bir dosya var.",
+      "image": "blog_post_3.png",
+      "date_posted": "2026-02-01 09:32:34.172657"
+    },
+    {
+      "id": 4,
+      "title": "Kulaklarınızla Görmek: Ses Kayıtlarındaki Gizli İpuçları",
+      "content": "Bir olay yerini incelerken gözlerimize çok güveniriz. Kanın rengi, camın kırık parçaları, yerdeki ayak izi... Ancak bazen gerçeğin anahtarı, görünenlerde değil, duyulanlardadır. \"Gizemli Vakalar\" arşivindeki pek çok dosya, sadece dikkatli bir kulağın yakalayabileceği kritik ses kayıtları içerir. Peki, bir dedektif gibi dinlemeyi biliyor musunuz?\n\n<h4>1. Söylenmeyenleri Duyun</h4>\nBir şüphelinin sorgu kaydını dinlerken sadece kelimelere odaklanmayın. Nerede duraksıyor? Sesi nerede titriyor veya aniden yükseliyor? Bir soruyu cevaplamadan önce yutkunuyor mu? Bu \"sözsüz\" anlar, genellikle yalanın hazırlandığı veya stresin arttığı anlardır.\n\n<h4>2. Arka Planın Hikayesi</h4>\nBir acil durum araması (911 kaydı) dinlediğinizi varsayalım. Arayan kişi panik içinde. Ama arka planda ne var? Bir köpek havlaması, geçen bir tren sesi veya başka birinin fısıltısı... Bu çevresel sesler, aramanın yapıldığı gerçek konumu veya o an odada başka kimlerin olduğunu ele verebilir.\n\n<h4>3. Tekrarın Gücü</h4>\nProfesyonel ses analistleri bir kaydı onlarca kez dinler. İlk dinleyişte hikayeyi anlarsınız. İkinci dinleyişte tonlamaları fark edersiniz. Beşinci dinleyişte ise arka plandaki o saatin tik-tak sesinin neden önemli olduğunu keşfedersiniz.\n\n<h4>Sonuç</h4>\nBir sonraki vakanızda kulaklıklarınızı takın, sesi açın ve gözlerinizi kapatın. Bazen gerçeği görmenin en iyi yolu, sadece dinlemektir.",
+      "image": "blog_post_4.png",
+      "date_posted": "2026-02-01 09:43:34.757866"
+    },
+    {
+      "id": 5,
+      "title": "Yalanın Anatomisi: Şüpheli İfadelerinde Gerçeği Ayıklamak",
+      "content": "\"Ben yapmadım.\" Her suçlu bu cümleyi kurar. Peki, hangisinin doğruyu söylediğini nasıl anlayacaksınız? İnsanlar yalan söylerken, beyinleri gerçeği bastırmak ve yeni bir senaryo üretmek için fazla mesai yapar. Bu zihinsel yük, dillerine ve ifadelerine \"sızıntı\" olarak yansır.\n\n<h4>Mesafe Koyma Dili</h4>\nYalancılar genellikle kendilerini olaydan veya kurbandan soyutlamak isterler. Eğer bir şüpheli, eşinden bahsederken sürekli adını kullanmak yerine \"o kadın\" veya \"rahmetli\" gibi mesafeli ifadeler kullanıyorsa dikkatli olun.\n\n<h4>Gereksiz Detaylara Boğulmak</h4>\nDoğruyu söyleyen biri genellikle ana hatları anlatır. Yalancı ise hikayesini inandırıcı kılmak için size sormadığınız detayları verir. Eğer biri size sormadığınız halde kahvaltısının detaylarını anlatıyorsa, asıl konudan uzaklaşmanızı istiyor olabilir.\n\n<h4>\"Asla\" ve \"Hiçbir Zaman\" Tuzağı</h4>\nSuçlu insanlar genellikle kesin ve iddialı bir dil kullanarak kendilerini aklamaya çalışırlar. \"Ben karımı öldürmedim\" yerine \"Ben hayatım boyunca kimseye zarar vermedim\" gibi genellemeler, genellikle bir savunma mekanizmasıdır.\n\n<h4>Sonuç</h4>\nYalan tespiti bir bilim olduğu kadar bir sanattır da. Kelimelerin altındaki gerçek niyeti okumayı öğrendiğinizde, vaka çözülmeye başlayacaktır.",
+      "image": "blog_post_5.png",
+      "date_posted": "2026-02-01 09:43:34.761422"
+    },
+    {
+      "id": 6,
+      "title": "Dijital Ayak İzleri: Siber Dünyada İz Sürmek",
+      "content": "Artık suç mahalli sadece fiziksel bir mekan değil. Katiller, kurbanlar ve tanıklar; hepsi dijital bir dünyada yaşıyor ve arkalarında silinmesi imkansız izler bırakıyorlar. Modern dedektifliğin en önemli sahası artık sokaklar değil, internetin derinlikleridir.\n\n<h4>Zaman Damgalarının Gerçeği</h4>\nBir şüpheli saat 22:00'de uyuduğunu iddia ediyor. Ancak sosyal medya hesabında saat 22:45'te bir gönderiyi beğendiği görülüyor. Dijital zaman damgaları asla yalan söylemez ve en sağlam alibileri bile saniyeler içinde çürütebilir.\n\n<h4>Fotoğrafların Arka Planı</h4>\nKurbanın paylaştığı son \"mutlu\" selfie'ye dikkatlice baktınız mı? Arka plandaki aynadaki yansıma, masada duran üçüncü bir kahve bardağı veya pencereden görünen bir sokak tabelası... Kamera her şeyi kaydeder.\n\n<h4>Çevrimiçi İlişkiler Ağı</h4>\nKim kimin arkadaş listesinde? Kurbanın son gönderilerine kimler yorum yapmayı bıraktı? Dijital dünyadaki etkileşimler, gerçek dünyadaki gizli ilişkileri ortaya çıkarabilir.\n\n<h4>Sonuç</h4>\nSoruşturma dosyanızı incelerken sadece kağıtlara bağlı kalmayın. Karakterlerin dijital gölgelerini takip edin. Unutmayın, internet asla unutmaz.",
+      "image": "blog_post_6.png",
+      "date_posted": "2026-02-01 09:43:34.761903"
+    },
+    {
+      "id": 7,
+      "title": "\"Evreka!\" Anı: Tüm Parçalar Birleştiğinde Hissedilen O Duygu",
+      "content": "Saatlerdir aynı dosyaya bakıyorsunuz. İfadeler çelişiyor, kanıtlar yetersiz görünüyor ve motivasyonunuz düşmeye başladı. Kendinizi çıkmaz sokakta hissediyorsunuz. Merak etmeyin, her büyük dedektif bu anı yaşar. Çünkü bu karanlık an, şafaktan hemen öncesidir.\n\n<h4>Tıkanıklık Bir İşarettir</h4>\nBir vakada tıkanmak, başarısız olduğunuz anlamına gelmez. Aksine, beyninizin verileri arka planda işlemeye devam ettiğinin bir işaretidir. Bazen en iyi çözüm, dosyayı kapatıp bir kahve molası vermektir.\n\n<h4>O Muhteşem Bağlantı</h4>\nVe sonra aniden olur. Belki duş alırken, belki yürüyüş yaparken... Bir anda, otopsi raporundaki o küçük detay ile tanığın ifadesindeki o tuhaf cümle zihninizde birleşir. \"Evreka!\" (Buldum!). O an, tüm karmaşa bir anda netleşir.\n\n<h4>Sonuç</h4>\nDedektiflik, sabır işidir. \"Gizemli Vakalar\"da aradığımız şey sadece \"katil kim\" sorusunun cevabı değil, o cevaba ulaşırken yaşadığınız zihinsel yolculuk ve finaldeki o muhteşem tatmin duygusudur. O anı yaşamaya hazır mısınız? Dosyanız sizi bekliyor.",
+      "image": "blog_post_7.png",
+      "date_posted": "2026-02-01 09:43:34.761947"
+    }
+  ],
+  "blog_comments": [],
+  "cases": [
+    {
+      "id": "vaka-kopyaci-heykeltiras",
+      "title": "2026/007: Kopyacı Heykeltıraş",
+      "title_en": null,
+      "price": 200.0,
+      "image": "cover.jpg",
+      "video": "/static/uploads/vaka-kopyaci-heykeltiras/Haber_Videosu.html",
+      "description": "İstanbul Şehir Müzesi, tarihi eser restorasyon atölyesinde geçen bir hırsızlık ve şüpheli ölüm vakası. Müze, paha biçilmez Helenistik dönem koleksiyonunun bir kısmını restore etmek üzere atölyeye aldığında, kimse yaklaşan felaketin farkında değildi.\r\n\r\nSıradan bir sabah, restorasyon ekibi atölyeye geldiklerinde korkunç bir manzarayla karşılaştı. Müzenin 30 yıllık emektarı, Baş Restoratör Kenan Usluer, atölyenin ortasında, bir yığın alçı tozunun içinde yüzüstü yatarken bulundu. İlk müdahalede hayatını kaybettiği anlaşıldı. Olay yeri ilk bakışta bir kaza gibi dursa da, kısa sürede durumun çok daha karmaşık olduğu ortaya çıktı.\r\n\r\nOlay yeri inceleme ekipleri, Kenan Bey'in ölümünün yanı sıra daha büyük bir suçu da tespit etti: Restorasyondaki üç adet küçük ama paha biçilmez bronz heykel, ustaca yapılmış kopyalarıyla değiştirilmişti. Atölyenin ekipman kullanım kayıtları incelendiğinde, gece yarısı 3D tarayıcı ve silikon kalıp makinelerinin izinsiz olarak kullanıldığı anlaşıldı. Bu durum, olayın içeriden birilerinin yardımıyla planlanmış profesyonel bir sanat eseri soygunu olduğunu düşündürüyordu.\r\n\r\nKenan Usluer'in ölümü bir cinayet miydi, yoksa soygunu fark etmesinin getirdiği şokla tetiklenen trajik bir kaza mı? Hırsızlar, müze personeli arasından kim ya da kimlerdi? Bu kişiler, uluslararası bir karaborsa ağının parçası olabilir miydi? Soruşturma, müzenin tozlu koridorlarından sanat dünyasının karanlık dehlizlerine uzanan karmaşık bir ağın düğümlerini çözmek zorunda.",
+      "description_en": null,
+      "solution": "Elif Çetiner",
+      "old_price": 0.0,
+      "discount_rate": 0,
+      "difficulty": "Zor",
+      "is_active": true,
+      "report_case_name": "Kopyacı Heykeltıraş",
+      "report_case_name_en": null,
+      "report_company": "İstanbul Emniyet Müdürlüğü",
+      "report_company_en": null,
+      "success_message": "Tespitiniz doğru! Kenan Usluer vakasının perde arkası şöyle:\n\nBaş Küratör <strong>Elif Çetiner</strong>, yaklaşık 8 ay önce denetimindeki bir Bizans heykelciğine kaza sonucu zarar verdi. Skandalı örtbas etmek için, kumar borcu içindeki atölye teknisyeni <strong>Murat Soyer</strong>'i parasal teşvikle ikna ederek eserin birebir kopyasını gizlice ürettirdi. Ancak Murat, işi tek başına yapamayacağını anlayıp sanat galerisi sahibi <strong>Bülent Karadağ</strong>'ı devreye soktu. Bülent, tek bir kopya yerine müzenin tüm kıymetli koleksiyonunu götürme fırsatı gördü ve operasyonu büyüttü.\n\nKenan Usluer, o gece restorasyondaki bir eserdeki şüpheli detayı kontrol etmek için atölyede geç kaldı ve kopyalama işlemine tanık oldu. Paniğe kapılan Murat, kalıp alma sürecinde alçı tozu ile kimyasal çözücüleri havalandırması yetersiz ortamda yoğun şekilde kullandı. Bu madde maruziyeti, Kenan'ın mevcut kalp hastalığını tetikleyerek ölümüne yol açtı.\n\nBirden fazla suçlu, birden fazla suç: <strong>Elif Çetiner</strong> (hırsızlığı organize etmek), <strong>Murat Soyer</strong> (ölüme sebebiyet ve hırsızlığa yardım), <strong>Bülent Karadağ</strong> (organize hırsızlık). Güvenlik Müdürü <strong>Zeynep Akman</strong>'ın kamera arızasını örtbas etmesi de kapsamdaydı.\n\nTebrikler, Dedektif. İstanbul Şehir Müzesi'nin mirası korundu.",
+      "success_message_en": null,
+      "success_file": "Basari_Dosyasi.html",
+      "police_department": "İstanbul Emniyet Müdürlüğü",
+      "police_department_en": null,
+      "report_letter": "<p><strong>Dedektif,</strong></p>\n<p>Bu dosyayı masanıza ulaştırdığımızda, sizi bekleyen vakanın Türkiye'nin kültürel mirası açısından son derece hassas bir nitelik taşıdığını bilmenizi istiyorum.</p>\n<p><strong>15 Ekim 2026 gecesi</strong>, İstanbul Şehir Müzesi'nin Restorasyon Atölyesi'nde, 30 yıllık emektarımız Baş Restoratör <strong>Kenan Usluer</strong>, alçı tozu ve kimyasal madde maruziyetinin tetiklediği bir kalp kriziyle hayatını kaybetti. Aynı gecede, müzenin en kıymetli parçaları olan <strong>üç adet Bizans dönemi bronz heykelciği</strong> ile bir <strong>Osmanlı dönemi el yazması</strong>, yerlerine konulan yüksek kalite kopyalarla değiştirilmiş olarak bulundu. Toplam piyasa değeri: yaklaşık <strong>20.000.000 TL</strong>.</p>\n<p>İlk bulgular ölümü \"doğal nedenler\" olarak tanımlasa da, olay yerindeki kargaşa, güvenlik kamerasının tam o gece 90 saniyeliğine devre dışı kalması ve 3D tarayıcının gece yarısı yetkisiz kullanımı bizi ikna etmiyor. Kenan Bey, bir hafta önce bir meslektaşına <em>\"gördüklerini anlatması gerektiğini\"</em> söylemiş.</p>\n<p>Beş şüphelimiz var. Hepsi müze içinden veya müzeyle yakın ilişkisi olan isimler:</p>\n<ul>\n<li><strong>Elif Çetiner</strong> — Baş Küratör: Zayıf alibisi, atölyeye gece geç saatlere kadar erişim yetkisi, 3D tarayıcı kullanım kartı onun adına kayıtlı.</li>\n<li><strong>Murat Soyer</strong> — Atölye Teknisyeni: Ciddi kumar borcu, tüm teknik ekipmanlara erişim, sorgu sırasında tutarsız ifadeler.</li>\n<li><strong>Aslı Görgün</strong> — Restoratör Yardımcısı: Kariyer hırsı, ancak güçlü sosyal medya alibisi mevcut.</li>\n<li><strong>Zeynep Akman</strong> — Güvenlik Müdürü: Kameranın \"arızalandığı\" geceyi \"rutin\" olarak açıkladı; son bir yılda benzer kayıt yok.</li>\n<li><strong>Bülent Karadağ</strong> — Sanat Galerisi Sahibi: Karaborsa bağlantısı şüpheli, müşteri listesini paylaşmayı reddetti.</li>\n</ul>\n<p>Dosyadaki tüm kanıt belgelerini titizlikle inceleyin. Çelişkilere dikkat edin. Kenan Usluer'in ölümü ile hırsızlık arasındaki bağlantıyı kurun.</p>\n<div class=\"signature\"><p>Saygılarımla,<br><strong>Başkomiser Orhan Demir</strong><br>İstanbul Emniyet Müdürlüğü — Hırsızlık ve Yankesicilik Büro Amirliği</p></div>",
+      "report_letter_en": null,
+      "commissioner_name": "Başkomiser Orhan Demir",
+      "commissioner_name_en": null,
+      "warning_text": "Bu vakanın çözümünü başka oyunculara açıklamayın — her dedektif kendi sonucuna ulaşmalı.",
+      "warning_text_en": null,
+      "instructions_text": "SORUŞTURMA TALİMATNAMESİ — DOSYA NO: 2026/007\n\n1. AŞAMA — OLAY YERİ VE FİZİKSEL KANITLAR:\nKenan Usluer'in neden tam o gece atölyede olduğunu anlayın. Olay yeri inceleme raporundaki \"düzensizlik\" bulgusunu değerlendirin: Bu bir boğuşmanın izi mi, yoksa panik halinde oluşmuş bir kargaşa mı? Kimyasal analiz raporundaki toz bileşenlerini inceleyin. Otopsi raporunda akciğerlerdeki \"yabancı madde\" tespitine dikkat edin. Bu ölüm kaza mı, ihmal mi, yoksa kasıt mıydı?\n\n2. AŞAMA — ŞÜPHELİ PROFİLLERİ VE İFADE TUTANAKLARI:\nHer şüphelinin profilini, sorgu kaydını ve iddia ettiği alibisini karşılaştırın. Güvenlik kartı giriş-çıkış kayıtları kimin ifadesiyle çelişiyor? 3D tarayıcı ve kalıp makinesi o gece kimin kartıyla çalıştırıldı? Kamera arızası gerçekten \"kaza\" mıydı?\n\n3. AŞAMA — EKİPMAN, MALİ İZLER VE KARABORSA BAĞLANTISI:\nAtölye ekipman kayıtlarını ve CCTV analizini birlikte değerlendirin. Mali inceleme raporunda hangi şüphelinin hesabında şüpheli para hareketi var? Çalıntı envanter raporundaki kopya kalitesi hangi teknik bilgi ve ekipmanı gerektiriyor? Bülent Karadağ ile müze personelini kim bağlıyor?\n\nRAPORUNUZU YAZARKEN: Suçlunun/suçluların kimliğini açıkça belirtin. Suçun nasıl işlendiğini adım adım açıklayın. Kenan Usluer'in ölümüyle bağlantıyı somut kanıtlarla destekleyin.",
+      "instructions_text_en": null,
+      "report_greeting": "Şef,",
+      "report_greeting_en": null,
+      "report_intro_text": "İstanbul Şehir Müzesi Restorasyon Atölyesi'nde 15-16 Ekim 2026 gecesi yaşanan sanat eseri hırsızlığı ve Baş Restoratör Kenan Usluer'in şüpheli ölümü vakasına ilişkin tüm kanıt dosyalarını, ifade tutanaklarını, teknik raporları ve tanık beyanlarını titizlikle inceledim. Elde ettiğim tespitleri ve ulaştığım sonuçları aşağıda sunuyorum.",
+      "report_intro_text_en": null,
+      "report_suspect_question": "Tüm kanıt dosyalarını, ifade tutanaklarını ve teknik raporları incelediğinize göre: Bu vakada suçlu kim ya da kimler? Hırsızlık ve Kenan Usluer'in ölümü nasıl gerçekleşti? Hangi kanıtlar sizi bu sonuca götürdü?",
+      "report_suspect_question_en": null,
+      "report_confirmation_text": "Yukarıdaki tespitlerin incelediğim kanıt dosyaları ve ifade tutanaklarına dayandığını onaylıyorum. Bu raporu İstanbul Emniyet Müdürlüğü'ne resmi soruşturma belgesi olarak sunuyorum.",
+      "report_confirmation_text_en": null,
+      "report_signature_name": "Dedektif (Adınız)",
+      "report_signature_name_en": null,
+      "demo_enabled": false,
+      "demo_summary": "",
+      "demo_summary_en": null,
+      "game_type": "both",
+      "culprit_keywords": "elif, elif çetiner, murat, murat soyer",
+      "explanation_keywords": "suç, küratör elif çetiner'in küçük bir hatasını örtbas etme çabasıyla başladı. denetimindeki bir esere hafifçe zarar veren elif, skandalı önlemek için teknisyen murat soyer'den gizlice bir kopya yapma"
+    },
+    {
+      "id": "104.2 Çanakkale Paradoksu",
+      "title": "2026/003: Kayıp Frekansın Son Yayını",
+      "title_en": null,
+      "price": 280.0,
+      "image": "Gemini_Generated_Image_ci5z3kci5z3kci5z.png",
+      "video": "/static/uploads/Kilitli_Oda_Gizemi_-_Son_Dakika.mp4",
+      "description": "Kilitli Oda: Yankı FM Gizemi, Çanakkale'nin tarihi dokusunda ve bir radyo istasyonunun gerilimli koridorlarında geçen sürükleyici bir cinayet soruşturmasıdır.\r\n\r\n25 Ocak 2026 gecesi, ünlü radyocu Aras Yankı binlerce dinleyicinin kulağı önünde canlı yayında öldüğünde ve cesedi içeriden kilitli bir stüdyoda bulunduğunda tüm şehir sarsılır. Katil bir hayalet gibi iz bırakmadan girip çıkmıştır ve hala aramızdadır.\r\n\r\nDerinlemesine araştırma yapmaya, katmanlı teknik ve fiziksel kanıtları (kararan kameralar, zehirli çay bardakları, gizemli ses kayıtları) incelemeye ve birbirine sıkıca bağlı, sırlarla dolu şüpheliler çemberini çözmeye hazır olun. Gerçek, kilitli kapının ardında değil, detaylarda gizli.",
+      "description_en": null,
+      "solution": "Melis Derin",
+      "old_price": 350.0,
+      "discount_rate": 20,
+      "difficulty": "Zor",
+      "is_active": true,
+      "report_case_name": "Kayıp Frekansın Son Yayını",
+      "report_case_name_en": null,
+      "report_company": "Gizemli Vakalar",
+      "report_company_en": null,
+      "success_message": "Tespitiniz doğru!\n\nYankı FM stüdyosundaki ölümün arkasında hem ileri düzey teknik bilgi hem de acımasız bir kişisel hesaplaşma yatıyordu.\n\n<strong>Selim Ersoy</strong>, Aras Yankı'nın yıllarca üstüne basarak devam ettirdiği kariyerinin gerçek mimarıydı. Radyo teknisyeni olarak stüdyoya tam erişim yetkisi olan Selim, canlı yayın mikrofonunun bağlantısına son derece ince bir iğne yerleştirdi ve içinden <strong>tetrodotoksin</strong> (balon balığı zehri) geçirecek şekilde modifiye etti. Bu madde, standart toksikoloji testlerinde geç ortaya çıkan, kas lifleri üzerinde nöromüsküler blok yapan bir zehirdir — tespiti kasıtlı olarak zorlaştırılmıştı.\n\n<strong>Kerem Işık</strong> kimyasal maddeyi temin etti, <strong>Melis Derin</strong> ise o gece stüdyonun tam kritik anında boşaltılmasını organize etti. Stüdyo kapısının içeriden kilitli görünmesi özel bir mekanizmayla kurgulanmış bir yanılsamaydı — kilitli oda paradoksu aslında hiç var olmamıştı.\n\nFrekans kayıtlarındaki anormallikler, iğne izleri ve baz istasyonu konum verileri her şeyi açığa çıkardı.\n\nTebrikler, Dedektif. Yankı FM yeniden özgürce yayın yapacak.",
+      "success_message_en": null,
+      "success_file": "Basar_Mesaj.html",
+      "police_department": "Çanakkale Polis Karakolu",
+      "police_department_en": null,
+      "report_letter": "Dedektif,\r\n\r\nMuhtemelen duymuşsunuzdur, ancak Aras Yankı \"Kilitli Oda\" dosyasını an itibarıyla devralıyorsunuz. Amacımız, 25 Ocak 2026 gecesi sıcak takiple ele geçirdiğimiz deliller arasında gözden kaçan o kritik bağlantıyı bulmak.\r\n\r\nCinayet, binlerce dinleyicinin kulağı önünde, canlı yayında ve görünüşe göre içeriden kilitli bir stüdyoda işlendi. Çanakkale gibi tarihi ve sakin bir şehirde böyle \"imkansız\" bir olayın yaşanması, yerel halk ve medya üzerinde büyük bir şok etkisi yarattı.\r\n\r\nMedya baskısı ve kamuoyunun merakı had safhada. Bu karmaşık düğümü çözmek ve sadece katili değil, bu illüzyonu nasıl yarattığını da ortaya çıkarmak için taze bir göze, sizin analitik zekanıza ihtiyacımız var.\r\n\r\nBir kalem ve kağıt alın, ardından dijital veri tabanımızda şu ana kadar toplanan tüm belgeleri (çelişkili tanık ifadelerini, olay yeri krokilerini, şüpheli e-postalarını ve teknik analizleri) dikkatlice okuyun. İlk müdahale ekiplerinin gözden kaçırdığı o küçük detayı bulursanız, derhal raporlayın.\r\n\r\nBu davayı çözmek, sadece adaleti sağlamakla kalmayacak, teşkilattaki itibarınızı da zirveye taşıyacak.\r\n\r\nBize iyi bir sonuç getireceğinize güveniyorum.\r\n\r\nİyi şanslar.",
+      "report_letter_en": null,
+      "commissioner_name": "Ali Turan",
+      "commissioner_name_en": null,
+      "warning_text": "DİKKAT: RESMİ SORUŞTURMA DOSYASI (GİZLİ)\r\nBu belge, 25 Ocak 2026 tarihinde Yankı FM stüdyolarında gerçekleşen Aras Yankı cinayeti soruşturmasına ait hassas verileri içermektedir. Dosyayı incelemeden önce lütfen aşağıdaki maddeleri dikkatle okuyunuz:\r\n\r\nKurgusal Gerçeklik: Bu dosyada yer alan tüm karakterler, olaylar ve kurumlar tamamen kurgusaldır; gerçek kişi veya kurumlarla olan benzerlikler rastlantı eseridir.\r\n\r\nHassas İçerik: Dosya içeriğinde cinayet mahalli tasvirleri, adli tıp bulguları ve suç unsurları yer almaktadır; bu tür içeriklere karşı hassasiyeti olan kullanıcıların dikkatli olması önerilir.\r\n\r\nDelil Güvenliği: Paylaşılan dijital deliller (WhatsApp yazışmaları, banka kayıtları ve ses dosyaları), soruşturmanın selameti açısından üçüncü şahıslarla izinsiz paylaşılmamalıdır.\r\n\r\nResmiyet: Dosyada yer alan Aras Yankı'ya ait görsel veriler ve stüdyo krokisi sadece bu soruşturmanın çözümü amacıyla kullanılabilir.\r\n\r\nNOT: Bu bir zeka ve dikkat testidir. Gerçek adalet, sadece kağıt üzerindeki yazılara değil, satır aralarındaki çelişkilere odaklananlar tarafından tesis edilecektir.",
+      "warning_text_en": null,
+      "instructions_text": "1. Aşama: Olay Yeri ve Fiziksel Kanıt Analizi\r\nKilitli Oda Gizemi: Stüdyo kapısının içeriden nasıl kilitlendiğini anlamak için olay yeri krokisini ve kapı sürgü mekanizmasını dikkatle incele.\r\n\r\nMaktulün Konumu: Aras Yankı'nın masadaki pozisyonu ve önündeki eşyaların (mikrofonlar, iki adet çay bardağı) yerleşimini analiz et.\r\n\r\nGörsel Hafıza: CCTV görüntülerini ve maktulün son fotoğrafını karşılaştırarak stüdyodaki anormal durumları tespit et.\r\n\r\n2. Aşama: Dijital ve Finansal İz Takibi\r\nBanka Hareketleri: Maktulün son 30 günlük harcamalarını inceleyerek şüphelilerle olan gizli para trafiğini (özellikle Selim Ersoy ve Melis Derin ile olanlar) çöz.\r\n\r\nSosyal Medya ve İletişim: Aras'ın son paylaşımlarını ve WhatsApp üzerinden aldığı tehditkar mesajları kronolojik sıraya koy.\r\n\r\nTeknik Loglar: Radyo sunucusundaki 12 saniyelik kesintinin hangi şüphelinin beyanıyla çeliştiğini belirle.\r\n\r\n3. Aşama: Sorgulama ve Çapraz Kontrol\r\nSes Kayıtlarını Dinle: Şüphelilerin (Melis, Leyla, Selim, Kerem, Haluk) ses tonlarındaki duraksamaları ve ifadelerindeki mantık hatalarını yakala.\r\n\r\nAlibi (Mazeret) Kontrolü: Kimin olay saatinde nerede olduğunu ve bu bilginin kamera kayıtlarıyla/tanık ifadeleriyle uyuşup uyuşmadığını denetle.\r\n\r\n4. Aşama: Karar ve Dosya Kapatma\r\nMotivasyon Belirle: Hangi şüphelinin Aras'ın ölümüyle en büyük kazancı elde edeceğini (veya en büyük zarardan kurtulacağını) saptanmalıdır.\r\n\r\nFinal İddianamesi: Suçluyu, suç ortağını ve cinayet yöntemini (Modus Operandi) içeren nihai raporunu hazırla.",
+      "instructions_text_en": null,
+      "report_greeting": "Komiserim,",
+      "report_greeting_en": null,
+      "report_intro_text": "Yankı FM stüdyolarında cinayete kurban giden radyo programcısı Aras Yankı davasındaki delil dosyalarını incelemek için sayısız saat harcadım ve sanırım sonunda bu \"kilitli oda\" gizemini çözdüm.",
+      "report_intro_text_en": null,
+      "report_suspect_question": "Delilleri inceleyerken (özellikle banka kayıtları ve sosyal medya tehditleri) aklıma şu geldi: Bay Yankı'yı öldüren şüpheli şu olmalı:",
+      "report_suspect_question_en": null,
+      "report_confirmation_text": "",
+      "report_confirmation_text_en": null,
+      "report_signature_name": "Ali Turan",
+      "report_signature_name_en": null,
+      "demo_enabled": true,
+      "demo_summary": "Kilitli Oda: Yankı FM Gizemi, Çanakkale'nin tarihi dokusunda ve bir radyo istasyonunun gerilimli koridorlarında geçen sürükleyici bir cinayet soruşturmasıdır.",
+      "demo_summary_en": null,
+      "game_type": "both",
+      "culprit_keywords": "selim, selim ersoy, kerem, kerem ışık, melis, melis derin",
+      "explanation_keywords": "tetrodotoksin, zehir, frekans, mikrofon, iğne, sedatif"
+    },
+    {
+      "id": "Gölge-Protokolü--Sessiz-Kaos",
+      "title": "2026/005: Gölge Protokolü: Sessiz Kaos",
+      "title_en": null,
+      "price": 280.0,
+      "image": "Sessiz_Kaos.jpg",
+      "video": "/static/uploads/Golge-Protokolu-Sessiz-Kaos-Haber.html",
+      "description": "\"Kusursuz bir kod, ölümcül bir silaha dönüşebilir mi?\"\r\n\r\nÇanakkale'nin geleceği olarak görülen Troya Akıllı Bölge (TAB) projesinin baş yazılımcısı Selin Koray (32), kendi tasarladığı akıllı kavşakta feci bir şekilde can verdi. İlk bakışta trajik bir otonom araç kazası gibi görünse de, dijital veriler korkunç bir gerçeği fısıldıyor.\r\n\r\nBu bir kaza değil, tarihin ilk senkronize siber suikastı.\r\n\r\nOlay anında üç imkansız şey aynı saniyede gerçekleşti:\r\n\r\nKavşaktaki tüm trafik ışıkları yeşile döndü.\r\n\r\nSelin'in akıllı saati sisteme sahte bir \"kalp krizi\" alarmı gönderdi.\r\n\r\nAracın güvenlik protokolü, bu sahte alarm yüzünden kapıları kilitleyerek onu içeride hapsetti.\r\n\r\nGörev: Ortada ne bir katil, ne bir silah, ne de zorlanmış bir kapı var. Sadece mükemmel çalışan, ancak bir araya geldiklerinde ölümcül bir tuzağa dönüşen üç farklı algoritma var. Dedektif, katil olay mahallinde değil; kod satırlarının, veri paketlerinin ve silikon çiplerin arasında gizli.\r\n\r\nSisteme sızmaya hazır mısın?",
+      "description_en": null,
+      "solution": "Kaan Aras",
+      "old_price": 350.0,
+      "discount_rate": 20,
+      "difficulty": "Zor",
+      "is_active": true,
+      "report_case_name": "Gölge Protokolü: Sessiz Kaos",
+      "report_case_name_en": null,
+      "report_company": "Gizemli Vaka",
+      "report_company_en": null,
+      "success_message": "Tespitiniz doğru!\n\nTroya Akıllı Bölge'deki otonom araç ölümünün arkasında, \"Gölge Protokolü\" adı verilen gizli bir yazılım sabotajı duruyordu.\n\n<strong>Kaan Aras</strong>, TAB projesinin baş rakibi olan bir teknoloji şirketiyle gizli anlaşma yapmıştı. Baş yazılımcı <strong>Selin Koray</strong>'ın otonom araç sisteminin güvenlik açığını tespit ettiğini ve üst yönetime bildirmek üzere olduğunu öğrenince harekete geçti. <strong>Deniz Yılmaz</strong> sistemin PLC (programlanabilir lojik kontrolör) katmanına erişerek sensör verilerini manipüle etti; <strong>Baran Kurt</strong> ise ATHENA yapay zeka sisteminin güvenlik uyarılarını susturan bir kod parçacığı yerleştirdi.\n\nSelin Koray, sabotajı keşfedip sistemi kurtarmaya çalışırken araç beklenmedik şekilde hareket etti. Bu bir kaza değil, planlı bir suikastti.\n\nŞifreli git commit geçmişi, ağ trafiği logları ve IP adres tespit raporu her şeyi gün yüzüne çıkardı.\n\nTebrikler, Dedektif. Troya Akıllı Bölge güvende.",
+      "success_message_en": null,
+      "success_file": "Basar_Mesaj.html",
+      "police_department": "Çanakkale Polis Karakolu",
+      "police_department_en": null,
+      "report_letter": "<b>SORUŞTURMA AÇILIŞ RAPORU: VAKA #2026/005</b><br><b>GÖNDEREN:</b> Başkomiser<br><br><b>ALICI:</b> Saha Dedektif Timi<br><br><b>KONU:</b> Selin Koray Şüpheli Ölümü (Gölge Protokolü)<br><br><b>TARİH:</b> 07.02.2026<br><br><b>SAYIN DEDEKTİF,</b><br><br>Bu sabah saat 03:14 sularında Troya Akıllı Bölge (TAB) pilot sahasında meydana gelen ve başlangıçta \"trajik bir sistem hatası\" olarak raporlanan kaza, kriminal bilişim uzmanlarımızın ilk incelemesiyle bir cinayet soruşturmasına dönüştürülmüştür.<br><br><b>OLAY ÖZETİ:</b> TAB projesinin baş yazılımcısı <b>Selin Koray</b> (32), otonom aracıyla seyir halindeyken, 4. Cadde kavşağında gerçekleşen zincirleme bir algoritma tetiklenmesi sonucu hayatını kaybetmiştir. Selin Koray, sadece bir yazılımcı değil, şehrin dijital beynini inşa eden kişiydi.<br><br><b>KRİTİK BULGULAR VE ANOMALİLER:</b> Olay yerinde yapılan teknik analiz, kazanın tesadüf olamayacak kadar hassas bir zamanlamayla gerçekleştiğini göstermektedir:<br><br><b>Trafik Senkronizasyonu:</b> Kavşağa ait tüm trafik sinyalizasyon verileri, kaza anında manuel bir müdahale olmaksızın eş zamanlı olarak \"Yeşil\" moda geçirilmiştir.<br><br><b>Biyometrik Manipülasyon:</b> Maktulün akıllı saati, kaza anından saniyeler önce sisteme 220 BPM (aşırı yüksek) nabız verisi iletmiştir.<br><br><b>Güvenlik Paradoksu:</b> Araç içi işletim sistemi, bu nabız verisini \"Sürücü Kalp Krizi Geçiriyor\" olarak yorumlamış; güvenlik protokolü gereği aracın tüm kapılarını kilitlemiş ve dış müdahaleyi engellemek için camları karartmıştır.<br><br><b>SORUŞTURMA HEDEFİ:</b> Bu vaka bir \"kilitli oda\" değil, bir \"kilitli kod\" vakasıdır. Katil, olay yerinde fiziksel olarak bulunmamış olabilir ancak sistemde kalıcı izler bıraktığına eminiz. Göreviniz; <b>Kaan Aras</b>, <b>Deniz Yılmaz</b>, <b>İpek Tan</b>, <b>Baran Kurt</b> ve <b>Arzu Güneş</b> isimli şüphelilerin dijital ayak izlerini takip ederek bu üçlü tetikleme mekanizmasını kimin, hangi amaçla kurduğunu ortaya çıkarmaktır.<br><br><i>\"Adalet, her zaman satır aralarındaki hataları yakalayanların yanındadır.\"</i><br><br><b>GEREĞİNİN YAPILMASINI ARZ EDERİM.</b><br><br><b>İmza:</b> Başkomiser Cinayet Büro Amiri",
+      "report_letter_en": null,
+      "commissioner_name": "Başkomiser Morris",
+      "commissioner_name_en": null,
+      "warning_text": "UYARI: KRİTİK VERİ GÜVENLİĞİ PROTOKOLÜ\r\nDİKKAT: Bu dosya içerisinde yer alan tüm dijital materyaller, Troya Akıllı Bölge (TAB) projesine ait gizli ve mühürlü verilerdir. Bilgilerin yetkisiz kişilerle paylaşılması veya sistem dışına çıkarılması durumunda 5237 sayılı TCK’nın ilgili siber suç maddeleri uyarınca adli işlem başlatılacaktır.\r\n\r\nSiber Kontaminasyon Riski: İncelenen kod blokları ve scriptler, maktul Selin Koray'ın ölümüne neden olan \"Gölge Protokolü\"nün kalıntılarını içermektedir. Dosyaları açarken izolasyon modunda olduğunuzdan emin olun.\r\n\r\nKanıt Bütünlüğü: Dijital delillerin (JSON, YAML, SQL) checksum değerlerini değiştirmeyin. Herhangi bir veri manipülasyonu, davanın mahkemede düşmesine neden olabilir.\r\n\r\nPsikolojik Faktör: Bu vaka fiziksel bir saldırı değil, bir zekâ suikastıdır. Gördüğünüz her \"hata\" (bug) kasten oraya yerleştirilmiş olabilir.",
+      "warning_text_en": null,
+      "instructions_text": "DEDEKTİF TALİMATNAMESİVakayı başarıyla sonuçlandırmak için aşağıdaki operasyonel adımları takip etmeniz zorunludur:1. Dijital Adli Analiz (Digital Forensics)Log İncelemesi: traffic_flow.log dosyasındaki $SHA-256$ hash değerlerini kontrol ederek, trafik ışıklarının manuel olarak tetiklenip tetiklenmediğini analiz edin.Kod Arkeolojisi: Selin Koray'ın son güncellemesi olan patch_final_v5.py dosyasını, Kaan Aras’ın sistem mimarisi kayıtlarıyla karşılaştırın.2. Şüpheli ve Çelişki TakibiFiziksel ve Dijital Çakıştırma: Deniz Yılmaz’ın sunucu odasına giriş saatlerini, veri sızıntısının başladığı milisaniyelerle eşleştirin.Biyometrik Doğrulama: Selin’in akıllı saatinden gelen $220\\ BPM$ nabız verisinin, İpek Tan’ın kullandığı \"Zero-Day\" açığıyla olan bağlantısını kanıtlayın.3. Algoritmik Mantık ÇözümüYapay Zekâ Denetimi: Arzu Güneş’in yapay zekâya enjekte ettiği \"Etik Karar Ağacı\"ndaki (Decision Tree) gizli ağırlık değerlerini ($weight\\ values$) deşifre edin.Donanım Kontrolü: Baran Kurt’un sensörlerde yarattığı voltaj dalgalanmalarını system_health.log üzerinden doğrulayın.4. Sonuç ve İnfazKanıtlar toplandığında, üçlü tetikleme mekanizmasını (Trafik-Nabız-Güvenlik Kilidi) kuran faili veya failleri resmi raporunuzla bildirin.Dedektif, bu vaka bir \"kim yaptı?\" sorusundan ziyade \"nasıl yapıldı?\" bilmecesidir. Her kod satırı bir itiraftır, yeter ki doğru yere bakın.",
+      "instructions_text_en": null,
+      "report_greeting": "Komiserim,",
+      "report_greeting_en": null,
+      "report_intro_text": "Troya Akıllı Bölge kavşağında hayatını kaybeden baş yazılımcı Selin Koray davasındaki dijital izleri ve karmaşık sistem loglarını incelemek için sayısız saat harcadım; sanırım sonunda bu kusursuz görünen 'siber suikastın' ardındaki Gölge Protokolü'nü deşifre etmeyi başardım.",
+      "report_intro_text_en": null,
+      "report_suspect_question": "Dijital delilleri (özellikle trafik akış logları, manipüle edilmiş biyometrik veriler ve yapay zeka karar ağaçlarını) analiz ederken aklıma şu geldi: Selin Koray'ın ölümüne neden olan algoritmik zinciri tetikleyen şüpheli şu olmalı:",
+      "report_suspect_question_en": null,
+      "report_confirmation_text": "Bu adli bilişim raporunu göndererek, yukarıdaki seçimin teknik kanıtlar, sistem günlükleri ve kapsamlı siber incelemeye dayanarak verdiğim nihai karar olduğunu teyit ediyorum.",
+      "report_confirmation_text_en": null,
+      "report_signature_name": "Başkomiser Morris",
+      "report_signature_name_en": null,
+      "demo_enabled": true,
+      "demo_summary": "DİKKAT: Mevcut adli inceleme izniniz (Demo Sürümü), Troya Akıllı Bölge (TAB) sunucularındaki trafik eşiğine ulaşmıştır. Devam etmek için üst düzey yetki tanımlaması gereklidir.",
+      "demo_summary_en": null,
+      "game_type": "team",
+      "culprit_keywords": "kaan, kaan aras, deniz, deniz yılmaz, baran, baran kurt",
+      "explanation_keywords": "gölge protokolü, otonom araç, yazılım sabotajı, sensör manipülasyonu, otonom sürüş, TAB projesi"
+    },
+    {
+      "id": "colun-muhurlu-haritasi",
+      "title": "2026/006: Çölün Mühürlü Haritası",
+      "title_en": null,
+      "price": 240.0,
+      "image": "cover.png",
+      "video": "/static/uploads/colun-muhurlu-haritasi/Haber_Videosu.html",
+      "description": "Sıcak ve tozlu bir yaz sabahı, Adana'nın Kozan ilçesine bağlı Uzunyar mevkiindeki antik kervansaray kalıntılarında yapılan rutin kazı çalışmaları sırasında, arkeologlar şaşırtıcı bir keşif yapar. Kervansarayın yıkık duvarları arasında, kalın bir reçine tabakasıyla kaplanmış, özenle sarılmış eski bir harita bulunur. Harita, bugünkü coğrafyayla örtüşmeyen, silinmiş gibi görünen bir vahayı işaret etmektedir. Haritanın hemen yanında, zamana yenik düşmüş, kurak çöl kumlarının arasında bir iskelet yatmakta ve iskeletin parmaklarının arasında, bölgede hiç görülmemiş bir motifle süslü, uzak diyarlardan geldiği anlaşılan eski bir sikke parlamaktadır. Sikkenin menşei, bu esrarengiz yolculuğun nedenini daha da karmaşık hale getirmektedir.\r\n\r\nHaritayı inceleyen uzmanlar, reçinenin altında gömülü, gözle zor fark edilen ikinci bir işaret tabakası keşfederler. Bu gizli katman, ilk bakışta sadece bir leke gibi duran, ancak dikkatli bir analizle belirginleşen, daha önce bilinmeyen bir rota ve birkaç sembol içerir. Bu keşif, kervanın neden alışılmadık ve görünüşe göre tehlikeli bir yolu tercih ettiğini sorgulatır. Kervanın normal rotasından sapmasının ardında yatan sır perdesi aralanmaya çalışılırken, iskeletin kimliği ve sikkenin kökeni de araştırmanın odak noktası haline gelir.\r\n\r\nBulunan harita, sadece bir coğrafi çizimden öte, bir tür şifreli mesajı andırmaktadır. Reçinenin zamanla sertleşmiş olması, haritanın uzun süre saklandığını ve muhtemelen çok önemli bir bilgi içerdiğini düşündürmektedir. İkinci katmandaki sembollerin anlamı ve bunların kervanın kaderiyle nasıl bir bağlantısı olduğu henüz bilinmemektedir. Kervanın neden bilinmeyen bir rota seçtiği, bu rotanın onlara ne getirdiği ya da götürdüğü, kazı ekibi ve olaya dahil olan diğer uzmanlar için çözülmesi gereken büyük bir bilmecedir.\r\n\r\nBu gizemli keşif, bölgedeki tarihçilerin, arkeologların ve hatta yerel halkın ilgisini çeker. Kervansarayın çevresindeki efsaneler ve söylentiler yeniden canlanır. Kimileri kayıp bir hazine peşinde olunduğunu, kimileri ise yasaklı bir bilgiye ulaşıldığını düşünmektedir. İskeletin kimliği ve elindeki sikke, bu hikayenin kilit parçaları gibidir. Bu olay, sadece bir arkeolojik keşif olmaktan öteye geçerek, derin bir tarihin ve insanlık macerasının izlerini sürmeye davet eden karmaşık bir detektiflik vakasına dönüşmüştür. Dedektif Ayşe Yıldırım ve ekibi, bu gizemi aydınlatmak için geçmişin tozlu sayfalarını aralamak zorundadır.",
+      "description_en": null,
+      "solution": "Zeynep Demir",
+      "old_price": 300.0,
+      "discount_rate": 20,
+      "difficulty": "Zor",
+      "is_active": true,
+      "report_case_name": "Çölün Mühürlü Haritası",
+      "report_case_name_en": null,
+      "report_company": "Soğuk Vaka A.Ş.",
+      "report_company_en": null,
+      "success_message": "Tespitiniz doğru!\n\n<strong>Zeynep Demir</strong> (müze küratörü), kazı bölgesindeki tarihi keşfin önemini diğerlerinden önce kavramıştı. Mühürlü haritanın gösterdiği vaha konumuna ait bilgiyi, uluslararası bir antika kaçakçılık şebekesine satmak amacıyla kazı alanındaki belgeleri manipüle etti, haritanın dijital kopyalarını gizledi ve bulgunun resmiyete geçmesini engellemeye çalıştı. <strong>Naim Ağa</strong> ise yıllardır bölgenin fiilî toprak hakimi sıfatıyla hareket eden, kaçakçılara lojistik ve yerel ağ desteği sağlayan komplo ortağıydı.\n\nReçine tabakasının kimyasal analizi kritik bir ipucu veriyordu: Harita, antik dönemden kalma bir kaplamaya sahip değildi — son elli yıl içinde birinin eliyle yeniden mühürlenmişti. Bu, haritanın çok daha yakın bir geçmişte bölgede aktif olan biri tarafından saklandığına işaret ediyordu.\n\nTebrikler, Dedektif. Çukurova'nın arkeolojik mirası koruma altına alındı.",
+      "success_message_en": null,
+      "success_file": "Basari_Dosyasi.html",
+      "police_department": "Adana Emniyet Müdürlüğü",
+      "police_department_en": null,
+      "report_letter": "<p><strong>Dedektif,</strong></p>\r\n<p>Adana Emniyet Müdürlüğü olarak sizi acil bir soruşturma için görevlendiriyoruz. Çukurova Üniversitesi Arkeoloji Bölümü'nde yaşanan olağandışı olaylar dikkatimizi çekti.</p>\r\n<p>Prof. Dr. Kemal Arslantaş'ın laboratuvarında bulunan antik harita ve ardından yaşanan şüpheli ölüm, basit bir kazadan çok daha fazlasına işaret ediyor. Haritanın gösterdiği lokasyondaki yasadışı kazı faaliyetleri ve kayıp eserler, bu vakayı uluslararası boyutlara taşıyabilir.</p>\r\n<p>Elimizdeki kanıtlar 5 şüpheliyi işaret ediyor. Her birinin geçmişi, motivasyonu ve alibisi dikkatle incelenmelidir. Otopsi raporu, telefon kayıtları, CCTV görüntüleri ve tanık ifadeleri dosyanızda mevcut.</p>\r\n<p>Bu soruşturmayı gizlilik içinde yürütmeniz ve bulgularınızı en kısa sürede raporlamanız beklenmektedir. Adalet sizin ellerinizde, Dedektif.</p>",
+      "report_letter_en": null,
+      "commissioner_name": "Başkomiser Ayşe Yıldırım",
+      "commissioner_name_en": null,
+      "warning_text": "Bu soruşturmanın detaylarını diğer dedektiflerle paylaşmayınız.",
+      "warning_text_en": null,
+      "instructions_text": "SORUŞTURMA TALİMATNAMESİ — DOSYA NO: 2026/006\n\n1. AŞAMA — ARKEOLOJİK BULGULAR VE FİZİKSEL KANITLAR:\nKervansarayda bulunan harita, iskelet ve sikkenin birbirleriyle nasıl ilişkilendiğini anlayın. Reçine tabakasının kimyasal analizi ne söylüyor? Harita son yüzyılda yeniden açılıp mühürlenmiş mi? Sikkenin menşei ve üzerindeki motif hangi coğrafyayı ve ticaret rotasını işaret ediyor?\n\n2. AŞAMA — ŞÜPHELİ PROFİLLERİ VE İFADELER:\nHer şüphelinin kazı alanına erişimini, bu bilgiyi nasıl elde ettiğini ve kimlerle bağlantısını değerlendirin. Zeynep Demir'in müze küratörü olarak sahip olduğu erişim avantajına ve Naim Ağa'nın bölgedeki nüfuzuna dikkat edin. İfadelerdeki çelişkileri belgelerle çapraz kontrol edin.\n\n3. AŞAMA — MANİPÜLASYON VE ARKA PLAN:\nHaritanın gösterdiği vahanın bilgisi kimin çıkarına? Orta Asya ile bağlantılı antika kaçakçılık ağı kimlerden oluşuyor? Belgelerde manipülasyon izi var mı?\n\nRAPORUNUZU YAZARKEN: Suçlunun kimliğini ve güdüsünü açıkça belirtin. Haritayla bağlantısını kanıtlarla destekleyin. Komployu nasıl kurduklarını adım adım açıklayın.",
+      "instructions_text_en": null,
+      "report_greeting": "Komiserim,",
+      "report_greeting_en": null,
+      "report_intro_text": "Adana'nın Kozan ilçesindeki antik kervansaray kalıntılarında bulunan mühürlü harita, iskelet ve sikkeye ilişkin tüm arkeolojik raporları, tanık ifadelerini ve soruşturma belgelerini titizlikle inceledim. Bu esrarengiz vakada ulaştığım tespitleri aşağıda sunuyorum.",
+      "report_intro_text_en": null,
+      "report_suspect_question": "Soruşturmanız sonucunda, Prof. Arslantaş'ın ölümünden ve antik haritanın çalınmasından kimi sorumlu tutuyorsunuz?",
+      "report_suspect_question_en": null,
+      "report_confirmation_text": "Raporunuz Adana Emniyet Müdürlüğü'ne iletilecektir. Suçlama ciddi sonuçlar doğurabilir, kararınızdan emin olun.",
+      "report_confirmation_text_en": null,
+      "report_signature_name": "Başkomiser Ayşe Yıldırım",
+      "report_signature_name_en": null,
+      "demo_enabled": false,
+      "demo_summary": "",
+      "demo_summary_en": null,
+      "game_type": "both",
+      "culprit_keywords": "zeynep, zeynep demir, zeynep demir müze, bilinmeyen seyyah, naim",
+      "explanation_keywords": "kervan, harita, sikke, vaha, bilgi, manipülasyon, komplo, orta asya, reçine, şifre"
+    },
+    {
+      "id": "Kusursuz-Vakum",
+      "title": "2026/004: Kusursuz Vakum",
+      "title_en": null,
+      "price": 280.0,
+      "image": "kusursuz_vakum_cover.png",
+      "video": "/static/uploads/Kusursuz-Vakum/Haber_Videosu.html",
+      "description": "Dedektif,\r\n\r\nT.C. Çanakkale Emniyet Müdürlüğü - Özel Büro olarak sizi kritik bir vakaya atıyoruz.\r\n\r\n11 Şubat 2026, saat 04:12. Troya Müzesi'nin Derin Arşiv odası. Müzenin teknoloji direktörü ve siber arkeolog Prof. Dr. Sinan Aksoy'un cansız bedeni, antik eserlerin arasında bulundu.\r\n\r\nOLAY YERİ DETAYLARI:\r\n• Oda, eserlerin korunması için %99 saf azot atmosferine sahiptir\r\n• Erişim yalnızca \"Root Admin\" yetkisiyle mümkündür\r\n• Kurtarma ekibi girdiğinde azot seviyesi normal bulunmuştur\r\n\r\nÖLÜMDEKİ ÇELİŞKİLER:\r\n• Maktul, %100 saf oksijen soluyarak ölmüştür — ancak odada gaz tüpü veya maske bulunamamıştır\r\n• Oksijen odaya nasıl girdi ve hiçbir iz bırakmadan nasıl kayboldu?\r\n• CCTV kayıtları ile otopsi raporu arasında 15 dakikalık açıklanamaz bir zaman çelişkisi mevcuttur\r\n\r\nDİJİTAL İZLER:\r\n• PLC yazılımına sızılmış, ancak kanıtlar kendi kendini imha eden bir kodla silinmiştir\r\n• Sinan'ın elindeki \"Troya'nın Kristal Tableti\" yerinde duruyor — üzerinde tek bir parmak izi bile yok\r\n\r\nBu dava; bilim, teknoloji ve arkeolojinin kesiştiği karanlık bir noktada sizi bekliyor. Taze bir göz ve keskin bir analitik zekâ gerekiyor.\r\n\r\nİyi şanslar.",
+      "description_en": null,
+      "solution": "Prof. Ömer Tekin ve Cem Bölükbaşı",
+      "old_price": 350.0,
+      "discount_rate": 20,
+      "difficulty": "Zor",
+      "is_active": true,
+      "report_case_name": "Kusursuz Vakum",
+      "report_case_name_en": null,
+      "report_company": "Gizemli Vakalar",
+      "report_company_en": null,
+      "success_message": "Tespitiniz doğru!\n\nTroya Müzesi'nin \"oksijensiz oda paradoksu\" aslında mükemmel biçimde kurgulanmış bir cinayetti.\n\n<strong>Prof. Ömer Tekin</strong> ve <strong>Cem Bölükbaşı</strong>, ATHENA yapay zeka sisteminin havalandırma altyapısını yöneten PLC modülüne gizli bir betik (script) yerleştirdi. Bu betik, Derin Arşiv odasının azot-oksijen dengesini saatler içinde yavaşça değiştirdi; oksijen oranını kritik eşiğin altına düşürdü. Kapılar kilitlendi, alarmlar susturuldu, sensör verileri manipüle edildi.\n\nProf. Dr. Sinan Aksoy, arşivdeki belgelerde ATHENA'nın gerçek amacına dair ipuçlarını bulmuştu: Sistem, müzenin en değerli eserlerinin gizli kopyalanması için bir \"envanter erişim penceresi\" oluşturacak şekilde programlanmıştı. Aksoy bu planı çözünce hayatına mal oldu.\n\nPLC parametrelerindeki değişiklik kayıtları, erişim logları ve sistem betik analizi suçluları tartışmasız biçimde işaret ediyordu.\n\nTebrikler, Dedektif. Troya Müzesi'nin sırları gün yüzüne çıktı.",
+      "success_message_en": null,
+      "success_file": "Basari_Dosyasi.html",
+      "police_department": "T.C. Çanakkale Emniyet Müdürlüğü - Özel Büro",
+      "police_department_en": null,
+      "report_letter": "Dedektif,\r\n\r\nTroya Müzesi'nin Derin Arşiv odasında, 11 Şubat 2026 sabahı saat 04:12'de müzenin teknoloji direktörü Prof. Dr. Sinan Aksoy'un cansız bedeni bulundu. Bu oda, eserlerin korunması için %99 saf azot atmosferine sahip ve sadece en üst düzey yetkililer tarafından erişilebilir.\r\n\r\nİşin en şaşırtıcı yanı şu: Sinan, azot dolu bir odada oksijen zehirlenmesinden ölmüştür. Gaz tüpü veya maske bulunamadı. Oksijen odaya nasıl girdi ve nasıl iz bırakmadan kayboldu?\r\n\r\nÜstelik CCTV kayıtları ile otopsi raporu arasında 15 dakikalık açıklanamaz bir zaman çelişkisi var. PLC yazılımına sızılmış ama kanıtlar kendi kendini imha eden bir kodla silinmiş. Ve Sinan'ın elindeki \"Troya'nın Kristal Tableti\" üzerinde tek bir parmak izi bile yok.\r\n\r\nBu dava, bilim, teknoloji ve arkeolojinin kesiştiği karanlık bir noktada sizi bekliyor. Taze bir göz ve keskin bir analitik zekâ gerekiyor.\r\n\r\nİyi şanslar.",
+      "report_letter_en": null,
+      "commissioner_name": "Başkomiser Yıldız",
+      "commissioner_name_en": null,
+      "warning_text": "DİKKAT: RESMİ SORUŞTURMA DOSYASI (GİZLİ)\r\nBu belge, 11 Şubat 2026 tarihinde Troya Müzesi Derin Arşiv odasında gerçekleşen Prof. Dr. Sinan Aksoy cinayeti soruşturmasına ait hassas verileri içermektedir.\r\n\r\nKurgusal Gerçeklik: Bu dosyada yer alan tüm karakterler, olaylar ve kurumlar tamamen kurgusaldır; gerçek kişi veya kurumlarla olan benzerlikler rastlantı eseridir.\r\n\r\nHassas İçerik: Dosya içeriğinde cinayet mahalli tasvirleri, adli tıp bulguları ve suç unsurları yer almaktadır.\r\n\r\nDelil Güvenliği: Paylaşılan dijital deliller (PLC logları, sensör verileri, ağ trafiği kayıtları), soruşturmanın selameti açısından üçüncü şahıslarla izinsiz paylaşılmamalıdır.",
+      "warning_text_en": null,
+      "instructions_text": "1. Aşama: Olay Yeri ve Fiziksel Kanıt Analizi\r\nOksijensiz Oda Paradoksu: Derin Arşiv odasının azot/oksijen dengesini ve havalandırma sisteminin PLC loglarını incele.\r\n\r\nMaktulün Durumu: Prof. Dr. Sinan Aksoy'un pozisyonu, oksijen zehirlenmesi bulguları ve otopsi raporundaki zaman çelişkisini analiz et.\r\n\r\nKristal Tablet: Sinan'ın elindeki eserin parmak izi bulunmaması ne anlama geliyor?\r\n\r\n2. Aşama: Siber ve Teknik İz Takibi\r\nPLC Manipülasyonu: Havalandırma sisteminin yazılımına nasıl sızıldığını ve kendi kendini imha eden Python scriptinin izlerini takip et.\r\n\r\n12 Saniyelik Veri Kaybı: Yapay Zeka Athena'nın sensör kayıtlarındaki boşluğu incele.\r\n\r\nAğ Trafiği: Olay anında müze dışına Lapseki üzerinden gönderilen şifreli veri paketini izle.\r\n\r\n3. Aşama: Şüpheli Sorgulama\r\nHer şüphelinin motivasyonunu, teknik yetkinliğini ve olay gecesindeki hareketlerini çapraz kontrol et.\r\n\r\n4. Aşama: Karar ve Dosya Kapatma\r\nSuçluyu, yöntemi ve motivasyonu belirleyerek nihai raporunu hazırla.",
+      "instructions_text_en": null,
+      "report_greeting": "Başkomiserim,",
+      "report_greeting_en": null,
+      "report_intro_text": "Troy Müzesi'nin yeraltı arşiv odasında, antik eserler arasında cansız bedeni bulunan Prof. Dr. Sinan Aksoy'un ölüm dosyasını titizlikle inceledim. Güvenlik kamerası kayıtlarını, otopsi raporunu, azot seviyesi ölçümlerini, tanık ifadelerini ve dijital erişim kayıtlarını tek tek analiz ettim. Sayısız saat süren bu kapsamlı soruşturmanın ardından, olayın arkasındaki karanlık gerçeği nihayet aydınlattığıma inanıyorum.",
+      "report_intro_text_en": null,
+      "report_suspect_question": "Tüm delilleri, tanık ifadelerini ve teknik bulguları bir araya getirdiğimde, Troy Müzesi arşiv odasında Prof. Dr. Sinan Aksoy'un oksijen zehirlenmesiyle ölümüne neden olan şüpheli şu olmalı:",
+      "report_suspect_question_en": null,
+      "report_confirmation_text": "Bu raporu göndererek, yukarıdaki seçimin tüm mevcut kanıtlara, tanık ifadelerine, teknik analizlere ve kapsamlı soruşturmaya dayanarak verdiğim kesin ve nihai karar olduğunu teyit ediyorum. Bu kararın sorumluluğunu üstleniyorum.",
+      "report_confirmation_text_en": null,
+      "report_signature_name": "Başkomiser Yıldız",
+      "report_signature_name_en": null,
+      "demo_enabled": true,
+      "demo_summary": "Troy Müzesi'nin azot korumalı yeraltı arşiv odasında, değerli antik eserlerin arasında ünlü siber arkeolog Prof. Dr. Sinan Aksoy'un cansız bedeni bulundu. Oksijensiz ortamda gerçekleşen bu ölüm kaza mı, yoksa kusursuzca planlanmış bir cinayet mi? 5 şüpheli, gizli erişim kayıtları ve karanlık sırlar sizi bekliyor. Vakayı çözmek için tam sürümü satın alın.",
+      "demo_summary_en": null,
+      "game_type": "both",
+      "culprit_keywords": "ömer, ömer tekin, cem, cem bölükbaşı",
+      "explanation_keywords": "plc, oksijen, azot, havalandırma, athena, sensör, manipülasyon, script"
+    },
+    {
+      "id": "Bayan-Vasulayi-Kim-Oldurdu",
+      "title": "2026/002: Bayan Vasulayı Kim Öldürdü?",
+      "title_en": null,
+      "price": 280.0,
+      "image": "bayan_vasulayi_cover.png",
+      "video": "/static/uploads/Bayan-Vasulayi-Kim-Oldurdu/Haber_Videosu.html",
+      "description": "Dedektif,\r\n\r\nT.C. İstanbul Emniyet Müdürlüğü - Beyoğlu İlçe Emniyet Müdürlüğü, Cinayet Büro Amirliği olarak sizi bu kritik davaya atıyoruz.\r\n\r\n04 Şubat 2026, saat 02:00. Beyoğlu ilçesi Piri Paşa Mahallesi, Ceyhan Apartmanı 48 numaralı daire. Komşular tarafından duyulan silah sesiyle başlayan ihbar sonucunda olay yerine sevk edilen polis ekipleri, 53 yaşındaki Vasula Dimitri'nin cansız bedenini salon bölümünde buldu.\r\n\r\nOLAY YERİ DETAYLARI:\r\n• Maktul başından ateşli silahla vurulmuş halde, kanlı beyaz gecelik ile yerde yatıyordu\r\n• Elinin yanında bir adet Browning marka tabanca bulundu\r\n• Masada iki bardak viski ve sigara izmaritleri tespit edildi\r\n• Mutfakta ucu kanlı bir bıçak ele geçirildi\r\n\r\nŞÜPHELİ DETAYLAR:\r\n• Silah üzerinde hiçbir parmak izi bulunamadı\r\n• Silah, 2020'de Kara Kuvvetleri Komutanlığı envanterinden hurda olarak ayrılan bir Browning\r\n• İkinci bardak ve sigara izmaritlerinde tanımlanamayan bir kişiye ait DNA tespit edildi\r\n• Bıçaktaki kan da aynı bilinmeyen kişiye ait\r\n• Evde sadece maktul ve kızı Maria'nın parmak izleri var\r\n\r\n4 şüpheli, çelişen ifadeler, gizli tanık beyanları ve kamera kayıtları sizi bekliyor.\r\n\r\nİyi şanslar.",
+      "description_en": null,
+      "solution": "Hamza Ustaoğlu",
+      "old_price": 350.0,
+      "discount_rate": 20,
+      "difficulty": "Zor",
+      "is_active": true,
+      "report_case_name": "Bayan Vasulayı Kim Öldürdü?",
+      "report_case_name_en": null,
+      "report_company": "Gizemli Vakalar",
+      "report_company_en": null,
+      "success_message": "Tespitiniz doğru!\n\n<strong>Hamza Ustaoğlu</strong>, Ceyhan Apartmanı'nın yöneticisi olarak yıllardır Vasula Dimitri ile süregelen kira ve mülkiyet anlaşmazlıkları yaşıyordu. Vasula Hanım, apartman yönetimine ait usulsüz harcamaları belgelemiş ve savcılığa şikayette bulunmak üzereydi — bu Ustaoğlu için hem mali hem de hukuki bir yıkım anlamına geliyordu.\n\nUstaoğlu, Kara Kuvvetleri'ndeki askerlik döneminden kalma Browning tabancasını kullandı. Olay gecesi koridordaki güvenlik kamerasını önceden devre dışı bıraktı; merdivenden Vasula Hanım'ın dairesine çıktı ve apartman yöneticisi sıfatıyla elinde bulundurduğu master anahtarıyla kapıyı açtı. Telefonu o gece kasıtlı olarak kapalıydı — sinyal kaydı oluşturmaması için.\n\nSuçluluğu kanıtlayan deliller: Silah üzerindeki parmak izi, elindeki atış artığı testi, merdiven korkuluğundaki deri lif izi ve Vasula Hanım'ın bilgisayarında bulunan yarım kalmış şikâyet dilekçesi.\n\nTebrikler, Dedektif. Adalet yerini buldu.",
+      "success_message_en": null,
+      "success_file": "Basari_Dosyasi.html",
+      "police_department": "T.C. İstanbul Emniyet Müdürlüğü - Beyoğlu İlçe Emniyet Müdürlüğü",
+      "police_department_en": null,
+      "report_letter": "Dedektif,\r\n\r\n04 Şubat 2026 tarihinde Beyoğlu ilçesi Piri Paşa Mahallesi Ceyhan Apartmanı 48 numaralı dairede, 53 yaşındaki Vasula Dimitri'nin cansız bedeni bulundu. Başından ateşli silahla vurulmuş halde, salon bölümünde yerde yatıyordu.\r\n\r\nOlay yerinde bulunan Browning marka tabanca üzerinde hiçbir parmak izi tespit edilememiştir. Silahın 2020 yılında Kara Kuvvetleri envanterinden hurda olarak ayrıldığı belirlenmiştir.\r\n\r\nMasadaki iki viski bardağından birinde maktulün parmak izi, diğerinde ise DNA veri tabanında kayıtlı olmayan bilinmeyen bir kişiye ait iz tespit edilmiştir. Aynı bilinmeyen kişinin DNA'sı mutfakta bulunan kanlı bıçak üzerinde de saptanmıştır.\r\n\r\n4 şüpheli sorgulanmıştır. Tüm delilleri dikkatle inceleyerek katili tespit etmeniz gerekmektedir.\r\n\r\nİyi şanslar.",
+      "report_letter_en": null,
+      "commissioner_name": "Başkomiser Demir",
+      "commissioner_name_en": null,
+      "warning_text": "DİKKAT: RESMİ SORUŞTURMA DOSYASI (GİZLİ)\r\nBu belge, 04 Şubat 2026 tarihinde Beyoğlu'nda gerçekleşen Vasula Dimitri cinayeti soruşturmasına ait hassas verileri içermektedir.\r\n\r\nKurgusal Gerçeklik: Bu dosyada yer alan tüm karakterler, olaylar ve kurumlar tamamen kurgusaldır.\r\n\r\nHassas İçerik: Dosya içeriğinde cinayet mahalli tasvirleri, adli tıp bulguları ve suç unsurları yer almaktadır.",
+      "warning_text_en": null,
+      "instructions_text": "1. Aşama: Olay Yeri ve Fiziksel Kanıt Analizi\r\nSalon bölümünde bulunan silah, bardaklar, sigara izmaritleri ve kanlı gecelikteki bulguları incele.\r\nMutfaktaki kanlı bıçak ve viski şişesini analiz et.\r\nParmak izi ve DNA bulgularını karşılaştır.\r\n\r\n2. Aşama: Şüpheli İfadelerini İncele\r\nNecdet Bağcı, Maria Akçalı, Hande Kıraç ve Hamza Ustaoğlu'nun ifadelerini oku.\r\nÇelişkileri ve tutarsızlıkları tespit et.\r\n\r\n3. Aşama: Sorgu Tutanaklarını Analiz Et\r\nDedektif raporundaki sorgularda ortaya çıkan yeni bilgileri değerlendir.\r\nİfadeler arasındaki çelişkileri not et.\r\n\r\n4. Aşama: İpuçlarını Değerlendir\r\nKamera kayıtları, gizli tanık ifadesi ve posta kayıtlarını incele.\r\nTüm bulguları bir araya getirerek katili tespit et.",
+      "instructions_text_en": null,
+      "report_greeting": "Komiserim,",
+      "report_greeting_en": null,
+      "report_intro_text": "Beyoğlu'ndaki Ceyhan Apartmanı'nda gerçekleşen Vasula Dimitri cinayetine ait soruşturma dosyasını titizlikle inceledim. Olay yeri inceleme raporunu, balistik analiz bulgularını, şüpheli ifadelerini, sorgu tutanaklarını ve kamera kayıtlarını tek tek analiz ettim. Bu kapsamlı soruşturmanın ardından, olayın arkasındaki gerçeği aydınlattığıma inanıyorum.",
+      "report_intro_text_en": null,
+      "report_suspect_question": "Tüm delilleri, tanık ifadelerini ve teknik bulguları bir araya getirdiğimde, Vasula Dimitri'nin ölümünden sorumlu olan şüpheli şu olmalı:",
+      "report_suspect_question_en": null,
+      "report_confirmation_text": "Bu raporu göndererek, yukarıdaki seçimin tüm mevcut kanıtlara, tanık ifadelerine ve kapsamlı soruşturmaya dayanarak verdiğim kesin ve nihai karar olduğunu teyit ediyorum.",
+      "report_confirmation_text_en": null,
+      "report_signature_name": "Başkomiser Demir",
+      "report_signature_name_en": null,
+      "demo_enabled": true,
+      "demo_summary": "DİKKAT: Demo erişim süreniz dolmuştur. Beyoğlu Cinayet Büro Amirliği, bu davadaki tüm delillere erişim için tam yetki tanımlaması talep etmektedir.\r\n\r\n04 Şubat 2026, saat 02:00. Beyoğlu'nun tarihi Piri Paşa Mahallesi'nde, Ceyhan Apartmanı 48 numaralı dairede bir silah sesi yankılanıyor. 53 yaşındaki Vasula Dimitri, kanlar içinde bulunuyor. Dört şüpheli: kin güden komşu, miras peşindeki kız, sırları olan arkadaş ve geçmişi karanlık emekli asker. Otopsi raporları, balistik analizler, tanık ifadeleri ve gizli kamera kayıtları sizi bekliyor. Gerçek katili bulmak için tam sürümü satın alın.",
+      "demo_summary_en": null,
+      "game_type": "both",
+      "culprit_keywords": "hamza, hamza ustaoğlu, hamza ustaoglu, ustaoğlu, ustaoglu",
+      "explanation_keywords": "browning, tabanca, askeri, kara kuvvetleri, apartman yöneticisi, merdivenler, kamera, telefon kapalı, parmak izi, atış artığı"
+    }
+  ],
+  "case_files": [
+    {
+      "id": 247,
+      "filename": "Olay_Yeri_Raporu.html",
+      "display_name": "Olay Yeri İnceleme Raporu",
+      "category": "Olay Raporları",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "Kusursuz-Vakum"
+    },
+    {
+      "id": 129,
+      "filename": "Otopsi_Raporu.html",
+      "display_name": "Otopsi Raporu — Selin Koray",
+      "category": "Mağdur Detayları",
+      "sub_category": "Otopsi Raporları",
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "Gölge-Protokolü--Sessiz-Kaos"
+    },
+    {
+      "id": 130,
+      "filename": "Olay_Yeri_Fotograf.html",
+      "display_name": "Olay Yeri Fotoğraf Raporu",
+      "category": "Mağdur Detayları",
+      "sub_category": "Olay Yeri Raporları",
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "Gölge-Protokolü--Sessiz-Kaos"
+    },
+    {
+      "id": 131,
+      "filename": "Olay_Yeri_Krokisi.html",
+      "display_name": "Olay Yeri Krokisi — Kavşak #47",
+      "category": "Kanıt Arşivi",
+      "sub_category": "Konum Haritaları",
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "Gölge-Protokolü--Sessiz-Kaos"
+    },
+    {
+      "id": 132,
+      "filename": "Eposta_Mesajlar.html",
+      "display_name": "E-Posta Kayıtları",
+      "category": "Kanıt Arşivi",
+      "sub_category": "SMS/Email Kayıtları",
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "Gölge-Protokolü--Sessiz-Kaos"
+    },
+    {
+      "id": 133,
+      "filename": "Dedektif_Raporu.html",
+      "display_name": "Dedektif Ön Değerlendirme Raporu",
+      "category": "Şüpheli Profilleri",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "Gölge-Protokolü--Sessiz-Kaos"
+    },
+    {
+      "id": 248,
+      "filename": "Maktul_Profili.html",
+      "display_name": "Maktul Kimlik Dosyası",
+      "category": "Mağdur Detayları",
+      "sub_category": "Profil Raporları",
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "Kusursuz-Vakum"
+    },
+    {
+      "id": 249,
+      "filename": "Otopsi_Raporu.html",
+      "display_name": "Kapsamlı Otopsi Tutanağı",
+      "category": "Mağdur Detayları",
+      "sub_category": "Otopsi Raporları",
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "Kusursuz-Vakum"
+    },
+    {
+      "id": 250,
+      "filename": "Olay_Yeri_Fotosu.html",
+      "display_name": "Olay Yeri Fotoğraf Raporu",
+      "category": "Mağdur Detayları",
+      "sub_category": "Olay Yeri Raporları",
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "Kusursuz-Vakum"
+    },
+    {
+      "id": 251,
+      "filename": "Supheli_Dr_Lara_Isik.html",
+      "display_name": "Dr. Lara Işık - Şüpheli Dosyası",
+      "category": "Şüpheli Profilleri",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "Kusursuz-Vakum"
+    },
+    {
+      "id": 252,
+      "filename": "Supheli_Prof_Omer_Tekin.html",
+      "display_name": "Prof. Ömer Tekin - Şüpheli Dosyası",
+      "category": "Şüpheli Profilleri",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "Kusursuz-Vakum"
+    },
+    {
+      "id": 141,
+      "filename": "Elif_Sahin_Yazilim_Test_Uzmani.html",
+      "display_name": null,
+      "category": "Tanık Beyanları",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "Gölge-Protokolü--Sessiz-Kaos"
+    },
+    {
+      "id": 142,
+      "filename": "Nuriye_Teyze_Bina_Yoneticisi.html",
+      "display_name": null,
+      "category": "Tanık Beyanları",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "Gölge-Protokolü--Sessiz-Kaos"
+    },
+    {
+      "id": 143,
+      "filename": "Osman_Kaya_Otopark_Gorevlisi.html",
+      "display_name": null,
+      "category": "Tanık Beyanları",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "Gölge-Protokolü--Sessiz-Kaos"
+    },
+    {
+      "id": 144,
+      "filename": "Emre_Celik_Sistem_Yoneticisi.html",
+      "display_name": null,
+      "category": "Tanık Beyanları",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "Gölge-Protokolü--Sessiz-Kaos"
+    },
+    {
+      "id": 145,
+      "filename": "Tolga_Aydin_Gece_Nobetci_Muhendis.html",
+      "display_name": null,
+      "category": "Tanık Beyanları",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "Gölge-Protokolü--Sessiz-Kaos"
+    },
+    {
+      "id": 146,
+      "filename": "Seda_Korkmaz_Komsu_ve_Eski_Is_Arkadasi.html",
+      "display_name": null,
+      "category": "Tanık Beyanları",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "Gölge-Protokolü--Sessiz-Kaos"
+    },
+    {
+      "id": 147,
+      "filename": "TAB_Sistem_Log_Kayitlari.html",
+      "display_name": null,
+      "category": "Diğer Belgeler",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "Gölge-Protokolü--Sessiz-Kaos"
+    },
+    {
+      "id": 148,
+      "filename": "Canan_Ozcan_Program_Asistan.html",
+      "display_name": null,
+      "category": "Tanık Beyanları",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "104.2 Çanakkale Paradoksu"
+    },
+    {
+      "id": 149,
+      "filename": "Fatma_Hanm_Temizlik_Gorevlisi.html",
+      "display_name": null,
+      "category": "Tanık Beyanları",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "104.2 Çanakkale Paradoksu"
+    },
+    {
+      "id": 150,
+      "filename": "Huseyin_Ylmaz_Cayc_Ofis_Gorevlisi.html",
+      "display_name": null,
+      "category": "Tanık Beyanları",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "104.2 Çanakkale Paradoksu"
+    },
+    {
+      "id": 151,
+      "filename": "Meltem_Aksoy_Radyo_Dinleyicisi_-_Takntl_ve_Hassas.html",
+      "display_name": null,
+      "category": "Tanık Beyanları",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "104.2 Çanakkale Paradoksu"
+    },
+    {
+      "id": 152,
+      "filename": "Mert_Demir_Teknik_Stajyer.html",
+      "display_name": null,
+      "category": "Tanık Beyanları",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "104.2 Çanakkale Paradoksu"
+    },
+    {
+      "id": 153,
+      "filename": "Serkan_Bulut_Gece_Guvenlik_Gorevlisi.html",
+      "display_name": null,
+      "category": "Tanık Beyanları",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "104.2 Çanakkale Paradoksu"
+    },
+    {
+      "id": 154,
+      "filename": "Olay_Yeri_Raporu.html",
+      "display_name": null,
+      "category": "Olay Raporları",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "104.2 Çanakkale Paradoksu"
+    },
+    {
+      "id": 155,
+      "filename": "Maktul_Profili.png",
+      "display_name": null,
+      "category": "Mağdur Detayları",
+      "sub_category": "Profil Raporları",
+      "file_ext": "png",
+      "youtube_link": null,
+      "case_id": "104.2 Çanakkale Paradoksu"
+    },
+    {
+      "id": 156,
+      "filename": "Olay_Yeri_Fotosu.html",
+      "display_name": null,
+      "category": "Mağdur Detayları",
+      "sub_category": "Olay Yeri Raporları",
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "104.2 Çanakkale Paradoksu"
+    },
+    {
+      "id": 157,
+      "filename": "Otopsi_Raporu.html",
+      "display_name": null,
+      "category": "Mağdur Detayları",
+      "sub_category": "Otopsi Raporları",
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "104.2 Çanakkale Paradoksu"
+    },
+    {
+      "id": 158,
+      "filename": "Olay_Yeri_Krokisi.html",
+      "display_name": null,
+      "category": "Kanıt Arşivi",
+      "sub_category": "Konum Haritaları",
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "104.2 Çanakkale Paradoksu"
+    },
+    {
+      "id": 159,
+      "filename": "whatsapp.html",
+      "display_name": null,
+      "category": "Kanıt Arşivi",
+      "sub_category": "SMS/Email Kayıtları",
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "104.2 Çanakkale Paradoksu"
+    },
+    {
+      "id": 160,
+      "filename": "Sosyal_Medya_Analizi__Aras_Yank.html",
+      "display_name": null,
+      "category": "Kanıt Arşivi",
+      "sub_category": "SMS/Email Kayıtları",
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "104.2 Çanakkale Paradoksu"
+    },
+    {
+      "id": 161,
+      "filename": "Eposta_Mesajlar.html",
+      "display_name": null,
+      "category": "Kanıt Arşivi",
+      "sub_category": "SMS/Email Kayıtları",
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "104.2 Çanakkale Paradoksu"
+    },
+    {
+      "id": 163,
+      "filename": "Kerem_Isk.jpg",
+      "display_name": null,
+      "category": "Şüpheli Profilleri",
+      "sub_category": null,
+      "file_ext": "jpg",
+      "youtube_link": null,
+      "case_id": "104.2 Çanakkale Paradoksu"
+    },
+    {
+      "id": 164,
+      "filename": "Leyla_Yank.jpg",
+      "display_name": null,
+      "category": "Şüpheli Profilleri",
+      "sub_category": null,
+      "file_ext": "jpg",
+      "youtube_link": null,
+      "case_id": "104.2 Çanakkale Paradoksu"
+    },
+    {
+      "id": 165,
+      "filename": "Melis_Derin.jpg",
+      "display_name": null,
+      "category": "Şüpheli Profilleri",
+      "sub_category": null,
+      "file_ext": "jpg",
+      "youtube_link": null,
+      "case_id": "104.2 Çanakkale Paradoksu"
+    },
+    {
+      "id": 166,
+      "filename": "Selim_Ersoy.jpg",
+      "display_name": null,
+      "category": "Şüpheli Profilleri",
+      "sub_category": null,
+      "file_ext": "jpg",
+      "youtube_link": null,
+      "case_id": "104.2 Çanakkale Paradoksu"
+    },
+    {
+      "id": 167,
+      "filename": "Selim_Erten.jpg",
+      "display_name": null,
+      "category": "Şüpheli Profilleri",
+      "sub_category": null,
+      "file_ext": "jpg",
+      "youtube_link": null,
+      "case_id": "104.2 Çanakkale Paradoksu"
+    },
+    {
+      "id": 168,
+      "filename": "Dedektif_Raporu.html",
+      "display_name": null,
+      "category": "Şüpheli Profilleri",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "104.2 Çanakkale Paradoksu"
+    },
+    {
+      "id": 169,
+      "filename": "Canakkale_Sehir_Gazetesi.png",
+      "display_name": null,
+      "category": "Diğer Belgeler",
+      "sub_category": null,
+      "file_ext": "png",
+      "youtube_link": null,
+      "case_id": "104.2 Çanakkale Paradoksu"
+    },
+    {
+      "id": 170,
+      "filename": "Banka_Hesab.png",
+      "display_name": null,
+      "category": "Diğer Belgeler",
+      "sub_category": null,
+      "file_ext": "png",
+      "youtube_link": null,
+      "case_id": "104.2 Çanakkale Paradoksu"
+    },
+    {
+      "id": 176,
+      "filename": "Olay_Yeri_Inceleme_Raporu.html",
+      "display_name": null,
+      "category": "Olay Raporları",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "Gölge-Protokolü--Sessiz-Kaos"
+    },
+    {
+      "id": 162,
+      "filename": "112_farkli_sesler_final.mp3",
+      "display_name": "112 Acil Çağrı Kaydı",
+      "category": "Kanıt Arşivi",
+      "sub_category": "Ses Dosyaları",
+      "file_ext": "mp3",
+      "youtube_link": null,
+      "case_id": "104.2 Çanakkale Paradoksu"
+    },
+    {
+      "id": 171,
+      "filename": "detayli_sorgu_haluk.mp3",
+      "display_name": "Detaylı Sorgu: Prof. Haluk Erten",
+      "category": "Röportaj Kayıtları",
+      "sub_category": null,
+      "file_ext": "mp3",
+      "youtube_link": null,
+      "case_id": "104.2 Çanakkale Paradoksu"
+    },
+    {
+      "id": 172,
+      "filename": "detayli_sorgu_kerem.mp3",
+      "display_name": "Detaylı Sorgu: Kerem Işık",
+      "category": "Röportaj Kayıtları",
+      "sub_category": null,
+      "file_ext": "mp3",
+      "youtube_link": null,
+      "case_id": "104.2 Çanakkale Paradoksu"
+    },
+    {
+      "id": 173,
+      "filename": "detayli_sorgu_leyla.mp3",
+      "display_name": "Detaylı Sorgu: Leyla Yankı",
+      "category": "Röportaj Kayıtları",
+      "sub_category": null,
+      "file_ext": "mp3",
+      "youtube_link": null,
+      "case_id": "104.2 Çanakkale Paradoksu"
+    },
+    {
+      "id": 174,
+      "filename": "detayli_sorgu_melis.mp3",
+      "display_name": "Detaylı Sorgu: Melis Derin",
+      "category": "Röportaj Kayıtları",
+      "sub_category": null,
+      "file_ext": "mp3",
+      "youtube_link": null,
+      "case_id": "104.2 Çanakkale Paradoksu"
+    },
+    {
+      "id": 175,
+      "filename": "detayli_sorgu_selim.mp3",
+      "display_name": "Detaylı Sorgu: Selim Ersoy",
+      "category": "Röportaj Kayıtları",
+      "sub_category": null,
+      "file_ext": "mp3",
+      "youtube_link": null,
+      "case_id": "104.2 Çanakkale Paradoksu"
+    },
+    {
+      "id": 177,
+      "filename": "Maktul_Profil_Selin_Koray.html",
+      "display_name": "Maktul Profili — Selin Koray",
+      "category": "Mağdur Detayları",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "Gölge-Protokolü--Sessiz-Kaos"
+    },
+    {
+      "id": 178,
+      "filename": "Supheli_Profil_Kaan_Aras.html",
+      "display_name": "Şüpheli Profili — Kaan Aras",
+      "category": "Şüpheli Profilleri",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "Gölge-Protokolü--Sessiz-Kaos"
+    },
+    {
+      "id": 179,
+      "filename": "Supheli_Profil_Deniz_Yilmaz.html",
+      "display_name": "Şüpheli Profili — Deniz Yılmaz",
+      "category": "Şüpheli Profilleri",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "Gölge-Protokolü--Sessiz-Kaos"
+    },
+    {
+      "id": 180,
+      "filename": "Supheli_Profil_Ipek_Tan.html",
+      "display_name": "Şüpheli Profili — İpek Tan",
+      "category": "Şüpheli Profilleri",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "Gölge-Protokolü--Sessiz-Kaos"
+    },
+    {
+      "id": 181,
+      "filename": "Supheli_Profil_Baran_Kurt.html",
+      "display_name": "Şüpheli Profili — Baran Kurt",
+      "category": "Şüpheli Profilleri",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "Gölge-Protokolü--Sessiz-Kaos"
+    },
+    {
+      "id": 182,
+      "filename": "Supheli_Profil_Arzu_Gunes.html",
+      "display_name": "Şüpheli Profili — Arzu Güneş",
+      "category": "Şüpheli Profilleri",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "Gölge-Protokolü--Sessiz-Kaos"
+    },
+    {
+      "id": 196,
+      "filename": "CCTV_Olay_Yeri.mp4",
+      "display_name": null,
+      "category": "Kanıt Arşivi",
+      "sub_category": "Kamera Görüntüleri",
+      "file_ext": "mp4",
+      "youtube_link": null,
+      "case_id": "Gölge-Protokolü--Sessiz-Kaos"
+    },
+    {
+      "id": 184,
+      "filename": "sorgu_kaan_aras.mp3",
+      "display_name": "Şüpheli Sorgusu — Kaan Aras",
+      "category": "Röportaj Kayıtları",
+      "sub_category": "Şüpheli Sorguları",
+      "file_ext": "mp3",
+      "youtube_link": null,
+      "case_id": "Gölge-Protokolü--Sessiz-Kaos"
+    },
+    {
+      "id": 185,
+      "filename": "sorgu_deniz_yilmaz.mp3",
+      "display_name": "Şüpheli Sorgusu — Deniz Yılmaz",
+      "category": "Röportaj Kayıtları",
+      "sub_category": "Şüpheli Sorguları",
+      "file_ext": "mp3",
+      "youtube_link": null,
+      "case_id": "Gölge-Protokolü--Sessiz-Kaos"
+    },
+    {
+      "id": 186,
+      "filename": "sorgu_ipek_tan.mp3",
+      "display_name": "Şüpheli Sorgusu — İpek Tan",
+      "category": "Röportaj Kayıtları",
+      "sub_category": "Şüpheli Sorguları",
+      "file_ext": "mp3",
+      "youtube_link": null,
+      "case_id": "Gölge-Protokolü--Sessiz-Kaos"
+    },
+    {
+      "id": 183,
+      "filename": "112_acil_cagri.mp3",
+      "display_name": "112 Acil Çağrı Kaydı",
+      "category": "Mağdur Detayları",
+      "sub_category": "Acil Çağrı",
+      "file_ext": "mp3",
+      "youtube_link": null,
+      "case_id": "Gölge-Protokolü--Sessiz-Kaos"
+    },
+    {
+      "id": 189,
+      "filename": "Gazete_Haberi.html",
+      "display_name": "Çanakkale Ekspres — Son Dakika Haberi",
+      "category": "Diğer Belgeler",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "Gölge-Protokolü--Sessiz-Kaos"
+    },
+    {
+      "id": 190,
+      "filename": "Banka_Hesaplari.html",
+      "display_name": "MASAK Finansal Analiz Raporu",
+      "category": "Diğer Belgeler",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "Gölge-Protokolü--Sessiz-Kaos"
+    },
+    {
+      "id": 187,
+      "filename": "sorgu_baran_kurt.mp3",
+      "display_name": "Şüpheli Sorgusu — Baran Kurt",
+      "category": "Röportaj Kayıtları",
+      "sub_category": "Şüpheli Sorguları",
+      "file_ext": "mp3",
+      "youtube_link": null,
+      "case_id": "Gölge-Protokolü--Sessiz-Kaos"
+    },
+    {
+      "id": 188,
+      "filename": "sorgu_arzu_gunes.mp3",
+      "display_name": "Şüpheli Sorgusu — Arzu Güneş",
+      "category": "Röportaj Kayıtları",
+      "sub_category": "Şüpheli Sorguları",
+      "file_ext": "mp3",
+      "youtube_link": null,
+      "case_id": "Gölge-Protokolü--Sessiz-Kaos"
+    },
+    {
+      "id": 253,
+      "filename": "Supheli_Selin_Arhan.html",
+      "display_name": "Selin Arhan - Şüpheli Dosyası",
+      "category": "Şüpheli Profilleri",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "Kusursuz-Vakum"
+    },
+    {
+      "id": 254,
+      "filename": "Supheli_Cem_Bolukbasi.html",
+      "display_name": "Cem Bölükbaşı - Şüpheli Dosyası",
+      "category": "Şüpheli Profilleri",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "Kusursuz-Vakum"
+    },
+    {
+      "id": 255,
+      "filename": "Supheli_ATHENA.html",
+      "display_name": "ATHENA Yapay Zeka - Analiz Dosyası",
+      "category": "Şüpheli Profilleri",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "Kusursuz-Vakum"
+    },
+    {
+      "id": 256,
+      "filename": "Sorgu_Dr_Lara_Isik.html",
+      "display_name": "Sorgu: Dr. Lara Işık",
+      "category": "Röportaj Kayıtları",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "Kusursuz-Vakum"
+    },
+    {
+      "id": 257,
+      "filename": "Sorgu_Prof_Omer_Tekin.html",
+      "display_name": "Sorgu: Prof. Ömer Tekin",
+      "category": "Röportaj Kayıtları",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "Kusursuz-Vakum"
+    },
+    {
+      "id": 258,
+      "filename": "Sorgu_Selin_Arhan.html",
+      "display_name": "Sorgu: Selin Arhan",
+      "category": "Röportaj Kayıtları",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "Kusursuz-Vakum"
+    },
+    {
+      "id": 259,
+      "filename": "Sorgu_Cem_Bolukbasi.html",
+      "display_name": "Sorgu: Cem Bölükbaşı",
+      "category": "Röportaj Kayıtları",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "Kusursuz-Vakum"
+    },
+    {
+      "id": 260,
+      "filename": "Sorgu_ATHENA_Sistem_Logu.html",
+      "display_name": "ATHENA Sistem Sorgulaması",
+      "category": "Röportaj Kayıtları",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "Kusursuz-Vakum"
+    },
+    {
+      "id": 261,
+      "filename": "Tanik_Mehmet_Calik_Gece_Teknisyeni.html",
+      "display_name": "Tanık: Mehmet Çalık (Gece Teknisyeni)",
+      "category": "Tanık Beyanları",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "Kusursuz-Vakum"
+    },
+    {
+      "id": 262,
+      "filename": "Tanik_Ayse_Korkmaz_Temizlik_Gorevlisi.html",
+      "display_name": "Tanık: Ayşe Korkmaz (Temizlik)",
+      "category": "Tanık Beyanları",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "Kusursuz-Vakum"
+    },
+    {
+      "id": 263,
+      "filename": "Tanik_Kerem_Yildirim_Sabah_Guvenlik.html",
+      "display_name": "Tanık: Kerem Yıldırım (Sabah Güvenlik)",
+      "category": "Tanık Beyanları",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "Kusursuz-Vakum"
+    },
+    {
+      "id": 264,
+      "filename": "Tanik_Dr_Elif_Soydan_Arkeolog.html",
+      "display_name": "Tanık: Dr. Elif Soydan (Arkeolog)",
+      "category": "Tanık Beyanları",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "Kusursuz-Vakum"
+    },
+    {
+      "id": 265,
+      "filename": "CCTV_Kayitlari.html",
+      "display_name": "CCTV Kamera Kayıt Analizi",
+      "category": "Kanıt Arşivi",
+      "sub_category": "Güvenlik Kayıtları",
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "Kusursuz-Vakum"
+    },
+    {
+      "id": 266,
+      "filename": "PLC_Sistem_Loglari.html",
+      "display_name": "PLC Sistem Analiz Raporu",
+      "category": "Kanıt Arşivi",
+      "sub_category": "Dijital Deliller",
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "Kusursuz-Vakum"
+    },
+    {
+      "id": 267,
+      "filename": "Eposta_Mesajlari.html",
+      "display_name": "E-posta Analiz Raporu",
+      "category": "Kanıt Arşivi",
+      "sub_category": "SMS/Email Kayıtları",
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "Kusursuz-Vakum"
+    },
+    {
+      "id": 268,
+      "filename": "Konum_Haritasi.html",
+      "display_name": "Troy Müzesi Konum Haritası",
+      "category": "Kanıt Arşivi",
+      "sub_category": "Konum Haritaları",
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "Kusursuz-Vakum"
+    },
+    {
+      "id": 269,
+      "filename": "Azot_Sistemi_Teknik_Semasi.html",
+      "display_name": "Azot Sistemi Teknik Şematiği",
+      "category": "Diğer Belgeler",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "Kusursuz-Vakum"
+    },
+    {
+      "id": 270,
+      "filename": "Kristal_Tablet_Raporu.html",
+      "display_name": "Kristal Tablet Arkeolojik Analiz",
+      "category": "Diğer Belgeler",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "Kusursuz-Vakum"
+    },
+    {
+      "id": 271,
+      "filename": "Dedektif_Ozet_Raporu.html",
+      "display_name": "Soruşturma Özet Raporu",
+      "category": "Diğer Belgeler",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "Kusursuz-Vakum"
+    },
+    {
+      "id": 472,
+      "filename": "Banka_Hesap_Hareketleri_Kenan_Aga.html",
+      "display_name": "Banka Hesap Hareketleri Kenan Aga",
+      "category": "Kanıt Arşivi",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "colun-muhurlu-haritasi"
+    },
+    {
+      "id": 474,
+      "filename": "CCTV_Kaydi_Han_Girisi.jpg.png",
+      "display_name": "CCTV Kaydi Han Girisi.jpg",
+      "category": "Kanıt Arşivi",
+      "sub_category": null,
+      "file_ext": "png",
+      "youtube_link": null,
+      "case_id": "colun-muhurlu-haritasi"
+    },
+    {
+      "id": 475,
+      "filename": "CCTV_Kayitlari.png",
+      "display_name": "CCTV Kayitlari",
+      "category": "Kanıt Arşivi",
+      "sub_category": null,
+      "file_ext": "png",
+      "youtube_link": null,
+      "case_id": "colun-muhurlu-haritasi"
+    },
+    {
+      "id": 476,
+      "filename": "Dedektif_Ozet_Raporu.html",
+      "display_name": "Dedektif Ozet Raporu",
+      "category": "Diğer Belgeler",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "colun-muhurlu-haritasi"
+    },
+    {
+      "id": 477,
+      "filename": "E-posta_Leyla_Naim.html",
+      "display_name": "E posta Leyla Naim",
+      "category": "Kanıt Arşivi",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "colun-muhurlu-haritasi"
+    },
+    {
+      "id": 478,
+      "filename": "Elif_Hanim_Profil.html",
+      "display_name": "Elif Hanim Profil",
+      "category": "Şüpheli Profilleri",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "colun-muhurlu-haritasi"
+    },
+    {
+      "id": 479,
+      "filename": "GPS_Kayitlari_Faruk_Yilmaz.html",
+      "display_name": "GPS Kayitlari Faruk Yilmaz",
+      "category": "Kanıt Arşivi",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "colun-muhurlu-haritasi"
+    },
+    {
+      "id": 481,
+      "filename": "Gazete_Haberi_1.html",
+      "display_name": "Gazete Haberi 1",
+      "category": "Diğer Belgeler",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "colun-muhurlu-haritasi"
+    },
+    {
+      "id": 482,
+      "filename": "Gazete_Haberi_Urfa_Postasi.html",
+      "display_name": "Gazete Haberi Urfa Postasi",
+      "category": "Diğer Belgeler",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "colun-muhurlu-haritasi"
+    },
+    {
+      "id": 483,
+      "filename": "Halil_Dervis_Profil.html",
+      "display_name": "Halil Dervis Profil",
+      "category": "Şüpheli Profilleri",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "colun-muhurlu-haritasi"
+    },
+    {
+      "id": 484,
+      "filename": "Harita_Ve_Sikke_Analizi.html",
+      "display_name": "Harita Ve Sikke Analizi",
+      "category": "Kanıt Arşivi",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "colun-muhurlu-haritasi"
+    },
+    {
+      "id": 485,
+      "filename": "Hasar_Tespit_Raporu.html",
+      "display_name": "Hasar Tespit Raporu",
+      "category": "Mağdur Detayları",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "colun-muhurlu-haritasi"
+    },
+    {
+      "id": 486,
+      "filename": "Ibrahim_Kurt_Not_Defteri.html",
+      "display_name": "Ibrahim Kurt Not Defteri",
+      "category": "Kanıt Arşivi",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "colun-muhurlu-haritasi"
+    },
+    {
+      "id": 487,
+      "filename": "Kamil_Aga_Profil.html",
+      "display_name": "Kamil Aga Profil",
+      "category": "Şüpheli Profilleri",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "colun-muhurlu-haritasi"
+    },
+    {
+      "id": 488,
+      "filename": "Kanit_Fotografi_1.png",
+      "display_name": "Kanit Fotografi 1",
+      "category": "Kanıt Arşivi",
+      "sub_category": null,
+      "file_ext": "png",
+      "youtube_link": null,
+      "case_id": "colun-muhurlu-haritasi"
+    },
+    {
+      "id": 489,
+      "filename": "Kanit_Fotografi_2.png",
+      "display_name": "Kanit Fotografi 2",
+      "category": "Kanıt Arşivi",
+      "sub_category": null,
+      "file_ext": "png",
+      "youtube_link": null,
+      "case_id": "colun-muhurlu-haritasi"
+    },
+    {
+      "id": 490,
+      "filename": "Kanit_Fotografi_Ayak_Izleri.jpg.png",
+      "display_name": "Kanit Fotografi Ayak Izleri.jpg",
+      "category": "Kanıt Arşivi",
+      "sub_category": null,
+      "file_ext": "png",
+      "youtube_link": null,
+      "case_id": "colun-muhurlu-haritasi"
+    },
+    {
+      "id": 491,
+      "filename": "Kanit_Fotografi_Bicak.jpg.png",
+      "display_name": "Kanit Fotografi Bicak.jpg",
+      "category": "Kanıt Arşivi",
+      "sub_category": null,
+      "file_ext": "png",
+      "youtube_link": null,
+      "case_id": "colun-muhurlu-haritasi"
+    },
+    {
+      "id": 292,
+      "filename": "Olay_Tutanagi.html",
+      "display_name": "Olay Tutanağı",
+      "category": "Olay Raporları",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "Bayan-Vasulayi-Kim-Oldurdu"
+    },
+    {
+      "id": 293,
+      "filename": "Olay_Yeri_Inceleme_Raporu.html",
+      "display_name": "Olay Yeri İnceleme Raporu",
+      "category": "Olay Raporları",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "Bayan-Vasulayi-Kim-Oldurdu"
+    },
+    {
+      "id": 294,
+      "filename": "Cinayet_Buro_Raporu.html",
+      "display_name": "Cinayet Büro Amirliği Raporu",
+      "category": "Olay Raporları",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "Bayan-Vasulayi-Kim-Oldurdu"
+    },
+    {
+      "id": 295,
+      "filename": "Ifade_Necdet_Bagci.html",
+      "display_name": "Şüpheli İfadesi: Necdet Bağcı",
+      "category": "Tanık Beyanları",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "Bayan-Vasulayi-Kim-Oldurdu"
+    },
+    {
+      "id": 296,
+      "filename": "Ifade_Maria_Akcali.html",
+      "display_name": "Şüpheli İfadesi: Maria Akçalı",
+      "category": "Tanık Beyanları",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "Bayan-Vasulayi-Kim-Oldurdu"
+    },
+    {
+      "id": 297,
+      "filename": "Ifade_Hande_Kirac.html",
+      "display_name": "Şüpheli İfadesi: Hande Kıraç",
+      "category": "Tanık Beyanları",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "Bayan-Vasulayi-Kim-Oldurdu"
+    },
+    {
+      "id": 298,
+      "filename": "Ifade_Hamza_Ustaoglu.html",
+      "display_name": "Şüpheli İfadesi: Hamza Ustaoğlu",
+      "category": "Tanık Beyanları",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "Bayan-Vasulayi-Kim-Oldurdu"
+    },
+    {
+      "id": 299,
+      "filename": "Balistik_Analiz_Raporu.html",
+      "display_name": "Balistik-Kimyasal-Biyolojik Analiz Raporu",
+      "category": "Kanıt Arşivi",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "Bayan-Vasulayi-Kim-Oldurdu"
+    },
+    {
+      "id": 300,
+      "filename": "Dedektif_Raporu.html",
+      "display_name": "Dedektif Raporu - Sorgu Tutanakları",
+      "category": "Röportaj Kayıtları",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "Bayan-Vasulayi-Kim-Oldurdu"
+    },
+    {
+      "id": 302,
+      "filename": "Ipuclari.html",
+      "display_name": "İpuçları ve Kamera Kayıtları",
+      "category": "Diğer Belgeler",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "Bayan-Vasulayi-Kim-Oldurdu"
+    },
+    {
+      "id": 303,
+      "filename": "Maktul_Profili.html",
+      "display_name": "Maktul Profili: Vasula Dimitri",
+      "category": "Mağdur Detayları",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "Bayan-Vasulayi-Kim-Oldurdu"
+    },
+    {
+      "id": 304,
+      "filename": "Otopsi_Raporu.html",
+      "display_name": "Otopsi Raporu",
+      "category": "Mağdur Detayları",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "Bayan-Vasulayi-Kim-Oldurdu"
+    },
+    {
+      "id": 305,
+      "filename": "Olay_Yeri_Fotosu.html",
+      "display_name": "Olay Yeri Fotoğraf Raporu",
+      "category": "Mağdur Detayları",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "Bayan-Vasulayi-Kim-Oldurdu"
+    },
+    {
+      "id": 306,
+      "filename": "Supheli_Necdet_Bagci.html",
+      "display_name": "Şüpheli Profili: Necdet Bağcı",
+      "category": "Şüpheli Profilleri",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "Bayan-Vasulayi-Kim-Oldurdu"
+    },
+    {
+      "id": 307,
+      "filename": "Supheli_Maria_Akcali.html",
+      "display_name": "Şüpheli Profili: Maria Akçalı",
+      "category": "Şüpheli Profilleri",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "Bayan-Vasulayi-Kim-Oldurdu"
+    },
+    {
+      "id": 308,
+      "filename": "Supheli_Hande_Kirac.html",
+      "display_name": "Şüpheli Profili: Hande Kıraç",
+      "category": "Şüpheli Profilleri",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "Bayan-Vasulayi-Kim-Oldurdu"
+    },
+    {
+      "id": 309,
+      "filename": "Supheli_Hamza_Ustaoglu.html",
+      "display_name": "Şüpheli Profili: Hamza Ustaoğlu",
+      "category": "Şüpheli Profilleri",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "Bayan-Vasulayi-Kim-Oldurdu"
+    },
+    {
+      "id": 492,
+      "filename": "Kazi_Alani_Fotograflari.html",
+      "display_name": "Kazi Alani Fotograflari",
+      "category": "Kanıt Arşivi",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "colun-muhurlu-haritasi"
+    },
+    {
+      "id": 493,
+      "filename": "Kriminal_Laboratuvar_Raporu_Aletler.html",
+      "display_name": "Kriminal Laboratuvar Raporu Aletler",
+      "category": "Kanıt Arşivi",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "colun-muhurlu-haritasi"
+    },
+    {
+      "id": 494,
+      "filename": "Lastik_Izi_Analizi.html",
+      "display_name": "Lastik Izi Analizi",
+      "category": "Kanıt Arşivi",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "colun-muhurlu-haritasi"
+    },
+    {
+      "id": 495,
+      "filename": "Magdur_Profili_Kultur_Bakanligi.html",
+      "display_name": "Magdur Profili Kultur Bakanligi",
+      "category": "Mağdur Detayları",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "colun-muhurlu-haritasi"
+    },
+    {
+      "id": 496,
+      "filename": "Mağdur_Otopsi_Raporu.html",
+      "display_name": "Mağdur Otopsi Raporu",
+      "category": "Mağdur Detayları",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "colun-muhurlu-haritasi"
+    },
+    {
+      "id": 497,
+      "filename": "Mağdur_Profil.html",
+      "display_name": "Mağdur Profil",
+      "category": "Mağdur Detayları",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "colun-muhurlu-haritasi"
+    },
+    {
+      "id": 498,
+      "filename": "Olay_Yeri_Fotosu.jpg.png",
+      "display_name": "Olay Yeri Fotosu.jpg",
+      "category": "Olay Raporları",
+      "sub_category": null,
+      "file_ext": "png",
+      "youtube_link": null,
+      "case_id": "colun-muhurlu-haritasi"
+    },
+    {
+      "id": 499,
+      "filename": "Olay_Yeri_Fotosu_1.png",
+      "display_name": "Olay Yeri Fotosu 1",
+      "category": "Olay Raporları",
+      "sub_category": null,
+      "file_ext": "png",
+      "youtube_link": null,
+      "case_id": "colun-muhurlu-haritasi"
+    },
+    {
+      "id": 500,
+      "filename": "Olay_Yeri_Inceleme_Raporu.html",
+      "display_name": "Olay Yeri Inceleme Raporu",
+      "category": "Olay Raporları",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "colun-muhurlu-haritasi"
+    },
+    {
+      "id": 501,
+      "filename": "Olay_Yeri_Inceleme_Raporu_Kazi_Alani.html",
+      "display_name": "Olay Yeri Inceleme Raporu Kazi Alani",
+      "category": "Olay Raporları",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "colun-muhurlu-haritasi"
+    },
+    {
+      "id": 502,
+      "filename": "Sorgu_Arda_Soyer.html",
+      "display_name": "Sorgu Arda Soyer",
+      "category": "Röportaj Kayıtları",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "colun-muhurlu-haritasi"
+    },
+    {
+      "id": 503,
+      "filename": "Sorgu_Davut_Reis.mp3",
+      "display_name": "Sorgu Davut Reis",
+      "category": "Röportaj Kayıtları",
+      "sub_category": null,
+      "file_ext": "mp3",
+      "youtube_link": null,
+      "case_id": "colun-muhurlu-haritasi"
+    },
+    {
+      "id": 504,
+      "filename": "Sorgu_Elif_Cetiner.html",
+      "display_name": "Sorgu Elif Cetiner",
+      "category": "Röportaj Kayıtları",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "colun-muhurlu-haritasi"
+    },
+    {
+      "id": 505,
+      "filename": "Sorgu_Elif_Hanim.mp3",
+      "display_name": "Sorgu Elif Hanim",
+      "category": "Röportaj Kayıtları",
+      "sub_category": null,
+      "file_ext": "mp3",
+      "youtube_link": null,
+      "case_id": "colun-muhurlu-haritasi"
+    },
+    {
+      "id": 506,
+      "filename": "Sorgu_Ercan_Usta.mp3",
+      "display_name": "Sorgu Ercan Usta",
+      "category": "Röportaj Kayıtları",
+      "sub_category": null,
+      "file_ext": "mp3",
+      "youtube_link": null,
+      "case_id": "colun-muhurlu-haritasi"
+    },
+    {
+      "id": 507,
+      "filename": "Sorgu_Faruk_Yilmaz.html",
+      "display_name": "Sorgu Faruk Yilmaz",
+      "category": "Röportaj Kayıtları",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "colun-muhurlu-haritasi"
+    },
+    {
+      "id": 508,
+      "filename": "Sorgu_Halil_Dervis.mp3",
+      "display_name": "Sorgu Halil Dervis",
+      "category": "Röportaj Kayıtları",
+      "sub_category": null,
+      "file_ext": "mp3",
+      "youtube_link": null,
+      "case_id": "colun-muhurlu-haritasi"
+    },
+    {
+      "id": 509,
+      "filename": "Sorgu_Ibrahim_Kurt.html",
+      "display_name": "Sorgu Ibrahim Kurt",
+      "category": "Röportaj Kayıtları",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "colun-muhurlu-haritasi"
+    },
+    {
+      "id": 510,
+      "filename": "Sorgu_Kenan_Aga.html",
+      "display_name": "Sorgu Kenan Aga",
+      "category": "Röportaj Kayıtları",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "colun-muhurlu-haritasi"
+    },
+    {
+      "id": 511,
+      "filename": "Sorgu_Leyla.mp3",
+      "display_name": "Sorgu Leyla",
+      "category": "Röportaj Kayıtları",
+      "sub_category": null,
+      "file_ext": "mp3",
+      "youtube_link": null,
+      "case_id": "colun-muhurlu-haritasi"
+    },
+    {
+      "id": 512,
+      "filename": "Sorgu_Mahmut_Efendi.mp3",
+      "display_name": "Sorgu Mahmut Efendi",
+      "category": "Röportaj Kayıtları",
+      "sub_category": null,
+      "file_ext": "mp3",
+      "youtube_link": null,
+      "case_id": "colun-muhurlu-haritasi"
+    },
+    {
+      "id": 513,
+      "filename": "Sorgu_Naim_Aga.mp3",
+      "display_name": "Sorgu Naim Aga",
+      "category": "Röportaj Kayıtları",
+      "sub_category": null,
+      "file_ext": "mp3",
+      "youtube_link": null,
+      "case_id": "colun-muhurlu-haritasi"
+    },
+    {
+      "id": 514,
+      "filename": "Sorgu_Zeynep_Sultan.mp3",
+      "display_name": "Sorgu Zeynep Sultan",
+      "category": "Röportaj Kayıtları",
+      "sub_category": null,
+      "file_ext": "mp3",
+      "youtube_link": null,
+      "case_id": "colun-muhurlu-haritasi"
+    },
+    {
+      "id": 515,
+      "filename": "Supheli_Arda_Soyer.html",
+      "display_name": "Supheli Arda Soyer",
+      "category": "Şüpheli Profilleri",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "colun-muhurlu-haritasi"
+    },
+    {
+      "id": 516,
+      "filename": "Supheli_Bekir_Dede.html",
+      "display_name": "Supheli Bekir Dede",
+      "category": "Şüpheli Profilleri",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "colun-muhurlu-haritasi"
+    },
+    {
+      "id": 517,
+      "filename": "Supheli_Davut_Reis.html",
+      "display_name": "Supheli Davut Reis",
+      "category": "Şüpheli Profilleri",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "colun-muhurlu-haritasi"
+    },
+    {
+      "id": 518,
+      "filename": "Supheli_Elif_Cetiner.html",
+      "display_name": "Supheli Elif Cetiner",
+      "category": "Şüpheli Profilleri",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "colun-muhurlu-haritasi"
+    },
+    {
+      "id": 519,
+      "filename": "Supheli_Ercan_Usta.html",
+      "display_name": "Supheli Ercan Usta",
+      "category": "Şüpheli Profilleri",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "colun-muhurlu-haritasi"
+    },
+    {
+      "id": 520,
+      "filename": "Supheli_Faruk_Yilmaz.html",
+      "display_name": "Supheli Faruk Yilmaz",
+      "category": "Şüpheli Profilleri",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "colun-muhurlu-haritasi"
+    },
+    {
+      "id": 521,
+      "filename": "Supheli_Ibrahim_Kurt.html",
+      "display_name": "Supheli Ibrahim Kurt",
+      "category": "Şüpheli Profilleri",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "colun-muhurlu-haritasi"
+    },
+    {
+      "id": 522,
+      "filename": "Supheli_Kenan_Aga.html",
+      "display_name": "Supheli Kenan Aga",
+      "category": "Şüpheli Profilleri",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "colun-muhurlu-haritasi"
+    },
+    {
+      "id": 523,
+      "filename": "Supheli_Leyla.html",
+      "display_name": "Supheli Leyla",
+      "category": "Şüpheli Profilleri",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "colun-muhurlu-haritasi"
+    },
+    {
+      "id": 524,
+      "filename": "Supheli_Mahmut_Efendi.html",
+      "display_name": "Supheli Mahmut Efendi",
+      "category": "Şüpheli Profilleri",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "colun-muhurlu-haritasi"
+    },
+    {
+      "id": 525,
+      "filename": "Supheli_Naim_Aga.html",
+      "display_name": "Supheli Naim Aga",
+      "category": "Şüpheli Profilleri",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "colun-muhurlu-haritasi"
+    },
+    {
+      "id": 526,
+      "filename": "Supheli_Zeynep_Demir.html",
+      "display_name": "Supheli Zeynep Demir",
+      "category": "Şüpheli Profilleri",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "colun-muhurlu-haritasi"
+    },
+    {
+      "id": 527,
+      "filename": "Supheli_Zeynep_Sultan.html",
+      "display_name": "Supheli Zeynep Sultan",
+      "category": "Şüpheli Profilleri",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "colun-muhurlu-haritasi"
+    },
+    {
+      "id": 528,
+      "filename": "Tanik_Ali_Coban.mp3",
+      "display_name": "Tanik Ali Coban",
+      "category": "Tanık Beyanları",
+      "sub_category": null,
+      "file_ext": "mp3",
+      "youtube_link": null,
+      "case_id": "colun-muhurlu-haritasi"
+    },
+    {
+      "id": 529,
+      "filename": "Tanik_Ali_Usta.mp3",
+      "display_name": "Tanik Ali Usta",
+      "category": "Tanık Beyanları",
+      "sub_category": null,
+      "file_ext": "mp3",
+      "youtube_link": null,
+      "case_id": "colun-muhurlu-haritasi"
+    },
+    {
+      "id": 530,
+      "filename": "Tanik_Ayse_Ana.mp3",
+      "display_name": "Tanik Ayse Ana",
+      "category": "Tanık Beyanları",
+      "sub_category": null,
+      "file_ext": "mp3",
+      "youtube_link": null,
+      "case_id": "colun-muhurlu-haritasi"
+    },
+    {
+      "id": 531,
+      "filename": "Tanik_Bekir_Coban.mp3",
+      "display_name": "Tanik Bekir Coban",
+      "category": "Tanık Beyanları",
+      "sub_category": null,
+      "file_ext": "mp3",
+      "youtube_link": null,
+      "case_id": "colun-muhurlu-haritasi"
+    },
+    {
+      "id": 532,
+      "filename": "Tanik_Dr_Elif_Soylu.mp3",
+      "display_name": "Tanik Dr Elif Soylu",
+      "category": "Tanık Beyanları",
+      "sub_category": null,
+      "file_ext": "mp3",
+      "youtube_link": null,
+      "case_id": "colun-muhurlu-haritasi"
+    },
+    {
+      "id": 533,
+      "filename": "Tanik_Gülsüm_Nine.mp3",
+      "display_name": "Tanik Gülsüm Nine",
+      "category": "Tanık Beyanları",
+      "sub_category": null,
+      "file_ext": "mp3",
+      "youtube_link": null,
+      "case_id": "colun-muhurlu-haritasi"
+    },
+    {
+      "id": 534,
+      "filename": "Tanik_Haci_Baba.html",
+      "display_name": "Tanik Haci Baba",
+      "category": "Tanık Beyanları",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "colun-muhurlu-haritasi"
+    },
+    {
+      "id": 535,
+      "filename": "Tanik_Halil_Aslan.html",
+      "display_name": "Tanik Halil Aslan",
+      "category": "Tanık Beyanları",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "colun-muhurlu-haritasi"
+    },
+    {
+      "id": 536,
+      "filename": "Tanik_Murat_Efe.html",
+      "display_name": "Tanik Murat Efe",
+      "category": "Tanık Beyanları",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "colun-muhurlu-haritasi"
+    },
+    {
+      "id": 537,
+      "filename": "Tanik_Prof_Cemal_Kaya.mp3",
+      "display_name": "Tanik Prof Cemal Kaya",
+      "category": "Tanık Beyanları",
+      "sub_category": null,
+      "file_ext": "mp3",
+      "youtube_link": null,
+      "case_id": "colun-muhurlu-haritasi"
+    },
+    {
+      "id": 538,
+      "filename": "Tanik_Sema_Gezgin.html",
+      "display_name": "Tanik Sema Gezgin",
+      "category": "Tanık Beyanları",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "colun-muhurlu-haritasi"
+    },
+    {
+      "id": 539,
+      "filename": "Telefon_Kaydi_Bekir_Profesor.html",
+      "display_name": "Telefon Kaydi Bekir Profesor",
+      "category": "Kanıt Arşivi",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "colun-muhurlu-haritasi"
+    },
+    {
+      "id": 540,
+      "filename": "Telefon_Kayitlari.html",
+      "display_name": "Telefon Kayitlari",
+      "category": "Kanıt Arşivi",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "colun-muhurlu-haritasi"
+    },
+    {
+      "id": 564,
+      "filename": "Atolye_Ekipman_Kayitlari.html",
+      "display_name": "Atolye Ekipman Kayitlari",
+      "category": "Kanıt Arşivi",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "vaka-kopyaci-heykeltiras"
+    },
+    {
+      "id": 566,
+      "filename": "CCTV_Kayit_Analizi.html",
+      "display_name": "CCTV Kayit Analizi",
+      "category": "Kanıt Arşivi",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "vaka-kopyaci-heykeltiras"
+    },
+    {
+      "id": 567,
+      "filename": "Calinti_Envanter_Raporu.html",
+      "display_name": "Calinti Envanter Raporu",
+      "category": "Mağdur Detayları",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "vaka-kopyaci-heykeltiras"
+    },
+    {
+      "id": 568,
+      "filename": "Kimyasal_Analiz_Raporu.html",
+      "display_name": "Kimyasal Analiz Raporu",
+      "category": "Kanıt Arşivi",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "vaka-kopyaci-heykeltiras"
+    },
+    {
+      "id": 569,
+      "filename": "Maktul_Profili_Kenan_Usluer.html",
+      "display_name": "Maktul Profili Kenan Usluer",
+      "category": "Mağdur Detayları",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "vaka-kopyaci-heykeltiras"
+    },
+    {
+      "id": 570,
+      "filename": "Mali_Inceleme_Raporu_Murat_Soyer.html",
+      "display_name": "Mali Inceleme Raporu Murat Soyer",
+      "category": "Kanıt Arşivi",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "vaka-kopyaci-heykeltiras"
+    },
+    {
+      "id": 571,
+      "filename": "Olay_Yeri_Inceleme_Raporu.html",
+      "display_name": "Olay Yeri Inceleme Raporu",
+      "category": "Olay Raporları",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "vaka-kopyaci-heykeltiras"
+    },
+    {
+      "id": 572,
+      "filename": "Otopsi_Raporu.html",
+      "display_name": "Otopsi Raporu",
+      "category": "Mağdur Detayları",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "vaka-kopyaci-heykeltiras"
+    },
+    {
+      "id": 573,
+      "filename": "Sorgu_Asli_Gorgun.html",
+      "display_name": "Sorgu Asli Gorgun",
+      "category": "Röportaj Kayıtları",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "vaka-kopyaci-heykeltiras"
+    },
+    {
+      "id": 574,
+      "filename": "Sorgu_Bulent_Karadag.html",
+      "display_name": "Sorgu Bulent Karadag",
+      "category": "Röportaj Kayıtları",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "vaka-kopyaci-heykeltiras"
+    },
+    {
+      "id": 575,
+      "filename": "Sorgu_Elif_Cetiner.html",
+      "display_name": "Sorgu Elif Cetiner",
+      "category": "Röportaj Kayıtları",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "vaka-kopyaci-heykeltiras"
+    },
+    {
+      "id": 576,
+      "filename": "Sorgu_Murat_Soyer.html",
+      "display_name": "Sorgu Murat Soyer",
+      "category": "Röportaj Kayıtları",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "vaka-kopyaci-heykeltiras"
+    },
+    {
+      "id": 577,
+      "filename": "Sorgu_Zeynep_Akman.html",
+      "display_name": "Sorgu Zeynep Akman",
+      "category": "Röportaj Kayıtları",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "vaka-kopyaci-heykeltiras"
+    },
+    {
+      "id": 578,
+      "filename": "Supheli_Asli_Gorgun.html",
+      "display_name": "Supheli Asli Gorgun",
+      "category": "Şüpheli Profilleri",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "vaka-kopyaci-heykeltiras"
+    },
+    {
+      "id": 579,
+      "filename": "Supheli_Bulent_Karadag.html",
+      "display_name": "Supheli Bulent Karadag",
+      "category": "Şüpheli Profilleri",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "vaka-kopyaci-heykeltiras"
+    },
+    {
+      "id": 580,
+      "filename": "Supheli_Elif_Cetiner.html",
+      "display_name": "Supheli Elif Cetiner",
+      "category": "Şüpheli Profilleri",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "vaka-kopyaci-heykeltiras"
+    },
+    {
+      "id": 581,
+      "filename": "Supheli_Murat_Soyer.html",
+      "display_name": "Supheli Murat Soyer",
+      "category": "Şüpheli Profilleri",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "vaka-kopyaci-heykeltiras"
+    },
+    {
+      "id": 582,
+      "filename": "Supheli_Zeynep_Akman.html",
+      "display_name": "Supheli Zeynep Akman",
+      "category": "Şüpheli Profilleri",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "vaka-kopyaci-heykeltiras"
+    },
+    {
+      "id": 583,
+      "filename": "Tanik_Ahmet_Yilmaz.html",
+      "display_name": "Tanik Ahmet Yilmaz",
+      "category": "Tanık Beyanları",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "vaka-kopyaci-heykeltiras"
+    },
+    {
+      "id": 584,
+      "filename": "Tanik_Cemil_Isik.html",
+      "display_name": "Tanik Cemil Isik",
+      "category": "Tanık Beyanları",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "vaka-kopyaci-heykeltiras"
+    },
+    {
+      "id": 585,
+      "filename": "Tanik_Selin_Durmaz.html",
+      "display_name": "Tanik Selin Durmaz",
+      "category": "Tanık Beyanları",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "vaka-kopyaci-heykeltiras"
+    },
+    {
+      "id": 586,
+      "filename": "Tanik_Sema_Ersoy.html",
+      "display_name": "Tanik Sema Ersoy",
+      "category": "Tanık Beyanları",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "vaka-kopyaci-heykeltiras"
+    },
+    {
+      "id": 473,
+      "filename": "Gazete_Haberi.html",
+      "display_name": "Gazete Haberi",
+      "category": "Diğer Belgeler",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "colun-muhurlu-haritasi"
+    },
+    {
+      "id": 589,
+      "filename": "Basari_Dosyasi.html",
+      "display_name": "Basari Dosyasi",
+      "category": "Diğer Belgeler",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "colun-muhurlu-haritasi"
+    },
+    {
+      "id": 590,
+      "filename": "Basari_Dosyasi.html",
+      "display_name": "Basari Dosyasi",
+      "category": "Diğer Belgeler",
+      "sub_category": null,
+      "file_ext": "html",
+      "youtube_link": null,
+      "case_id": "vaka-kopyaci-heykeltiras"
+    }
+  ],
+  "suspects": [
+    {
+      "id": 2,
+      "name": "Leyla Yankı",
+      "is_culprit": false,
+      "case_id": "104.2 Çanakkale Paradoksu"
+    },
+    {
+      "id": 3,
+      "name": "Selim Ersoy",
+      "is_culprit": false,
+      "case_id": "104.2 Çanakkale Paradoksu"
+    },
+    {
+      "id": 4,
+      "name": "Kerem Işık",
+      "is_culprit": false,
+      "case_id": "104.2 Çanakkale Paradoksu"
+    },
+    {
+      "id": 5,
+      "name": "Haluk Erten",
+      "is_culprit": false,
+      "case_id": "104.2 Çanakkale Paradoksu"
+    },
+    {
+      "id": 1,
+      "name": "Melis Derin",
+      "is_culprit": false,
+      "case_id": "104.2 Çanakkale Paradoksu"
+    },
+    {
+      "id": 11,
+      "name": "Kaan Aras",
+      "is_culprit": false,
+      "case_id": "Gölge-Protokolü--Sessiz-Kaos"
+    },
+    {
+      "id": 12,
+      "name": "Deniz Yılmaz",
+      "is_culprit": false,
+      "case_id": "Gölge-Protokolü--Sessiz-Kaos"
+    },
+    {
+      "id": 13,
+      "name": "İpek Tan",
+      "is_culprit": false,
+      "case_id": "Gölge-Protokolü--Sessiz-Kaos"
+    },
+    {
+      "id": 14,
+      "name": "Baran Kurt",
+      "is_culprit": false,
+      "case_id": "Gölge-Protokolü--Sessiz-Kaos"
+    },
+    {
+      "id": 15,
+      "name": "Arzu Güneş",
+      "is_culprit": false,
+      "case_id": "Gölge-Protokolü--Sessiz-Kaos"
+    },
+    {
+      "id": 16,
+      "name": "Dr. Lara Işık",
+      "is_culprit": false,
+      "case_id": "Kusursuz-Vakum"
+    },
+    {
+      "id": 17,
+      "name": "Prof. Ömer Tekin",
+      "is_culprit": false,
+      "case_id": "Kusursuz-Vakum"
+    },
+    {
+      "id": 19,
+      "name": "Cem Bölükbaşı",
+      "is_culprit": false,
+      "case_id": "Kusursuz-Vakum"
+    },
+    {
+      "id": 20,
+      "name": "ATHENA (Yapay Zeka Sistemi)",
+      "is_culprit": false,
+      "case_id": "Kusursuz-Vakum"
+    },
+    {
+      "id": 18,
+      "name": "Selin Arhan",
+      "is_culprit": false,
+      "case_id": "Kusursuz-Vakum"
+    },
+    {
+      "id": 21,
+      "name": "Necdet Bağcı",
+      "is_culprit": false,
+      "case_id": "Bayan-Vasulayi-Kim-Oldurdu"
+    },
+    {
+      "id": 22,
+      "name": "Maria Akçalı",
+      "is_culprit": false,
+      "case_id": "Bayan-Vasulayi-Kim-Oldurdu"
+    },
+    {
+      "id": 23,
+      "name": "Hande Kıraç",
+      "is_culprit": false,
+      "case_id": "Bayan-Vasulayi-Kim-Oldurdu"
+    },
+    {
+      "id": 24,
+      "name": "Hamza Ustaoğlu",
+      "is_culprit": false,
+      "case_id": "Bayan-Vasulayi-Kim-Oldurdu"
+    },
+    {
+      "id": 25,
+      "name": "Naim Ağa",
+      "is_culprit": false,
+      "case_id": "colun-muhurlu-haritasi"
+    },
+    {
+      "id": 26,
+      "name": "Leyla",
+      "is_culprit": false,
+      "case_id": "colun-muhurlu-haritasi"
+    },
+    {
+      "id": 27,
+      "name": "Bekir Dede",
+      "is_culprit": false,
+      "case_id": "colun-muhurlu-haritasi"
+    },
+    {
+      "id": 28,
+      "name": "Ercan Usta",
+      "is_culprit": false,
+      "case_id": "colun-muhurlu-haritasi"
+    },
+    {
+      "id": 29,
+      "name": "Zeynep Demir",
+      "is_culprit": false,
+      "case_id": "colun-muhurlu-haritasi"
+    },
+    {
+      "id": 30,
+      "name": "Aslı Görgün",
+      "is_culprit": false,
+      "case_id": "vaka-kopyaci-heykeltiras"
+    },
+    {
+      "id": 33,
+      "name": "Bülent Karadağ",
+      "is_culprit": false,
+      "case_id": "vaka-kopyaci-heykeltiras"
+    },
+    {
+      "id": 34,
+      "name": "Zeynep Akman",
+      "is_culprit": false,
+      "case_id": "vaka-kopyaci-heykeltiras"
+    },
+    {
+      "id": 31,
+      "name": "Murat Soyer",
+      "is_culprit": false,
+      "case_id": "vaka-kopyaci-heykeltiras"
+    },
+    {
+      "id": 32,
+      "name": "Elif Çetiner",
+      "is_culprit": false,
+      "case_id": "vaka-kopyaci-heykeltiras"
+    }
+  ],
+  "users": [
+    {
+      "id": 2,
+      "username": "uzman",
+      "email": "alituran44@gmail.com",
+      "password": "scrypt:32768:8:1$2hDkU7B4U5dTBb5B$e9f5c6f6aa5b6d874e921ceee1287785ae892838682a193c76883e0450c31b2b5a79d5442c5c40f373e44988e61a48a55e53d5b4323b11a92b7fd92aedfbadb3",
+      "first_name": "Ali",
+      "last_name": "Turan",
+      "screen_name": null,
+      "billing_address": "17100, , Giresun",
+      "unlocked_cases": "stonewood",
+      "unlocked_hints": "",
+      "score": 0,
+      "reset_token": "c5UDGS_-QSBZrOX4I5Ntp7pF2bG8cxnbj6rTQaYVtjk",
+      "reset_token_expiry": "2026-05-12 16:59:49.159566"
+    },
+    {
+      "id": 1,
+      "username": "admin",
+      "email": "admin@test.com",
+      "password": "scrypt:32768:8:1$JiDiyuwILEKzjOyY$c4f43a2916b9e98dc44c93440a34e332d2a732d6b5c51bd1aef8230008c89cd6869a5aebed6a4a653e9e0366e89c1b78a24f4822c88639e8e9b5018b3bd86999",
+      "first_name": null,
+      "last_name": null,
+      "screen_name": null,
+      "billing_address": null,
+      "unlocked_cases": "stonewood,golge_sehir",
+      "unlocked_hints": "",
+      "score": 1544,
+      "reset_token": null,
+      "reset_token_expiry": null
+    },
+    {
+      "id": 3,
+      "username": "demobayi1_1783801740",
+      "email": "demobayi1_1783801740@test.com",
+      "password": "pbkdf2:sha256:1000000$uNxILB908DqyyZBK$d8fa169a835c4e36ad965003280e87159c1c59e1847e16037d95949b5a6b92d8",
+      "first_name": null,
+      "last_name": null,
+      "screen_name": null,
+      "billing_address": null,
+      "unlocked_cases": "stonewood",
+      "unlocked_hints": "",
+      "score": 0,
+      "reset_token": null,
+      "reset_token_expiry": null
+    },
+    {
+      "id": 4,
+      "username": "demobayi2_1783801740",
+      "email": "demobayi2_1783801740@test.com",
+      "password": "pbkdf2:sha256:1000000$A142f928WAwfdFyk$0f6d5ad192ca7c0c8c3ebc1d5f378c4e9e86d710064f47f343041b4d157ab7d6",
+      "first_name": null,
+      "last_name": null,
+      "screen_name": null,
+      "billing_address": null,
+      "unlocked_cases": "stonewood",
+      "unlocked_hints": "",
+      "score": 0,
+      "reset_token": null,
+      "reset_token_expiry": null
+    }
+  ],
+  "comments": [],
+  "orders": [],
+  "purchases": [
+    {
+      "id": 1,
+      "user_id": 1,
+      "case_id": "104.2 Çanakkale Paradoksu",
+      "amount": 0.0,
+      "is_paid": true,
+      "created_at": null
+    },
+    {
+      "id": 2,
+      "user_id": 2,
+      "case_id": "Kusursuz-Vakum",
+      "amount": 0.0,
+      "is_paid": true,
+      "created_at": "2026-05-15 13:47:11.369148"
+    },
+    {
+      "id": 3,
+      "user_id": 3,
+      "case_id": "Kusursuz-Vakum",
+      "amount": 0.0,
+      "is_paid": true,
+      "created_at": "2026-07-11 20:29:01.234542"
+    },
+    {
+      "id": 4,
+      "user_id": 4,
+      "case_id": "Kusursuz-Vakum",
+      "amount": 0.0,
+      "is_paid": true,
+      "created_at": "2026-07-11 20:29:01.522889"
+    }
+  ],
+  "hints": [
+    {
+      "id": 1,
+      "hint_text": "Kapı sürgüsünün iç kısmındaki zehirli parmak izi, odayı içeriden kilitleyenin kaçan bir katil değil, ölmek üzere olan Aras Yankı'nın kendisi olduğunu kanıtlıyor.",
+      "hint_text_en": "The poisoned fingerprint on the inside of the door bolt proves that the one who locked the room from inside was not a fleeing killer, but Aras Yankı himself who was about to die.",
+      "hint_file": null,
+      "show_datetime": "2026-01-31 23:49:00",
+      "is_active": true,
+      "unlock_price": null,
+      "case_id": "104.2 Çanakkale Paradoksu"
+    }
+  ],
+  "subscribers": [],
+  "email_logs": [],
+  "contact_messages": [],
+  "partners": [
+    {
+      "id": 1,
+      "user_id": 2,
+      "bio": "Merhaba",
+      "instagram": "",
+      "youtube": "",
+      "tiktok": "",
+      "twitter": "",
+      "website": "",
+      "iban": "TR0000000000000000000",
+      "iban_name": "Ali Turan",
+      "commission_rate": 20,
+      "total_earnings": 0.0,
+      "pending_earnings": 0.0,
+      "withdrawn_earnings": 0.0,
+      "status": "approved",
+      "created_at": "2026-01-31 22:26:12.963028",
+      "approved_at": "2026-01-31 22:32:48.996821"
+    }
+  ],
+  "partner_withdrawals": [],
+  "partner_sales": [],
+  "discount_codes": [],
+  "suggestions": [],
+  "footer_links": [],
+  "faqs": [
+    {
+      "id": 1,
+      "question": "Gizemli Vakalar tam olarak nedir?",
+      "question_en": "What exactly is Gizemli Vakalar?",
+      "answer": "Gizemli Vakalar; size gerçeğe yakın bir suç dosyası sunan, interaktif bir dedektiflik simülasyonudur. Dosyayı açtığınızda polis raporları, otopsi sonuçları, şüpheli ifadeleri, ses kayıtları ve dijital kanıtlarla dolu bir dünyaya adım atarsınız. Amacınız; delilleri birleştirmek, yalanları yakalamak ve adaleti sağlamaktır.",
+      "answer_en": "Gizemli Vakalar is an interactive detective simulation that presents you with a real crime file. When you open the file, you step into a world full of police reports, autopsy results, suspect statements, audio recordings and digital evidence. Your goal is to piece together the evidence, catch the lies and bring justice.",
+      "order": 1,
+      "is_active": true,
+      "created_at": "2026-02-01 20:50:34.973887"
+    },
+    {
+      "id": 2,
+      "question": "Vakalar gerçek olaylara mı dayanıyor?",
+      "question_en": "Are the cases based on real events?",
+      "answer": "Tüm vakalarımız, karakterlerimiz ve olay örgülerimiz tamamen kurgusaldır. Ancak, gerçekçilik hissini artırmak için profesyonel kriminoloji prosedürleri ve gerçek dünyadaki dijital iz bırakma yöntemleri (sosyal medya, e-posta, web siteleri) temel alınarak tasarlanmıştır.",
+      "answer_en": "All our cases, characters and storylines are completely fictional. However, to enhance the sense of realism, they are designed based on professional criminology procedures and real-world digital footprint methods (social media, email, websites).",
+      "order": 2,
+      "is_active": true,
+      "created_at": "2026-02-01 20:50:34.978129"
+    },
+    {
+      "id": 3,
+      "question": "Hangi vakadan başlamalıyım?",
+      "question_en": "Which case should I start with?",
+      "answer": "Eğer yeni başlıyorsanız, düşük zorluk seviyesindeki başlangıç vakalarımızı tercih edebilirsiniz.",
+      "answer_en": "If you are new, you can choose our beginner cases with low difficulty levels.",
+      "order": 3,
+      "is_active": true,
+      "created_at": "2026-02-01 20:50:34.981452"
+    },
+    {
+      "id": 4,
+      "question": "Vakayı çözmek ne kadar sürer?",
+      "question_en": "How long does it take to solve a case?",
+      "answer": "Soruşturma süresi vakanın karmaşıklığına ve sizin analiz hızınıza bağlıdır. Kısa Dosyalar: 45 - 90 Dakika, Orta Seviye: 2 - 4 Saat, Karmaşık Dosyalar (Örn: Yankı FM): Birkaç güne yayılan derin bir araştırma gerektirebilir.",
+      "answer_en": "Investigation time depends on the complexity of the case and your analysis speed. Short Files: 45 - 90 Minutes, Medium Level: 2 - 4 Hours, Complex Files (e.g. Yankı FM): May require deep research spread over several days.",
+      "order": 4,
+      "is_active": true,
+      "created_at": "2026-02-01 20:50:34.985464"
+    },
+    {
+      "id": 5,
+      "question": "Takıldığımda yardım alabilir miyim?",
+      "question_en": "Can I get help when I am stuck?",
+      "answer": "Kesinlikle. Her vaka dosyasının içinde \"Kademeli İpucu Sistemi\" bulunur. Bu sistem size doğrudan cevabı vermez; önce ufak bir hatırlatma yapar, hala çözemediyseniz daha derin bir ipucu sunar. En son aşamada ise cevaba giden yolu gösterir.",
+      "answer_en": "Absolutely. Each case file contains a \"Progressive Hint System\". This system does not give you the answer directly; it first gives you a small reminder, if you still cannot solve it, it offers a deeper hint. In the final stage, it shows you the path to the answer.",
+      "order": 5,
+      "is_active": true,
+      "created_at": "2026-02-01 20:50:34.992580"
+    },
+    {
+      "id": 6,
+      "question": "Birden fazla kişiyle oynayabilir miyim?",
+      "question_en": "Can I play with multiple people?",
+      "answer": "Evet! Gizemli Vakalar, arkadaş grupları veya aile aktiviteleri için mükemmeldir. Ekran başında toplanıp kanıtları beraber tartışabilir, her biriniz farklı bir şüphelinin alibisini inceleyerek gerçek bir ekip çalışması yürütebilirsiniz.",
+      "answer_en": "Yes! Gizemli Vakalar is perfect for groups of friends or family activities. You can gather around the screen and discuss the evidence together, each of you examining the alibi of a different suspect and conducting real teamwork.",
+      "order": 6,
+      "is_active": true,
+      "created_at": "2026-02-01 20:50:34.994824"
+    },
+    {
+      "id": 7,
+      "question": "Satın aldığım vaka dosyasını nasıl açarım?",
+      "question_en": "How do I open the case file I purchased?",
+      "answer": "Ödemeniz onaylandığı anda e-posta adresinize bir giriş linki ve şifre belirleme yönergesi gönderilir. Giriş yaptıktan sonra \"Aktif Vakalarım\" panelinden dosyanıza erişebilirsiniz.",
+      "answer_en": "As soon as your payment is confirmed, a login link and password setup instructions will be sent to your email address. After logging in, you can access your file from the \"My Active Cases\" panel.",
+      "order": 7,
+      "is_active": true,
+      "created_at": "2026-02-01 20:50:34.996810"
+    },
+    {
+      "id": 8,
+      "question": "Dosyaları indirmem gerekiyor mu?",
+      "question_en": "Do I need to download the files?",
+      "answer": "Hayır, kurulum gerektirmez. Tüm soruşturma sürecini tarayıcınız (Chrome, Safari, Edge vb.) üzerinden, özel olarak tasarlanmış \"Polis Bilgisayarı\" arayüzü ile yürütürsünüz. Ancak isterseniz bazı kanıtları PDF olarak indirip çıktısını alabilirsiniz.",
+      "answer_en": "No, no installation required. You run the entire investigation process through your browser (Chrome, Safari, Edge, etc.) with a specially designed \"Police Computer\" interface. However, you can download and print out some evidence as PDF if you wish.",
+      "order": 8,
+      "is_active": true,
+      "created_at": "2026-02-01 20:50:34.999330"
+    },
+    {
+      "id": 9,
+      "question": "Cihaz sınırlaması var mı?",
+      "question_en": "Is there a device limitation?",
+      "answer": "Hayır. Soruşturmanıza bilgisayarınızda başlayıp, kahvenizi alıp tabletinizde devam edebilirsiniz. İlerlemeniz bulut sistemimizde anlık olarak kaydedilir.",
+      "answer_en": "No. You can start your investigation on your computer, grab your coffee and continue on your tablet. Your progress is saved instantly in our cloud system.",
+      "order": 9,
+      "is_active": true,
+      "created_at": "2026-02-01 20:50:35.002125"
+    },
+    {
+      "id": 10,
+      "question": "Kargo ücreti ödeyecek miyim?",
+      "question_en": "Will I pay shipping fee?",
+      "answer": "Hayır. Platformumuz tamamen dijitaldir. Herhangi bir fiziksel kargo gönderimi yapılmadığı için kargo ücreti veya bekleme süresi yoktur.",
+      "answer_en": "No. Our platform is completely digital. Since there is no physical shipment, there is no shipping fee or waiting time.",
+      "order": 10,
+      "is_active": true,
+      "created_at": "2026-02-01 20:50:35.004302"
+    },
+    {
+      "id": 11,
+      "question": "İade yapabiliyor muyum?",
+      "question_en": "Can I get a refund?",
+      "answer": "Mesafeli Satış Sözleşmesi gereği, dijital olarak anında erişime açılan içeriklerde (vaka dosyası açıldıktan sonra) iade yapılmamaktadır. Ancak teknik bir erişim sorunu yaşıyorsanız destek ekibimiz sorunu çözmek için yanınızdadır.",
+      "answer_en": "According to the Distance Selling Agreement, refunds are not available for digitally instantly accessible content (after the case file is opened). However, if you are experiencing a technical access issue, our support team is here to solve the problem.",
+      "order": 11,
+      "is_active": true,
+      "created_at": "2026-02-01 20:50:35.006200"
+    },
+    {
+      "id": 12,
+      "question": "Ödeme yöntemleri nelerdir?",
+      "question_en": "What are the payment methods?",
+      "answer": "Tüm banka ve kredi kartları ile güvenli ödeme altyapımız üzerinden işleminizi gerçekleştirebilirsiniz.",
+      "answer_en": "You can make your payment with all bank and credit cards through our secure payment infrastructure.",
+      "order": 12,
+      "is_active": true,
+      "created_at": "2026-02-01 20:50:35.007997"
+    },
+    {
+      "id": 13,
+      "question": "Bir sorun yaşarsam kime ulaşabilirim?",
+      "question_en": "Who can I contact if I have a problem?",
+      "answer": "Vaka içinde bir hata bulduğunuzu düşünüyorsanız veya teknik bir sorun yaşıyorsanız info@gizemlivakalar.com adresine \"Vaka No\" ile birlikte mesaj atabilirsiniz. Dedektif destek ekibimiz en kısa sürede size geri dönecektir.",
+      "answer_en": "If you think you have found an error in the case or are experiencing a technical problem, you can send a message to info@gizemlivakalar.com with the \"Case Number\". Our detective support team will get back to you as soon as possible.",
+      "order": 13,
+      "is_active": true,
+      "created_at": "2026-02-01 20:50:35.009709"
+    }
+  ],
+  "game_progress": [
+    {
+      "id": 1,
+      "user_id": 1,
+      "case_id": "104.2 Çanakkale Paradoksu",
+      "attempts_used": 0,
+      "hints_used": 0,
+      "points_earned": 0.0,
+      "is_solved": false,
+      "is_failed": false,
+      "last_attempt_time": "2026-02-05 13:05:51.952683",
+      "play_time_seconds": null,
+      "created_at": null
+    }
+  ],
+  "access_codes": [
+    {
+      "id": 1,
+      "code": "M6NQ8SKN",
+      "case_id": "104.2 Çanakkale Paradoksu",
+      "is_used": false,
+      "used_by_user_id": null,
+      "platform": null,
+      "sale_price": 250.0,
+      "created_at": "2026-02-01 13:29:52.702403",
+      "used_at": null
+    },
+    {
+      "id": 2,
+      "code": "YPNH6LYW",
+      "case_id": "104.2 Çanakkale Paradoksu",
+      "is_used": false,
+      "used_by_user_id": null,
+      "platform": "Trendyol",
+      "sale_price": 350.0,
+      "created_at": "2026-02-05 13:06:39.034886",
+      "used_at": null
+    }
+  ],
+  "team_purchases": [
+    {
+      "id": 1,
+      "case_id": "104.2 Çanakkale Paradoksu",
+      "organizer_email": "alituran44@gmail.com",
+      "organizer_name": "",
+      "team_count": 1,
+      "total_price": 0.0,
+      "payment_status": "completed",
+      "created_at": "2026-02-01 10:50:08.790637",
+      "partner_code": null,
+      "dealer_code": null,
+      "dealer_qr_template_id": null
+    },
+    {
+      "id": 2,
+      "case_id": "Gölge-Protokolü--Sessiz-Kaos",
+      "organizer_email": "admin@test.com",
+      "organizer_name": "admin",
+      "team_count": 1,
+      "total_price": 0.0,
+      "payment_status": "completed",
+      "created_at": "2026-02-07 12:39:39.806106",
+      "partner_code": null,
+      "dealer_code": null,
+      "dealer_qr_template_id": null
+    },
+    {
+      "id": 3,
+      "case_id": "104.2 Çanakkale Paradoksu",
+      "organizer_email": "admin@test.com",
+      "organizer_name": "admin",
+      "team_count": 1,
+      "total_price": 0.0,
+      "payment_status": "completed",
+      "created_at": "2026-02-07 17:57:35.502522",
+      "partner_code": null,
+      "dealer_code": null,
+      "dealer_qr_template_id": null
+    }
+  ],
+  "team_members": [
+    {
+      "id": 2,
+      "team_purchase_id": 2,
+      "team_number": 1,
+      "team_name": "admin",
+      "email": "admin@test.com",
+      "access_token": "X20UHsy_f0AEhgSARCLAfSGLIyqAmTbqaQr-h7tg4bw",
+      "accessed": true,
+      "completed": false,
+      "completed_at": null,
+      "play_time_seconds": null,
+      "created_at": "2026-02-07 12:39:39.811334"
+    },
+    {
+      "id": 3,
+      "team_purchase_id": 3,
+      "team_number": 1,
+      "team_name": "admin",
+      "email": "admin@test.com",
+      "access_token": "3FZIqhX0zf0ydqRK7lKCOoqU-Y9H3kIVx_aX_Hq7kEA",
+      "accessed": true,
+      "completed": false,
+      "completed_at": null,
+      "play_time_seconds": null,
+      "created_at": "2026-02-07 17:57:35.504982"
+    }
+  ],
+  "team_messages": []
+}

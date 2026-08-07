@@ -1,0 +1,52 @@
+{% extends "admin/base.html" %}
+{% block admin_content %}
+<div class="mb-4">
+    <a href="{{ url_for('admin_messages') }}" class="btn btn-outline-dark">
+        <i class="fas fa-arrow-left me-1"></i> Mesajlara Don
+    </a>
+</div>
+
+<div class="card border-0 shadow-sm">
+    <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+        <h5 class="mb-0"><i class="fas fa-envelope-open me-2"></i>Mesaj Detayi</h5>
+        <span class="small opacity-75">{{ msg.created_at.strftime('%d.%m.%Y %H:%M') }}</span>
+    </div>
+    <div class="card-body bg-white">
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label class="text-muted small">Gonderen</label>
+                <p class="fw-bold mb-0 text-dark">{{ msg.first_name }} {{ msg.last_name }}</p>
+            </div>
+            <div class="col-md-6">
+                <label class="text-muted small">E-posta</label>
+                <p class="fw-bold mb-0 text-dark">{{ msg.email }}</p>
+            </div>
+        </div>
+        <div class="mb-4">
+            <label class="text-muted small">Mesaj</label>
+            <div class="bg-light p-3 rounded border text-dark">
+                {{ msg.message }}
+            </div>
+        </div>
+        
+        {% if msg.is_replied %}
+        <div class="mb-4">
+            <label class="text-muted small">Cevabiniz ({{ msg.replied_at.strftime('%d.%m.%Y %H:%M') }})</label>
+            <div class="bg-success bg-opacity-10 p-3 rounded border-start border-success border-3 text-dark">
+                {{ msg.reply }}
+            </div>
+        </div>
+        {% endif %}
+        
+        <hr>
+        
+        <form method="POST">
+            <label class="form-label fw-bold text-dark">{% if msg.is_replied %}Cevabi Guncelle{% else %}Cevap Yaz{% endif %}</label>
+            <textarea name="reply" class="form-control mb-3" rows="4" placeholder="Cevabinizi yazin...">{{ msg.reply or '' }}</textarea>
+            <button type="submit" class="btn btn-warning fw-bold">
+                <i class="fas fa-paper-plane me-1"></i>{% if msg.is_replied %}Guncelle{% else %}Cevabi Kaydet{% endif %}
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}

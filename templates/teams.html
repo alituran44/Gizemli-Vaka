@@ -1,0 +1,199 @@
+{% extends "base.html" %}
+{% block title %}Takım Oyunları - Kurumsal Etkinlikler | Gizemli Vaka{% endblock %}
+{% block meta_description %}Gizemli Vaka takım oyunları ile kurumsal etkinliklerinizi unutulmaz kılın. İşbirliği, iletişim ve problem çözme becerilerini geliştirin.{% endblock %}
+
+{% block content %}
+
+<style>
+@media (max-width: 768px) {
+    .position-relative:first-child { min-height: 40vh !important; }
+    .position-relative:first-child h1 { font-size: 1.6rem !important; }
+    .position-relative:first-child p { font-size: 0.85rem !important; }
+    .col-md-3 { flex: 0 0 50%; max-width: 50%; }
+    .col-md-4 { flex: 0 0 100%; max-width: 100%; }
+    .col-md-6 { flex: 0 0 100%; max-width: 100%; }
+}
+@media (max-width: 576px) {
+    .position-relative:first-child h1 { font-size: 1.3rem !important; }
+    .col-md-3 { flex: 0 0 100%; max-width: 100%; }
+}
+</style>
+
+<div class="position-relative" style="min-height: 60vh; display: flex; align-items: center;">
+    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #0C1430 0%, #1a2a4a 100%); z-index: 1;"></div>
+    <div class="container position-relative py-5" style="z-index: 3;">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="d-flex gap-2 mb-3">
+                    <span style="background-color: #FFD700; color: #000; padding: 4px 12px; font-weight: bold; font-size: 0.7rem; letter-spacing: 1px;">ÇÖZÜLMEMIŞ DAVALAR</span>
+                    <span style="background-color: transparent; border: 1px solid #FFD700; color: #FFD700; padding: 4px 12px; font-size: 0.7rem;">Takım oluşturma oyunları</span>
+                </div>
+                <h1 class="fw-bold text-white mb-4" style="font-size: 2.8rem; line-height: 1.2;">İşbirliği ve beceri geliştirme için gerçekçi dedektiflik deneyimleri</h1>
+                <p class="text-white-50 mb-4" style="font-size: 1rem; max-width: 650px; line-height: 1.7;">
+                    Takım çalışmasını bir sonraki seviyeye taşıyın. Gizemli Vakalar'ın çevrimiçi cinayet gizemi oyunları, eleştirel düşünce, mantık ve güven baskısının anahtar olduğu otantik polis soruşturmalarında çalışır. İşbirliğini güçlendirir ve temel sosyal becerileri geliştirirken eğlenmek isteyen uzaktan, hibrit veya ofis içi ekipler için mükemmel.
+                </p>
+                <a href="{{ url_for('team_purchase') }}" class="btn px-4 py-3 fw-bold d-inline-flex align-items-center gap-2" style="background-color: #fff; color: #000; border-radius: 4px;">
+                    <i class="fas fa-users"></i> Bir Takım Aktivitesi Başlatın
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if cases and cases|length > 0 %}
+<div class="py-5" style="background-color: #0C1430;">
+    <div class="container py-4">
+        <span class="d-inline-block mb-3" style="background-color: #FFD700; color: #000; padding: 4px 12px; font-weight: bold; font-size: 0.7rem; letter-spacing: 1px;">TAKIMLAR İÇİN VAKALAR</span>
+        <h2 class="fw-bold text-white mb-2" style="font-size: 2.2rem;">Takım Aktivitesi Vakaları</h2>
+        <p class="text-white-50 mb-5">Takım aktiviteniz için bir vaka seçin</p>
+        
+        <div class="row g-4">
+            {% for case in cases %}
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100 border-0 overflow-hidden" style="background-color: #1a2a4a; border-radius: 12px; transition: all 0.3s;">
+                    <div style="height: 200px; overflow: hidden; position: relative;">
+                        <img loading="lazy" src="{{ url_for('static', filename='uploads/' + case.id + '/' + case.image) }}" class="w-100 h-100" style="object-fit: cover;" alt="{{ case.title }}">
+                        <div style="position: absolute; top: 10px; right: 10px;">
+                            <span class="badge" style="background-color: #ffc107; color: #0C1430;">{{ case.difficulty }}</span>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h5 class="fw-bold mb-2" style="color: #ffc107;">{{ case.title }}</h5>
+                        <p class="text-white-50 small mb-3" style="height: 60px; overflow: hidden;">
+                            {{ (case.description or '')[:120] }}...
+                        </p>
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div>
+                                {% if case.old_price and case.old_price > case.price %}
+                                <span class="text-white-50 text-decoration-line-through small">{{ case.old_price }}₺</span>
+                                {% endif %}
+                                <span class="fw-bold text-white" style="font-size: 1.2rem;">{{ case.price }}₺</span>
+                            </div>
+                        </div>
+                        <a href="{{ url_for('team_purchase') }}?case_id={{ case.id }}" class="btn w-100 fw-bold" style="background-color: #ffc107; color: #0C1430;">
+                            <i class="fas fa-users me-2"></i>Bu Vakayı Seç
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<div class="py-5 bg-white">
+    <div class="container py-4">
+        <span class="d-inline-block mb-3" style="background-color: #FFD700; color: #000; padding: 4px 12px; font-weight: bold; font-size: 0.7rem;">NASIL ÇALIŞIR</span>
+        <h2 class="fw-bold mb-2" style="color: #0C1430; font-size: 2.2rem;">Kayıt olmaktan çözüm bulmaya kadar</h2>
+        <p class="text-secondary mb-5">Herkesin anımsayabileceği, ilgi çekici bir ekip oluşturma deneyimi başlatmayı kolaylaştırdık.</p>
+        
+        <div class="row g-4 mb-4">
+            <div class="col-md-4">
+                <div class="p-4 h-100" style="border: 1px solid #eee; border-radius: 8px;">
+                    <h5 class="fw-bold mb-3" style="color: #0C1430;">Bir örnek seçin</h5>
+                    <p class="text-secondary" style="font-size: 0.9rem; line-height: 1.7;">
+                        Ödüllü Gizemli Vakalar soruşturma koleksiyonumuzdan, problem çözme ve eleştirel düşünme becerilerini geliştirecek şekilde tasarlanmış olanları seçin.
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="p-4 h-100" style="border: 1px solid #eee; border-radius: 8px;">
+                    <h5 class="fw-bold mb-3" style="color: #0C1430;">Takımları Oluşturun</h5>
+                    <p class="text-secondary" style="font-size: 0.9rem; line-height: 1.7;">
+                        Kaç grup çalıştırmak istediğinizi seçin. En iyi deneyim için takım başına 3-6 kişi öneriyoruz.
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="p-4 h-100" style="border: 1px solid #eee; border-radius: 8px;">
+                    <h5 class="fw-bold mb-3" style="color: #0C1430;">Giriş Bilgilerini Dağıtın</h5>
+                    <p class="text-secondary" style="font-size: 0.9rem; line-height: 1.7;">
+                        Ödeme işlemi tamamlandıktan sonra, her ekip için benzersiz kimlik bilgileri alacaksınız. Bunları mesajlaşma ile paylaşın ve soruşturmaya başlayın.
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row g-4 mb-5">
+            <div class="col-md-6">
+                <div class="p-4 h-100" style="border: 1px solid #eee; border-radius: 8px;">
+                    <h5 class="fw-bold mb-3" style="color: #0C1430;">Oynayın ve İşbirliği Yapın</h5>
+                    <p class="text-secondary" style="font-size: 0.9rem; line-height: 1.7;">
+                        Ekipler, güvenli, tarayıcı tabanlı bir arayüz içinde delilleri inceliyor, ipuçlarını tartışıyor, maddeleri analiz ediyor ve koordineli çalışıyor.
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="p-4 h-100" style="border: 1px solid #eee; border-radius: 8px;">
+                    <h5 class="fw-bold mb-3" style="color: #0C1430;">Yarış Sonuçları</h5>
+                    <p class="text-secondary" style="font-size: 0.9rem; line-height: 1.7;">
+                        Eğitmenler, takımlar çalışmalarını tamamladıkça gerçek zamanlı bildirimler alırlar ve kazananlar için indirilebilir sertifikalar sunulur.
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="text-center">
+            <a href="{{ url_for('cases') }}" class="btn px-5 py-3 fw-bold rounded-pill" style="background-color: #FFD700; color: #000;">
+                <i class="fas fa-play me-2"></i>Hemen Oyna
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="py-5" style="background-color: #0C1430;">
+    <div class="container py-4">
+        <span class="d-inline-block mb-3" style="background-color: #FFD700; color: #000; padding: 4px 12px; font-weight: bold; font-size: 0.7rem;">PLATFORM ÖZELLİKLERİ</span>
+        <h2 class="fw-bold text-white mb-5" style="font-size: 2rem;">Modern ekip oluşturma için hepsi bir arada platform</h2>
+        
+        <div class="row g-4">
+            <div class="col-md-3">
+                <div class="p-4 h-100" style="border: 1px solid rgba(255,215,0,0.3); border-radius: 8px;">
+                    <h5 class="fw-bold text-warning mb-3">Anında Erişim</h5>
+                    <p class="text-white-50" style="font-size: 0.85rem; line-height: 1.7;">
+                        Oyunlara anında başlayın - yükleme, indirme veya kurulum gerektirmez.
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="p-4 h-100" style="border: 1px solid rgba(255,215,0,0.3); border-radius: 8px; background: rgba(255,215,0,0.1);">
+                    <h5 class="fw-bold text-warning mb-3">Sürükleyici Hikayeler</h5>
+                    <p class="text-white-50" style="font-size: 0.85rem; line-height: 1.7;">
+                        Her vaka, titizlikle hazırlanmış ipuçları ve karmaşık karakterlerle gerçekçi polis soruşturmalarını andırmaktadır.
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="p-4 h-100" style="border: 1px solid rgba(255,215,0,0.3); border-radius: 8px;">
+                    <h5 class="fw-bold text-warning mb-3">İletişim Araçları</h5>
+                    <p class="text-white-50" style="font-size: 0.85rem; line-height: 1.7;">
+                        Oyun içi not alma, işbirliği yapma, ipuçlarını sunma ve delilleri paylaşma özellikleri takım çalışmasını kolaylaştırır.
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="p-4 h-100" style="border: 1px solid rgba(255,215,0,0.3); border-radius: 8px;">
+                    <h5 class="fw-bold text-warning mb-3">Tamamlama Sertifikaları</h5>
+                    <p class="text-white-50" style="font-size: 0.85rem; line-height: 1.7;">
+                        Kazanan takımlar için otomatik tamamlama bildirimleri, başarı takibi ve mutlu PDF sertifikaları.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="py-5 bg-white">
+    <div class="container py-4 text-center">
+        <h2 class="fw-bold mb-3" style="color: #0C1430; font-size: 2rem;">Takımınız İçin Teklif Alın</h2>
+        <p class="text-secondary mb-4" style="max-width: 600px; margin: 0 auto;">
+            İhtiyaçlarınızı bize bildirin, size özel bir teklif hazırlayalım.
+        </p>
+        <a href="mailto:info@gizemlivaka.com" class="btn px-5 py-3 fw-bold" style="background-color: #0C1430; color: #fff; border-radius: 4px;">
+            <i class="fas fa-envelope me-2"></i>Bizimle İletişime Geçin
+        </a>
+    </div>
+</div>
+
+{% endblock %}

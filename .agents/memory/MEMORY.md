@@ -1,0 +1,11 @@
+- [Detective case content conventions](case-content-conventions.md) — distinguish intentional clues/two-layer design from real contradictions before "fixing" case files.
+- [Case evidence personalization](case-personalization.md) — serve-time swap of investigator name for player's name; invariants (keep labels/suspects/experts/1872 figures).
+- [Success file editing](success-file-editing.md) — success_file lives at static/uploads/<case.id>/; varying CRLF/LF per file (edit-tool fails on EOL mismatch — use newline-preserving Python); never touch SUCLU comments.
+- [Param POS / TurkPos integration](param-turkpos.md) — correct endpoints/method(WMD)/hash for OnProv 3D; test backend ignores SOAP processing from Replit (IP-whitelist) so verify on deploy; Kapa/callback still buggy.
+- [Mobile API layer (api.py)](mobile-api-layer.md) — token/JWT REST at /api/v1 beside web app; bind main globals lazily in register_api to dodge circular import; every paid endpoint must enforce ownership; payment via one-time bridge token + WebView.
+- [Case-play AI assistant guardrails](ai-assistant-guardrails.md) — in-game AI mentor must never leak solution; use prompt rules + deterministic keyword post-filter; safe vs never-feed context fields; login-only gate matches play_case.
+- [GitHub push method](github-push-method.md) — use Replit GitHub connection token + temp /tmp clone; env PAT is stale and local git object writes are sandbox-blocked.
+- [Git repo corruption](git-repo-corruption.md) — 11 lost objects (backup empty, not on GitHub) + invalid reflogs; main agent can't write .git/objects at all; needs platform-level fix.
+- [PaynKolay callback verification](paynkolay-callback-verification.md) — hashDataV2 SHA512 formula + RESPONSE_CODE/AUTH_CODE checks; no unlock without signed callback AND matching pending record.
+- [Dealer/referral attribution](dealer-and-referral-attribution.md) — commission must be recorded at EVERY payment success path for both non-team (session) and team (row) flows; referral is single-use per purchase.
+- [Schema changes on existing tables](schema-changes-existing-tables.md) — db.create_all() never adds columns to existing tables; ALTER TABLE manually in dev AND prod.

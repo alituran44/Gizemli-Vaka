@@ -1,0 +1,469 @@
+{% extends "base.html" %}
+
+{% block title %}{{ t.team_purchase_title }}{% endblock %}
+
+{% block content %}
+<style>
+    .team-purchase-hero {
+        background: linear-gradient(135deg, #0C1430 0%, #1a2a4a 100%);
+        padding: 60px 0;
+        border-bottom: 4px solid #ffc107;
+    }
+    .team-purchase-main {
+        background: #f8f9fa;
+        padding: 40px 0 60px;
+    }
+    .team-card {
+        background: #ffffff;
+        border: 1px solid #e0e0e0;
+        border-radius: 12px;
+        padding: 25px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    .team-card-header {
+        background: linear-gradient(135deg, #ffc107 0%, #e6a800 100%);
+        color: #0C1430;
+        padding: 12px 20px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        font-weight: bold;
+    }
+    .member-input-group {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 10px;
+        align-items: center;
+    }
+    .member-input {
+        flex: 1;
+        background: #ffffff;
+        border: 1px solid #d0d0d0;
+        color: #0C1430;
+        padding: 12px 15px;
+        border-radius: 6px;
+    }
+    .member-input::placeholder { color: #888; }
+    .member-input:focus {
+        border-color: #ffc107;
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(255, 193, 7, 0.2);
+    }
+    .team-name-input {
+        background: #fffef5;
+        border: 2px solid #ffc107;
+        color: #0C1430;
+        padding: 12px 15px;
+        border-radius: 6px;
+        font-weight: 600;
+        width: 100%;
+        margin-bottom: 15px;
+    }
+    .team-name-input::placeholder { color: #888; font-weight: normal; }
+    .team-name-input:focus {
+        border-color: #e6a800;
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(255, 193, 7, 0.3);
+    }
+    .btn-add-member {
+        background: transparent;
+        border: 2px dashed #ffc107;
+        color: #0C1430;
+        padding: 10px 20px;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.3s;
+        width: 100%;
+        margin-top: 10px;
+    }
+    .btn-add-member:hover { background: rgba(255, 193, 7, 0.1); }
+    .btn-remove-member {
+        background: #dc3545;
+        border: none;
+        color: white;
+        width: 40px;
+        height: 40px;
+        border-radius: 6px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .price-summary {
+        background: #ffffff;
+        border: 2px solid #ffc107;
+        border-radius: 12px;
+        padding: 25px;
+        position: sticky;
+        top: 100px;
+        box-shadow: 0 4px 15px rgba(255, 193, 7, 0.15);
+    }
+    .price-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 0;
+        border-bottom: 1px solid #e0e0e0;
+    }
+    .price-row.total {
+        border-bottom: none;
+        font-size: 1.4rem;
+        font-weight: bold;
+        color: #0C1430;
+        padding-top: 15px;
+    }
+    .price-row.total span:last-child { color: #d4a106; }
+    .form-select-custom {
+        background: #ffffff;
+        border: 1px solid #d0d0d0;
+        color: #0C1430;
+        padding: 12px 15px;
+        border-radius: 6px;
+        width: 100%;
+    }
+    .form-select-custom:focus {
+        border-color: #ffc107;
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(255, 193, 7, 0.2);
+    }
+    .form-label-gold {
+        color: #0C1430;
+        font-weight: 600;
+        margin-bottom: 8px;
+        display: block;
+    }
+    .form-label-gold i { color: #ffc107; }
+    .section-title {
+        color: #0C1430;
+        font-weight: 700;
+        margin-bottom: 20px;
+    }
+    .section-title i { color: #ffc107; }
+    .btn-gold-main {
+        background: linear-gradient(135deg, #ffc107 0%, #e6a800 100%);
+        color: #0C1430;
+        border: none;
+        padding: 15px 30px;
+        border-radius: 8px;
+        font-weight: bold;
+        width: 100%;
+        cursor: pointer;
+        transition: all 0.3s;
+        font-size: 1.1rem;
+    }
+    .btn-gold-main:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(255, 193, 7, 0.3);
+    }
+    .member-count-badge {
+        background: rgba(255, 193, 7, 0.2);
+        color: #0C1430;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 600;
+    }
+    .price-label { color: #666; }
+    .price-value { color: #0C1430; font-weight: 500; }
+    .case-select-card { position: relative; }
+    .case-select-card:hover {
+        border-color: #ffc107 !important;
+        box-shadow: 0 4px 15px rgba(255, 193, 7, 0.2);
+    }
+    .case-select-card.selected {
+        border-color: #ffc107 !important;
+        background: #fffef5 !important;
+        box-shadow: 0 4px 15px rgba(255, 193, 7, 0.3);
+    }
+    .case-select-card.selected::after {
+        content: '\f00c';
+        font-family: 'Font Awesome 5 Free';
+        font-weight: 900;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: #ffc107;
+        color: #0C1430;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+    }
+    @media (max-width: 768px) {
+        .col-lg-8, .col-lg-4 { flex: 0 0 100%; max-width: 100%; }
+        .price-summary { position: static !important; }
+        .team-purchase-hero h1 { font-size: 1.8rem !important; }
+    }
+    @media (max-width: 576px) {
+        .team-purchase-hero h1 { font-size: 1.4rem !important; }
+        .team-card { padding: 15px !important; }
+    }
+</style>
+
+<div class="team-purchase-hero">
+    <div class="container">
+        <div class="d-flex gap-2 mb-3">
+            <span style="background-color: #FFD700; color: #000; padding: 4px 12px; font-weight: bold; font-size: 0.7rem; letter-spacing: 1px;">{{ t.teams }}</span>
+        </div>
+        <h1 class="fw-bold text-white mb-3" style="font-size: 2.5rem;">{{ t.team_purchase_title }}</h1>
+        <p class="text-white-50" style="max-width: 600px;">{{ t.team_purchase_desc }}</p>
+    </div>
+</div>
+
+<div class="team-purchase-main">
+    <div class="container">
+        <form method="POST" id="teamPurchaseForm">
+            <input type="hidden" name="partner_ref" value="{{ request.args.get('ref', '') }}">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="team-card">
+                        <h4 class="section-title"><i class="fas fa-user me-2"></i>{{ t.organizer_name }}</h4>
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <label class="form-label-gold"><i class="fas fa-user me-1"></i> {{ t.organizer_name }} *</label>
+                                <input type="text" name="organizer_name" class="member-input" required placeholder="Adınızı girin">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label-gold"><i class="fas fa-envelope me-1"></i> {{ t.organizer_email }} *</label>
+                                <input type="email" name="organizer_email" class="member-input" required placeholder="E-posta adresinizi girin">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="team-card">
+                        <h4 class="section-title"><i class="fas fa-folder-open me-2"></i>{{ t.select_case }}</h4>
+                        
+                        <div class="row g-3 mb-3">
+                            {% for case in cases %}
+                            <div class="col-md-6">
+                                <div class="case-select-card p-3" id="caseCard_{{ case.id }}" onclick="selectCase('{{ case.id }}', {{ case.price }}, '{{ case.title }}')" style="border: 2px solid #e0e0e0; border-radius: 10px; cursor: pointer; transition: all 0.3s; background: #fff;">
+                                    <div class="d-flex gap-3">
+                                        <div style="width: 80px; height: 80px; flex-shrink: 0; overflow: hidden; border-radius: 8px;">
+                                            <img src="{{ url_for('static', filename='uploads/' + case.id + '/' + case.image) }}" class="w-100 h-100" style="object-fit: cover;" alt="{{ case.title }} - Dedektiflik Vakası" loading="lazy">
+                                        </div>
+                                        <div class="flex-grow-1">
+                                            <h6 class="fw-bold mb-1" style="color: #0C1430;">{{ case.title }}</h6>
+                                            <div class="d-flex gap-2 mb-1">
+                                                <span class="badge" style="background-color: #ffc107; color: #0C1430; font-size: 0.7rem;">{{ case.difficulty }}</span>
+                                                <span class="fw-bold" style="color: #0C1430;">{{ case.price }}₺</span>
+                                            </div>
+                                            <p class="text-muted small mb-0" style="font-size: 0.75rem; line-height: 1.3;">{{ (case.description or '')[:60] }}...</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        
+                        <select name="case_id" id="caseSelect" class="form-select-custom" required onchange="updatePrice()" style="display: none;">
+                            <option value="">-- {{ t.select_case }} --</option>
+                            {% for case in cases %}
+                            <option value="{{ case.id }}" data-price="{{ case.price }}" data-title="{{ case.title }}">
+                                {{ case.title }} - {{ case.price }}₺
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="team-card">
+                        <h4 class="section-title"><i class="fas fa-users me-2"></i>{{ t.team_count }}</h4>
+                        <select name="team_count" id="teamCount" class="form-select-custom" onchange="updateTeams()">
+                            {% for i in range(1, 21) %}
+                            <option value="{{ i }}">{{ i }} {{ t.team }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div id="teamsContainer">
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="price-summary">
+                        <h4 class="section-title"><i class="fas fa-calculator me-2"></i>{{ t.total_price }}</h4>
+                        
+                        <div class="price-row">
+                            <span class="price-label">{{ t.select_case }}:</span>
+                            <span class="price-value" id="selectedCaseName">-</span>
+                        </div>
+                        <div class="price-row">
+                            <span class="price-label">{{ t.case_price }}:</span>
+                            <span class="price-value" id="casePriceDisplay">0₺</span>
+                        </div>
+                        <div class="price-row">
+                            <span class="price-label">{{ t.team_fee }}:</span>
+                            <span class="price-value" id="teamFeeDisplay">0₺</span>
+                        </div>
+                        <div class="price-row">
+                            <span class="price-label">{{ t.per_team }}:</span>
+                            <span class="price-value" id="perTeamDisplay">0₺</span>
+                        </div>
+                        <div class="price-row">
+                            <span class="price-label">{{ t.team_count }}:</span>
+                            <span class="price-value" id="teamCountDisplay">1</span>
+                        </div>
+                        <div class="price-row total">
+                            <span>{{ t.total_price }}:</span>
+                            <span id="totalPriceDisplay">0₺</span>
+                        </div>
+
+                        <button type="submit" class="btn-gold-main mt-4">
+                            <i class="fas fa-credit-card me-2"></i>{{ t.proceed_payment }}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+const minMembers = 3;
+const maxMembers = 6;
+const teamNamePlaceholder = "Takım ismi girin (örn: Kartal Ekibi)";
+const memberEmailPlaceholder = "Takım üyesi e-postası";
+const membersText = "üye";
+
+function updateTeams() {
+    const teamCount = parseInt(document.getElementById('teamCount').value);
+    const container = document.getElementById('teamsContainer');
+    container.innerHTML = '';
+
+    for (let i = 1; i <= teamCount; i++) {
+        const teamCard = document.createElement('div');
+        teamCard.className = 'team-card';
+        teamCard.id = `team_${i}`;
+        teamCard.innerHTML = `
+            <div class="team-card-header d-flex justify-content-between align-items-center">
+                <span><i class="fas fa-users me-2"></i>{{ t.team }} ${i}</span>
+                <span class="member-count-badge" id="memberCount_${i}">${minMembers} ${membersText}</span>
+            </div>
+            <input type="text" name="team_${i}_name" class="team-name-input" placeholder="${teamNamePlaceholder}" required>
+            <div id="membersContainer_${i}">
+            </div>
+            <button type="button" class="btn-add-member" onclick="addMember(${i})" id="addBtn_${i}">
+                <i class="fas fa-plus me-2"></i>{{ t.add_member }}
+            </button>
+        `;
+        container.appendChild(teamCard);
+        
+        for (let j = 0; j < minMembers; j++) {
+            addMember(i, true);
+        }
+    }
+    updatePrice();
+}
+
+function addMember(teamNum, isInitial = false) {
+    const container = document.getElementById(`membersContainer_${teamNum}`);
+    const currentCount = container.querySelectorAll('.member-input-group').length;
+    
+    if (currentCount >= maxMembers) {
+        return;
+    }
+
+    const memberDiv = document.createElement('div');
+    memberDiv.className = 'member-input-group';
+    memberDiv.innerHTML = `
+        <input type="email" name="team_${teamNum}_emails[]" class="member-input" 
+               placeholder="${memberEmailPlaceholder}" required>
+        ${currentCount >= minMembers ? `<button type="button" class="btn-remove-member" onclick="removeMember(this, ${teamNum})"><i class="fas fa-times"></i></button>` : ''}
+    `;
+    container.appendChild(memberDiv);
+    updateMemberCount(teamNum);
+}
+
+function removeMember(btn, teamNum) {
+    const container = document.getElementById(`membersContainer_${teamNum}`);
+    const currentCount = container.querySelectorAll('.member-input-group').length;
+    
+    if (currentCount > minMembers) {
+        btn.parentElement.remove();
+        updateMemberCount(teamNum);
+    }
+}
+
+function updateMemberCount(teamNum) {
+    const container = document.getElementById(`membersContainer_${teamNum}`);
+    const count = container.querySelectorAll('.member-input-group').length;
+    const badge = document.getElementById(`memberCount_${teamNum}`);
+    const addBtn = document.getElementById(`addBtn_${teamNum}`);
+    
+    badge.textContent = `${count} ${membersText}`;
+    
+    if (count >= maxMembers) {
+        addBtn.style.display = 'none';
+    } else {
+        addBtn.style.display = 'block';
+    }
+}
+
+function updatePrice() {
+    const caseSelect = document.getElementById('caseSelect');
+    const teamCount = parseInt(document.getElementById('teamCount').value);
+    
+    if (caseSelect.selectedIndex > 0) {
+        const selectedOption = caseSelect.options[caseSelect.selectedIndex];
+        const casePrice = parseFloat(selectedOption.dataset.price);
+        const caseName = selectedOption.dataset.title;
+        const teamFee = casePrice * 0.50;
+        const perTeam = casePrice + teamFee;
+        const total = perTeam * teamCount;
+
+        document.getElementById('selectedCaseName').textContent = caseName;
+        document.getElementById('casePriceDisplay').textContent = casePrice.toFixed(2) + '₺';
+        document.getElementById('teamFeeDisplay').textContent = teamFee.toFixed(2) + '₺';
+        document.getElementById('perTeamDisplay').textContent = perTeam.toFixed(2) + '₺';
+        document.getElementById('teamCountDisplay').textContent = teamCount;
+        document.getElementById('totalPriceDisplay').textContent = total.toFixed(2) + '₺';
+    } else {
+        document.getElementById('selectedCaseName').textContent = '-';
+        document.getElementById('casePriceDisplay').textContent = '0₺';
+        document.getElementById('teamFeeDisplay').textContent = '0₺';
+        document.getElementById('perTeamDisplay').textContent = '0₺';
+        document.getElementById('teamCountDisplay').textContent = teamCount;
+        document.getElementById('totalPriceDisplay').textContent = '0₺';
+    }
+}
+
+function selectCase(caseId, price, title) {
+    document.querySelectorAll('.case-select-card').forEach(card => {
+        card.classList.remove('selected');
+    });
+    
+    const selectedCard = document.getElementById('caseCard_' + caseId);
+    if (selectedCard) {
+        selectedCard.classList.add('selected');
+    }
+    
+    const caseSelect = document.getElementById('caseSelect');
+    for (let i = 0; i < caseSelect.options.length; i++) {
+        if (caseSelect.options[i].value === caseId) {
+            caseSelect.selectedIndex = i;
+            break;
+        }
+    }
+    
+    updatePrice();
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    updateTeams();
+    
+    const urlParams = new URLSearchParams(window.location.search);
+    const preselectedCaseId = urlParams.get('case_id');
+    if (preselectedCaseId) {
+        const caseSelect = document.getElementById('caseSelect');
+        for (let i = 0; i < caseSelect.options.length; i++) {
+            if (caseSelect.options[i].value === preselectedCaseId) {
+                const option = caseSelect.options[i];
+                selectCase(preselectedCaseId, parseFloat(option.dataset.price), option.dataset.title);
+                break;
+            }
+        }
+    }
+});
+</script>
+{% endblock %}

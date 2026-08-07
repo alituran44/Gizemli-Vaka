@@ -1,0 +1,283 @@
+{% extends "base.html" %}
+
+{% block content %}
+<button class="mobile-menu-toggle" type="button" aria-label="Toggle menu">
+    <i class="fas fa-bars"></i>
+</button>
+<div class="sidebar-overlay"></div>
+
+<div class="container-fluid p-0">
+    <div class="row g-0">
+        <div class="col-md-3 col-lg-2 sidebar-admin shadow-sm" style="background-color: #ffffff; min-height: 100vh;">
+            <div class="pt-4">
+                <div class="px-4 mb-4">
+                    <h5 class="text-dark fw-bold mb-0">ADMİN PANELİ</h5>
+                    <hr style="border-color: rgba(0, 0, 0, 0.1);">
+                </div>
+
+                <div class="nav flex-column">
+                    <div class="px-4 py-2 small fw-bold text-uppercase sidebar-label">Vaka Yönetimi</div>
+                    <a href="{{ url_for('admin_cases') }}" class="nav-link py-3 border-0 {% if active_page == 'cases' %}active-nav{% endif %}">
+                        <i class="fas fa-layer-group me-2"></i> Tüm Vakalar
+                    </a>
+                    <a href="{{ url_for('admin_add_case') }}" class="nav-link py-3 border-0 {% if active_page == 'add_case' %}active-nav{% endif %}">
+                        <i class="fas fa-plus-circle me-2"></i> Yeni Vaka Ekle
+                    </a>
+                    <a href="{{ url_for('admin_case_library') }}" class="nav-link py-3 border-0 {% if active_page == 'case_library' %}active-nav{% endif %}">
+                        <i class="fas fa-book me-2"></i> Vaka Kütüphanesi
+                    </a>
+
+                    <div class="px-4 py-2 mt-3 small fw-bold text-uppercase sidebar-label">Müşteri ve Satış</div>
+                    <a href="{{ url_for('admin_users') }}" class="nav-link py-3 border-0 {% if active_page == 'users' %}active-nav{% endif %}">
+                        <i class="fas fa-users me-2"></i> Kullanıcı Listesi
+                    </a>
+                    <a href="{{ url_for('admin_active_games') }}" class="nav-link py-3 border-0 {% if active_page == 'active_games' %}active-nav{% endif %}">
+                        <i class="fas fa-gamepad me-2"></i> Aktif Oyunlar
+                    </a>
+                    <a href="{{ url_for('admin_orders') }}" class="nav-link py-3 border-0 {% if active_page == 'orders' %}active-nav{% endif %}">
+                        <i class="fas fa-shopping-cart me-2"></i> Tüm Siparişler
+                    </a>
+
+                    <div class="px-4 py-2 mt-3 small fw-bold text-uppercase sidebar-label">Blog Yönetimi</div>
+                    <a href="{{ url_for('admin_posts') }}" class="nav-link py-3 border-0 {% if active_page == 'posts' %}active-nav{% endif %}">
+                        <i class="fas fa-blog me-2"></i> Tüm Yazılar
+                    </a>
+                    <a href="{{ url_for('admin_add_post') }}" class="nav-link py-3 border-0 {% if active_page == 'add_post' %}active-nav{% endif %}">
+                        <i class="fas fa-pen-nib me-2"></i> Yeni Blog Ekle
+                    </a>
+
+                    <div class="px-4 py-2 mt-3 small fw-bold text-uppercase sidebar-label">Yorum Yönetimi</div>
+                    <a href="{{ url_for('admin_reviews') }}" class="nav-link py-3 border-0 {% if active_page == 'reviews' %}active-nav{% endif %}">
+                        <i class="fas fa-comments me-2"></i> Tüm Yorumlar
+                    </a>
+
+                    <div class="px-4 py-2 mt-3 small fw-bold text-uppercase sidebar-label">İndirim Kodları</div>
+                    <a href="{{ url_for('admin_discounts') }}" class="nav-link py-3 border-0 {% if active_page == 'discounts' %}active-nav{% endif %}">
+                        <i class="fas fa-percent me-2"></i> Indirim Kodlari
+                    </a>
+
+                    <div class="px-4 py-2 mt-3 small fw-bold text-uppercase sidebar-label">Sayfa Yönetimi</div>
+                    <a href="{{ url_for('admin_how_to_play') }}" class="nav-link py-3 border-0 {% if active_page == 'how_to_play' %}active-nav{% endif %}">
+                        <i class="fas fa-question-circle me-2"></i> Nasıl Oynanır
+                    </a>
+
+                    <div class="px-4 py-2 mt-3 small fw-bold text-uppercase sidebar-label">Pazar Yeri</div>
+                    <a href="{{ url_for('admin_access_codes') }}" class="nav-link py-3 border-0 {% if active_page == 'access_codes' %}active-nav{% endif %}">
+                        <i class="fas fa-key me-2"></i> Erişim Kodları
+                    </a>
+
+                    <div class="px-4 py-2 mt-3 small fw-bold text-uppercase sidebar-label">İletişim</div>
+                    <a href="{{ url_for('admin_messages') }}" class="nav-link py-3 border-0 {% if active_page == 'messages' %}active-nav{% endif %}">
+                        <i class="fas fa-envelope me-2"></i> Gelen Mesajlar
+                        {% if unread_messages_count > 0 %}
+                        <span class="badge bg-danger ms-1">{{ unread_messages_count }}</span>
+                        {% endif %}
+                    </a>
+                    <a href="{{ url_for('admin_subscribers') }}" class="nav-link py-3 border-0 {% if active_page == 'subscribers' %}active-nav{% endif %}">
+                        <i class="fas fa-bell me-2"></i> Abonelik Yönetimi
+                    </a>
+
+                    <div class="px-4 py-2 mt-3 small fw-bold text-uppercase sidebar-label">Ortaklık Programı</div>
+                    <a href="{{ url_for('admin_partners') }}" class="nav-link py-3 border-0 {% if active_page == 'partners' %}active-nav{% endif %}">
+                        <i class="fas fa-handshake me-2"></i> Ortaklar
+                    </a>
+                    <a href="{{ url_for('admin_withdrawals') }}" class="nav-link py-3 border-0 {% if active_page == 'withdrawals' %}active-nav{% endif %}">
+                        <i class="fas fa-money-bill-wave me-2"></i> Para Çekme Talepleri
+                    </a>
+
+                    <div class="px-4 py-2 mt-3 small fw-bold text-uppercase sidebar-label">Bayilik Sistemi</div>
+                    <a href="{{ url_for('admin_dealers') }}" class="nav-link py-3 border-0 {% if active_page == 'dealers' %}active-nav{% endif %}">
+                        <i class="fas fa-store me-2"></i> Bayiler (Kafeler)
+                    </a>
+
+                    <div class="px-4 py-2 mt-3 small fw-bold text-uppercase sidebar-label">Site Ayarları</div>
+                    <a href="{{ url_for('admin_settings', section='logo') }}" class="nav-link py-3 border-0 {% if active_page == 'settings' %}active-nav{% endif %}">
+                        <i class="fas fa-cogs me-2"></i> Genel Ayarlar
+                    </a>
+                </div>
+
+                <div class="mt-5 px-4 border-top pt-4" style="border-color: rgba(0, 0, 0, 0.1) !important;">
+                    <a href="{{ url_for('index') }}" class="btn btn-warning btn-sm w-100 rounded-pill py-2 fw-bold mb-2">
+                        <i class="fas fa-external-link-alt me-2"></i> Siteye Dön
+                    </a>
+                    <a href="{{ url_for('logout') }}" class="btn btn-link text-danger text-decoration-none small w-100 text-start px-3">
+                        <i class="fas fa-sign-out-alt me-2"></i> Güvenli Çıkış
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <main class="col-md-9 col-lg-10 p-5 bg-light" style="min-height: 100vh;">
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-info border-0 shadow-sm rounded-4 mb-4">
+                            <i class="fas fa-info-circle me-2"></i> {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            {% block admin_content %}{% endblock %}
+        </main>
+    </div>
+</div>
+
+<style>
+    .sidebar-label {
+        color: rgba(0,0,0,0.4); 
+        font-size: 0.7rem; 
+        letter-spacing: 1px;
+    }
+
+    .sidebar-admin .nav-link { 
+        transition: 0.3s; 
+        padding-left: 25px !important; 
+        font-size: 0.9rem;
+        color: #333 !important;
+    }
+
+    .sidebar-admin .nav-link:hover { 
+        color: #0C1430 !important; 
+        background: rgba(0,0,0,0.05); 
+    }
+
+    .sidebar-admin .active-nav { 
+        background-color: #FFD700 !important; 
+        color: #0C1430 !important; 
+        border-left: 4px solid #0C1430 !important; 
+        font-weight: bold;
+    }
+
+    .mobile-menu-toggle {
+        display: none;
+        position: fixed;
+        top: 15px;
+        left: 15px;
+        z-index: 1050;
+        background: #FFD700;
+        border: none;
+        border-radius: 8px;
+        padding: 10px 14px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        cursor: pointer;
+    }
+
+    .mobile-menu-toggle i {
+        font-size: 1.2rem;
+        color: #0C1430;
+    }
+
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.5);
+        z-index: 1030;
+    }
+
+    @media (max-width: 991px) {
+        .mobile-menu-toggle {
+            display: block;
+        }
+
+        .sidebar-admin {
+            position: fixed !important;
+            left: -280px;
+            top: 0;
+            width: 280px !important;
+            height: 100vh;
+            z-index: 1040;
+            transition: left 0.3s ease;
+            overflow-y: auto;
+        }
+
+        .sidebar-admin.show {
+            left: 0;
+        }
+
+        .sidebar-overlay.show {
+            display: block;
+        }
+
+        main.col-md-9, main.col-lg-10 {
+            width: 100% !important;
+            max-width: 100% !important;
+            flex: 0 0 100% !important;
+            padding: 70px 15px 20px 15px !important;
+        }
+    }
+
+    @media (max-width: 768px) {
+        main.col-md-9, main.col-lg-10 {
+            padding: 70px 10px 15px 10px !important;
+        }
+
+        .sidebar-admin {
+            width: 260px !important;
+            left: -260px;
+        }
+
+        .sidebar-admin.show {
+            left: 0;
+        }
+
+        .card {
+            margin-bottom: 1rem !important;
+        }
+
+        h2, h3 {
+            font-size: 1.3rem;
+        }
+    }
+
+    @media (max-width: 576px) {
+        main.col-md-9, main.col-lg-10 {
+            padding: 65px 8px 10px 8px !important;
+        }
+
+        .sidebar-admin {
+            width: 100% !important;
+            left: -100%;
+        }
+
+        .sidebar-admin.show {
+            left: 0;
+        }
+
+        .mobile-menu-toggle {
+            top: 10px;
+            left: 10px;
+            padding: 8px 12px;
+        }
+
+        .alert {
+            font-size: 0.85rem;
+            padding: 0.75rem !important;
+        }
+    }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const sidebar = document.querySelector('.sidebar-admin');
+    const overlay = document.querySelector('.sidebar-overlay');
+    const toggle = document.querySelector('.mobile-menu-toggle');
+    
+    if (toggle && sidebar && overlay) {
+        toggle.addEventListener('click', function() {
+            sidebar.classList.toggle('show');
+            overlay.classList.toggle('show');
+        });
+        
+        overlay.addEventListener('click', function() {
+            sidebar.classList.remove('show');
+            overlay.classList.remove('show');
+        });
+    }
+});
+</script>
+{% endblock %}

@@ -1,0 +1,178 @@
+{% extends "base.html" %}
+{% block title %}Ortak Olun - Gizemli Vaka{% endblock %}
+{% block meta_description %}Gizemli Vaka ortaklık programına katılın. Online dedektiflik oyunlarını tanıtarak komisyon kazanın.{% endblock %}
+{% block content %}
+<style>
+@media (max-width: 768px) {
+    .partner-hero { padding: 80px 0 40px !important; }
+    .partner-hero h1 { font-size: 1.8rem !important; }
+    .display-4 { font-size: 1.6rem !important; }
+    .col-lg-7, .col-lg-5 { flex: 0 0 100%; max-width: 100%; }
+}
+@media (max-width: 576px) {
+    .partner-hero h1 { font-size: 1.4rem !important; }
+}
+</style>
+<section class="partner-hero position-relative" style="background: linear-gradient(rgba(10, 25, 41, 0.9), rgba(10, 25, 41, 0.95)), url('{{ url_for('static', filename='images/partner-bg.jpg') }}') center/cover; padding: 120px 0 80px;">
+    <div class="container text-center text-white">
+        <h1 class="display-4 fw-bold mb-4">Ortak Olun</h1>
+    </div>
+</section>
+
+<section class="py-5" style="background-color: #fff;">
+    <div class="container py-4">
+        <div class="row align-items-center">
+            <div class="col-lg-7 mb-4 mb-lg-0">
+                <span class="badge mb-3" style="background-color: #ffc107; color: #000; font-size: 0.75rem;">
+                    Komisyon Kazanın
+                </span>
+                <h2 class="fw-bold mb-4" style="color: #0a1929;">
+                    {{ partner_title }}
+                </h2>
+                <p class="text-muted mb-4">
+                    {{ partner_description }}
+                </p>
+                <p class="mb-4" style="color: #ffc107; font-weight: 500;">
+                    Ortaklık programımız kapsamında, çevrimiçi cinayet gizemi oyunlarımızı web sitenizde veya sosyal medya kanallarınızda tanıtarak komisyon kazanabilirsiniz. Satış başına {{ partner_commission }} oranında rekabetçi bir komisyon ve {{ partner_cookie_days }} günlük çerez süresi sunuyoruz.
+                </p>
+            </div>
+            <div class="col-lg-5 text-center">
+                <img src="{{ url_for('static', filename='images/partner-illustration.png') }}" alt="Partner" class="img-fluid" style="max-width: 350px;" onerror="this.style.display='none'">
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-5" style="background-color: #f8f9fa;">
+    <div class="container py-4">
+        <div class="row align-items-center">
+            <div class="col-lg-5 mb-4 mb-lg-0 text-center">
+                <img src="{{ url_for('static', filename='images/partner-faq.png') }}" alt="FAQ" class="img-fluid" style="max-width: 300px;" onerror="this.style.display='none'">
+            </div>
+            <div class="col-lg-7">
+                <span class="badge mb-3" style="background-color: #ffc107; color: #000; font-size: 0.75rem;">
+                    Satış başına {{ partner_commission }} indirim
+                </span>
+                <h2 class="fw-bold mb-4" style="color: #0a1929;">
+                    İş Ortağı Soruları
+                </h2>
+                
+                <div class="partner-faq">
+                    <div class="faq-item mb-3">
+                        <div class="faq-question d-flex align-items-start p-3" style="background-color: #fff; border: 1px solid #e0e0e0; border-radius: 8px; cursor: pointer;" >
+                            <span class="faq-icon me-3 text-warning fw-bold" id="p-icon-1">+</span>
+                            <span class="fw-semibold" style="color: #0a1929;">
+                                Neden Gizemli Vakalar'ın iş ortağı olmalısınız?
+                            </span>
+                        </div>
+                        <div class="faq-answer p-3 ps-5" id="p-answer-1" style="display: none; background-color: #fff; border: 1px solid #e0e0e0; border-top: none; border-radius: 0 0 8px 8px; color: #333;">
+                            {{ partner_faq1_tr or 'Kitlenize benzersiz dedektiflik oyunları tanıtırken her satıştan komisyon kazanın.' }}
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item mb-3">
+                        <div class="faq-question d-flex align-items-start p-3" style="background-color: #fff; border: 1px solid #e0e0e0; border-radius: 8px; cursor: pointer;" >
+                            <span class="faq-icon me-3 text-warning fw-bold" id="p-icon-2">+</span>
+                            <span class="fw-semibold" style="color: #0a1929;">
+                                Nasıl çalışıyor?
+                            </span>
+                        </div>
+                        <div class="faq-answer p-3 ps-5" id="p-answer-2" style="display: none; background-color: #fff; border: 1px solid #e0e0e0; border-top: none; border-radius: 0 0 8px 8px; color: #333;">
+                            {{ partner_faq2_tr or 'Kayıt olun, benzersiz linkinizi alın, paylaşın ve linkiniz üzerinden yapılan her satın almadan komisyon kazanın.' }}
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item mb-3">
+                        <div class="faq-question d-flex align-items-start p-3" style="background-color: #fff; border: 1px solid #e0e0e0; border-radius: 8px; cursor: pointer;" >
+                            <span class="faq-icon me-3 text-warning fw-bold" id="p-icon-3">+</span>
+                            <span class="fw-semibold" style="color: #0a1929;">
+                                Ortaklık programına katılarak ne kadar kazanabilirim?
+                            </span>
+                        </div>
+                        <div class="faq-answer p-3 ps-5" id="p-answer-3" style="display: none; background-color: #fff; border: 1px solid #e0e0e0; border-top: none; border-radius: 0 0 8px 8px; color: #333;">
+                            {{ partner_faq3_tr or 'Her satışın komisyon oranı kadarını kazanırsınız. Ne kadar çok tanıtırsanız, o kadar çok kazanırsınız!' }}
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item mb-3">
+                        <div class="faq-question d-flex align-items-start p-3" style="background-color: #fff; border: 1px solid #e0e0e0; border-radius: 8px; cursor: pointer;" >
+                            <span class="faq-icon me-3 text-warning fw-bold" id="p-icon-4">+</span>
+                            <span class="fw-semibold" style="color: #0a1929;">
+                                İş ortaklarınıza ne sıklıkla ödeme yapıyorsunuz?
+                            </span>
+                        </div>
+                        <div class="faq-answer p-3 ps-5" id="p-answer-4" style="display: none; background-color: #fff; border: 1px solid #e0e0e0; border-top: none; border-radius: 0 0 8px 8px; color: #333;">
+                            {{ partner_faq4_tr or 'Ödemeler, iş ortağı platformumuz aracılığıyla aylık olarak yapılır.' }}
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item mb-3">
+                        <div class="faq-question d-flex align-items-start p-3" style="background-color: #fff; border: 1px solid #e0e0e0; border-radius: 8px; cursor: pointer;" >
+                            <span class="faq-icon me-3 text-warning fw-bold" id="p-icon-5">+</span>
+                            <span class="fw-semibold" style="color: #0a1929;">
+                                Minimum ödeme tutarı var mı?
+                            </span>
+                        </div>
+                        <div class="faq-answer p-3 ps-5" id="p-answer-5" style="display: none; background-color: #fff; border: 1px solid #e0e0e0; border-top: none; border-radius: 0 0 8px 8px; color: #333;">
+                            {{ partner_faq5_tr or 'Minimum ödeme eşikleri için lütfen iş ortağı platformumuzu kontrol edin.' }}
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item mb-3">
+                        <div class="faq-question d-flex align-items-start p-3" style="background-color: #fff; border: 1px solid #e0e0e0; border-radius: 8px; cursor: pointer;" >
+                            <span class="faq-icon me-3 text-warning fw-bold" id="p-icon-6">+</span>
+                            <span class="fw-semibold" style="color: #0a1929;">
+                                Ortaklık programınıza katılabilir miyim?
+                            </span>
+                        </div>
+                        <div class="faq-answer p-3 ps-5" id="p-answer-6" style="display: none; background-color: #fff; border: 1px solid #e0e0e0; border-top: none; border-radius: 0 0 8px 8px; color: #333;">
+                            {{ partner_faq6_tr or 'Evet! Gizem oyunları, gerçek suç hikayeleri veya eğlenceyle ilgilenen bir kitleye sahip herkes katılabilir.' }}
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-4">
+                    <a href="{{ url_for('contact') }}?subject=partnership" class="btn btn-warning btn-lg fw-bold px-5 py-3 rounded-pill">
+                        {{ partner_button_text }}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.faq-question').forEach(function(question, index) {
+        question.addEventListener('click', function() {
+            const answerId = 'p-answer-' + (index + 1);
+            const iconId = 'p-icon-' + (index + 1);
+            const answer = document.getElementById(answerId);
+            const icon = document.getElementById(iconId);
+            
+            if (answer && icon) {
+                if (answer.style.display === 'none' || answer.style.display === '') {
+                    answer.style.display = 'block';
+                    icon.textContent = '-';
+                } else {
+                    answer.style.display = 'none';
+                    icon.textContent = '+';
+                }
+            }
+        });
+    });
+});
+</script>
+
+<style>
+.faq-question:hover {
+    background-color: #f8f9fa !important;
+}
+.faq-icon {
+    font-size: 1.5rem;
+    line-height: 1;
+    min-width: 20px;
+    text-align: center;
+}
+</style>
+{% endblock %}

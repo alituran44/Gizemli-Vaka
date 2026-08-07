@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container-fluid py-5 bg-light" style="min-height: 80vh;">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-md-3 dashboard-sidebar">
+                <div class="card border-0 shadow-sm overflow-hidden text-dark">
+                    <div class="card-header bg-dark text-white py-3 text-uppercase fw-bold">Yönetim Paneli</div>
+                    <div class="list-group list-group-flush small fw-bold text-uppercase">
+                        <a href="{{ url_for('admin_cases') }}" class="list-group-item list-group-item-action py-3 {% if section == 'cases' %}text-warning{% endif %}">Vaka Dosyaları</a>
+                        <a href="{{ url_for('admin_settings') }}" class="list-group-item list-group-item-action py-3 {% if section == 'settings' %}text-warning{% endif %}">Site Ayarları</a>
+                        <a href="{{ url_for('index') }}" class="list-group-item list-group-item-action py-3 text-danger">Panelden Çık</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9 text-dark dashboard-content">
+                <div class="card border-0 shadow-sm p-4 bg-white">{% block admin_content %}{% endblock %}</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    @media (max-width: 991px) {
+        .dashboard-sidebar, .dashboard-content {
+            flex: 0 0 100%;
+            max-width: 100%;
+        }
+
+        .dashboard-sidebar {
+            margin-bottom: 1rem;
+        }
+
+        .dashboard-sidebar .list-group {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+        }
+
+        .dashboard-sidebar .list-group-item {
+            flex: 1;
+            text-align: center;
+            border-radius: 0 !important;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .container-fluid.py-5 {
+            padding: 1.5rem 0.5rem !important;
+        }
+
+        .dashboard-sidebar .card-header {
+            font-size: 0.85rem;
+            padding: 0.75rem;
+        }
+
+        .dashboard-sidebar .list-group-item {
+            font-size: 0.7rem;
+            padding: 0.6rem 0.5rem !important;
+        }
+
+        .dashboard-content .card {
+            padding: 1rem !important;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .container-fluid.py-5 {
+            padding: 1rem 0.25rem !important;
+        }
+
+        .dashboard-sidebar .list-group {
+            flex-direction: column;
+        }
+
+        .dashboard-sidebar .list-group-item {
+            text-align: left;
+            font-size: 0.75rem;
+            padding: 0.75rem 1rem !important;
+        }
+
+        .dashboard-content .card {
+            padding: 0.75rem !important;
+            border-radius: 0.5rem !important;
+        }
+
+        .container {
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
+        }
+    }
+</style>
+{% endblock %}

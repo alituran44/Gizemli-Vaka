@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="py-5" style="background-color: #0C1430; min-height: 100vh;">
+    <div class="container py-4">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="bg-white rounded shadow p-5">
+                    <h1 class="fw-bold mb-4" style="color: #0C1430;">KVKK Aydınlatma Metni</h1>
+                    
+                    <p class="text-muted mb-4">Kişisel Verilerin Korunması Kanunu (6698 Sayılı Kanun)</p>
+                    
+                    <h4 class="fw-bold mt-4 mb-3" style="color: #0C1430;">1. Veri Sorumlusu</h4>
+                    <p>Gizemli Vaka, kişisel verilerinizin işlenmesinde veri sorumlusu olarak hareket etmektedir.</p>
+                    
+                    <h4 class="fw-bold mt-4 mb-3" style="color: #0C1430;">2. Toplanan Kişisel Veriler</h4>
+                    <ul>
+                        <li>Kimlik bilgileri (ad, soyad, kullanıcı adı)</li>
+                        <li>İletişim bilgileri (e-posta adresi)</li>
+                        <li>İşlem güvenliği bilgileri (şifre - şifrelenmiş)</li>
+                        <li>Finansal bilgiler (ödeme detayları - üçüncü taraflarca işlenir)</li>
+                    </ul>
+                    
+                    <h4 class="fw-bold mt-4 mb-3" style="color: #0C1430;">3. İşleme Amacı</h4>
+                    <p>Kişisel verileriniz şu amaçlarla işlenmektedir:</p>
+                    <ul>
+                        <li>Hizmetlerimizin sunulması</li>
+                        <li>Kullanıcı hesabı yönetimi</li>
+                        <li>Ödeme işlemleri</li>
+                        <li>İletişim ve bildirimler</li>
+                        <li>Yasal uyumluluk</li>
+                    </ul>
+                    
+                    <h4 class="fw-bold mt-4 mb-3" style="color: #0C1430;">4. Veri Aktarımı</h4>
+                    <p>Kişisel verileriniz, ödeme hizmeti sağlayıcıları ve yasal zorunluluk durumunda yetkili makamlarla paylaşılabilir.</p>
+                    
+                    <h4 class="fw-bold mt-4 mb-3" style="color: #0C1430;">5. Haklarınız</h4>
+                    <p>KVKK 11. maddesi kapsamında şu haklara sahipsiniz:</p>
+                    <ul>
+                        <li>Kişisel verilerinizin işlenip işlenmediğini öğrenme</li>
+                        <li>İşleme hakkında bilgi talep etme</li>
+                        <li>Eksik veya yanlış verilerin düzeltilmesini isteme</li>
+                        <li>Verilerin silinmesini veya yok edilmesini isteme</li>
+                        <li>İşlemeye itiraz etme</li>
+                    </ul>
+                    
+                    <h4 class="fw-bold mt-4 mb-3" style="color: #0C1430;">6. İletişim</h4>
+                    <p>KVKK talepleri için bizimle iletişime geçin: info@gizemlivaka.com</p>
+                    
+                    <div class="mt-5 pt-4 border-top">
+                        <a href="{{ url_for('register') }}" class="btn btn-warning fw-bold px-4 py-2">Kayıt Sayfasına Dön</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

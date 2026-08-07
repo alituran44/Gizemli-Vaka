@@ -1,0 +1,50 @@
+{% extends 'admin/base.html' %}
+{% block title %}Satış Düzenle{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="fas fa-edit me-2"></i>Bireysel Satış Düzenle</h2>
+    <a href="{{ url_for('admin_orders', tab='individual') }}" class="btn btn-outline-secondary">
+        <i class="fas fa-arrow-left me-2"></i>Geri
+    </a>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-header bg-primary text-white">
+        <i class="fas fa-shopping-cart me-2"></i>Satış #{{ purchase.id }}
+    </div>
+    <div class="card-body">
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <p><strong>Kullanıcı:</strong> {{ purchase.user.username }}</p>
+                <p><strong>E-posta:</strong> {{ purchase.user.email }}</p>
+            </div>
+            <div class="col-md-6">
+                <p><strong>Dava:</strong> {{ purchase.case.title }}</p>
+                <p><strong>Tarih:</strong> {{ purchase.created_at.strftime('%d.%m.%Y %H:%M') }}</p>
+            </div>
+        </div>
+
+        <form action="{{ url_for('admin_edit_purchase', purchase_id=purchase.id) }}" method="POST">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label">Tutar (₺)</label>
+                    <input type="number" name="amount" class="form-control" value="{{ purchase.amount }}" step="0.01" min="0">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Ödeme Durumu</label>
+                    <select name="is_paid" class="form-select">
+                        <option value="1" {% if purchase.is_paid %}selected{% endif %}>Ödendi</option>
+                        <option value="0" {% if not purchase.is_paid %}selected{% endif %}>Bekliyor</option>
+                    </select>
+                </div>
+            </div>
+            <div class="mt-4">
+                <button type="submit" class="btn btn-success">
+                    <i class="fas fa-save me-2"></i>Kaydet
+                </button>
+                <a href="{{ url_for('admin_orders', tab='individual') }}" class="btn btn-secondary ms-2">İptal</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

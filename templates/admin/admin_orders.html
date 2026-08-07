@@ -1,0 +1,451 @@
+{% extends "admin/base.html" %}
+
+{% block admin_content %}
+<style>
+    .table-responsive { overflow: visible !important; }
+    .dropdown-menu { z-index: 1050; }
+</style>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold text-dark mb-0"><i class="fas fa-shopping-cart me-2 text-warning"></i> Sipariş Yönetimi</h2>
+</div>
+
+<div class="row g-3 mb-4">
+    <div class="col-md-3">
+        <div class="card border-0 shadow-sm rounded-3 h-100" style="background: linear-gradient(135deg, #0C1430, #1a2a4a);">
+            <div class="card-body text-white">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <div class="small text-white-50">Bireysel Satışlar</div>
+                        <div class="h4 mb-0 fw-bold">{{ "%.2f"|format(individual_total) }} ₺</div>
+                    </div>
+                    <div class="rounded-circle bg-white bg-opacity-10 p-2">
+                        <i class="fas fa-user fa-lg text-warning"></i>
+                    </div>
+                </div>
+                <div class="small text-white-50 mt-2">{{ individual_purchases|length }} satış</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card border-0 shadow-sm rounded-3 h-100" style="background: linear-gradient(135deg, #0d6efd, #0dcaf0);">
+            <div class="card-body text-white">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <div class="small text-white-50">Takım Satışları</div>
+                        <div class="h4 mb-0 fw-bold">{{ "%.2f"|format(team_total) }} ₺</div>
+                    </div>
+                    <div class="rounded-circle bg-white bg-opacity-10 p-2">
+                        <i class="fas fa-users fa-lg text-white"></i>
+                    </div>
+                </div>
+                <div class="small text-white-50 mt-2">{{ team_purchases|length }} satış</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card border-0 shadow-sm rounded-3 h-100" style="background: linear-gradient(135deg, #198754, #20c997);">
+            <div class="card-body text-white">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <div class="small text-white-50">Ortak Satışları</div>
+                        <div class="h4 mb-0 fw-bold">{{ "%.2f"|format(affiliate_total) }} ₺</div>
+                    </div>
+                    <div class="rounded-circle bg-white bg-opacity-10 p-2">
+                        <i class="fas fa-handshake fa-lg text-white"></i>
+                    </div>
+                </div>
+                <div class="small text-white-50 mt-2">{{ affiliate_sales|length }} satış</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card border-0 shadow-sm rounded-3 h-100" style="background: linear-gradient(135deg, #dc3545, #fd7e14);">
+            <div class="card-body text-white">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <div class="small text-white-50">Erişim Kodu Satışları</div>
+                        <div class="h4 mb-0 fw-bold">{{ "%.2f"|format(access_code_total) }} ₺</div>
+                    </div>
+                    <div class="rounded-circle bg-white bg-opacity-10 p-2">
+                        <i class="fas fa-key fa-lg text-white"></i>
+                    </div>
+                </div>
+                <div class="small text-white-50 mt-2">{{ access_code_sales|length }} kullanım</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ul class="nav nav-tabs mb-4 flex-nowrap overflow-auto" role="tablist" style="white-space: nowrap;">
+    <li class="nav-item">
+        <a class="nav-link px-3 {% if tab == 'individual' %}active{% endif %}" href="?tab=individual" style="color: {% if tab == 'individual' %}#0a1929{% else %}#333{% endif %} !important;">
+            <i class="fas fa-user me-1"></i> <strong>Bireysel</strong>
+            <span class="badge bg-dark ms-1">{{ individual_purchases|length }}</span>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link px-3 {% if tab == 'team' %}active{% endif %}" href="?tab=team" style="color: {% if tab == 'team' %}#0a1929{% else %}#333{% endif %} !important;">
+            <i class="fas fa-users me-1"></i> <strong>Takım</strong>
+            <span class="badge bg-primary ms-1">{{ team_purchases|length }}</span>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link px-3 {% if tab == 'affiliate' %}active{% endif %}" href="?tab=affiliate" style="color: {% if tab == 'affiliate' %}#0a1929{% else %}#333{% endif %} !important;">
+            <i class="fas fa-handshake me-1"></i> <strong>Ortak</strong>
+            <span class="badge bg-success ms-1">{{ affiliate_sales|length }}</span>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link px-3 {% if tab == 'accesscode' %}active{% endif %}" href="?tab=accesscode" style="color: {% if tab == 'accesscode' %}#0a1929{% else %}#333{% endif %} !important;">
+            <i class="fas fa-key me-1"></i> <strong>Erişim Kodu</strong>
+            <span class="badge bg-danger ms-1">{{ access_code_sales|length }}</span>
+        </a>
+    </li>
+</ul>
+
+{% if tab == 'individual' %}
+<div class="card border-0 shadow-sm rounded-4">
+    <div class="card-header py-3" style="background-color: #0C1430;">
+        <h5 class="mb-0 text-warning fw-bold"><i class="fas fa-user me-2"></i> Bireysel Satışlar</h5>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th class="ps-4">ID</th>
+                    <th>Tarih</th>
+                    <th>Müşteri</th>
+                    <th>Vaka</th>
+                    <th>Tutar</th>
+                    <th>Durum</th>
+                    <th class="text-end pe-4">İşlemler</th>
+                </tr>
+            </thead>
+            <tbody class="bg-white">
+                {% for purchase in individual_purchases %}
+                <tr>
+                    <td class="ps-4">
+                        <span class="fw-bold text-dark">#{{ purchase.id }}</span>
+                    </td>
+                    <td>
+                        <small class="text-muted">{{ purchase.created_at.strftime('%d.%m.%Y %H:%M') if purchase.created_at else '-' }}</small>
+                    </td>
+                    <td>
+                        {% set user = purchase.user %}
+                        {% if user %}
+                        <div class="d-flex align-items-center">
+                            <div class="rounded-circle bg-warning text-dark d-flex align-items-center justify-content-center me-2 fw-bold" style="width: 32px; height: 32px; font-size: 0.8rem;">
+                                {{ user.username[0]|upper }}
+                            </div>
+                            <div>
+                                <span class="fw-bold">{{ user.username }}</span>
+                                <small class="d-block text-muted">{{ user.email }}</small>
+                            </div>
+                        </div>
+                        {% else %}
+                        <span class="text-muted">-</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% set case = purchase.case %}
+                        {{ case.title if case else '-' }}
+                    </td>
+                    <td>
+                        <span class="fw-bold text-success">{{ "%.2f"|format(purchase.amount or 0) }} ₺</span>
+                    </td>
+                    <td>
+                        {% if purchase.is_paid %}
+                        <span class="badge bg-success"><i class="fas fa-check me-1"></i> Ödendi</span>
+                        {% else %}
+                        <span class="badge bg-warning text-dark"><i class="fas fa-clock me-1"></i> Bekliyor</span>
+                        {% endif %}
+                    </td>
+                    <td class="text-end pe-4">
+                        <div class="dropdown">
+                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle rounded-pill" type="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-cog"></i>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="{{ url_for('admin_user_games', user_id=purchase.user_id) }}"><i class="fas fa-eye text-primary me-2"></i> Detay</a></li>
+                                <li><a class="dropdown-item" href="{{ url_for('admin_edit_purchase', purchase_id=purchase.id) }}"><i class="fas fa-edit text-warning me-2"></i> Düzenle</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item text-danger" href="{{ url_for('admin_delete_purchase', purchase_id=purchase.id) }}" onclick="return confirm('Bu satışı silmek istediğinize emin misiniz?')"><i class="fas fa-trash me-2"></i> Sil</a></li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+
+                {% if not individual_purchases %}
+                <tr>
+                    <td colspan="7" class="text-center py-5 text-muted">
+                        <i class="fas fa-shopping-bag fa-3x mb-3 d-block opacity-25"></i>
+                        Henüz bireysel satış bulunmuyor.
+                    </td>
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endif %}
+
+{% if tab == 'team' %}
+<div class="card border-0 shadow-sm rounded-4">
+    <div class="card-header py-3" style="background-color: #0d6efd;">
+        <h5 class="mb-0 text-white fw-bold"><i class="fas fa-users me-2"></i> Takım Satışları</h5>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th class="ps-4">ID</th>
+                    <th>Tarih</th>
+                    <th>Organizatör</th>
+                    <th>Vaka</th>
+                    <th>Takım</th>
+                    <th>Kişi</th>
+                    <th>Tutar</th>
+                    <th>Durum</th>
+                    <th class="text-end pe-4">İşlemler</th>
+                </tr>
+            </thead>
+            <tbody class="bg-white">
+                {% for tp in team_purchases %}
+                <tr>
+                    <td class="ps-4">
+                        <span class="fw-bold text-dark">#{{ tp.id }}</span>
+                    </td>
+                    <td>
+                        <small class="text-muted">{{ tp.created_at.strftime('%d.%m.%Y %H:%M') if tp.created_at else '-' }}</small>
+                    </td>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center me-2 fw-bold" style="width: 32px; height: 32px; font-size: 0.8rem;">
+                                {{ tp.organizer_name[0]|upper if tp.organizer_name else '?' }}
+                            </div>
+                            <div>
+                                <span class="fw-bold">{{ tp.organizer_name or '-' }}</span>
+                                <small class="d-block text-muted">{{ tp.organizer_email or '-' }}</small>
+                            </div>
+                        </div>
+                    </td>
+                    <td>{{ tp.case.title if tp.case else '-' }}</td>
+                    <td>
+                        <span class="badge bg-info text-dark">{{ tp.team_count or 1 }}</span>
+                    </td>
+                    <td>
+                        <span class="badge bg-secondary">{{ tp.members|length if tp.members else 0 }}</span>
+                    </td>
+                    <td>
+                        <span class="fw-bold text-success">{{ "%.2f"|format(tp.total_price or 0) }} ₺</span>
+                    </td>
+                    <td>
+                        {% if tp.payment_status == 'completed' %}
+                        <span class="badge bg-success"><i class="fas fa-check me-1"></i> Ödendi</span>
+                        {% else %}
+                        <span class="badge bg-warning text-dark">{{ tp.payment_status }}</span>
+                        {% endif %}
+                    </td>
+                    <td class="text-end pe-4">
+                        <div class="dropdown">
+                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle rounded-pill" type="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-cog"></i>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="{{ url_for('admin_active_games') }}?type=team"><i class="fas fa-eye text-primary me-2"></i> Detay</a></li>
+                                <li><a class="dropdown-item" href="{{ url_for('admin_edit_team_purchase', purchase_id=tp.id) }}"><i class="fas fa-edit text-warning me-2"></i> Düzenle</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item text-danger" href="{{ url_for('admin_delete_team_purchase', purchase_id=tp.id) }}" onclick="return confirm('Bu satışı ve tüm takım üyelerini silmek istediğinize emin misiniz?')"><i class="fas fa-trash me-2"></i> Sil</a></li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+
+                {% if not team_purchases %}
+                <tr>
+                    <td colspan="9" class="text-center py-5 text-muted">
+                        <i class="fas fa-users fa-3x mb-3 d-block opacity-25"></i>
+                        Henüz takım satışı bulunmuyor.
+                    </td>
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endif %}
+
+{% if tab == 'affiliate' %}
+<div class="card border-0 shadow-sm rounded-4">
+    <div class="card-header py-3" style="background-color: #198754;">
+        <h5 class="mb-0 text-white fw-bold"><i class="fas fa-handshake me-2"></i> Ortak Satışları</h5>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th class="ps-4">ID</th>
+                    <th>Tarih</th>
+                    <th>Vaka</th>
+                    <th>Ortak</th>
+                    <th>İndirim Kodu</th>
+                    <th>Satış</th>
+                    <th>Komisyon</th>
+                    <th class="text-end pe-4">İşlemler</th>
+                </tr>
+            </thead>
+            <tbody class="bg-white">
+                {% for sale in affiliate_sales %}
+                <tr>
+                    <td class="ps-4">
+                        <span class="fw-bold text-dark">#{{ sale.id }}</span>
+                    </td>
+                    <td>
+                        <small class="text-muted">{{ sale.created_at.strftime('%d.%m.%Y %H:%M') if sale.created_at else '-' }}</small>
+                    </td>
+                    <td>{{ sale.case.title if sale.case else '-' }}</td>
+                    <td>
+                        {% if sale.partner %}
+                        <div class="d-flex align-items-center">
+                            <div class="rounded-circle bg-success text-white d-flex align-items-center justify-content-center me-2 fw-bold" style="width: 32px; height: 32px; font-size: 0.8rem;">
+                                {{ sale.partner.name[0]|upper if sale.partner.name else '?' }}
+                            </div>
+                            <div>
+                                <span class="fw-bold">{{ sale.partner.name }}</span>
+                                <small class="d-block text-muted">{{ sale.partner.email }}</small>
+                            </div>
+                        </div>
+                        {% else %}
+                        <span class="text-muted">-</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if sale.discount_code %}
+                        <code class="bg-light px-2 py-1 rounded">{{ sale.discount_code.code }}</code>
+                        {% else %}
+                        <span class="text-muted">-</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <span class="fw-bold text-success">{{ "%.2f"|format(sale.sale_amount or 0) }} ₺</span>
+                    </td>
+                    <td>
+                        <span class="fw-bold text-warning">{{ "%.2f"|format(sale.commission_amount or 0) }} ₺</span>
+                    </td>
+                    <td class="text-end pe-4">
+                        <a href="{{ url_for('admin_partners') }}" class="btn btn-sm btn-outline-success rounded-pill">
+                            <i class="fas fa-eye"></i>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+
+                {% if not affiliate_sales %}
+                <tr>
+                    <td colspan="8" class="text-center py-5 text-muted">
+                        <i class="fas fa-handshake fa-3x mb-3 d-block opacity-25"></i>
+                        Henüz ortak satışı bulunmuyor.
+                    </td>
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endif %}
+
+{% if tab == 'accesscode' %}
+<div class="card border-0 shadow-sm rounded-4">
+    <div class="card-header py-3" style="background: linear-gradient(135deg, #dc3545, #fd7e14);">
+        <h5 class="mb-0 text-white fw-bold"><i class="fas fa-key me-2"></i> Erişim Kodu Satışları</h5>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th class="ps-4">ID</th>
+                    <th>Kullanım Tarihi</th>
+                    <th>Erişim Kodu</th>
+                    <th>Platform</th>
+                    <th>Vaka</th>
+                    <th>Kullanan</th>
+                    <th>Satış Fiyatı</th>
+                    <th class="text-end pe-4">İşlemler</th>
+                </tr>
+            </thead>
+            <tbody class="bg-white">
+                {% for ac in access_code_sales %}
+                <tr>
+                    <td class="ps-4">
+                        <span class="fw-bold text-dark">#{{ ac.id }}</span>
+                    </td>
+                    <td>
+                        <small class="text-muted">{{ ac.used_at.strftime('%d.%m.%Y %H:%M') if ac.used_at else '-' }}</small>
+                    </td>
+                    <td>
+                        <code class="bg-dark text-warning px-2 py-1 rounded">{{ ac.code }}</code>
+                    </td>
+                    <td>
+                        {% if ac.platform == 'Trendyol' %}
+                        <span class="badge" style="background: #F27A1A; color: white;"><i class="fas fa-shopping-bag me-1"></i> Trendyol</span>
+                        {% elif ac.platform == 'Hepsiburada' %}
+                        <span class="badge" style="background: #FF6000; color: white;"><i class="fas fa-store me-1"></i> Hepsiburada</span>
+                        {% elif ac.platform == 'N11' %}
+                        <span class="badge" style="background: #7B1FA2; color: white;"><i class="fas fa-cart-plus me-1"></i> N11</span>
+                        {% elif ac.platform == 'Amazon' %}
+                        <span class="badge" style="background: #FF9900; color: #000;"><i class="fab fa-amazon me-1"></i> Amazon</span>
+                        {% else %}
+                        <span class="badge bg-secondary"><i class="fas fa-globe me-1"></i> {{ ac.platform or 'Diğer' }}</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ ac.case.title if ac.case else '-' }}</td>
+                    <td>
+                        {% if ac.used_by %}
+                        <div class="d-flex align-items-center">
+                            <div class="rounded-circle bg-danger text-white d-flex align-items-center justify-content-center me-2 fw-bold" style="width: 32px; height: 32px; font-size: 0.8rem;">
+                                {{ ac.used_by.username[0]|upper }}
+                            </div>
+                            <div>
+                                <span class="fw-bold">{{ ac.used_by.username }}</span>
+                                <small class="d-block text-muted">{{ ac.used_by.email }}</small>
+                            </div>
+                        </div>
+                        {% else %}
+                        <span class="text-muted">-</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <span class="fw-bold text-success">{{ "%.2f"|format(ac.sale_price or 0) }} ₺</span>
+                    </td>
+                    <td class="text-end pe-4">
+                        <a href="{{ url_for('admin_access_codes') }}" class="btn btn-sm btn-outline-danger rounded-pill">
+                            <i class="fas fa-eye"></i>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+
+                {% if not access_code_sales %}
+                <tr>
+                    <td colspan="8" class="text-center py-5 text-muted">
+                        <i class="fas fa-key fa-3x mb-3 d-block opacity-25"></i>
+                        Henüz kullanılan erişim kodu bulunmuyor.
+                    </td>
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endif %}
+
+<style>
+    .nav-tabs .nav-link { color: #333; font-weight: 600; border: none; padding: 12px 20px; }
+    .nav-tabs .nav-link.active { color: #0C1430; border-bottom: 3px solid #FFD700; background: transparent; }
+    .nav-tabs .nav-link:hover { border-color: transparent; color: #FFD700; }
+    .table thead th { font-weight: 600; font-size: 0.8rem; letter-spacing: 0.5px; border: none; }
+    .table tbody tr:hover { background-color: rgba(12, 20, 48, 0.02); transition: 0.2s; }
+</style>
+{% endblock %}

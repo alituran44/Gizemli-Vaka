@@ -1,0 +1,216 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+@media (max-width: 768px) {
+    .col-lg-6 { flex: 0 0 100%; max-width: 100%; }
+    .col-6.col-md-4.col-lg-3 { flex: 0 0 50%; max-width: 50%; }
+    .display-3 { font-size: 2rem !important; }
+}
+@media (max-width: 576px) {
+    .display-3 { font-size: 1.6rem !important; }
+}
+</style>
+<div class="py-5" style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('{{ url_for('static', filename='images/gift-card-banner.png') }}'); background-size: cover; background-position: center; min-height: 350px;">
+    <div class="container py-5">
+        <h1 class="text-warning display-3 fw-bold mb-4">
+            Hediye Çekleri
+        </h1>
+        <p class="text-white lead col-lg-8" style="text-shadow: 1px 1px 3px rgba(0,0,0,0.8);">
+            İster bir doğum günü kutlaması, ister yeni yıl sürprizi, isterseniz de gerçek suç hikayesi tutkunu bir dosta unutulmaz bir teşekkür... Dijital hediye çeklerimizle, sevdiklerinize dünyanın neresinde olurlarsa olsunlar gerçek bir dedektifin zekasına bürünme şansı verin. Onları, tozlu raflardan inen 'Çözülmemiş Vaka Dosyalarımızın' içine çekin ve adaleti sağlamaları için ilk ipucunu siz hediye edin.
+        </p>
+    </div>
+</div>
+
+<div class="bg-light py-5">
+    <div class="container">
+        <div class="row align-items-center mb-5">
+            <div class="col-lg-6 mb-4 mb-lg-0">
+                <span class="badge bg-warning text-dark mb-3">Hediye Çekleri</span>
+                <h2 class="fw-bold mb-4 text-dark">
+                    Her Dedektif İçin Kusursuz Bir Başlangıç
+                </h2>
+                <p class="text-secondary mb-4">
+                    Hayatınızdaki suç çözme meraklısına, kişiselleştirilmiş bir Gizemli Vaka Hediye Çeki verin; kendi evinin konforunda, tozlu raflarda bekleyen sürükleyici bir gizemi aydınlatmasına yardımcı olun.
+                </p>
+                
+                <h5 class="fw-bold text-dark mb-3">Eşsiz ve Adrenalin Dolu Bir Hediye mi Arıyorsunuz?</h5>
+                <p class="text-secondary mb-4">
+                    Sıradan hediyeleri bir kenara bırakın! Gizemli dünyanın kapılarını sevdiklerinize açarak, onlara "Gölge Şehir" sokaklarındaki sırları çözme veya karmaşık vaka dosyalarındaki düğümleri tek tek çözme fırsatı sunun. Gerçek bir dedektif gibi kanıtları analiz etmek, ifadeleri sorgulamak ve adaleti sağlamak artık bir tık uzağınızda.
+                </p>
+
+                <h5 class="fw-bold text-dark mb-3">Nasıl Çalışır?</h5>
+                <ul class="list-unstyled mb-4">
+                    <li class="mb-2 text-dark"><i class="fas fa-search text-warning me-2"></i><strong>Vakayı Seçin:</strong> Alıcınızın çözmesini istediğiniz gizemi belirleyin.</li>
+                    <li class="mb-2 text-dark"><i class="fas fa-pen text-warning me-2"></i><strong>Kişiselleştirin:</strong> İçten bir teşekkür veya gizemli bir not ekleyerek mesajınızı özelleştirin.</li>
+                    <li class="mb-2 text-dark"><i class="fas fa-clock text-warning me-2"></i><strong>Zamanı Kurun:</strong> Hediyenizin ne zaman ulaşacağını siz belirleyin.</li>
+                </ul>
+
+                <h5 class="fw-bold text-dark mb-3">Teslimat Seçenekleri</h5>
+                <p class="text-secondary mb-4">
+                    Seçtiğiniz özel günde, benzersiz kullanım kodunu içeren dijital çekinizi doğrudan alıcının e-posta adresine gönderiyoruz. Dilerseniz, hediyeyi kendiniz elden vermek veya yazdırmak için kendi e-posta adresinize de talep edebilirsiniz.
+                </p>
+                
+                <div class="mb-4">
+                    <span class="text-secondary small">Tercih ettiğiniz para birimini seçin</span>
+                    <div class="mt-2">
+                        <span class="badge bg-dark text-white px-3 py-2 me-2">TRY</span>
+                        <span class="badge bg-secondary text-white px-3 py-2 me-2">GBP</span>
+                        <span class="badge bg-secondary text-white px-3 py-2">USD</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <img src="{{ url_for('static', filename='images/gift-card-hero.jpg') }}" alt="Hediye Çeki" class="img-fluid rounded-4 shadow-lg">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="py-5" style="background-color: #0a1628;">
+    <div class="container">
+        <h3 class="text-warning fw-bold mb-4">Oyun(lar) Seçin</h3>
+        
+        <div class="row g-4 mb-5">
+            {% for case in cases %}
+            <div class="col-6 col-md-4 col-lg-3">
+                <div class="position-relative gift-case-card" style="cursor: pointer;" onclick="toggleCaseSelection('{{ case.id }}')">
+                    <input type="checkbox" id="case_{{ case.id }}" name="selected_cases" value="{{ case.id }}" class="d-none case-checkbox">
+                    {% if case.image %}
+                    <img src="{{ case.image }}" class="img-fluid rounded-3" style="width: 100%; height: 200px; object-fit: cover;" alt="{{ case.title }}">
+                    {% else %}
+                    <div class="bg-secondary rounded-3" style="height: 200px;"></div>
+                    {% endif %}
+                    <div class="position-absolute bottom-0 start-0 end-0 p-2 text-white" style="background: linear-gradient(transparent, rgba(0,0,0,0.9));">
+                        <div class="small fw-bold">{{ case.title }}</div>
+                    </div>
+                    <div class="position-absolute top-0 end-0 p-2 case-check-icon d-none">
+                        <span class="badge bg-warning text-dark"><i class="fas fa-check"></i></span>
+                    </div>
+                </div>
+                <div class="mt-2">
+                    <small class="text-white">{{ case.title }}</small>
+                    <div>
+                        <span class="text-decoration-line-through text-white-50 small">{{ "%.2f"|format(case.price * 1.3) }} TL</span>
+                        <span class="text-warning fw-bold ms-1">{{ "%.2f"|format(case.price) }} TL</span>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <h3 class="text-warning fw-bold mb-4">Kuponu Kişiselleştirin</h3>
+        
+        <form action="{{ url_for('gift_cards') }}" method="POST" id="giftForm">
+            <input type="hidden" name="selected_case_ids" id="selectedCaseIds" value="">
+            
+            <div class="mb-3">
+                <label class="text-warning small fw-bold">Adınız (Gerekli)</label>
+                <input type="text" name="sender_name" class="form-control bg-white" required>
+            </div>
+            
+            <div class="mb-3">
+                <label class="text-warning small fw-bold">Alıcının Adı (Zorunlu)</label>
+                <input type="text" name="recipient_name" class="form-control bg-white" required>
+            </div>
+            
+            <div class="mb-3">
+                <label class="text-warning small fw-bold">Alıcı E-postası (Zorunlu)</label>
+                <input type="email" name="recipient_email" class="form-control bg-white" required>
+            </div>
+            
+            <div class="mb-3">
+                <label class="text-warning small fw-bold">Mesaj (isteğe bağlı)</label>
+                <textarea name="gift_message" class="form-control bg-white" rows="3"></textarea>
+            </div>
+            
+            <div class="mb-4">
+                <label class="text-warning small fw-bold">Teslim Tarihi (en geç yarın) (Gerekli)</label>
+                <input type="date" name="delivery_date" class="form-control bg-white" required>
+            </div>
+            
+            <p class="text-white small mb-4">
+                Her kupon elle hazırlanır. Seçtiğiniz tarihte (alıcıya veya yazdırmanız/iletmeniz için size) kuponu, kullanım kodu ve bağlantı ile birlikte e-posta ile göndereceğiz.
+            </p>
+            
+            <div class="d-flex align-items-center gap-3 mb-5">
+                <span class="text-white fw-bold h5 mb-0">Toplam: <span id="totalPrice">0,00</span> TL</span>
+                <button type="submit" class="btn btn-warning fw-bold rounded-pill px-4 py-2">
+                    Seçilenleri Sepete Ekle
+                </button>
+            </div>
+        </form>
+
+        <div class="border-top border-secondary pt-4">
+            <h5 class="text-warning mb-3">Hediye Çeki Şartları ve Koşulları</h5>
+            <ol class="text-white small" style="line-height: 2;">
+                <li>Hediye çeki belirtilen değerde geçerlidir ve belirtilen Gizemli Vaka çevrimiçi çözülmemiş dava dosyaları oyununu satın almak için kullanılabilir.</li>
+                <li>Hediye çeki devredilemez ve nakit veya başka herhangi bir ödeme şekliyle değiştirilemez.</li>
+                <li>Hediye çekini kullanmak için, alıcının çekte bağlantısı bulunan kullanım sayfamızı ziyaret etmesi, kodu girmesi ve ardından siparişi vermek üzere ödeme sayfasına yönlendirilmesi gerekmektedir.</li>
+                <li>Her hediye çeki yalnızca bir kez kullanılabilir. Toplam satın alma tutarı çek değerinden azsa, kalan bakiye iade edilmeyecek veya hesaba eklenmeyecektir.</li>
+                <li>Hediye çeki, diğer promosyonlar, indirimler veya tekliflerle birleştirilemez.</li>
+                <li>Gizemli Vaka kayıp veya çalınan hediye çeklerinden sorumlu değildir.</li>
+                <li>Hediye çekinin şart ve koşulları önceden haber verilmeksizin değiştirilebilir.</li>
+            </ol>
+            <p class="text-white small">Hediye çekini kullanan kişi, bu şart ve koşullara uymayı kabul eder.</p>
+        </div>
+    </div>
+</div>
+
+<script>
+let selectedCases = [];
+const casePrices = {
+    {% for case in cases %}
+    '{{ case.id }}': {{ case.price }},
+    {% endfor %}
+};
+
+function toggleCaseSelection(caseId) {
+    const checkbox = document.getElementById('case_' + caseId);
+    const card = checkbox.closest('.gift-case-card');
+    const checkIcon = card.querySelector('.case-check-icon');
+    
+    if (selectedCases.includes(caseId)) {
+        selectedCases = selectedCases.filter(id => id !== caseId);
+        card.style.opacity = '1';
+        card.style.border = 'none';
+        checkIcon.classList.add('d-none');
+    } else {
+        selectedCases.push(caseId);
+        card.style.opacity = '0.8';
+        card.style.border = '3px solid #FFD700';
+        card.style.borderRadius = '12px';
+        checkIcon.classList.remove('d-none');
+    }
+    
+    document.getElementById('selectedCaseIds').value = selectedCases.join(',');
+    updateTotal();
+}
+
+function updateTotal() {
+    let total = 0;
+    selectedCases.forEach(id => {
+        total += casePrices[id] || 0;
+    });
+    document.getElementById('totalPrice').textContent = total.toFixed(2).replace('.', ',');
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    const dateInput = document.querySelector('input[name="delivery_date"]');
+    if (dateInput) {
+        dateInput.min = tomorrow.toISOString().split('T')[0];
+        dateInput.value = tomorrow.toISOString().split('T')[0];
+    }
+});
+</script>
+
+<style>
+.gift-case-card {
+    transition: all 0.3s ease;
+}
+.gift-case-card:hover {
+    transform: scale(1.02);
+}
+</style>
+{% endblock %}
