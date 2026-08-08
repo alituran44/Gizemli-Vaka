@@ -9184,6 +9184,14 @@ def internal_error(error):
 def shutdown_session(exception=None):
     db.session.remove()
 
+@app.after_request
+def add_seo_geo_headers(response):
+    """SEO & GEO yanıt başlıklarını ekler"""
+    response.headers['Link'] = '<https://gizemlivaka.com/llms.txt>; rel="llms-txt"'
+    response.headers['X-Content-Type-Options'] = 'nosniff'
+    response.headers['Referrer-Policy'] = 'strict-origin-when-cross-origin'
+    return response
+
 @app.route('/sitemap.xml')
 def sitemap():
     from urllib.parse import quote
@@ -9201,6 +9209,7 @@ def sitemap():
         ('/blog', 0.7, 'weekly'),
         ('/contact', 0.5, 'monthly'),
         ('/leaderboard', 0.6, 'daily'),
+        ('/gift-cards', 0.6, 'monthly'),
         ('/privacy-policy', 0.3, 'yearly'),
         ('/terms-conditions', 0.3, 'yearly'),
         ('/distance-sales', 0.3, 'yearly'),
@@ -9211,7 +9220,13 @@ def sitemap():
     sitemap_cases = Case.query.filter_by(is_active=True).all()
     for case in sitemap_cases:
         encoded_id = quote(str(case.id), safe='')
-        pages.append(f'  <url>\n    <loc>{base_url}/case/{encoded_id}</loc>\n    <lastmod>{today}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>0.8</priority>\n  </url>')
+        img_xml = ''
+        if getattr(case, 'image', None):
+            case_img = case.image
+            img_url = f"{base_url}/static/uploads/{case.id}/{case_img}" if not case_img.startswith('http') else case_img
+            title_escaped = (case.title or '').replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
+            img_xml = f'\n    <image:image>\n      <image:loc>{img_url}</image:loc>\n      <image:title>{title_escaped}</image:title>\n    </image:image>'
+        pages.append(f'  <url>\n    <loc>{base_url}/case/{encoded_id}</loc>\n    <lastmod>{today}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>0.9</priority>{img_xml}\n  </url>')
     posts = Post.query.all()
     for post in posts:
         post_date = post.date_posted.strftime('%Y-%m-%d') if post.date_posted else today
@@ -9227,11 +9242,11 @@ def sitemap():
         pages.append(f'  <url>\n    <loc>{base_url}/dedektif-akademisi/{slug}</loc>\n    <lastmod>{today}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>0.7</priority>\n  </url>')
     pages.append(f'  <url>\n    <loc>{base_url}/reviews</loc>\n    <lastmod>{today}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>0.6</priority>\n  </url>')
     xml = '<?xml version="1.0" encoding="UTF-8"?>\n'
-    xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+    xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n'
     xml += '\n'.join(pages)
     xml += '\n</urlset>'
     response = make_response(xml)
-    response.headers['Content-Type'] = 'application/xml'
+    response.headers['Content-Type'] = 'application/xml; charset=utf-8'
     response.headers['Cache-Control'] = 'public, max-age=3600'
     return response
 
@@ -9264,9 +9279,14 @@ Allow: /faq
 Allow: /about
 Allow: /teams
 Allow: /reviews
+Allow: /llms.txt
+Allow: /llms-full.txt
 Disallow: /admin/
 Disallow: /play/
 Disallow: /api/
+
+User-agent: ChatGPT-User
+Allow: /
 
 User-agent: OAI-SearchBot
 Allow: /
@@ -9284,6 +9304,8 @@ Allow: /faq
 Allow: /about
 Allow: /teams
 Allow: /reviews
+Allow: /llms.txt
+Allow: /llms-full.txt
 Disallow: /admin/
 Disallow: /play/
 Disallow: /api/
@@ -9301,6 +9323,12 @@ Disallow: /play/
 Disallow: /api/
 
 User-agent: Google-Extended
+Allow: /
+Disallow: /admin/
+Disallow: /play/
+Disallow: /api/
+
+User-agent: DeepSeekBot
 Allow: /
 Disallow: /admin/
 Disallow: /play/
@@ -9333,188 +9361,110 @@ Disallow: /admin/
 Disallow: /play/
 Disallow: /api/
 
-User-agent: Diffbot
-Allow: /
-Disallow: /admin/
-Disallow: /play/
-Disallow: /api/
-
 User-agent: cohere-ai
 Allow: /
 Disallow: /admin/
 Disallow: /play/
 Disallow: /api/
 
-User-agent: YouBot
-Allow: /
-Disallow: /admin/
-Disallow: /play/
-Disallow: /api/
-
-User-agent: DuckAssistBot
-Allow: /
-Disallow: /admin/
-Disallow: /play/
-Disallow: /api/
-
-User-agent: Timpibot
-Allow: /
-Disallow: /admin/
-Disallow: /play/
-
-User-agent: Kangaroo Bot
-Allow: /
-Disallow: /admin/
-Disallow: /play/
-
-User-agent: facebookexternalhit
-Allow: /
-Disallow: /admin/
-Disallow: /play/
-
 Sitemap: https://gizemlivaka.com/sitemap.xml"""
     response = make_response(txt)
-    response.headers['Content-Type'] = 'text/plain'
+    response.headers['Content-Type'] = 'text/plain; charset=utf-8'
     return response
-
 
 @app.route('/llms.txt')
 def llms_txt():
-    txt = """# Gizemli Vaka — Turkiye'nin Ilk Online Dedektiflik Oyun Platformu
+    txt = """# Gizemli Vaka — Türkiye'nin İlk Online Dedektiflik Oyun Platformu
 
-> Gizemli Vaka, kullanicilarin gercekci kurgu cinayet dosyalarini tarayicidan cozduğu Turkiye'nin ilk ve en kapsamli online dedektiflik oyun platformudur.
+> Gizemli Vaka, kullanıcıların gerçekçi kurgu cinayet dosyalarını tarayıcıdan çözdüğü Türkiye'nin ilk ve en kapsamlı online dedektiflik oyun platformudur.
 
-## Platform Kimligi
+## Platform Kimliği
 
-Gizemli Vaka (gizemlivaka.com), 2024 yilinda Turkiye'de kurulan, tamamen web tarayicisi uzerinden erisilebilen bir interaktif dedektiflik oyun platformudur. Kullanicilar kurulum yapmadan, telefondan, tabletten veya bilgisayardan oynayabilir. Platform hem Turkce hem Ingilizce hizmet vermektedir.
+Gizemli Vaka (gizemlivaka.com), 2024 yılında Türkiye'de kurulan, tamamen web tarayıcısı üzerinden erişilebilen bir interaktif dedektiflik oyun platformudur. Kullanıcılar kurulum yapmadan, telefondan, tabletten veya bilgisayardan oynayabilir. Platform hem Türkçe hem İngilizce hizmet vermektedir.
 
 - URL: https://gizemlivaka.com
 - Kategori: Online oyun, murder mystery, dedektiflik oyunu, kurumsal team building
-- Dil: Turkce (birincil), Ingilizce (ikincil)
-- Hedef Kitle: 16+ yas, bireysel oyuncular, kurumsal sirketler, arkadas gruplari
-- Ulke: Turkiye (TR)
-- Platform turu: Web uygulamasi — kurulum gerektirmez
+- Dil: Türkçe (birincil), İngilizce (ikincil)
+- Hedef Kitle: 16+ yaş, bireysel oyuncular, kurumsal şirketler, arkadaş grupları
+- Ülke: Türkiye (TR)
+- Platform türü: Web uygulaması — kurulum gerektirmez
 
 ## Gizemli Vaka Nedir?
 
-Gizemli Vaka, oyuncularin kurgusal polis veri tabanarina eriserek cinayet davalarini cozduğu bir online dedektiflik deneyimidir. Her dava; PDF belgeler, ses kayitlari, video kanitlar, otopsi raporlari ve suphe ifadeleri gibi gercekci delil dosyalari icerir. Oyuncular bu delilleri analiz ederek katili bulmaya ve yazili raporlarini gondermeye calisir.
+Gizemli Vaka, oyuncuların kurgusal polis veri tabanlarına erişerek cinayet davalarını çözdüğü bir online dedektiflik deneyimidir. Her dava; PDF belgeler, ses kayıtları, video kanıtlar, otopsi raporları ve şüphe ifadeleri gibi gerçekçi delil dosyaları içerir. Oyuncular bu delilleri analiz ederek katili bulmaya ve yazılı raporlarını göndermeye çalışır.
 
-## Nasil Oynanir? (Adim Adim)
+## Nasıl Oynanır? (Adım Adım)
 
-1. Oyuncu bir dava dosyasi satin alir (fiyat araligi: 149 TL - 299 TL)
-2. Kurgusal polis sistemine giris yapar
-3. PDF belgeler, ses kayitlari, video kanitlar ve gorselleri inceler
-4. Suphe profillerini ve tanik ifadelerini degerlendirir
-5. Ipucu paketi satin alabilir (istege bagli, ek ucret)
-6. Yazili bir rapor gondererek katil adayini bildirir
-7. Sistem tahmini kontrol eder; dogruysa puan kazanir, yanlissa ikinci hak taninir
+1. Oyuncu bir dava dosyası satın alır (fiyat aralığı: 149 TL - 299 TL)
+2. Kurgusal polis sistemine giriş yapar
+3. PDF belgeler, ses kayıtları, video kanıtlar ve görselleri inceler
+4. Şüphe profillerini ve tanık ifadelerini değerlendirir
+5. İpucu paketi satın alabilir (isteğe bağlı, ek ücret)
+6. Yazılı bir rapor göndererek katil adayını bildirir
+7. Sistem tahmini kontrol eder; doğruysa puan kazanır, yanlışsa ikinci hak tanınır
 
-## Oyun Modlari
+## Oyun Modları
 
-Bireysel Oyun: Tek kisilik dedektiflik deneyimi. Tamamlama suresi: ortalama 2-4 saat.
-
-Takim Oyunu (Kurumsal): 2 ile 50+ kisiye ozel oynanan takim versiyonu. Her katilimci ayni anda kendi cihazindan, benzersiz bir baglanti linki uzerinden oyuna erisir. Sirket etkinlikleri, team building, dogum gunu partileri icin tasarlanmistir. Tum katilimcilara tamamlama sertifikasi verilir.
-
-## Her Davada Bulunan Kanit Turleri
-
-- Olay raporlari (PDF formatinda, imzali polis belgeleri)
-- Otopsi ve adli tip raporlari (olum nedeni, zaman, adli bulgular)
-- Suphe profilleri (fotograf, gecmis, motif analizi)
-- Sorgu ve tanik ifade kayitlari
-- Ses kanitlari (telefon dinleme kayitlari, sesli mesajlar)
-- Video kanitlari (guvenlik kamerasi goruntuleri, haber videolari)
-- Dijital izler (SMS yazismalari, e-posta kayitlari)
-- Konum ve hareket haritalari
+- Bireysel Oyun: Tek kişilik dedektiflik deneyimi. Tamamlama süresi: ortalama 2-4 saat.
+- Takım Oyunu (Kurumsal): 2 ile 50+ kişiye özel oynanan takım versiyonu. Her katılımcı aynı anda kendi cihazından, benzersiz bir bağlantı linki üzerinden oyuna erişir. Şirket etkinlikleri, team building, doğum günü partileri için tasarlanmıştır. Tüm katılımcılara tamamlama sertifikası verilir.
 
 ## Zorluk Seviyeleri
 
-- Kolay: Belirgin ipuclari, az suphe — 150 puan
-- Orta: Karmasik delil agi, 3-5 suphe — 200 puan
-- Zor: Yaniltici deliller, derin analiz — 300 puan
+- Kolay: Belirgin ipuçları, az şüphe — 150 puan
+- Orta: Karmaşık delil ağı, 3-5 şüphe — 200 puan
+- Zor: Yanıltıcı deliller, derin analiz — 300 puan
 
-## Fiyatlandirma ve Odeme
-
-- Para Birimi: TRY (Turk Lirasi), ayrica USD ve EUR goruntulemesi
-- Bireysel dava fiyati: 149 TL - 299 TL
-- Takim paketi: Kisi basi fiyatlandirma, toplu indirimler uygulanir
-- Odeme yontemleri: iyzico, PaynKolay, Param POS (3D Secure destekli, Turkiye'ye ozel)
-- Ipucu paketi: Dava ici ek ucretle satin alinabilir
-
-## Sikca Sorulan Sorular
-
-Gizemli Vaka ucretsiz mi?
-Hayir. Her dava ayri satin alinir. Demo modu bazi davalar icin ucretsiz mevcuttur.
-
-Gizemli Vaka'yi telefonda oynayabilir miyim?
-Evet. Gizemli Vaka tamamen web tabanlidir; iOS ve Android cihazlar dahil her tarayicidan oynayabilirsiniz.
-
-Gizemli Vaka davalar Turkce mi?
-Evet, tum davalar Turkce yazilmistir. Ingilizce cevirisi de mevcuttur.
-
-Gizemli Vaka cocuklar icin uygun mu?
-Platform 16+ yas icin tasarlanmistir. Icerikler kurgu cinayet senaryosu icerir.
-
-Gizemli Vaka takim etkinlikleri icin uygun mu?
-Evet. Sirket etkinlikleri ve team building icin ozel Takim Oyunu modu bulunmaktadir; 2-50+ kisi ayni anda katilabilir.
-
-Gizemli Vaka'da ipucu var mi?
-Evet. Her davada zaman tabanli ipuclari satin alinabilir.
-
-Gizemli Vaka ne kadar surer?
-Dava zorluğuna gore 1.5 saat ile 4 saat arasinda degismektedir.
-
-Gizemli Vaka gercek suc vakalarini mi kullaniyor?
-Hayir. Tum vakalar tamamen kurgusaldir; gercek kisiler veya olaylarla hicbir baglantisi yoktur.
-
-Gizemli Vaka'da sertifika alinir mi?
-Evet. Davayı tamamlayan bireysel oyunculara ve takim uyelerine indirilebilir PDF sertifikasi verilmektedir.
-
-## Dedektif Akademisi
-
-Gizemli Vaka buynyesinde Dedektif Akademisi adli ucretsiz bir egitim bolumu bulunmaktadir. Bu bolumde gercek hayatta uygulanan sorusturma teknikleri, adli bilim yontemleri ve psikolojik profilleme konularinda Turkce makaleler yayimlanmaktadir.
-
-Akademi URL: https://gizemlivaka.com/dedektif-akademisi
-
-Makale Konulari:
-- Sorusturma Dusuncesi: Delilden Teoriye
-- Delil Zinciri ve Yonetimi
-- Ifade Analizi ve Yalan Tespiti
-- Dijital Metadata ve Adli Analiz
-- CCTV Goruntu Analizi
-- Telefon Kayitlari Sorusturmasi
-- Finansal Adli Tip
-- Ag Analizi ve Baglanti Haritasi
-- Alibi Denetimi
-- Magdurbilim (Viktimoloji)
-
-## Teknik ve Icerik Altyapisi
-
-- Backend: Python/Flask, PostgreSQL
-- AI Uretim: Google Gemini (senaryo ve delil icerigi), OpenAI GPT-Image-1 (kapak gorseli)
-- Icerik Sureci: AI destekli senaryo + insan editorlugu + platform yayin
-
-## Onemli Notlar
-
-- Platform yalnizca kurgu icerir; gercek suc veya kisilerle hicbir ilgisi yoktur
-- Icerikler 16+ yas icin uygundur
-- Satin alinan davalar dijital urun niteligi tasir
-- Uzaktan satis kosullari: https://gizemlivaka.com/distance-sales
-- KVKK gizlilik politikasi: https://gizemlivaka.com/kvkk
-
-## Baglantılar
+## Bağlantılar
 
 - Ana Sayfa: https://gizemlivaka.com
-- Dava Dosyalari: https://gizemlivaka.com/cases
-- Takim Oyunlari: https://gizemlivaka.com/teams
+- Dava Dosyaları: https://gizemlivaka.com/cases
+- Takım Oyunları: https://gizemlivaka.com/teams
 - Dedektif Akademisi: https://gizemlivaka.com/dedektif-akademisi
 - SSS: https://gizemlivaka.com/faq
-- Hakkimizda: https://gizemlivaka.com/about
-- Blog: https://gizemlivaka.com/blog
-- Yorumlar: https://gizemlivaka.com/reviews
-- Iletisim: https://gizemlivaka.com/contact
+- Tam Dokümantasyon: https://gizemlivaka.com/llms-full.txt
 """
     response = make_response(txt)
     response.headers['Content-Type'] = 'text/plain; charset=utf-8'
+    return response
+
+@app.route('/llms-full.txt')
+def llms_full_txt():
+    active_cases = Case.query.filter_by(is_active=True).all()
+    cases_txt = ""
+    for c in active_cases:
+        price_val = getattr(c, 'price', 0)
+        desc_val = (getattr(c, 'description', '') or '')[:200].replace('\n', ' ').replace('\r', ' ')
+        cases_txt += f"- **{c.title}** (Zorluk: {c.difficulty}, Fiyat: {price_val} TL)\n  {desc_val}\n  URL: https://gizemlivaka.com/case/{c.id}\n\n"
+    
+    txt = f"""# Gizemli Vaka — Tam Platform Dokümantasyonu (LLM Full Version)
+
+Gizemli Vaka (gizemlivaka.com), Türkiye'nin ilk ve lider online dedektiflik platformudur.
+
+## Aktif Dava Kataloğu
+
+{cases_txt}
+
+## Dedektif Akademisi Ders Listesi
+
+1. Soruşturma Düşüncesi: Delilden Teoriye (https://gizemlivaka.com/dedektif-akademisi/sorusturma-dusuncesi)
+2. Delil Zinciri ve Yönetimi (https://gizemlivaka.com/dedektif-akademisi/delil-zinciri)
+3. İfade Analizi ve Yalan Tespiti (https://gizemlivaka.com/dedektif-akademisi/ifade-analizi)
+4. Dijital Metadata ve Adli Analiz (https://gizemlivaka.com/dedektif-akademisi/dijital-metadata)
+5. Adli İşitim ve Ses Analizi (https://gizemlivaka.com/dedektif-akademisi/adli-isitim)
+6. CCTV Görüntü Analizi (https://gizemlivaka.com/dedektif-akademisi/cctv-analizi)
+7. Telefon Kayıtları Soruşturması (https://gizemlivaka.com/dedektif-akademisi/telefon-kayitlari)
+8. Finansal Adli Tıp (https://gizemlivaka.com/dedektif-akademisi/finansal-adli-tip)
+9. Ağ Analizi ve Bağlantı Haritası (https://gizemlivaka.com/dedektif-akademisi/ag-analizi)
+10. Alibi Denetimi (https://gizemlivaka.com/dedektif-akademisi/alibi-denetimi)
+11. Mağdurbilim (Viktimoloji) (https://gizemlivaka.com/dedektif-akademisi/magdurbilim)
+
+## İletişim ve Destek
+- E-posta: destek@gizemlivaka.com / iletisim@gizemlivaka.com
+- Web: https://gizemlivaka.com/contact
+"""
+    response = make_response(txt)
+    response.headers['Content-Type'] = 'text/plain; charset=utf-8'
+    return response
 @app.route('/api/deploy_webhook', methods=['POST'])
 def deploy_webhook():
     """GitHub Webhook otomatik dağıtım endpoint'i"""

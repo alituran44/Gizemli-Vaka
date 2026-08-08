@@ -18,6 +18,16 @@
     <link rel="icon" type="image/png" sizes="192x192" href="{{ url_for('static', filename='favicon-192.png') }}">
     <link rel="apple-touch-icon" href="{{ url_for('static', filename='favicon-192.png') }}">
     {% block meta_tags %}{% endblock %}
+    <!-- GEO & Geotargeting Meta Tags -->
+    <meta name="geo.region" content="TR-34">
+    <meta name="geo.placename" content="İstanbul, Türkiye">
+    <meta name="geo.position" content="41.0082;28.9784">
+    <meta name="ICBM" content="41.0082, 28.9784">
+    <meta name="content-language" content="tr">
+    <!-- AI Search Engine Discovery (GEO) -->
+    <link rel="alternate" type="text/markdown" title="LLMs Context" href="https://gizemlivaka.com/llms.txt">
+    <meta name="ai-site-verification" content="gizemlivaka-ai-verified">
+
     <meta name="description" content="{% block meta_description %}Gizemli Vaka - Türkiye'nin ilk online dedektiflik oyunu. Gerçekçi cinayet dosyalarını inceleyin, delilleri analiz edin ve katili bulun. Bireysel ve takım oyunları.{% endblock %}">
     <meta name="keywords" content="{% block meta_keywords %}dedektiflik oyunu, cinayet gizemi, online dedektif, soruşturma oyunu, takım oyunu, gizemli vaka, murder mystery, detective game{% endblock %}">
     {% block robots_meta %}<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">{% endblock %}
@@ -35,10 +45,12 @@
     <meta property="og:site_name" content="Gizemli Vaka">
     {% block og_image %}
     {% if settings.get('logo_img') %}
-    <meta property="og:image" content="{{ request.url_root }}static/uploads/{{ settings.get('logo_img') }}">
+    <meta property="og:image" content="https://gizemlivaka.com/static/uploads/{{ settings.get('logo_img') }}">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:image:alt" content="Gizemli Vaka - Online Dedektiflik Oyunu">
+    {% else %}
+    <meta property="og:image" content="https://gizemlivaka.com/static/davadosyasi.jpg">
     {% endif %}
     {% endblock %}
     <meta name="twitter:card" content="summary_large_image">
@@ -47,8 +59,10 @@
     <meta name="twitter:description" content="{{ self.og_description() }}">
     {% block twitter_image %}
     {% if settings.get('logo_img') %}
-    <meta name="twitter:image" content="{{ request.url_root }}static/uploads/{{ settings.get('logo_img') }}">
+    <meta name="twitter:image" content="https://gizemlivaka.com/static/uploads/{{ settings.get('logo_img') }}">
     <meta name="twitter:image:alt" content="Gizemli Vaka - Online Dedektiflik Oyunu">
+    {% else %}
+    <meta name="twitter:image" content="https://gizemlivaka.com/static/davadosyasi.jpg">
     {% endif %}
     {% endblock %}
     {% endblock %}
@@ -114,6 +128,30 @@
         }
     </style>
     {% block structured_data %}
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Gizemli Vaka",
+      "applicationCategory": "GameApplication",
+      "operatingSystem": "Web Browser, iOS, Android, Windows, macOS",
+      "offers": {
+        "@type": "AggregateOffer",
+        "priceCurrency": "TRY",
+        "lowPrice": "149",
+        "highPrice": "299",
+        "offerCount": "10"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.9",
+        "ratingCount": "1250",
+        "bestRating": "5",
+        "worstRating": "1"
+      },
+      "description": "Türkiye'nin ilk online dedektiflik oyun platformu. Kurgusal polis veri tabanından delilleri analiz ederek cinayet davalarını çözün."
+    }
+    </script>
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
