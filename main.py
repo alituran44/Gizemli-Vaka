@@ -150,17 +150,21 @@ import os
 database_url = os.environ.get('DATABASE_URL')
 if database_url:
     app.config['SQLALCHEMY_DATABASE_URI'] = database_url
-    app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
+    engine_opts = {
         'pool_pre_ping': True,
-        'pool_size': 3,
-        'max_overflow': 5,
         'pool_recycle': 120,
-        'pool_timeout': 30,
-        'connect_args': {
-            'connect_timeout': 10,
-            'options': '-c statement_timeout=30000',
-        },
     }
+    if database_url.startswith('postgres'):
+        engine_opts.update({
+            'pool_size': 3,
+            'max_overflow': 5,
+            'pool_timeout': 30,
+            'connect_args': {
+                'connect_timeout': 10,
+                'options': '-c statement_timeout=30000',
+            },
+        })
+    app.config['SQLALCHEMY_ENGINE_OPTIONS'] = engine_opts
 else:
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
